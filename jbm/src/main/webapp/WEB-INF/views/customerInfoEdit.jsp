@@ -260,7 +260,7 @@
 					</tr>
 					<tr>
 						<td colspan="3"><input id="submit" type="button"
-							value="Create account" /></td>
+							value="Update customer" /></td>
 					</tr>
 					
 				</table>

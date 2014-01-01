@@ -7,7 +7,7 @@ import java.io.Serializable;
  * The persistent class for the city database table.
  * 
  */
-public class City implements Serializable {
+public class City extends CoreEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;

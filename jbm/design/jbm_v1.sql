@@ -1,3 +1,4 @@
+-- employee
 CREATE TABLE jbm.employee (
        id BIGINT NOT NULL
      , employee_code VARCHAR(16)
@@ -11,12 +12,26 @@ CREATE TABLE jbm.employee (
      , PRIMARY KEY (id)
 );
 
+CREATE SEQUENCE "employee_id_seq";
+
+ALTER TABLE employee
+ALTER COLUMN id 
+SET DEFAULT NEXTVAL('employee_id_seq');
+
+-- city
 CREATE TABLE jbm.city (
        id BIGINT NOT NULL
      , name VARCHAR(128) NOT NULL
      , PRIMARY KEY (id)
 );
 
+CREATE SEQUENCE "city_id_seq";
+
+ALTER TABLE city
+ALTER COLUMN id 
+SET DEFAULT NEXTVAL('city_id_seq');
+
+-- customer
 CREATE TABLE jbm.customer (
        id BIGINT NOT NULL
      , customer_code VARCHAR(16) NOT NULL
@@ -34,6 +49,13 @@ CREATE TABLE jbm.customer (
      , PRIMARY KEY (id)
 );
 
+CREATE SEQUENCE "customer_id_seq";
+
+ALTER TABLE customer
+ALTER COLUMN id 
+SET DEFAULT NEXTVAL('customer_id_seq');
+
+-- area
 CREATE TABLE jbm.area (
        id BIGINT NOT NULL
      , name VARCHAR(512) NOT NULL
@@ -43,6 +65,13 @@ CREATE TABLE jbm.area (
                   REFERENCES jbm.city (id)
 );
 
+CREATE SEQUENCE "area_id_seq";
+
+ALTER TABLE area
+ALTER COLUMN id 
+SET DEFAULT NEXTVAL('area_id_seq');
+
+-- appointment
 CREATE TABLE jbm.appointment (
        id BIGINT NOT NULL
      , appointment_no VARCHAR(64) NOT NULL
@@ -69,6 +98,13 @@ CREATE TABLE jbm.appointment (
                   REFERENCES jbm.area (id)
 );
 
+CREATE SEQUENCE "appointment_id_seq";
+
+ALTER TABLE appointment
+ALTER COLUMN id 
+SET DEFAULT NEXTVAL('appointment_id_seq');
+
+-- appointment_payment
 CREATE TABLE jbm.appointment_payment (
        id BIGINT NOT NULL
      , appointment_id BIGINT NOT NULL
@@ -81,6 +117,13 @@ CREATE TABLE jbm.appointment_payment (
                   REFERENCES jbm.appointment (id)
 );
 
+CREATE SEQUENCE "appointment_payment_id_seq";
+
+ALTER TABLE appointment_payment
+ALTER COLUMN id 
+SET DEFAULT NEXTVAL('appointment_payment_id_seq');
+
+-- customer_contract
 CREATE TABLE jbm.customer_contract (
        id BIGINT NOT NULL
      , customer_id BIGINT NOT NULL
@@ -97,6 +140,13 @@ CREATE TABLE jbm.customer_contract (
                   REFERENCES jbm.customer (id)
 );
 
+CREATE SEQUENCE "customer_contract_id_seq";
+
+ALTER TABLE customer_contract
+ALTER COLUMN id 
+SET DEFAULT NEXTVAL('customer_contract_id_seq');
+
+-- invoice
 CREATE TABLE jbm.invoice (
        id BIGINT NOT NULL
      , invoice_no VARCHAR(256) NOT NULL
@@ -111,6 +161,13 @@ CREATE TABLE jbm.invoice (
                   REFERENCES jbm.appointment (id)
 );
 
+CREATE SEQUENCE "invoice_id_seq";
+
+ALTER TABLE invoice
+ALTER COLUMN id 
+SET DEFAULT NEXTVAL('invoice_id_seq');
+
+-- customer_address
 CREATE TABLE jbm.customer_address (
        id BIGINT NOT NULL
      , customer_id BIGINT NOT NULL
@@ -126,4 +183,10 @@ CREATE TABLE jbm.customer_address (
      , CONSTRAINT FK_customer_address_2 FOREIGN KEY (area_id)
                   REFERENCES jbm.area (id)
 );
+
+CREATE SEQUENCE "customer_address_id_seq";
+
+ALTER TABLE customer_address
+ALTER COLUMN id 
+SET DEFAULT NEXTVAL('customer_address_id_seq');
 
