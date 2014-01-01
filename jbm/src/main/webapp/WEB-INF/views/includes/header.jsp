@@ -56,8 +56,17 @@
 <script type="text/javascript"
 	src="<c:url value="/resources/jqwidgets/jqxdatatable.js" />"></script>
 <script type="text/javascript"
-	src="<c:url value="/resources/jqwidgets/jqxdata.js" />"></script>	
-	
+	src="<c:url value="/resources/jqwidgets/jqxdata.js" />"></script>
+
+<script type="text/javascript"
+	src="<c:url value="/resources/jqwidgets/jqxgrid.sort.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/jqwidgets/jqxgrid.pager.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/jqwidgets/jqxgrid.selection.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/jqwidgets/jqxgrid.edit.js" />"></script>
+						
 <script type="text/javascript"
 	src="<c:url value="/resources/scripts/demos.js" />"></script>
 	

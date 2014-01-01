@@ -7,7 +7,7 @@ import java.io.Serializable;
  * The persistent class for the area database table.
  * 
  */
-public class Area implements Serializable {
+public class Area extends CoreEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
