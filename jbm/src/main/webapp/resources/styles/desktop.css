@@ -1,0 +1,405 @@
+/*************************************************************************
+*
+* ADOBE CONFIDENTIAL
+* ___________________
+*
+*  Copyright 2010 Adobe Systems Incorporated
+*  All Rights Reserved.
+*
+* NOTICE:  All information contained herein is, and remains
+* the property of Adobe Systems Incorporated and its suppliers,
+* if any.  The intellectual and technical concepts contained
+* herein are proprietary to Adobe Systems Incorporated and its
+* suppliers and are protected by trade secret or copyright law.
+* Dissemination of this information or reproduction of this material
+* is strictly forbidden unless prior written permission is obtained
+* from Adobe Systems Incorporated.
+**************************************************************************/
+
+@charset "utf-8";
+
+/* Clear padding and margins globally for the sticky footer scheme. */
+* {
+	padding: 0;
+	margin: 0;
+}
+
+html {
+	height: 100%;
+
+	background-color: #f5f5f5;
+	background-image: url(images/bg_content.png);
+	background-position: center;
+	background-repeat: repeat-y;
+}
+
+body {
+	height: 100%;
+
+	font-family: adobe-clean-1, adobe-clean-2, sans-serif;
+
+	margin-top: 0px;
+	margin-bottom: 0px;
+
+	background-color: #f5f5f5;
+}
+
+body:before {
+	content: "";
+	height: 100%;
+	float: left;
+	width: 0;
+	margin-top: -32767px;/
+}
+
+.header-container {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.header {
+	position: relative;
+
+	height: 45px;
+
+	background-image:url(images/headerbg.png);
+	background-repeat: repeat-x;
+}
+
+.header-logo {
+	position: absolute;
+
+	top:  9px;
+	left: 9px;
+
+	cursor: pointer;
+}
+
+.header-adobe-logo {
+	position: absolute;
+
+	top: 0px;
+	right: 20px;
+
+	z-index: 1000;
+
+	cursor: pointer;
+}
+
+.content {
+	position: relative;
+
+	width: 960px;
+	height: 100%;
+
+	margin-left: auto;
+	margin-right: auto;
+
+	padding-left: 10px;
+	padding-right: 10px;
+
+	background-image: url(images/bg_content.png);
+	background-repeat: repeat-y;
+}
+
+.wrap {
+	width: 100%;
+
+	min-height: 100%;
+}
+
+.main {
+	overflow:auto;
+
+	padding-bottom: 115px;
+}
+
+.footer {
+	position: relative;
+
+	height: 115px;
+
+	clear: both;
+
+	border-width: 0px;
+
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 40px;
+	padding-right: 40px;
+
+	margin-top: -115px;
+	margin-bottom: 0px;
+
+	font-size: 12px;
+	font-weight: normal;
+
+	color: #333333;
+}
+
+.footer a {
+	font-weight: bold;
+
+	color: #447099;
+}
+
+.footer-additional-info-container {
+	position: relative;
+
+	/* Allow space for two lines, in case a translation wraps to the second. */
+	height: 30px;
+}
+
+.footer-additional-info {
+	/* Bottom-align text to maintain same separation from language picker with one or two lines of text. */
+	position: absolute;
+	bottom: 0px;
+
+	line-height: 15px;
+}
+
+.footer-separator {
+	height: 1px;
+
+	background-color: #cccccc;
+}
+
+.footer-copyright {
+	line-height: 15px;
+
+	padding-top: 9px;
+	padding-bottom: 10px;
+}
+
+.footer-vertical-gap {
+	min-height: 100px;
+}
+
+.link-containers {
+	float: left;
+
+	margin-top: 187px;
+	margin-left: 35px;
+	margin-right: 36px;
+}
+
+.link-containers-banner {
+	margin-top: 146px;
+}
+
+.link-container {
+	width: 245px;
+
+	background-color: #f5f5f5;
+
+	font-weight: normal;
+	font-size: 18px;
+
+	padding-top: 30px;
+	padding-bottom: 30px;
+	padding-left: 30px;
+	padding-right: 30px;
+
+	border-style: solid;
+	border-color: #d8d8d8;
+	border-width: 1px;
+
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+
+	box-shadow: inset 0px 0px 5px #e0e0e0;
+	-webkit-box-shadow: inset 0px 0px 5px #e0e0e0;
+	-moz-box-shadow: inset 0px 0px 5px #e0e0e0;
+
+	margin-bottom: 20px;
+}
+
+.link-container-message {
+	color: #666666;
+
+	padding-bottom: 2px;
+}
+
+.link-container-link {
+	color: #447099;
+}
+
+.language-picker-placeholder {
+	height: 35px;
+}
+
+/* --------------------- Banner styles ------------------ */
+
+.banner {
+	position: relative;
+
+	background-color: #ebebeb;
+
+	padding-top: 49px;
+	padding-bottom: 40px;
+	padding-left: 70px;
+	padding-right: 70px;
+
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.banner-email-verified {
+}
+
+.banner-invitation-document {
+}
+
+.banner-invitation-workspace {
+}
+
+.banner-document {
+}
+
+.banner-workspace {
+}
+
+.banner-headline {
+	color: #333333;
+
+	font-size: 24px;
+	font-weight: normal;
+
+	margin-bottom: 10px;
+}
+
+.banner-subhead {
+	color: #666666;
+
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.banner-arrow {
+	line-height: 11px;
+
+	margin-left: 80px;
+}
+
+/* -------------------- Old styles begin here. ---------------------- */
+
+.footerlinks {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+
+	color: #666666;
+
+	line-height: 20px;
+
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.message {
+	font-family: Arial, Helvetica, sans-serif;	
+	font-weight: normal;
+	font-size: 16px;
+
+	color: #666666;
+
+	margin-top: 0px;
+	margin-bottom: 10px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.dottedRule {
+	width: 95%;
+
+	padding-top: 0px;
+	padding-bottom: 0px;
+
+	border-top:solid 0px #FFFFFF;
+	border-bottom: 1px dotted #999999;
+
+	margin-top: 20px;
+}
+
+.forgotpw_li {
+	padding-top: 6px;
+	padding-bottom: 6px;
+	overflow:auto;
+	margin-top:0px;
+	margin-bottom:0px;
+	clear:both;
+	margin-left: 0px;
+}
+
+.forgotpw_Label {
+	width: 180px;
+	float:left;
+	padding-top: 8px;
+	text-align: right;
+	margin-right: 20px;
+	margin-left: 0px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	
+}
+
+.forgotpw_Input {
+	width: 200px;
+	height: 30px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background: url('/Images/textfield.png') no-repeat;
+	border: none;
+}
+
+.forgotpw_ul {
+	padding-left: 0px;
+	list-style: none;
+}
+
+.greyBtn {
+	background: white url('/Images/greyBtn.png') no-repeat top;
+	width: 90px;
+	height: 28px;
+	color:#333333;
+	border: none;
+	text-shadow: #FFF 0px 1px 0px;
+}
+
+.blackBtn {
+	background: white url('/Images/blackBtn.png') no-repeat top;
+	width: 90px;
+	height: 28px;
+	color:white;
+	border: none;
+	text-shadow: #000 0px -1px 0px;
+}
+
+a:link {
+	color: #447099;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #447099;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #447099;
+	text-decoration: underline;
+}
+
+.breadcrumbs
+{
+float: left;
+width: 880px;
+font-size: 11px;
+margin: 5px 10px 20px 10px;
+padding: 0px 0px 3px 0px;
+border-bottom: dotted;
+border-width:1px;
+}

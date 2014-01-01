@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link href="css/desktop.css" rel="stylesheet" type="text/css">
+		<link href="css/SIU2.css" rel="stylesheet" type="text/css">
+		<title>Use Registration</title>
+	</head>
+	<body>
+		<div class="content">
+			<div class="wrap">
+				<div class="main">
+					<div class="header-container">
+						<div class="header">
+							<img id="header-logo" src="css/images/sys_header.png" alt="" class="header-logo"/>
+						</div>
+						<div class="header-adobe-logo">
+							<img id="header-adobe-logo" src="css/images/logo_adobe.png"/>
+						</div>
+					</div>					<!-- Container for create-account controls, populated by JavaScript code below. -->
+					<div id="SIU2" class="SIU2" style="opacity: 1;">
+						<div class="SIU2_title" id="SIU2_title">Create Your Account</div>
+						<div class="SIU2_subtitle" id="SIU2_subtitle">Sign up for FormsCentral by creating an User ID.</div>
+						<div class="SIU2_Error" style="display: none; opacity: 0" id="SIU2_Error"></div>
+						<table class="SIU2_LabelInputTable" cellspacing="0px">
+							<tbody>
+								<tr>
+									<td class="SIU2_LabelCol">
+										<span class="SIU2_Label">Email Address</span>
+									</td>
+									<td class="SIU2_SpacerCol"></td>
+									<td class="SIU2_InputCol">		
+										<div class="SIU2_InputContainer">			
+											<input class="SIU2_Input" id="SIU2_adobeid" spellcheck="false" tabindex="1">		
+										</div>	
+									</td>
+								</tr>
+									
+								<tr>	
+								<td class="SIU2_LabelCol"><span class="SIU2_Label">Password</span></td>	<td class="SIU2_SpacerCol"></td>	<td class="SIU2_InputCol">		<div class="SIU2_InputContainer">			<input class="SIU2_Input" id="SIU2_password" type="password" style="font-family: Arial, Helvetica, sans;" tabindex="2"><span class="SIU2_Hint" id="SIU2_hint_SIU2_password">6 or more characters</span>		</div>	</td>
+								</tr>
+								
+								<tr>	<td class="SIU2_LabelCol"><span class="SIU2_Label">Confirm</span></td>	<td class="SIU2_SpacerCol"></td>	<td class="SIU2_InputCol">		<div class="SIU2_InputContainer">			<input class="SIU2_Input" id="SIU2_password2" type="password" style="font-family: Arial, Helvetica, sans;" tabindex="3"><span class="SIU2_Hint" id="SIU2_hint_SIU2_password2">Retype password</span>		</div>	</td>
+								</tr>
+
+								<tr>	<td class="SIU2_LabelCol"><span class="SIU2_Label">First Name</span></td>	<td class="SIU2_SpacerCol"></td>	<td class="SIU2_InputCol">		<div class="SIU2_InputContainer">			<input class="SIU2_Input" id="SIU2_firstname" spellcheck="false" tabindex="4">		</div>	</td>
+								</tr>
+								
+								<tr>	<td class="SIU2_LabelCol"><span class="SIU2_Label">Last Name</span></td>	<td class="SIU2_SpacerCol"></td>	<td class="SIU2_InputCol">		<div class="SIU2_InputContainer">			<input class="SIU2_Input" id="SIU2_lastname" spellcheck="false" tabindex="5">		</div>	</td>
+								</tr>
+
+								
+								<tr>
+									<td class="SIU2_LabelCol"></td>
+									<td class="SIU2_SpacerCol"></td>
+									<td class="SIU2_ButtonCol">
+										<div class="SIU2_InputContainer">
+											<div class="button-button-fallback"></div>
+												<a id="SIU2_signup" class="button button-default" style="cursor: auto;"><span>Create Account</span></a>
+											</div>	
+									</td>
+								</tr>	
+
+							</tbody>
+						</table>
+					</div>					
+<div class="link-containers" style="opacity: 1;">
+						<!-- Sign-in prompt and link. -->
+						<div class="link-container">
+							<div class="link-container-message">Already have an User ID?</div>
+							<div class="link-container-link"><a onclick="" href="/SignIn.html">Sign in.</a></div>
+						</div>
+						<script type="text/javascript">
+							SIU2_createSignUpWidget();
+						</script>
+						<!-- Test-and-target mbox. Empty by default. -->
+						<div id="mboxContainer">
+							<div class="mboxDefault" style="visibility: visible; display: block;"></div><div id="mboxMarker-default-Acom_SignUp_Banner_formscentral_en-US-0" style="visibility:hidden;display:none">&nbsp;</div></div>
+						</div>
+					</div>
+
+						
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

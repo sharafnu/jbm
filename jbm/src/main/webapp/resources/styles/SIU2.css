@@ -1,0 +1,953 @@
+/*************************************************************************
+*
+* ADOBE CONFIDENTIAL
+* ___________________
+*
+*  Copyright 2011 Adobe Systems Incorporated
+*  All Rights Reserved.
+*
+* NOTICE:  All information contained herein is, and remains
+* the property of Adobe Systems Incorporated and its suppliers,
+* if any.  The intellectual and technical concepts contained
+* herein are proprietary to Adobe Systems Incorporated and its
+* suppliers and may be covered by U.S. and Foreign Patents,
+* patents in process, and are protected by trade secret or copyright law.
+* Dissemination of this information or reproduction of this material
+* is strictly forbidden unless prior written permission is obtained
+* from Adobe Systems Incorporated.
+**************************************************************************/
+
+/**
+ * 04/24/11 Working on SIU Redesign - Phase 1. See the following references:
+ *	Design: http://adcdesign.sflab.acrobat.com/commonUI/siu_phase1
+ *	Design spec: http://adcdesign.sflab.acrobat.com/commonUI/siu_phase1/spec
+ */
+
+/*
+ * Styling for buttons which expand with their label. Implemented as anchor with embedded span.
+ */
+a.button {
+	display: block;
+	float: left;
+
+	min-width: 100px;
+	height: 30px;
+
+	font-size: 14px;
+	font-weight: bold;
+
+	background: transparent url('images/btn2_upover_a.png') no-repeat top right;
+
+	padding-right: 10px;
+
+	margin-left: 10px;
+
+	white-space: nowrap;
+}
+
+a.button span {
+	display: block;
+
+	background: transparent url('images/btn2_upover_span.png') no-repeat top left;
+
+	text-align: center;
+
+	color: #333333;
+
+	text-decoration: none;
+
+	/* For font-size of 14px, some browsers generate a line height of 16px, some 18px. To accommodate
+	 * both, we force the taller and adjust padding to bring the total height to 30px. */ 
+	line-height: 18px;
+
+	padding-top: 5px;
+	padding-bottom: 7px;
+	padding-left: 10px;
+	padding-right: 0px;
+
+	/* Disable text selection in buttons. */
+	user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+}
+
+a.button:hover {
+	background: transparent url('images/btn2_upover_a.png') no-repeat bottom right;
+
+	text-decoration: none;
+
+	cursor: pointer;
+}
+
+a.button:hover span {
+	background: transparent url('images/btn2_upover_span.png') no-repeat bottom left;
+
+	cursor: pointer;
+}
+
+a.button:focus {
+	background: transparent url('images/btn2_upover_a.png') no-repeat bottom right;
+
+	outline: none;
+}
+
+a.button:focus span {
+	background: transparent url('images/btn2_upover_span.png') no-repeat bottom left;
+}
+
+a.button:active {
+	background: transparent url('images/btn2_downdisabled_a.png') no-repeat top right;
+}
+
+a.button:active span {
+	background: transparent url('images/btn2_downdisabled_span.png') no-repeat top left;
+}
+
+a.button-default {
+	background: transparent url('images/btn1_upover_a.png') no-repeat top right;
+}
+
+a.button-default span {
+	background: transparent url('images/btn1_upover_span.png') no-repeat top left;
+
+	color: white;
+}
+
+a.button-default:hover {
+	background: transparent url('images/btn1_upover_a.png') no-repeat bottom right;
+
+	text-decoration: none;
+}
+
+a.button-default:hover span {
+	background: transparent url('images/btn1_upover_span.png') no-repeat bottom left;
+}
+
+a.button-default:focus {
+	background: transparent url('images/btn1_upover_a.png') no-repeat bottom right;
+}
+
+a.button-default:focus span {
+	background: transparent url('images/btn1_upover_span.png') no-repeat bottom left;
+}
+
+a.button-default:active {
+	background: transparent url('images/btn1_downdisabled_a.png') no-repeat top right;
+}
+
+a.button-default:active span {
+	background: transparent url('images/btn1_downdisabled_span.png') no-repeat top left;
+}
+
+/* For IE, which doesn't seem to handle pseudo-selectors in quirks mode. */
+a.button-hover {
+	background: transparent url('images/btn2_upover_a.png') no-repeat bottom right;
+
+	text-decoration: none;
+
+	cursor: pointer;
+}
+a.button-hover span {
+	background: transparent url('images/btn2_upover_span.png') no-repeat bottom left;
+
+	cursor: pointer;
+}
+a.button-focus {
+	background: transparent url('images/btn2_upover_a.png') no-repeat bottom right;
+
+	outline: none;
+}
+a.button-focus span {
+	background: transparent url('images/btn2_upover_span.png') no-repeat bottom left;
+}
+a.button-active {
+	background: transparent url('images/btn2_downdisabled_a.png') no-repeat top right;
+}
+a.button-active span {
+	background: transparent url('images/btn2_downdisabled_span.png') no-repeat top left;
+}
+a.button-default-hover {
+	background: transparent url('images/btn1_upover_a.png') no-repeat bottom right;
+}
+a.button-default-hover span {
+	background: transparent url('images/btn1_upover_span.png') no-repeat bottom left;
+}
+a.button-default-focus {
+	background: transparent url('images/btn1_upover_a.png') no-repeat bottom right;
+}
+a.button-default-focus span {
+	background: transparent url('images/btn1_upover_span.png') no-repeat bottom left;
+}
+a.button-default-active {
+	background: transparent url('images/btn1_downdisabled_a.png') no-repeat top right;
+}
+a.button-default-active span {
+	background: transparent url('images/btn1_downdisabled_span.png') no-repeat top left;
+}
+/* End of IE-specific button selectors. */
+
+/*
+ * Styling for combo box. Implemented as button with menu div that slides down on button click.
+ */
+a.combobox-button {
+	position: relative;
+
+	display: block;
+	float: left;
+
+	min-width: 30px;
+	height: 30px;
+
+	font-size: 12px;
+	font-weight: normal;
+
+	background: transparent url('images/cbox_upover_a.png') no-repeat top right;
+
+	padding-right: 30px;
+
+	margin-left: 0px;
+	margin-right: 10px;
+}
+
+a.combobox-button span {
+	display: block;
+
+	background: transparent url('images/cbox_upover_span.png') no-repeat top left;
+
+	text-align: left;
+
+	color: #333333;
+
+	line-height: 15px;
+
+	padding-top: 7px;
+	padding-bottom: 8px;
+	padding-left: 15px;
+	padding-right: 0px;
+
+	/* Disable text selection in combo boxes. */
+	user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+}
+
+a.combobox-button:hover {
+	background: transparent url('images/cbox_upover_a.png') no-repeat bottom right;
+
+	outline: none;
+}
+
+a.combobox-button:hover span {
+	background: transparent url('images/cbox_upover_span.png') no-repeat bottom left;
+}
+
+a.combobox-button:focus {
+	background: transparent url('images/cbox_upover_a.png') no-repeat bottom right;
+
+	outline: none;
+}
+
+a.combobox-button:focus span {
+	background: transparent url('images/cbox_upover_span.png') no-repeat bottom left;
+}
+
+a.combobox-button:active {
+	background: transparent url('images/cbox_downdisabled_a.png') no-repeat top right;
+}
+
+a.combobox-button:active span {
+	background: transparent url('images/cbox_downdisabled_span.png') no-repeat top left;
+}
+
+/* For IE, which doesn't seem to handle pseudo selectors in quirks mode. */
+a.combobox-button-hover {
+	background: transparent url('images/cbox_upover_a.png') no-repeat bottom right;
+
+	outline: none;
+}
+a.combobox-button-hover span {
+	background: transparent url('images/cbox_upover_span.png') no-repeat bottom left;
+}
+a.combobox-button-focus {
+	background: transparent url('images/cbox_upover_a.png') no-repeat bottom right;
+
+	outline: none;
+}
+a.combobox-button-focus span {
+	background: transparent url('images/cbox_upover_span.png') no-repeat bottom left;
+}
+a.combobox-button-active {
+	background: transparent url('images/cbox_downdisabled_a.png') no-repeat top right;
+}
+a.combobox-button-active span {
+	background: transparent url('images/cbox_downdisabled_span.png') no-repeat top left;
+}
+/* End of IE-specific combobox button selectors. */
+
+a.dob-month {
+	width: 50px;
+}
+
+a.dob-day {
+	width: 40px;
+}
+
+a.dob-year {
+	width: 50px;
+}
+
+a.country {
+	width: 270px;
+}
+
+div.combobox-menu {
+	position: absolute;
+
+	top: 30px;
+	left: 0px;
+
+	z-index: 1000;
+
+	text-indent: 0px;
+
+	background-color: #ffffff;
+
+	border-style: solid;
+	border-width: 1px;
+	border-color: #cccccc;
+
+	box-shadow: #cccccc 0px 5px 10px;
+	-moz-box-shadow: #cccccc 0px 5px 10px;
+	-webkit-box-shadow: #cccccc 0px 5px 10px;
+
+	overflow: auto;
+
+	outline: none;
+}
+
+a.combobox-button:focus div.combobox-menu span {
+	background-image: none;
+}
+a.combobox-button:hover div.combobox-menu span {
+	background-image: none;
+}
+a.combobox-button:active div.combobox-menu span {
+	background-image: none;
+}
+
+div.combobox-menu-item {
+	background-image: none;
+
+	color: #3d3d3d;
+
+	font-size: 12px;
+
+	line-height: 15px;
+
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 14px;
+	padding-right: 0px;
+
+	cursor: pointer;
+}
+
+div.combobox-menu-item:hover {
+	background-color: #eeeeee;
+
+	color: #447099;
+}
+
+.combobox-menu-item-selected {
+	background-color: #eeeeee;
+
+	color: #447099;
+}
+
+div.combobox-menu-item span {
+	background-image: none;
+
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+div.combobox-menu-item:hover span {
+	background-image: none;
+}
+
+
+div.combobox-menu-item:focus span {
+	background-image: none;
+}
+
+div.combobox-menu-item:active span {
+	background-image: none;
+}
+
+/* For IE hack. */
+.combobox-menu-item-highlight {
+	background-color: #eeeeee;
+
+	color: #447099;
+}
+
+/* For IE hack: Using <select> tags instead of the style-able jQuery combo boxes. */
+select {
+	margin-right: 10px;
+}
+
+.SIU2 {
+	float: left;
+	width: 800px;
+	font-family: adobe-clean-1, adobe-clean-2, sans-serif;
+	font-size: 14px;
+	color: #333333;
+	padding-bottom: 100px;
+	padding-left: 40px;
+	padding-right: 40px;
+
+	/*border-right: solid 1px #e6e6e6;*/
+	margin-top: 0px;
+}
+
+.SIU2_banner {
+	margin-top: 45px;
+}
+
+.SIU2_title {
+	font-size: 24px;
+	font-weight: bold;
+	color: #333333;
+
+	margin-bottom: 10px;
+}
+
+.SIU2_subtitle {
+	margin-bottom: 46px;
+
+	font-size: 14px;
+	font-weight: normal;
+	color: #666666;
+}
+
+.SIU2_Error {
+	background-color: #ffd9d9;
+
+	font-size: 14px;
+
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+
+	margin-bottom: 20px;
+}
+
+.SIU2_ErrorHighlight {
+	background-color: #ffd9d9 !important;
+
+	border-style: solid !important;
+	border-width: 2px !important;
+	border-color: #ff0000 !important;
+
+	border-radius: 3px !important;
+	-moz-border-radius: 3px !important;
+	-webkit-border-radius: 3px !important;
+}
+
+.SIU2_Link {
+	color: #447099;
+	font-size: 14px;
+}
+
+div.SIU2_Link:hover {
+	color: #447099;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.SIU2_LabelInputTable {
+	width: 100%;
+
+	border-style: none;
+}
+
+.SIU2_NoWrap {
+	white-space: nowrap;
+
+	vertical-align: middle;
+}
+
+.SIU2_LabelCol {
+	position: relative;
+
+	white-space: nowrap;
+
+	font-size: 14px;
+	font-weight: bold;
+	color: #333333;
+
+	vertical-align: baseline;
+}
+
+.SIU2_LabelDateOfBirthCol {
+	position: relative;
+
+	top: 4px;
+}
+
+.SIU2_LabelCountry {
+	position: relative;
+
+	top: -11px;
+}
+
+.SIU2_LabelWrapCol {
+	width: 100%;
+
+	font-size: 14px;
+	font-weight: bold;
+	color: #333333;
+
+	vertical-align: baseline;
+}
+
+.SIU2_Label {
+	vertical-align: 0px;
+}
+
+.SIU2_SpacerCol {
+	padding-left: 10px;
+}
+
+.SIU2_InputCol {
+	width: 100%;
+
+	vertical-align: baseline;
+
+	padding-bottom: 10px;
+}
+
+.SIU2_ButtonCol {
+	padding-top: 20px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.SIU2_InputContainer {
+	position: relative;
+
+	/* Accounts for padding and border in input field which is sized to 100%. */ 
+	margin-right: 12px;
+}
+
+.SIU2_Input {
+	width: 100%;
+
+	font-size: 12px;
+
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 6px;
+	padding-bottom: 7px;
+
+	border-style: solid;
+	border-color: #afafaf;
+	border-width: 1px;
+
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+
+	box-shadow: inset 0px 0px 5px #cfcfcf;
+	-webkit-box-shadow: inset 0px 0px 5px #cfcfcf;
+	-moz-box-shadow: inset 0px 0px 5px #cfcfcf;
+
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.SIU2_CheckBoxContainer {
+	display: inline-block;
+	position: relative;
+}
+
+.SIU2_CheckBoxInput {
+	width: 14px;
+	height: 14px;
+
+	font-family: adobe-clean-1, adobe-clean-2, sans-serif;
+	font-size: 12px;
+
+	margin-left: 0px;
+	margin-right: 1px;
+
+	vertical-align: middle;
+}
+
+.SIU2_CheckBoxLabel {
+	font-size: 14px;
+	font-weight: normal;
+
+	vertical-align: middle;
+}
+
+.SIU2_RememberMeWarning {
+	width: 100%;
+}
+
+.SIU2_Envelope {
+	position: relative;
+	left: -10px;
+
+	min-width: 70px;
+	min-height: 39px;
+
+	background-image: url('images/icon_email.png');
+	background-repeat: no-repeat;
+}
+
+.SIU2_Hint {
+	position: absolute;
+
+	/* Haven't found a reliable way to align precisely the hint baseline with that of the input text.
+	 * Setting the bottom to a percentage seems to produce less variation among browsers. */
+	bottom: 28%;
+	left: 10px;
+
+	color: #999999;
+	font-size: 12px;
+}
+
+.SIU2_HiddenHint {
+	display: none;
+}
+
+.SIU2_ForgotPasswordConfirmedEmailSent {
+	font-size: 22px;
+	font-weight: normal;
+
+	color: #333333;
+
+	padding-top: 22px;
+}
+
+.SIU2_ForgotPasswordConfirmedEmail {
+	font-size: 22px;
+	font-weight: bold;
+
+	color: #333333;
+
+	padding-top: 3px;
+}
+
+.SIU2_ForgotPasswordConfirmedInstructions {
+	font-size: 14px;
+	font-weight: normal;
+
+	color: #666666;
+
+	line-height: 20px;
+
+	padding-top: 20px;
+}
+
+.SIU2_ForgotPasswordConfirmedReturnContainer {
+	padding-top: 42px;
+}
+
+.SIU2_ForgotPasswordConfirmedReturn {
+	font-size: 14px;
+	font-weight: bold;
+
+	color: #436f99;
+
+	cursor: pointer;
+}
+
+.SIU2_LanguagePicker {
+	position: relative;
+
+	min-height: 15px;
+
+	font-size: 11px;
+	font-weight: bold;
+
+	color: #447099;
+
+	text-indent: 40px;
+
+	background-image: url('images/globe.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+
+	padding-top: 10px;
+	padding-bottom: 10px;
+
+	cursor: pointer;
+}
+
+.SIU2_LanguagePickerText {
+	vertical-align: middle;
+}
+
+.SIU2_LanguageMenu {
+	position: absolute;
+
+	bottom: 35px;
+	left: -7px;
+	right: auto;
+
+	z-index: 1000;
+
+	text-indent: 0px;
+
+	background-color: #ffffff;
+
+	padding-bottom: 8px;
+
+	border-style: solid;
+	border-width: 1px;
+	border-color: #cccccc;
+
+	box-shadow: #cccccc 0px 5px 10px;
+	-moz-box-shadow: #cccccc 0px 5px 10px;
+	-webkit-box-shadow: #cccccc 0px 5px 10px;
+
+	cursor: auto;
+}
+
+.SIU2_LanguageMenuHeader {
+	position: relative;
+
+	height: 16px;
+}
+
+.SIU2_LanguageMenuHeaderCloseButton {
+	position: absolute;
+
+	width: 12px;
+	height: 12px;
+
+	top: 4px;
+	right: 4px;
+
+	background-image: url('images/close_x.png');
+	background-repeat: no-repeat;
+	background-position: right top;
+
+	cursor: pointer;
+}
+
+.SIU2_LanguageMenuHeaderTitle {
+	height: 14px;
+
+	color: #3d3d3d;
+
+	font-size: 12px;
+
+	text-indent: 46px;
+
+	background-image: url('images/globe_black.png	');
+	background-repeat: no-repeat;
+	background-position: 10px 0px;
+
+	padding-bottom: 8px;
+	padding-right: 32px;
+
+	cursor: default;
+}
+
+.SIU2_LanguageMenuItem {
+	font-size: 11px;
+
+	color: #447099;
+
+	padding-top: 7px;
+	padding-bottom: 8px;
+	padding-left: 46px;
+	padding-right: 25px;
+
+	cursor: pointer;
+}
+
+div.SIU2_LanguageMenuItem:hover {
+	background-color: #eeeeee;
+}
+
+.SIU2_LanguageMenuItem_JP {
+	position: relative;
+
+	height: 28px;
+
+	cursor: pointer;
+}
+
+div.SIU2_LanguageMenuItem_JP:hover {
+	background-color: #eeeeee;
+}
+
+.SIU2_LanguageMenuItem_JP_Glyphs {
+	position: absolute;
+
+	width: 37px;
+	height: 13px;
+
+	top: 8px;
+	left: 46px;
+
+	background-image: url('images/japanese_over.png');
+	background-repeat: no-repeat;
+}
+
+/* For IE hack. */
+.SIU2_LanguageMenuItemHighlight {
+	background-color: #eeeeee;
+}
+
+.SIU2_ModalBackground {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+
+	width: 100%;
+	height: 100%;
+
+	background-color: #ffffff;
+
+	opacity: 0.8;
+
+	z-index: 10000;
+}
+
+.SIU2_NotVerifiedHeader {
+	font-size: 22px;
+	font-weight: normal;
+
+	color: #333333;
+
+	padding-top: 22px;
+	padding-bottom: 22px;
+}
+
+.SIU2_NotVerifiedEmailSent {
+	font-size: 14px;
+	font-weight: normal;
+	
+	color: #666666;
+
+	line-height: 20px;
+
+	padding-top: 20px;	
+}
+
+.SIU2_NotVerifiedInstructions {
+	font-size: 14px;
+	font-weight: normal;
+
+	color: #666666;
+
+	line-height: 20px;
+
+	padding-top: 20px;	
+}
+
+.SIU2_NotVerifiedInfo {
+	font-size: 14px;
+	font-weight: normal;
+
+	color: #666666;
+
+	line-height: 20px;
+
+	padding-top: 20px;	
+}
+
+.SIU2_Spinner {
+	position: absolute;
+
+	/* Hack to center in window: These top/left values don't center exactly, but we compensate with margin. */
+	top: 50%;
+	left: 50%;
+
+	margin-top: -12px;
+	margin-left: -12px;
+
+	width: 24px;
+	height: 24px;
+
+	background-image: url('images/spinner.gif');
+	background-repeat: no-repeat;
+
+	z-index: 11000;
+}
+
+a.bubbleInfo
+{
+	display: inline-block;
+	position: relative;
+	top: 7px;
+	height: 15px;
+	width: 15px;
+	background: transparent url('images/help.png') no-repeat top left;
+}
+
+a.bubbleInfo:hover
+{
+	background: transparent url('images/help_over.png') no-repeat top left;
+}
+
+a.bubbleInfo img
+{
+	border: 0;
+}
+
+.bubbleContent
+{
+	padding: 4px;
+	display: none;
+}
+.bubbleHeader
+{
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.bubbleText
+{
+	padding-top: 8px;
+	font-size: 12px;
+}
+
+.cluetip
+{
+	-webkit-box-shadow: 1px 1px 3px 3px #E8E8E8;
+	-moz-box-shadow: 1px 1px 3px 3px #E8E8E8;
+	box-shadow: 1px 1px 3px 3px #E8E8E8;
+}
+
+/* CSS that is used to draw a background solid box behind buttons
+ * This should help if the image for the button does not load */
+.button-fallback
+{
+	background-color: #76848D;
+	height: 28px;
+	margin: 1px 1px 1px 11px;
+	width: 108px;
+}
+.button-container
+{
+	float: right;
+}
+.button-container a
+{
+	position:relative;
+	top:-30px;
+}

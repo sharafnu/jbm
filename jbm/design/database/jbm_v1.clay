@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<clay-model clay-version="2.0.1">
+<database-model author="" begin-script="" end-script="" id="1893431c:1434901330f:-8000" name="jbm_v1" sql-dialect-id="jp.azzurri.clay.dialect.Postgre_7_3_Dialect" version="1.0">
+<schema-list>
+<schema id="1893431c:1434901330f:-7ffd" name="DEFAULT_SCHEMA">
+<table-list>
+<table id="1893431c:1434901330f:-7fff" name="customer">
+<column-list>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7ffa" mandatory="true" name="id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7ff9" mandatory="true" name="customer_code">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="512" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7ff8" mandatory="true" name="first_name">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="512" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7ff7" mandatory="false" name="last_name">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7ff6" mandatory="true" name="mobile_1">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7ff5" mandatory="false" name="mobile_2">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7ff4" mandatory="false" name="mobile_3">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="128" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7ff3" mandatory="true" name="email">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7ff2" mandatory="true" name="preference_call">
+<data-type name="INT" selected-variant-pattern="INT"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7ff1" mandatory="true" name="preference_email">
+<data-type name="INT" selected-variant-pattern="INT"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7ff0" mandatory="true" name="preference_sms">
+<data-type name="INT" selected-variant-pattern="INT"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fe8" mandatory="true" name="last_modified_date">
+<data-type name="TIMESTAMP" selected-variant-pattern="TIMESTAMP"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fe7" mandatory="true" name="last_modified_user">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+</column-list>
+<primary-key id="1893431c:1434901330f:-7ffe" name="PK_CUSTOMER">
+<primary-key-column name="id"/>
+</primary-key>
+</table>
+<table id="1893431c:1434901330f:-7fef" name="customer_address">
+<column-list>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7feb" mandatory="true" name="id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fe4" mandatory="true" name="customer_id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fe3" mandatory="true" name="area_id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="512" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fe2" mandatory="false" name="building_name">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="64" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fe1" mandatory="false" name="flat_no">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="32" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fe0" mandatory="true" name="address_type">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fdf" mandatory="true" name="last_modified_date">
+<data-type name="TIMESTAMP" selected-variant-pattern="TIMESTAMP"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fde" mandatory="true" name="last_modified_user">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+</column-list>
+<primary-key id="1893431c:1434901330f:-7fee" name="PK_CUSTOMER_ADDRESS">
+<primary-key-column name="id"/>
+</primary-key>
+<foreign-key-list>
+<foreign-key id="1893431c:1434901330f:-7ea8" name="FK_customer_address_1" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_CUSTOMER" referenced-table="customer" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key-column column-name="customer_id" referenced-key-column-name="id"/>
+</foreign-key>
+<foreign-key id="1893431c:1434901330f:-7e3d" name="FK_customer_address_2" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_AREA" referenced-table="area" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key-column column-name="area_id" referenced-key-column-name="id"/>
+</foreign-key>
+</foreign-key-list>
+</table>
+<table id="1893431c:1434901330f:-7fdd" name="appointment">
+<column-list>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fd9" mandatory="true" name="id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="64" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fd8" mandatory="true" name="appointment_no">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fd7" mandatory="true" name="appointment_date">
+<data-type name="TIMESTAMP" selected-variant-pattern="TIMESTAMP"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fd6" mandatory="false" name="start_date">
+<data-type name="TIMESTAMP" selected-variant-pattern="TIMESTAMP"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fd5" mandatory="false" name="end_date">
+<data-type name="TIMESTAMP" selected-variant-pattern="TIMESTAMP"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fd4" mandatory="false" name="area_id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7d88" mandatory="true" name="customer_id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fd3" mandatory="false" name="employee_id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="1024" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fd2" mandatory="false" name="remarks">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fd1" mandatory="false" name="hours_spent">
+<data-type name="INT" selected-variant-pattern="INT"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fd0" mandatory="false" name="payable_amount">
+<data-type name="DOUBLE PRECISION" selected-variant-pattern="DOUBLE PRECISION"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fce" mandatory="false" name="payment_status">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fc0" mandatory="false" name="last_modified_date">
+<data-type name="TIMESTAMP" selected-variant-pattern="TIMESTAMP"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fbf" mandatory="true" name="last_modified_user">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7f72" mandatory="false" name="appointment_status">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="1024" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7f71" mandatory="false" name="cancellation_reason">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+</column-list>
+<primary-key id="1893431c:1434901330f:-7fdc" name="PK_APPOINTMENT">
+<primary-key-column name="id"/>
+</primary-key>
+<foreign-key-list>
+<foreign-key id="1893431c:1434901330f:-7d7e" name="FK_appointment_1" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_CUSTOMER" referenced-table="customer" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key-column column-name="customer_id" referenced-key-column-name="id"/>
+</foreign-key>
+<foreign-key id="1893431c:1434901330f:-7d6e" name="FK_appointment_2" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_EMPLOYEE" referenced-table="employee" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key-column column-name="employee_id" referenced-key-column-name="id"/>
+</foreign-key>
+<foreign-key id="1893431c:1434901330f:-7d49" name="FK_appointment_3" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_AREA" referenced-table="area" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key-column column-name="area_id" referenced-key-column-name="id"/>
+</foreign-key>
+</foreign-key-list>
+</table>
+<table id="1893431c:1434901330f:-7fcd" name="appointment_payment">
+<column-list>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fc9" mandatory="true" name="id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fc8" mandatory="true" name="appointment_id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fc7" mandatory="true" name="amount_paid">
+<data-type name="DOUBLE PRECISION" selected-variant-pattern="DOUBLE PRECISION"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fc6" mandatory="false" name="payment_mode">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fc4" mandatory="false" name="last_modified_date">
+<data-type name="TIMESTAMP" selected-variant-pattern="TIMESTAMP"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fc3" mandatory="false" name="last_modified_user">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+</column-list>
+<primary-key id="1893431c:1434901330f:-7fcc" name="PK_APPOINTMENT_PAYMENT">
+<primary-key-column name="id"/>
+</primary-key>
+<foreign-key-list>
+<foreign-key id="1893431c:1434901330f:-7d2d" name="FK_appointment_payment_1" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_APPOINTMENT" referenced-table="appointment" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key-column column-name="appointment_id" referenced-key-column-name="id"/>
+</foreign-key>
+</foreign-key-list>
+</table>
+<table id="1893431c:1434901330f:-7fba" name="employee">
+<column-list>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fb6" mandatory="true" name="id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fb5" mandatory="false" name="employee_code">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="512" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fb4" mandatory="false" name="first_name">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="128" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7faf" mandatory="false" name="nationality">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fae" mandatory="false" name="join_date">
+<data-type name="TIMESTAMP" selected-variant-pattern="TIMESTAMP"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fad" mandatory="false" name="salary">
+<data-type name="DOUBLE PRECISION" selected-variant-pattern="DOUBLE PRECISION"/>
+</column>
+<column auto-increment="false" column-size="1024" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fac" mandatory="false" name="remarks">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fab" mandatory="false" name="last_modified_date">
+<data-type name="TIMESTAMP" selected-variant-pattern="TIMESTAMP"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7faa" mandatory="false" name="last_modified_user">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+</column-list>
+<primary-key id="1893431c:1434901330f:-7fb9" name="PK_EMPLOYEE">
+<primary-key-column name="id"/>
+</primary-key>
+</table>
+<table id="1893431c:1434901330f:-7fa7" name="customer_contract">
+<column-list>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fa3" mandatory="true" name="id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fa2" mandatory="true" name="customer_id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fa1" mandatory="false" name="contract_date">
+<data-type name="TIMESTAMP" selected-variant-pattern="TIMESTAMP"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7fa0" mandatory="false" name="expiry_date">
+<data-type name="TIMESTAMP" selected-variant-pattern="TIMESTAMP"/>
+</column>
+<column auto-increment="false" column-size="256" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7f9f" mandatory="false" name="contract_no">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7f9e" mandatory="false" name="contract_type">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7f9d" mandatory="false" name="amount">
+<data-type name="DOUBLE PRECISION" selected-variant-pattern="DOUBLE PRECISION"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7f9c" mandatory="false" name="last_modified_date">
+<data-type name="TIMESTAMP" selected-variant-pattern="TIMESTAMP"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7f9b" mandatory="false" name="last_modified_user">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7dfb" mandatory="false" name="contract_status">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+</column-list>
+<primary-key id="1893431c:1434901330f:-7fa6" name="PK_CUSTOMER_CONTRACT">
+<primary-key-column name="id"/>
+</primary-key>
+<foreign-key-list>
+<foreign-key id="1893431c:1434901330f:-7e08" name="FK_customer_contract_1" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_CUSTOMER" referenced-table="customer" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key-column column-name="customer_id" referenced-key-column-name="id"/>
+</foreign-key>
+</foreign-key-list>
+</table>
+<table id="1893431c:1434901330f:-7f9a" name="invoice">
+<column-list>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7f96" mandatory="true" name="id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="256" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7f95" mandatory="true" name="invoice_no">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7f94" mandatory="false" name="inovice_date">
+<data-type name="TIMESTAMP" selected-variant-pattern="TIMESTAMP"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7f93" mandatory="false" name="amount">
+<data-type name="DOUBLE PRECISION" selected-variant-pattern="DOUBLE PRECISION"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7f92" mandatory="false" name="appointment_id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7f91" mandatory="false" name="status">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7f90" mandatory="false" name="last_modified_date">
+<data-type name="TIMESTAMP" selected-variant-pattern="TIMESTAMP"/>
+</column>
+<column auto-increment="false" column-size="16" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7f8f" mandatory="false" name="last_modified_user">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+</column-list>
+<primary-key id="1893431c:1434901330f:-7f99" name="PK_INVOICE">
+<primary-key-column name="id"/>
+</primary-key>
+<foreign-key-list>
+<foreign-key id="1893431c:1434901330f:-7cc2" name="FK_invoice_2" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_APPOINTMENT" referenced-table="appointment" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key-column column-name="appointment_id" referenced-key-column-name="id"/>
+</foreign-key>
+</foreign-key-list>
+</table>
+<table id="1893431c:1434901330f:-7e90" name="city">
+<column-list>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7e8c" mandatory="true" name="id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="128" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7e8b" mandatory="true" name="name">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+</column-list>
+<primary-key id="1893431c:1434901330f:-7e8f" name="PK_CITY">
+<primary-key-column name="id"/>
+</primary-key>
+</table>
+<table id="1893431c:1434901330f:-7e8a" name="area">
+<column-list>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7e86" mandatory="true" name="id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+<column auto-increment="false" column-size="512" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7e85" mandatory="true" name="name">
+<data-type name="VARCHAR" selected-variant-pattern="VARCHAR(%n)"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="1893431c:1434901330f:-7e84" mandatory="true" name="city_id">
+<data-type name="BIGINT" selected-variant-pattern="BIGINT"/>
+</column>
+</column-list>
+<primary-key id="1893431c:1434901330f:-7e89" name="PK_AREA">
+<primary-key-column name="id"/>
+</primary-key>
+<foreign-key-list>
+<foreign-key id="1893431c:1434901330f:-7e79" name="FK_area_1" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_CITY" referenced-table="city" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key-column column-name="city_id" referenced-key-column-name="id"/>
+</foreign-key>
+</foreign-key-list>
+</table>
+</table-list>
+</schema>
+</schema-list>
+</database-model>
+<diagram>
+<table-figure refid="1893431c:1434901330f:-7fff" x="558" y="345"/>
+<table-figure refid="1893431c:1434901330f:-7fef" x="235" y="161"/>
+<table-figure refid="1893431c:1434901330f:-7fdd" x="568" y="15"/>
+<table-figure refid="1893431c:1434901330f:-7fcd" x="972" y="208"/>
+<table-figure refid="1893431c:1434901330f:-7fba" x="973" y="14"/>
+<table-figure refid="1893431c:1434901330f:-7fa7" x="81" y="332"/>
+<table-figure refid="1893431c:1434901330f:-7f9a" x="861" y="370"/>
+<table-figure refid="1893431c:1434901330f:-7e90" x="14" y="206"/>
+<table-figure refid="1893431c:1434901330f:-7e8a" x="66" y="20"/>
+</diagram>
+</clay-model>
