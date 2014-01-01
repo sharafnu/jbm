@@ -1,5 +1,5 @@
 -- employee
-CREATE TABLE jbm.employee (
+CREATE TABLE employee (
        id BIGINT NOT NULL
      , employee_code VARCHAR(16)
      , first_name VARCHAR(512)
@@ -19,7 +19,7 @@ ALTER COLUMN id
 SET DEFAULT NEXTVAL('employee_id_seq');
 
 -- city
-CREATE TABLE jbm.city (
+CREATE TABLE city (
        id BIGINT NOT NULL
      , name VARCHAR(128) NOT NULL
      , PRIMARY KEY (id)
@@ -32,7 +32,7 @@ ALTER COLUMN id
 SET DEFAULT NEXTVAL('city_id_seq');
 
 -- customer
-CREATE TABLE jbm.customer (
+CREATE TABLE customer (
        id BIGINT NOT NULL
      , customer_code VARCHAR(16) NOT NULL
      , first_name VARCHAR(512) NOT NULL
@@ -56,13 +56,13 @@ ALTER COLUMN id
 SET DEFAULT NEXTVAL('customer_id_seq');
 
 -- area
-CREATE TABLE jbm.area (
+CREATE TABLE area (
        id BIGINT NOT NULL
      , name VARCHAR(512) NOT NULL
      , city_id BIGINT NOT NULL
      , PRIMARY KEY (id)
      , CONSTRAINT FK_area_1 FOREIGN KEY (city_id)
-                  REFERENCES jbm.city (id)
+                  REFERENCES city (id)
 );
 
 CREATE SEQUENCE "area_id_seq";
@@ -72,7 +72,7 @@ ALTER COLUMN id
 SET DEFAULT NEXTVAL('area_id_seq');
 
 -- appointment
-CREATE TABLE jbm.appointment (
+CREATE TABLE appointment (
        id BIGINT NOT NULL
      , appointment_no VARCHAR(64) NOT NULL
      , appointment_date TIMESTAMP NOT NULL
@@ -91,11 +91,11 @@ CREATE TABLE jbm.appointment (
      , cancellation_reason VARCHAR(1024)
      , PRIMARY KEY (id)
      , CONSTRAINT FK_appointment_1 FOREIGN KEY (customer_id)
-                  REFERENCES jbm.customer (id)
+                  REFERENCES customer (id)
      , CONSTRAINT FK_appointment_2 FOREIGN KEY (employee_id)
-                  REFERENCES jbm.employee (id)
+                  REFERENCES employee (id)
      , CONSTRAINT FK_appointment_3 FOREIGN KEY (area_id)
-                  REFERENCES jbm.area (id)
+                  REFERENCES area (id)
 );
 
 CREATE SEQUENCE "appointment_id_seq";
@@ -105,7 +105,7 @@ ALTER COLUMN id
 SET DEFAULT NEXTVAL('appointment_id_seq');
 
 -- appointment_payment
-CREATE TABLE jbm.appointment_payment (
+CREATE TABLE appointment_payment (
        id BIGINT NOT NULL
      , appointment_id BIGINT NOT NULL
      , amount_paid DOUBLE PRECISION NOT NULL
@@ -114,7 +114,7 @@ CREATE TABLE jbm.appointment_payment (
      , last_modified_user VARCHAR(16)
      , PRIMARY KEY (id)
      , CONSTRAINT FK_appointment_payment_1 FOREIGN KEY (appointment_id)
-                  REFERENCES jbm.appointment (id)
+                  REFERENCES appointment (id)
 );
 
 CREATE SEQUENCE "appointment_payment_id_seq";
@@ -124,7 +124,7 @@ ALTER COLUMN id
 SET DEFAULT NEXTVAL('appointment_payment_id_seq');
 
 -- customer_contract
-CREATE TABLE jbm.customer_contract (
+CREATE TABLE customer_contract (
        id BIGINT NOT NULL
      , customer_id BIGINT NOT NULL
      , contract_date TIMESTAMP
@@ -137,7 +137,7 @@ CREATE TABLE jbm.customer_contract (
      , contract_status VARCHAR(16)
      , PRIMARY KEY (id)
      , CONSTRAINT FK_customer_contract_1 FOREIGN KEY (customer_id)
-                  REFERENCES jbm.customer (id)
+                  REFERENCES customer (id)
 );
 
 CREATE SEQUENCE "customer_contract_id_seq";
@@ -147,7 +147,7 @@ ALTER COLUMN id
 SET DEFAULT NEXTVAL('customer_contract_id_seq');
 
 -- invoice
-CREATE TABLE jbm.invoice (
+CREATE TABLE invoice (
        id BIGINT NOT NULL
      , invoice_no VARCHAR(256) NOT NULL
      , inovice_date TIMESTAMP
@@ -158,7 +158,7 @@ CREATE TABLE jbm.invoice (
      , last_modified_user VARCHAR(16)
      , PRIMARY KEY (id)
      , CONSTRAINT FK_invoice_2 FOREIGN KEY (appointment_id)
-                  REFERENCES jbm.appointment (id)
+                  REFERENCES appointment (id)
 );
 
 CREATE SEQUENCE "invoice_id_seq";
@@ -168,7 +168,7 @@ ALTER COLUMN id
 SET DEFAULT NEXTVAL('invoice_id_seq');
 
 -- customer_address
-CREATE TABLE jbm.customer_address (
+CREATE TABLE customer_address (
        id BIGINT NOT NULL
      , customer_id BIGINT NOT NULL
      , area_id BIGINT NOT NULL
@@ -179,9 +179,9 @@ CREATE TABLE jbm.customer_address (
      , last_modified_user VARCHAR(16) NOT NULL
      , PRIMARY KEY (id)
      , CONSTRAINT FK_customer_address_1 FOREIGN KEY (customer_id)
-                  REFERENCES jbm.customer (id)
+                  REFERENCES customer (id)
      , CONSTRAINT FK_customer_address_2 FOREIGN KEY (area_id)
-                  REFERENCES jbm.area (id)
+                  REFERENCES area (id)
 );
 
 CREATE SEQUENCE "customer_address_id_seq";

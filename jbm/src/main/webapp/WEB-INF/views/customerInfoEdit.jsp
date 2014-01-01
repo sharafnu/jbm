@@ -1,6 +1,6 @@
 <jsp:include page="includes/header.jsp" />
 <div>
-	<span class="breadcrumbs">Home > Update Customer Info</span>
+	<span class="breadcrumbs">Home > Customer > Update Customer Info</span>
 </div>
 <script type="text/javascript">
 	$(document)

@@ -1,11 +1,16 @@
 package com.innovazions.jbm.entity;
 
 import java.util.Date;
+import java.util.List;
 
-public class CoreEntity {
+public abstract class CoreEntity<Entity, View> {
 
-	private Date lastModifiedDate;
+	public abstract View convertEntityToView();
+
+	public abstract List<View> convertEntitiesToViews(List<Entity> entityList);
 	
+	private Date lastModifiedDate;
+
 	private String lastModifiedUser;
 
 	public Date getLastModifiedDate() {

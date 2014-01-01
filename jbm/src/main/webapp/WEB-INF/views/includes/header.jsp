@@ -66,7 +66,10 @@
 	src="<c:url value="/resources/jqwidgets/jqxgrid.selection.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/jqwidgets/jqxgrid.edit.js" />"></script>
-						
+<script type="text/javascript"
+	src="<c:url value="/resources/jqwidgets/jqxwindow.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/jqwidgets/jqxcombobox.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/scripts/demos.js" />"></script>
 	
