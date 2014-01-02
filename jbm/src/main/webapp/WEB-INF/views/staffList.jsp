@@ -1,47 +1,48 @@
 <jsp:include page="includes/header.jsp" />
 <div>
-	<span class="breadcrumbs">Home > Master Setup > Area List</span>
+	<span class="breadcrumbs">Home > Master Setup > Staff List </span>
 </div>
 
 <script type="text/javascript">
         $(document).ready(function () {
             
-        	var cityUrl = "cityListJSON.html";
-            var citySource =
-            {
-                datatype: "json",
-                datafields: [
-                    { name: 'cityName', type: 'string' },
-                    { name: 'cityId', type: 'int' }
-                ],
-                id: 'cityId',
-                url: cityUrl
-            };
-            var cityDataAdapter = new $.jqx.dataAdapter(citySource);
+        	var nationalitySource = [
+                          "UAE National",
+                          "USA",
+                          "UK",
+                          "Lebabnon",
+                          "Egypt",
+                          "India"
+      		];
             
-            $("#formCityId").jqxComboBox({ selectedIndex: 0, source: cityDataAdapter, displayMember: "cityName", valueMember: "cityId", width: 200, height: 25});
+            $("#formNationality").jqxComboBox({ selectedIndex: 0, source: nationalitySource, width: 200, height: 25});
             $("#formAreaName").jqxInput({
 				width : '200px',
 				height : '20px'
 			});
-        	var areaUrl = "areaListJSON.html";
-            var areaSource =
+            
+        	var staffListUrl = "staffListJSON.html";
+            var staffListSource =
             {
                 datatype: "json",
                 datafields: [
-                    { name: 'areaName', type: 'string' },
-                    { name: 'cityName', type: 'string' }
+                    { name: 'employeeCode', type: 'string' },
+                    { name: 'firstName', 	type: 'string' },
+                    { name: 'joinDate', 	type: 'string' },
+                    { name: 'nationality', 	type: 'string' },
+                    { name: 'remarks', 		type: 'string' },
+                    { name: 'salary', 		type: 'int' }
                 ],
-                id: 'areaId',
-                url: areaUrl
+                id: 'id',
+                url: staffListUrl
             };
-            var areaDataAdapter = new $.jqx.dataAdapter(areaSource);
+            var staffListDataAdapter = new $.jqx.dataAdapter(staffListSource);
             
             // initialize jqxGrid
             $("#jqxgrid").jqxGrid(
             {
-                width: 600,
-                source: areaDataAdapter,
+                width: 800,
+                source: staffListDataAdapter,
                 showstatusbar: true,
                 renderstatusbar: function (statusbar) {
                     // appends buttons to the status bar.
@@ -68,8 +69,12 @@
                 editable: false,
                 selectionmode: 'none',
                 columns: [
-                  { text: 'Area Name',  datafield: 'areaName', width: 350 },
-                  { text: 'City Name',  datafield: 'cityName', width: 250 }
+                  { text: 'Emp ID',  		datafield: 'employeeCode', width: 80 },
+                  { text: 'Emp Name',  		datafield: 'firstName', width: 250 },
+                  { text: 'Nationality',  	datafield: 'nationality', width: 100 },
+                  { text: 'Join Date',  	datafield: 'joinDate', width: 100 },
+                  { text: 'Salary',  		datafield: 'salary', width: 60 },
+                  { text: 'Remarks',  		datafield: 'remarks', width: 210 }
                 ]
             });
             
@@ -82,7 +87,7 @@
             var saveButton =  $("#Save").jqxButton({ theme: theme });
 			
             saveButton.click(function (event) {
-            	var item = $("#formCityId").jqxComboBox('getSelectedItem');
+            	/* var item = $("#formCityId").jqxComboBox('getSelectedItem');
 	       	    var row = { areaName: $("#formAreaName").val(), cityName: item.label};
 		      
 		       	$.ajax({
@@ -96,7 +101,7 @@
                 //Clear form values
                 $("#formAreaName").val("");
                 $("#formCityId").val("");
-                $("#popupWindow").jqxWindow('hide');
+                $("#popupWindow").jqxWindow('hide'); */
             });
         });
     </script>
@@ -117,8 +122,8 @@
 	                        <td align="left"><input id="formAreaName" /></td>
 	                    </tr>
 	                    <tr>
-	                        <td align="right">City Name:</td>
-	                        <td align="left"><div id='formCityId'></div></td>
+	                        <td align="right">Nationality:</td>
+	                        <td align="left"><div id='formNationality'></div></td>
 	                    </tr>
 	                    <tr>
 	                        <td align="right"></td>

@@ -1,20 +1,12 @@
-package com.innovazions.jbm.entity;
+package com.innovazions.jbm.view;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.innovazions.jbm.view.EmployeeView;
+import com.innovazions.jbm.entity.Employee;
 
-/**
- * The persistent class for the employee database table.
- * 
- */
-public class Employee extends CoreEntity<Employee, EmployeeView> implements
-		Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class EmployeeView extends GenericView<EmployeeView, Employee>{
+	
 	private Long id;
 
 	private String employeeCode;
@@ -33,11 +25,20 @@ public class Employee extends CoreEntity<Employee, EmployeeView> implements
 
 	private double salary;
 
-	public Employee() {
+	@Override
+	public Employee convertViewToEntity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Employee> convertViewsToEntities(List<EmployeeView> viewList) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public Long getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(Long id) {
@@ -45,7 +46,7 @@ public class Employee extends CoreEntity<Employee, EmployeeView> implements
 	}
 
 	public String getEmployeeCode() {
-		return this.employeeCode;
+		return employeeCode;
 	}
 
 	public void setEmployeeCode(String employeeCode) {
@@ -53,7 +54,7 @@ public class Employee extends CoreEntity<Employee, EmployeeView> implements
 	}
 
 	public String getFirstName() {
-		return this.firstName;
+		return firstName;
 	}
 
 	public void setFirstName(String firstName) {
@@ -61,7 +62,7 @@ public class Employee extends CoreEntity<Employee, EmployeeView> implements
 	}
 
 	public Date getJoinDate() {
-		return this.joinDate;
+		return joinDate;
 	}
 
 	public void setJoinDate(Date joinDate) {
@@ -69,7 +70,7 @@ public class Employee extends CoreEntity<Employee, EmployeeView> implements
 	}
 
 	public Date getLastModifiedDate() {
-		return this.lastModifiedDate;
+		return lastModifiedDate;
 	}
 
 	public void setLastModifiedDate(Date lastModifiedDate) {
@@ -77,7 +78,7 @@ public class Employee extends CoreEntity<Employee, EmployeeView> implements
 	}
 
 	public String getLastModifiedUser() {
-		return this.lastModifiedUser;
+		return lastModifiedUser;
 	}
 
 	public void setLastModifiedUser(String lastModifiedUser) {
@@ -85,7 +86,7 @@ public class Employee extends CoreEntity<Employee, EmployeeView> implements
 	}
 
 	public String getNationality() {
-		return this.nationality;
+		return nationality;
 	}
 
 	public void setNationality(String nationality) {
@@ -93,7 +94,7 @@ public class Employee extends CoreEntity<Employee, EmployeeView> implements
 	}
 
 	public String getRemarks() {
-		return this.remarks;
+		return remarks;
 	}
 
 	public void setRemarks(String remarks) {
@@ -101,33 +102,10 @@ public class Employee extends CoreEntity<Employee, EmployeeView> implements
 	}
 
 	public double getSalary() {
-		return this.salary;
+		return salary;
 	}
 
 	public void setSalary(double salary) {
 		this.salary = salary;
 	}
-
-	@Override
-	public EmployeeView convertEntityToView() {
-		EmployeeView employeeView = new EmployeeView();
-		employeeView.setId(this.getId());
-		employeeView.setEmployeeCode(this.getEmployeeCode());
-		employeeView.setFirstName(this.getFirstName());
-		employeeView.setJoinDate(this.getJoinDate());
-		employeeView.setNationality(this.getNationality());
-		employeeView.setRemarks(this.getRemarks());
-		employeeView.setSalary(this.getSalary());
-		return employeeView;
-	}
-
-	@Override
-	public List<EmployeeView> convertEntitiesToViews(List<Employee> entityList) {
-		List<EmployeeView> employeeViewList = new ArrayList<EmployeeView>();
-		for (Employee employee : entityList) {
-			employeeViewList.add(employee.convertEntityToView());
-		}
-		return employeeViewList;
-	}
-
 }

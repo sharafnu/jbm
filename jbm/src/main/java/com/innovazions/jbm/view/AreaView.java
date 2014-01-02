@@ -3,6 +3,7 @@ package com.innovazions.jbm.view;
 import java.util.List;
 
 import com.innovazions.jbm.entity.Area;
+import com.innovazions.jbm.entity.City;
 
 public class AreaView extends GenericView<AreaView, Area> {
 
@@ -48,8 +49,13 @@ public class AreaView extends GenericView<AreaView, Area> {
 
 	@Override
 	public Area convertViewToEntity() {
-		// TODO Auto-generated method stub
-		return null;
+		Area area = new Area();
+		area.setId(this.getAreaId());
+		area.setName(this.getAreaName());
+		City city = new City();
+		city.setId(this.getCityId());
+		area.setCity(city);
+		return area;
 	}
 
 	@Override
