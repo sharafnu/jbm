@@ -30,10 +30,10 @@ import com.innovazions.jbm.view.CustomerView;
  * Handles requests for the customer related actions.
  */
 @Controller
-public class CustomerController {
+public class AppoinmentController {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(CustomerController.class);
+			.getLogger(AppoinmentController.class);
 
 	@Autowired
 	private CustomerService customerService;

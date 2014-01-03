@@ -127,6 +127,11 @@ public class Customer extends CoreEntity<Customer, CustomerView> implements
 		this.preferenceSms = preferenceSms;
 	}
 
+	public String getFullName() {
+		return ((this.getFirstName() != null ? this.getFirstName() + " " : "") + (this
+				.getLastName() != null ? this.getLastName() : ""));
+	}
+	
 	@Override
 	public CustomerView convertEntityToView() {
 		CustomerView customerView = new CustomerView();

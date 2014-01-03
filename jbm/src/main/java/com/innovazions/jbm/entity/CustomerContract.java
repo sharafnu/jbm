@@ -1,21 +1,25 @@
 package com.innovazions.jbm.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+import com.innovazions.jbm.view.CustomerContractView;
 
 /**
  * The persistent class for the customer_contract database table.
  * 
  */
-public class CustomerContract implements Serializable {
+public class CustomerContract extends
+		CoreEntity<CustomerContract, CustomerContractView> implements
+		Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 
 	private double amount;
-
-	private Timestamp contractDate;
 
 	private String contractNo;
 
@@ -23,19 +27,17 @@ public class CustomerContract implements Serializable {
 
 	private String contractType;
 
-	private Timestamp expiryDate;
-
-	private Timestamp lastModifiedDate;
-
-	private String lastModifiedUser;
-
 	private Customer customer;
+
+	private Date contractDate;
+
+	private Date expiryDate;
 
 	public CustomerContract() {
 	}
 
 	public Long getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(Long id) {
@@ -43,23 +45,15 @@ public class CustomerContract implements Serializable {
 	}
 
 	public double getAmount() {
-		return this.amount;
+		return amount;
 	}
 
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 
-	public Timestamp getContractDate() {
-		return this.contractDate;
-	}
-
-	public void setContractDate(Timestamp contractDate) {
-		this.contractDate = contractDate;
-	}
-
 	public String getContractNo() {
-		return this.contractNo;
+		return contractNo;
 	}
 
 	public void setContractNo(String contractNo) {
@@ -67,7 +61,7 @@ public class CustomerContract implements Serializable {
 	}
 
 	public String getContractStatus() {
-		return this.contractStatus;
+		return contractStatus;
 	}
 
 	public void setContractStatus(String contractStatus) {
@@ -75,43 +69,65 @@ public class CustomerContract implements Serializable {
 	}
 
 	public String getContractType() {
-		return this.contractType;
+		return contractType;
 	}
 
 	public void setContractType(String contractType) {
 		this.contractType = contractType;
 	}
 
-	public Timestamp getExpiryDate() {
-		return this.expiryDate;
-	}
-
-	public void setExpiryDate(Timestamp expiryDate) {
-		this.expiryDate = expiryDate;
-	}
-
-	public Timestamp getLastModifiedDate() {
-		return this.lastModifiedDate;
-	}
-
-	public void setLastModifiedDate(Timestamp lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public String getLastModifiedUser() {
-		return this.lastModifiedUser;
-	}
-
-	public void setLastModifiedUser(String lastModifiedUser) {
-		this.lastModifiedUser = lastModifiedUser;
-	}
-
 	public Customer getCustomer() {
-		return this.customer;
+		return customer;
 	}
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public Date getContractDate() {
+		return contractDate;
+	}
+
+	public void setContractDate(Date contractDate) {
+		this.contractDate = contractDate;
+	}
+
+	public Date getExpiryDate() {
+		return expiryDate;
+	}
+
+	public void setExpiryDate(Date expiryDate) {
+		this.expiryDate = expiryDate;
+	}
+
+	@Override
+	public CustomerContractView convertEntityToView() {
+		CustomerContractView customerContractView = new CustomerContractView();
+		customerContractView.setAmount(this.getAmount());
+		customerContractView.setContractDate(this.getContractDate());
+		customerContractView.setContractNo(this.getContractNo());
+		customerContractView.setContractStatus(this.getContractStatus());
+		customerContractView.setContractType(this.getContractType());
+		if (this.getCustomer() != null) {
+			customerContractView.setCustomerId(this.getCustomer().getId());
+			customerContractView.setCustomerName(this.getCustomer()
+					.getFullName());
+		}
+		customerContractView.setExpiryDate(this.getExpiryDate());
+		customerContractView.setId(this.getId());
+		customerContractView.setLastModifiedDate(this.getLastModifiedDate());
+		customerContractView.setLastModifiedUser(this.getLastModifiedUser());
+		return customerContractView;
+	}
+
+	@Override
+	public List<CustomerContractView> convertEntitiesToViews(
+			List<CustomerContract> entityList) {
+		List<CustomerContractView> contractViewList = new ArrayList<CustomerContractView>();
+		for (CustomerContract customerContract : entityList) {
+			contractViewList.add(customerContract.convertEntityToView());
+		}
+		return contractViewList;
 	}
 
 }

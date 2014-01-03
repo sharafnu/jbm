@@ -6,6 +6,9 @@
 	$(document)
 			.ready(
 					function() {
+						
+						setupAddressForm();
+						
 						// Create jqxExpander.
 						var customerListUrl = "customerListJSON.html";
 			            var customerListSource =
@@ -46,12 +49,18 @@
 			                        		$("#email").val(customerView.email);
 			                        		if(customerView.preferenceCall == 1) {
 			                        			$("#preferenceCallElement").jqxCheckBox({ checked: true });	
+			                        		} else {
+			                        			$("#preferenceCallElement").jqxCheckBox({ checked: false });
 			                        		}
 			                        		if(customerView.preferenceSms == 1) {
 			                        			$("#preferenceSmsElement").jqxCheckBox({ checked: true });	
+			                        		} else {
+			                        			$("#preferenceSmsElement").jqxCheckBox({ checked: false });
 			                        		}
 			                        		if(customerView.preferenceEmail == 1) {
 			                        			$("#preferenceEmailElement").jqxCheckBox({ checked: true });	
+			                        		} else {
+			                        			$("#preferenceEmailElement").jqxCheckBox({ checked: false });
 			                        		}
 			                        	});
 			                        	loadAddressGrid(item.value);
@@ -85,15 +94,15 @@
 							height : '20px'
 						});
 						$("#preferenceCallElement").jqxCheckBox({
-							width : 30,
+							width : 80,
 							height : 25
 						});
 						$("#preferenceEmailElement").jqxCheckBox({
-							width : 30,
+							width : 80,
 							height : 25
 						});
 						$("#preferenceSmsElement").jqxCheckBox({
-							width : 30,
+							width : 80,
 							height : 25
 						});
 
@@ -101,9 +110,13 @@
 						$("#updateCustomerButton").jqxButton({
 							theme : theme
 						});
-						$("#addAddressButton").jqxButton({
+						var addAddressButton = $("#addAddressButton").jqxButton({
 							theme : theme
 						});
+						addAddressButton.click(function (event) {
+	                        $("#popupWindow").jqxWindow({ position: { x: 660, y: 185 } });
+	                        $("#popupWindow").jqxWindow('open');
+	                    });
 						// Create jqxValidator.
 						$("#form")
 								.jqxValidator(
@@ -257,6 +270,89 @@
 							} ]
 						});
 	}
+	
+	function setupAddressForm() {
+		
+		$("#popupWindow").jqxWindow({
+            title: "Add Address", width: 400, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
+        });
+
+        var addressTypeSource = [
+                      "Office",
+                      "Residence"
+        ];
+                   
+		$("#formAddressType").jqxComboBox({ selectedIndex: 0, source: addressTypeSource, width: 230, height: 20});
+                   
+        var cityUrl = "cityListJSON.html";
+        var citySource =
+        {
+            datatype: "json",
+            datafields: [
+                { name: 'cityName', type: 'string' },
+                { name: 'cityId', type: 'int' }
+            ],
+            id: 'cityId',
+            url: cityUrl
+        };
+        var cityDataAdapter = new $.jqx.dataAdapter(citySource);
+        
+        $("#formCityId").jqxComboBox({ selectedIndex: 0, source: cityDataAdapter, displayMember: "cityName", valueMember: "cityId", width: 230, height: 25});
+	
+        var areaListUrl = "areaListJSON.html";
+        var areaListSource =
+        {
+            datatype: "json",
+            datafields: [
+                { name: 'areaName', type: 'string' },
+                { name: 'areaId', type: 'int' }
+            ],
+            id: 'areaId',
+            url: areaListUrl
+        };
+        var cityDataAdapter = new $.jqx.dataAdapter(areaListSource);
+        
+        $("#formAreaId").jqxComboBox({ selectedIndex: 0, source: cityDataAdapter, displayMember: "areaName", valueMember: "areaId", width: 230, height: 25});
+	
+        $("#formBuildingName").jqxInput({
+			width : '230px',
+			height : '20px'
+		});
+        
+        $("#formFlatNo").jqxInput({
+			width : '230px',
+			height : '20px'
+		});
+
+        $("#Cancel").jqxButton({ theme: theme });
+        var saveButton =  $("#Save").jqxButton({ theme: theme });
+        
+        saveButton.click(function (event) {
+        	
+         	var addressTypeItem = $("#formAddressType").jqxComboBox('getSelectedItem');
+        	var cityItem = $("#formCityId").jqxComboBox('getSelectedItem');
+        	var areaItem = $("#formAreaId").jqxComboBox('getSelectedItem');
+        	var customerIdItem = $("#formCustomerId").jqxComboBox('getSelectedItem');
+			var custId = customerIdItem.value;
+			$.ajax({
+	       	  type: "POST",
+	       	  url: "saveCustomerAddress.html",
+	       	  data: { addressType: addressTypeItem.value, buildingName: $("#formBuildingName").val(), flatNo: $("#formFlatNo").val(), 
+	       		customerId: custId, areaId: areaItem.value}
+	       	}).done(function( msg ) {
+	       	    //alert( "Data Saved: " + msg );
+	       	});
+            //Clear form values
+            
+            $("#formAddressType").val("");
+            $("#formCityId").val("");
+            $("#formAreaId").val("");
+            $("#formBuildingName").val("");
+            $("#formFlatNo").val("");
+            $("#popupWindow").jqxWindow('hide');
+            loadAddressGrid(custId);
+        });
+	}
 </script>
 
 
@@ -268,84 +364,98 @@
 			<div style="background-color: #F4F0F5; color: #000; min-height: 1.5em; vertical-align: middle; padding: 5px; width: 800px;">
 				Customer Info</div>
 			<div style="font-family: Verdana; font-size: 13px; overflow: hidden; margin: 10px;">
-				<table border="0" width="100%">
+				<table border="0" width="100%" class="popupFormTable">
 					<tr>
-						<td colspan="3">Select Customer</td>
-						<td rowspan="18" width="70%" valign="top">
+						<td colspan="1">Select Customer :</td>
+						<td colspan="1"><div id="formCustomerId" ></div></td>
+						<td rowspan="18" width="50%" valign="top">
 						    <div>
 						    </div>
 						    <br />
-						    <div style="margin-left: 20px" id="dataTable"></div>
+						    <div style="margin-left: 20px; margin-top: -18px" id="dataTable"></div>
 						</td>
 					</tr>
 					<tr>
-						<td colspan="3"><div id="formCustomerId" ></div></td>
+						<td colspan="1">First Name :</td>
+						<td colspan="1"><input id="firstName" /></td>
 					</tr>
 					<tr>
-						<td colspan="3">First Name</td>						
+						<td colspan="1">Last Name :</td>
+						<td colspan="1"><input id="lastName" /></td>
 					</tr>
 					<tr>
-						<td colspan="3"><input id="firstName" /></td>
+						<td colspan="1">Mobile No 1 :</td>
+						<td colspan="1"><input id="mobile1" /></td>
 					</tr>
 					<tr>
-						<td colspan="3">Last Name</td>
+						<td colspan="1">Mobile No 2 :</td>
+						<td colspan="1"><input id="mobile2" /></td>
 					</tr>
 					<tr>
-						<td colspan="3"><input id="lastName" /></td>
+						<td colspan="1">Mobile No 3 :</td>
+						<td colspan="1"><input id="mobile3" /></td>
+					</tr>					
+					<tr>
+						<td colspan="1">Email :</td>
+						<td colspan="1"><input id="email" /></td>
 					</tr>
 					<tr>
-						<td colspan="3">Mobile No 1</td>
-					</tr>
-					<tr>
-						<td colspan="3"><input id="mobile1" /></td>
-					</tr>
-					<tr>
-						<td colspan="3">Mobile No 2</td>
-					</tr>
-					<tr>
-						<td colspan="3"><input id="mobile2" /></td>
-					</tr>
-					<tr>
-						<td colspan="3">Mobile No 3</td>
-					</tr>
-					<tr>
-						<td colspan="3"><input id="mobile3" /></td>
-					</tr>
-					<tr>
-						<td colspan="3">Email</td>
-					</tr>
-					<tr>
-						<td colspan="3"><input id="email" /></td>
-					</tr>
-					<tr>
-						<td colspan="3">Preferred Contact Method</td>
-					</tr>
-					<tr>
-						<td colspan="1">
-							<div id='preferenceCallElement' style='margin-left: 10px; float: left;'>Call</div>
-						</td>
-						<td colspan="1">
-							<div id='preferenceSmsElement' style='margin-left: 10px; float: left;'>SMS</div>
-						</td>
-						<td colspan="1">
-							<div id='preferenceEmailElement' style='margin-left: 10px; float: left;'>Email</div>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="3">&nbsp;</td>
+						<td colspan="2">Preferred Contact Method :</td>
 					</tr>
 					<tr>
 						<td colspan="2">
+							<div id='preferenceCallElement' style='margin-left: 10px; width : 60px; float: left;'>Call</div>
+							<div id='preferenceSmsElement' style='margin-left: 10px; width : 60px; float: left;'>SMS</div>
+							<div id='preferenceEmailElement' style='margin-left: 10px; width : 60px; float: left;'>Email</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="1">
 							<input id="updateCustomerButton" type="button" value="Update Customer" />
 						</td>
 						<td colspan="1">
 							<input id="addAddressButton" type="button" value="Add Address" />
 						</td>
 					</tr>
-				</table>
-				
+				</table>				
 	</div>
 </div>
 </form>
+<div id="popupWindow">
+	<div style="overflow: hidden;">
+ 		<table class="popupFormTable">
+		 	<tr>
+		         <td align="right">Address Type:</td>
+		         <td align="left"><div id="formAddressType" ></div></td>
+		     </tr>
+		     <tr>
+		         <td align="right">City:</td>
+		         <td align="left"><div id="formCityId" ></div></td>
+		     </tr>
+		     <tr>
+		         <td align="right">Area:</td>
+		         <td align="left"><div id="formAreaId" ></div></td>
+		     </tr>
+		     <tr>
+		         <td align="right">Buliding Name:</td>
+		         <td align="left"><input id="formBuildingName" /></td>
+		     </tr>
+		     <tr>
+		         <td align="right">Flat No:</td>
+		         <td align="left"><input id='formFlatNo'/></td>
+		     </tr>
+		     <tr>
+		         <td align="right"></td>
+		         <td style="padding-top: 10px;" align="right"><input style="margin-right: 5px;" type="button" id="Save" value="Save" /><input id="Cancel" type="button" value="Cancel" /></td>
+            </tr>
+            <tr>
+		         <td align="right" colspan="2"></td>
+	        </tr>
+        </table>
+    </div>
+</div>
 
 <jsp:include page="includes/footer.jsp" />

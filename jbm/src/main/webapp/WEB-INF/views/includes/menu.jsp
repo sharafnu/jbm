@@ -25,9 +25,8 @@
                     </li>
                     <li>Job Management
                         <ul style='width: 200px;'>
-                            <li><a href="customerApointments.html">Add Job</a></li>
-                            <li><a href="jobCompletion.html">Job Completion</a></li>
-                            <li><a href="jobCancellation.html">Job Cancellation</a></li>
+                            <li><a href="customerApointments.html">Add Appointment</a></li>
+                            <li><a href="jobCompletion.html">Job List</a></li>
                             <li><a href="jobPayments.html">Job Payments</a></li>
                         </ul>
                     </li>

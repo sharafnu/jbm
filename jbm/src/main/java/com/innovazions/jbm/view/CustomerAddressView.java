@@ -2,9 +2,12 @@ package com.innovazions.jbm.view;
 
 import java.util.List;
 
+import com.innovazions.jbm.entity.Area;
+import com.innovazions.jbm.entity.Customer;
 import com.innovazions.jbm.entity.CustomerAddress;
 
-public class CustomerAddressView extends GenericView<CustomerAddressView, CustomerAddress>{
+public class CustomerAddressView extends
+		GenericView<CustomerAddressView, CustomerAddress> {
 
 	private Long id;
 
@@ -13,15 +16,15 @@ public class CustomerAddressView extends GenericView<CustomerAddressView, Custom
 	private String buildingName;
 
 	private String flatNo;
-	
+
 	private Long areaId;
-	
+
 	private Long customerId;
-	
+
 	private Long cityId;
-	
+
 	private String areaName;
-	
+
 	private String cityName;
 
 	public Long getId() {
@@ -98,8 +101,19 @@ public class CustomerAddressView extends GenericView<CustomerAddressView, Custom
 
 	@Override
 	public CustomerAddress convertViewToEntity() {
-		// TODO Auto-generated method stub
-		return null;
+		CustomerAddress customerAddress = new CustomerAddress();
+		customerAddress.setAddressType(this.getAddressType());
+		Area area = new Area();
+		area.setId(this.getAreaId());
+		customerAddress.setArea(area);
+		customerAddress.setBuildingName(this.getBuildingName());
+		Customer customer = new Customer();
+		customer.setId(this.getCustomerId());
+		customerAddress.setCustomer(customer);
+		customerAddress.setFlatNo(this.getFlatNo());
+		customerAddress.setLastModifiedDate(this.getLastModifiedDate());
+		customerAddress.setLastModifiedUser(this.getLastModifiedUser());
+		return customerAddress;
 	}
 
 	@Override
@@ -108,5 +122,5 @@ public class CustomerAddressView extends GenericView<CustomerAddressView, Custom
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }

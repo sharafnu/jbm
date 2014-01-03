@@ -29,3 +29,10 @@ INSERT INTO customer_address (customer_id, area_id, building_name, flat_no, addr
 
 INSERT INTO customer_address (customer_id, area_id, building_name, flat_no, address_type, last_modified_date, last_modified_user) VALUES 
 (2, 11, 'Building # 11', '3M Gulf', 'Office', TIMESTAMP 'now', 'SYSTEM');
+
+INSERT INTO customer_contract(customer_id, contract_date, expiry_date, contract_no, contract_type, 
+            amount, last_modified_date, last_modified_user, contract_status)
+    VALUES (2, TIMESTAMP 'now', TIMESTAMP 'now', 'C/P-100001', 'Contract Type 1', '4500', TIMESTAMP 'now', 'SYSTEM', 'Active');
+
+    
+    
