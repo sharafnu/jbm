@@ -1,6 +1,7 @@
 package com.innovazions.jbm.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.innovazions.jbm.view.CustomerAddressView;
@@ -79,15 +80,35 @@ public class CustomerAddress extends
 
 	@Override
 	public CustomerAddressView convertEntityToView() {
-		// TODO Auto-generated method stub
-		return null;
+		CustomerAddressView customerAddressView = new CustomerAddressView();
+		customerAddressView.setAddressType(this.getAddressType());
+		if (this.getArea() != null) {
+			customerAddressView.setAreaId(this.getArea().getId());
+			customerAddressView.setAreaName(this.getArea().getName());
+			if (this.getArea().getCity() != null) {
+				customerAddressView.setCityId(this.getArea().getCity().getId());
+				customerAddressView.setCityName(this.getArea().getCity()
+						.getName());
+			}
+		}
+		customerAddressView.setBuildingName(this.getBuildingName());
+		if (this.getCustomer() != null) {
+			customerAddressView.setCustomerId(this.getCustomer().getId());
+		}
+		customerAddressView.setFlatNo(this.getFlatNo());
+		customerAddressView.setId(this.getId());
+		customerAddressView.setLastModifiedDate(this.getLastModifiedDate());
+		customerAddressView.setLastModifiedUser(this.getLastModifiedUser());
+		return customerAddressView;
 	}
 
 	@Override
 	public List<CustomerAddressView> convertEntitiesToViews(
 			List<CustomerAddress> entityList) {
-		// TODO Auto-generated method stub
-		return null;
+		List<CustomerAddressView> addressViewList = new ArrayList<CustomerAddressView>();
+		for (CustomerAddress customerAddress : entityList) {
+			addressViewList.add(customerAddress.convertEntityToView());
+		}
+		return addressViewList;
 	}
-
 }

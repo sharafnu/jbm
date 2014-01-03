@@ -21,4 +21,11 @@ a.name as area_name, c.name as city_name, ca.building_name as building_name,
 ca.flat_no as flat_no, ca.address_type as address_type, ca.last_modified_date as last_modified_date, 
 ca.last_modified_user as last_modified_user from customer_address ca 
 inner join area a on a.id=ca.area_id 
-inner join city c on c.id=a.city_id
+inner join city c on c.id=a.city_id 
+where ca.customer_id=?
+
+INSERT INTO customer_address (customer_id, area_id, building_name, flat_no, address_type, last_modified_date, last_modified_user) VALUES 
+(2, 5, 'La Lune', '208', 'Residential', TIMESTAMP 'now', 'SYSTEM');
+
+INSERT INTO customer_address (customer_id, area_id, building_name, flat_no, address_type, last_modified_date, last_modified_user) VALUES 
+(2, 11, 'Building # 11', '3M Gulf', 'Office', TIMESTAMP 'now', 'SYSTEM');

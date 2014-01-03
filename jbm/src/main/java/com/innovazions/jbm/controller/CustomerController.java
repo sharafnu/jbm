@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.innovazions.jbm.entity.Customer;
+import com.innovazions.jbm.entity.CustomerAddress;
+import com.innovazions.jbm.service.CustomerAddressService;
 import com.innovazions.jbm.service.CustomerService;
+import com.innovazions.jbm.view.CustomerAddressView;
 import com.innovazions.jbm.view.CustomerView;
 
 /**
@@ -31,6 +34,9 @@ public class CustomerController {
 
 	@Autowired
 	private CustomerService customerService;
+
+	@Autowired
+	private CustomerAddressService customerAddressService;
 
 	@RequestMapping(value = "/customerInfoAdd", method = RequestMethod.GET)
 	public String customerInfoAdd(Locale locale, Model model) {
@@ -73,10 +79,13 @@ public class CustomerController {
 
 	@RequestMapping(value = "/getCustomerAddressListJSON/{customerId}", method = RequestMethod.GET)
 	public @ResponseBody
-	List<CustomerView> getCustomerAddressListJSON(@PathVariable Long customerId) {
+	List<CustomerAddressView> getCustomerAddressListJSON(
+			@PathVariable Long customerId) {
 		logger.info("CustomerController > getCustomerAddressListJSON");
-		List<Customer> customerList = customerService.getCustomerList(null);
-		return new Customer().convertEntitiesToViews(customerList);
+		List<CustomerAddress> customerAddressList = customerAddressService
+				.getCustomerAddressListByCustomerId(customerId);
+		return new CustomerAddress()
+				.convertEntitiesToViews(customerAddressList);
 	}
 
 	@RequestMapping(value = "/customerInfoEdit", method = RequestMethod.GET)

@@ -1,5 +1,7 @@
 package com.innovazions.jbm.dao;
 
+import java.util.List;
+
 import com.innovazions.jbm.entity.CustomerAddress;
 
 public interface CustomerAddressDAO {
@@ -10,6 +12,6 @@ public interface CustomerAddressDAO {
 
 	public long deleteCustomerAddress(CustomerAddress customerAddress);
 
-	public CustomerAddress getCustomerAddresssByCustomerId(Long customerId);
+	public List<CustomerAddress> getCustomerAddresssByCustomerId(Long customerId);
 
 }

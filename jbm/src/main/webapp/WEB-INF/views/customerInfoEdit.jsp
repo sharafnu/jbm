@@ -26,7 +26,7 @@
 							source : customerListDataAdapter,
 							displayMember : "fullName",
 							valueMember : "id",
-							width : 200,
+							width : 230,
 							height : 25
 						});
 						
@@ -54,33 +54,34 @@
 			                        			$("#preferenceEmailElement").jqxCheckBox({ checked: true });	
 			                        		}
 			                        	});
+			                        	loadAddressGrid(item.value);
 			                        }
 			                    }
 			             });
 
 						// Create jqxInput.
 						$("#firstName").jqxInput({
-							width : '200px',
+							width : '230px',
 							height : '20px'
 						});
 						$("#lastName").jqxInput({
-							width : '200px',
+							width : '230px',
 							height : '20px'
 						});
 						$("#mobile1").jqxInput({
-							width : '200px',
+							width : '230px',
 							height : '20px'
 						});
 						$("#mobile2").jqxInput({
-							width : '200px',
+							width : '230px',
 							height : '20px'
 						});
 						$("#mobile3").jqxInput({
-							width : '200px',
+							width : '230px',
 							height : '20px'
 						});
 						$("#email").jqxInput({
-							width : '200px',
+							width : '230px',
 							height : '20px'
 						});
 						$("#preferenceCallElement").jqxCheckBox({
@@ -97,7 +98,10 @@
 						});
 
 						// Create jqxButton.
-						$("#submit").jqxButton({
+						$("#updateCustomerButton").jqxButton({
+							theme : theme
+						});
+						$("#addAddressButton").jqxButton({
 							theme : theme
 						});
 						// Create jqxValidator.
@@ -154,7 +158,7 @@
 											hintType : "label"
 										});
 						// Validate the Form.
-						$("#submit").click(function() {
+						$("#updateCustomerButton").click(function() {
 							$('#form').jqxValidator('validate');
 						});
 						// Update the jqxExpander's content if the validation is successful.
@@ -166,104 +170,93 @@
 													.jqxExpander('setContent',
 															'<span style="margin: 10px;">Account created.</span>');
 										});
-						
-						
-						var empAddressSource = {
-						        datatype: "json",
-						        datafields: [
-						                    { name: 'imgName', type: 'string' },
-						                    { name: 'ram', type: 'string' },
-						                    { name: 'cpu', type: 'string' },
-						                    { name: 'price', type: 'int' },
-						                    { name: 'display', type: 'float' },
-						                    { name: 'model', type: 'string' },
-						                    { name: 'video', type: 'string' },
-						                    { name: 'hdd', type: 'string' },
-						                    { name: 'promo', type: 'bool' },
-						                    { name: 'battery', type: 'string' },
-						                    { name: 'weight', type: 'float' },
-						                    { name: 'OS', type: 'string' }
-						                ],
-						        id: 'model',
-						        url: 'sources/laptops.txt',
-						        async: false
-						    };
-						//var dataAdapter = new $.jqx.dataAdapter(source);
-						$("#dataTable")
-								.jqxDataTable(
-										{
-											width : 550,
-											source : dataAdapter,
-											sortable : false,
-											pageable : false,
-											pageSize : 1,
-											pagerButtonsCount : 5,
-											enableHover : false,
-											selectionMode : 'none',
-											rendered : function() {
-												/* $(".buy").jqxButton();
-												$(".buy")
-														.click(
-																function() {
-																	itemsInCart++;
-																	$(
-																			".cart-top p")
-																			.html(
-																					itemsInCart
-																							+ " products");
-																}); */
-											},
-											columns : [ {
-												text : 'Address',
-												align : 'left',
-												dataField : 'model',
-												// row - row's index.
-												// column - column's data field.
-												// value - cell's value.
-												// rowData - rendered row's object.
-												cellsRenderer : function(row,
-														column, value, rowData) {
-													var laptops = rowData.laptops;
-													var container = "<div>";
-													for ( var i = 0; i < laptops.length; i++) {
-														var laptop = laptops[i];
-														var item = "<div style='float: left; width: 270px; overflow: hidden; white-space: nowrap; height: 200px;'>";
+					
+		
+	});
+	
+	function loadAddressGrid(customerId) {
+		var empAddressSource = {
+		        datatype: "json",
+		        datafields: [
+		                    { name: 'addressType', type: 'string' },
+		                    { name: 'buildingName', type: 'string' },
+		                    { name: 'flatNo', type: 'string' },
+		                    { name: 'areaId', type: 'int' },
+		                    { name: 'customerId', type: 'int' },
+		                    { name: 'cityId', type: 'int' },
+		                    { name: 'areaName', type: 'string' },
+		                    { name: 'cityName', type: 'string' }
+		                ],
+		        id: 'id',
+		        url: 'getCustomerAddressListJSON/'+customerId+'.html',
+		        async: false
+		    };
+		var dataAdapter = new $.jqx.dataAdapter(empAddressSource, { autoBind: true });
+	    var records = dataAdapter.records;
+	    var empAddressArray = new Array();
+	    for (var i = 0; i < records.length; i++) {
+	    	empAddressArray.push(records[i]);
+	    };
+	    //alert(empAddressArray.length);
+		$("#dataTable")
+				.jqxDataTable(
+						{
+							width : 350,
+							source : dataAdapter,
+							sortable : false,
+							pageable : false,
+							pageSize : 1,
+							pagerButtonsCount : 5,
+							enableHover : false,
+							selectionMode : 'none',
+							rendered : function() {
+								/* $(".buy").jqxButton();
+								$(".buy")
+										.click(
+												function() {
+													itemsInCart++;
+													$(
+															".cart-top p")
+															.html(
+																	itemsInCart
+																			+ " products");
+												}); */
+							},
+							columns : [ {
+								text : 'Address',
+								align : 'left',
+								dataField : 'model',
+								// row - row's index.
+								// column - column's data field.
+								// value - cell's value.
+								// rowData - rendered row's object.
+								cellsRenderer : function(row,
+										column, value, employeeAddressRow) {
+									var container = "<div>";
+									var item = "<div style='float: left; width: 270px; overflow: hidden; white-space: nowrap; height: 130px;'>";
 
-														var info = "<div style='margin: 5px; margin-left: 10px; margin-bottom: 3px;'>";
-														info += "<div><i>"
-																+ laptop.model
-																+ "</i></div>";
-														info += "<div>Price: $"
-																+ laptop.price
-																+ "</div>";
-														info += "<div>RAM: "
-																+ laptop.ram
-																+ "</div>";
-														info += "<div>HDD: "
-																+ laptop.hdd
-																+ "</div>";
-														info += "<div>CPU: "
-																+ laptop.cpu
-																+ "</div>";
-														info += "<div>Display: "
-																+ laptop.display
-																+ "</div>";
-														info += "</div>";
+									var info = "<div style='margin: 5px; margin-left: 10px; margin-bottom: 3px;'>";
+									info += "<div><i><b>"
+											+ employeeAddressRow.addressType
+											+ "</b></i></div>";
+									info += "<div>Flat No.: "+ employeeAddressRow.flatNo+ "</div>";
+									info += "<div>Building.: "+ employeeAddressRow.buildingName+ "</div>";
+									info += "<div>Area.: "+ employeeAddressRow.areaName+ "</div>";
+									info += "<div>City.: "+ employeeAddressRow.cityName+ "</div>";			
+									info += "</div>";
 
-														var buy = "<button class='buy' style='margin: 5px; width: 80px; left: -40px; position: relative; margin-left: 50%; margin-bottom: 3px;'>Buy</button>";
+									var buy = "<button class='editAddress' style='margin: 5px; width: 80px; position: relative;  margin-bottom: 3px;'>Edit</button>";
 
-														item += info;
-														item += buy;
-														item += "</div>";
-														container += item;
-													}
-													container += "</div>";
-													return container;
-												}
-											} ]
-										});
-
-					});
+									item += info;
+									item += buy;
+									item += "</div>";
+									container += item;
+									container += "</div>";
+									return container;
+								}
+							} ]
+						});
+	}
 </script>
 
 
@@ -278,11 +271,11 @@
 				<table border="0" width="100%">
 					<tr>
 						<td colspan="3">Select Customer</td>
-						<td rowspan="18" width="70%">
+						<td rowspan="18" width="70%" valign="top">
 						    <div>
 						    </div>
 						    <br />
-						    <div style="margin-left: 10px" id="dataTable"></div>
+						    <div style="margin-left: 20px" id="dataTable"></div>
 						</td>
 					</tr>
 					<tr>
@@ -342,10 +335,13 @@
 						<td colspan="3">&nbsp;</td>
 					</tr>
 					<tr>
-						<td colspan="3"><input id="submit" type="button"
-							value="Update customer" /></td>
+						<td colspan="2">
+							<input id="updateCustomerButton" type="button" value="Update Customer" />
+						</td>
+						<td colspan="1">
+							<input id="addAddressButton" type="button" value="Add Address" />
+						</td>
 					</tr>
-					
 				</table>
 				
 	</div>

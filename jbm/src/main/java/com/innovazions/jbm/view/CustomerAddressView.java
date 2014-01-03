@@ -18,7 +18,7 @@ public class CustomerAddressView extends GenericView<CustomerAddressView, Custom
 	
 	private Long customerId;
 	
-	private String cityId;
+	private Long cityId;
 	
 	private String areaName;
 	
@@ -72,11 +72,11 @@ public class CustomerAddressView extends GenericView<CustomerAddressView, Custom
 		this.customerId = customerId;
 	}
 
-	public String getCityId() {
+	public Long getCityId() {
 		return cityId;
 	}
 
-	public void setCityId(String cityId) {
+	public void setCityId(Long cityId) {
 		this.cityId = cityId;
 	}
 
