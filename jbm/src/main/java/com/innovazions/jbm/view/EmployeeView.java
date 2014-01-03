@@ -27,8 +27,15 @@ public class EmployeeView extends GenericView<EmployeeView, Employee>{
 
 	@Override
 	public Employee convertViewToEntity() {
-		// TODO Auto-generated method stub
-		return null;
+		Employee employee = new Employee();
+		employee.setEmployeeCode(this.getEmployeeCode());
+		employee.setFirstName(this.getFirstName());
+		employee.setId(this.getId());
+		employee.setJoinDate(this.getJoinDate());
+		employee.setNationality(this.getNationality());
+		employee.setRemarks(this.getRemarks());
+		employee.setSalary(this.getSalary());
+		return employee;
 	}
 
 	@Override

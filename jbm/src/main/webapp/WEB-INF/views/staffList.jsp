@@ -15,12 +15,25 @@
                           "India"
       		];
             
-            $("#formNationality").jqxComboBox({ selectedIndex: 0, source: nationalitySource, width: 200, height: 25});
-            $("#formAreaName").jqxInput({
+            $("#formNationality").jqxComboBox({ selectedIndex: 0, source: nationalitySource, width: 200, height: 20});
+            $("#formEmpCode").jqxInput({
+				width : '80px',
+				height : '20px'
+			});
+            $("#formEmpName").jqxInput({
 				width : '200px',
 				height : '20px'
 			});
-            
+            $("#formJoinDate").jqxDateTimeInput({width: '200px', height: '20px'});
+           
+            $("#formSalary").jqxInput({
+				width : '80px',
+				height : '20px'
+			});
+            $("#fromRemarks").jqxInput({
+				width : '200px',
+				height : '20px'
+			});
         	var staffListUrl = "staffListJSON.html";
             var staffListSource =
             {
@@ -80,28 +93,34 @@
             
             // initialize the popup window and buttons.
             $("#popupWindow").jqxWindow({
-                title: "Add new area", width: 350, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
+                title: "Add new area", width: 400, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
             });
 
             $("#Cancel").jqxButton({ theme: theme });
             var saveButton =  $("#Save").jqxButton({ theme: theme });
 			
             saveButton.click(function (event) {
-            	/* var item = $("#formCityId").jqxComboBox('getSelectedItem');
-	       	    var row = { areaName: $("#formAreaName").val(), cityName: item.label};
+            	var item = $("#formNationality").jqxComboBox('getSelectedItem');
+	       	    var row = { employeeCode: $("#formEmpCode").val(), firstName: $("#formEmpName").val(), nationality: item.label, 
+	       	    		joinDate: $("#formJoinDate").val(), salary: $("#formSalary").val(), remarks: $("#fromRemarks").val()};
 		      
 		       	$.ajax({
 		       	  type: "POST",
-		       	  url: "saveArea.html",
-		       	  data: { areaName: $("#formAreaName").val(), cityId: item.value }
+		       	  url: "saveEmployee.html",
+		       	  data: { employeeCode: $("#formEmpCode").val(), firstName: $("#formEmpName").val(), joinDate: $("#formJoinDate").val(), 
+		       		  nationality: item.value, remarks: $("#fromRemarks").val(), salary: $("#formSalary").val()}
 		       	}).done(function( msg ) {
 		       	    //alert( "Data Saved: " + msg );
 		       	});
 	       	    $("#jqxgrid").jqxGrid('addrow', null, row);
                 //Clear form values
-                $("#formAreaName").val("");
-                $("#formCityId").val("");
-                $("#popupWindow").jqxWindow('hide'); */
+                $("#formEmpCode").val("");
+                $("#formEmpName").val("");
+                $("#formJoinDate").val("");
+                $("#fromRemarks").val("");
+                $("#formSalary").val("");
+                $("#formNationality").val("");
+                $("#popupWindow").jqxWindow('hide');
             });
         });
     </script>
@@ -116,14 +135,30 @@
         
         <div id="popupWindow">
                 <div style="overflow: hidden;">
-	                <table>
+	                <table class="popupFormTable">
+	                	<tr>
+	                        <td align="right">Employee Id:</td>
+	                        <td align="left"><input id="formEmpCode" /></td>
+	                    </tr>
 	                    <tr>
-	                        <td align="right">Area Name:</td>
-	                        <td align="left"><input id="formAreaName" /></td>
+	                        <td align="right">Employee Name:</td>
+	                        <td align="left"><input id="formEmpName" /></td>
+	                    </tr>
+	                    <tr>
+	                        <td align="right">Join Date:</td>
+	                        <td align="left"><div id="formJoinDate" /></div></td>
 	                    </tr>
 	                    <tr>
 	                        <td align="right">Nationality:</td>
 	                        <td align="left"><div id='formNationality'></div></td>
+	                    </tr>
+	                    <tr>
+	                        <td align="right">Salary:</td>
+	                        <td align="left"><input id="formSalary" /></td>
+	                    </tr>
+	                    <tr>
+	                        <td align="right">Remarks:</td>
+	                        <td align="left"><input id="fromRemarks" /></td>
 	                    </tr>
 	                    <tr>
 	                        <td align="right"></td>

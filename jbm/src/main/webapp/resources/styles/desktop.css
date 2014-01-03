@@ -403,3 +403,15 @@ padding: 0px 0px 3px 0px;
 border-bottom: dotted;
 border-width:1px;
 }
+
+.popupFormTable {
+	
+}
+
+.popupFormTable td{
+	padding-left: 10px;
+}
+
+.popupFormTable tr {
+	height: 30px;
+}

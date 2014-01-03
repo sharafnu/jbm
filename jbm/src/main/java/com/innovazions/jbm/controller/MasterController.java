@@ -1,7 +1,5 @@
 package com.innovazions.jbm.controller;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -38,7 +36,7 @@ public class MasterController {
 	private AreaService areaService;
 	@Autowired
 	private EmployeeService employeeService;
-	
+
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -78,7 +76,6 @@ public class MasterController {
 	@RequestMapping(value = "/staffDetails", method = RequestMethod.GET)
 	public String staffDetails(Locale locale, Model model) {
 		logger.info("Master Controller >> staffDetails");
-
 		return "staffList";
 	}
 
@@ -88,5 +85,17 @@ public class MasterController {
 		logger.info("MasterController > staffListJSON");
 		List<Employee> employeeList = employeeService.getEmployeeList(null);
 		return new Employee().convertEntitiesToViews(employeeList);
+	}
+
+	@RequestMapping(value = "/saveEmployee", method = RequestMethod.POST)
+	public @ResponseBody
+	String saveEmployee(
+			@ModelAttribute("employeeView") EmployeeView employeeView,
+			BindingResult result) {
+		System.out.println("Employee Name:" + employeeView.getFirstName()
+				+ " Join Date:" + employeeView.getJoinDate());
+		Employee employee = employeeView.convertViewToEntity();
+		employeeService.createEmployee(employee);
+		return "Success";
 	}
 }

@@ -1,18 +1,11 @@
-package com.innovazions.jbm.entity;
+package com.innovazions.jbm.view;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import com.innovazions.jbm.view.CustomerView;
+import com.innovazions.jbm.entity.Customer;
 
-/**
- * The persistent class for the customer database table.
- * 
- */
-public class Customer extends CoreEntity<Customer, CustomerView> implements
-		Serializable {
-	private static final long serialVersionUID = 1L;
+public class CustomerView extends GenericView<CustomerView, Customer> {
 
 	private Long id;
 
@@ -21,6 +14,10 @@ public class Customer extends CoreEntity<Customer, CustomerView> implements
 	private String email;
 
 	private String firstName;
+
+	private Date lastModifiedDate;
+
+	private String lastModifiedUser;
 
 	private String lastName;
 
@@ -36,7 +33,9 @@ public class Customer extends CoreEntity<Customer, CustomerView> implements
 
 	private Integer preferenceSms;
 
-	public Customer() {
+	private String fullName;
+
+	public CustomerView() {
 	}
 
 	public Long getId() {
@@ -69,6 +68,22 @@ public class Customer extends CoreEntity<Customer, CustomerView> implements
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+
+	public Date getLastModifiedDate() {
+		return this.lastModifiedDate;
+	}
+
+	public void setLastModifiedDate(Date lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	public String getLastModifiedUser() {
+		return this.lastModifiedUser;
+	}
+
+	public void setLastModifiedUser(String lastModifiedUser) {
+		this.lastModifiedUser = lastModifiedUser;
 	}
 
 	public String getLastName() {
@@ -127,31 +142,38 @@ public class Customer extends CoreEntity<Customer, CustomerView> implements
 		this.preferenceSms = preferenceSms;
 	}
 
-	@Override
-	public CustomerView convertEntityToView() {
-		CustomerView customerView = new CustomerView();
-		customerView.setCustomerCode(this.getCustomerCode());
-		customerView.setEmail(this.getEmail());
-		customerView.setFirstName(this.getFirstName());
-		customerView.setId(this.getId());
-		customerView.setLastModifiedDate(this.getLastModifiedDate());
-		customerView.setLastModifiedUser(this.getLastModifiedUser());
-		customerView.setLastName(this.getLastName());
-		customerView.setMobile1(this.getMobile1());
-		customerView.setMobile2(this.getMobile2());
-		customerView.setMobile3(this.getMobile3());
-		customerView.setPreferenceCall(this.getPreferenceCall());
-		customerView.setPreferenceEmail(this.getPreferenceEmail());
-		customerView.setPreferenceSms(this.getPreferenceSms());
-		return customerView;
+	public String getFullName() {
+		return ((this.getFirstName() != null ? this.getFirstName() + " " : "") + (this
+				.getLastName() != null ? this.getLastName() : ""));
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	@Override
-	public List<CustomerView> convertEntitiesToViews(List<Customer> entityList) {
-		List<CustomerView> customerViewList = new ArrayList<CustomerView>();
-		for (Customer customer : entityList) {
-			customerViewList.add(customer.convertEntityToView());
-		}
-		return customerViewList;
+	public Customer convertViewToEntity() {
+		Customer customer = new Customer();
+		customer.setCustomerCode(this.getCustomerCode());
+		customer.setEmail(this.getEmail());
+		customer.setFirstName(this.getFirstName());
+		customer.setId(this.getId());
+		customer.setLastModifiedDate(this.getLastModifiedDate());
+		customer.setLastModifiedUser(this.getLastModifiedUser());
+		customer.setLastName(this.getLastName());
+		customer.setMobile1(this.getMobile1());
+		customer.setMobile2(this.getMobile2());
+		customer.setMobile3(this.getMobile3());
+		customer.setPreferenceCall(this.getPreferenceCall());
+		customer.setPreferenceEmail(this.getPreferenceEmail());
+		customer.setPreferenceSms(this.getPreferenceSms());
+		return customer;
 	}
+
+	@Override
+	public List<Customer> convertViewsToEntities(List<CustomerView> viewList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

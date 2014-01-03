@@ -50,10 +50,15 @@ CREATE TABLE customer (
 );
 
 CREATE SEQUENCE "customer_id_seq";
+CREATE SEQUENCE "customer_code_seq" START 1001;
 
 ALTER TABLE customer
 ALTER COLUMN id 
 SET DEFAULT NEXTVAL('customer_id_seq');
+
+ALTER TABLE customer
+ALTER COLUMN customer_code 
+SET DEFAULT NEXTVAL('customer_code_seq');
 
 -- area
 CREATE TABLE area (

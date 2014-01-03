@@ -1,14 +1,17 @@
 package com.innovazions.jbm.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.List;
 
+import com.innovazions.jbm.view.CustomerAddressView;
 
 /**
  * The persistent class for the customer_address database table.
  * 
  */
-public class CustomerAddress implements Serializable {
+public class CustomerAddress extends
+		CoreEntity<CustomerAddress, CustomerAddressView> implements
+		Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
@@ -18,10 +21,6 @@ public class CustomerAddress implements Serializable {
 	private String buildingName;
 
 	private String flatNo;
-
-	private Timestamp lastModifiedDate;
-
-	private String lastModifiedUser;
 
 	private Area area;
 
@@ -62,22 +61,6 @@ public class CustomerAddress implements Serializable {
 		this.flatNo = flatNo;
 	}
 
-	public Timestamp getLastModifiedDate() {
-		return this.lastModifiedDate;
-	}
-
-	public void setLastModifiedDate(Timestamp lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public String getLastModifiedUser() {
-		return this.lastModifiedUser;
-	}
-
-	public void setLastModifiedUser(String lastModifiedUser) {
-		this.lastModifiedUser = lastModifiedUser;
-	}
-
 	public Area getArea() {
 		return this.area;
 	}
@@ -92,6 +75,19 @@ public class CustomerAddress implements Serializable {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	@Override
+	public CustomerAddressView convertEntityToView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CustomerAddressView> convertEntitiesToViews(
+			List<CustomerAddress> entityList) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
