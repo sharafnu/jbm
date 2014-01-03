@@ -1,19 +1,23 @@
 package com.innovazions.jbm.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+import com.innovazions.jbm.view.AppointmentView;
 
 /**
  * The persistent class for the appointment database table.
  * 
  */
-public class Appointment implements Serializable {
+public class Appointment extends CoreEntity<Appointment, AppointmentView>
+		implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 
-	private Timestamp appointmentDate;
+	private Date appointmentDate;
 
 	private String appointmentNo;
 
@@ -21,13 +25,7 @@ public class Appointment implements Serializable {
 
 	private String cancellationReason;
 
-	private Timestamp endDate;
-
 	private Integer hoursSpent;
-
-	private Timestamp lastModifiedDate;
-
-	private String lastModifiedUser;
 
 	private double payableAmount;
 
@@ -35,7 +33,9 @@ public class Appointment implements Serializable {
 
 	private String remarks;
 
-	private Timestamp startDate;
+	private Date startDate;
+
+	private Date endDate;
 
 	private Area area;
 
@@ -43,28 +43,24 @@ public class Appointment implements Serializable {
 
 	private Employee employee;
 
-
-	public Appointment() {
-	}
-
 	public Long getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public Timestamp getAppointmentDate() {
-		return this.appointmentDate;
+	public Date getAppointmentDate() {
+		return appointmentDate;
 	}
 
-	public void setAppointmentDate(Timestamp appointmentDate) {
+	public void setAppointmentDate(Date appointmentDate) {
 		this.appointmentDate = appointmentDate;
 	}
 
 	public String getAppointmentNo() {
-		return this.appointmentNo;
+		return appointmentNo;
 	}
 
 	public void setAppointmentNo(String appointmentNo) {
@@ -72,7 +68,7 @@ public class Appointment implements Serializable {
 	}
 
 	public String getAppointmentStatus() {
-		return this.appointmentStatus;
+		return appointmentStatus;
 	}
 
 	public void setAppointmentStatus(String appointmentStatus) {
@@ -80,47 +76,23 @@ public class Appointment implements Serializable {
 	}
 
 	public String getCancellationReason() {
-		return this.cancellationReason;
+		return cancellationReason;
 	}
 
 	public void setCancellationReason(String cancellationReason) {
 		this.cancellationReason = cancellationReason;
 	}
 
-	public Timestamp getEndDate() {
-		return this.endDate;
-	}
-
-	public void setEndDate(Timestamp endDate) {
-		this.endDate = endDate;
-	}
-
 	public Integer getHoursSpent() {
-		return this.hoursSpent;
+		return hoursSpent;
 	}
 
 	public void setHoursSpent(Integer hoursSpent) {
 		this.hoursSpent = hoursSpent;
 	}
 
-	public Timestamp getLastModifiedDate() {
-		return this.lastModifiedDate;
-	}
-
-	public void setLastModifiedDate(Timestamp lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public String getLastModifiedUser() {
-		return this.lastModifiedUser;
-	}
-
-	public void setLastModifiedUser(String lastModifiedUser) {
-		this.lastModifiedUser = lastModifiedUser;
-	}
-
 	public double getPayableAmount() {
-		return this.payableAmount;
+		return payableAmount;
 	}
 
 	public void setPayableAmount(double payableAmount) {
@@ -128,7 +100,7 @@ public class Appointment implements Serializable {
 	}
 
 	public String getPaymentStatus() {
-		return this.paymentStatus;
+		return paymentStatus;
 	}
 
 	public void setPaymentStatus(String paymentStatus) {
@@ -136,23 +108,31 @@ public class Appointment implements Serializable {
 	}
 
 	public String getRemarks() {
-		return this.remarks;
+		return remarks;
 	}
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
 
-	public Timestamp getStartDate() {
-		return this.startDate;
+	public Date getStartDate() {
+		return startDate;
 	}
 
-	public void setStartDate(Timestamp startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
 	public Area getArea() {
-		return this.area;
+		return area;
 	}
 
 	public void setArea(Area area) {
@@ -160,7 +140,7 @@ public class Appointment implements Serializable {
 	}
 
 	public Customer getCustomer() {
-		return this.customer;
+		return customer;
 	}
 
 	public void setCustomer(Customer customer) {
@@ -168,11 +148,52 @@ public class Appointment implements Serializable {
 	}
 
 	public Employee getEmployee() {
-		return this.employee;
+		return employee;
 	}
 
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
+	}
+
+	@Override
+	public AppointmentView convertEntityToView() {
+		AppointmentView appointmentView = new AppointmentView();
+		appointmentView.setAppointmentDate(this.getAppointmentDate());
+		appointmentView.setAppointmentNo(this.getAppointmentNo());
+		appointmentView.setAppointmentStatus(this.getAppointmentStatus());
+		if (this.getArea() != null) {
+			appointmentView.setAreaId(this.getArea().getId());
+			appointmentView.setAreaName(this.getArea().getName());
+		}
+		appointmentView.setCancellationReason(this.getCancellationReason());
+		if (this.getCustomer() != null) {
+			appointmentView.setCustomerId(this.getCustomer().getId());
+			appointmentView.setCustomerName(this.getCustomer().getFullName());
+		}
+		if (this.getEmployee() != null) {
+			appointmentView.setEmployeeId(this.getEmployee().getId());
+			appointmentView.setEmployeeName(this.getEmployee().getFirstName());
+		}
+		appointmentView.setEndDate(this.getEndDate());
+		appointmentView.setHoursSpent(this.getHoursSpent());
+		appointmentView.setId(this.getId());
+		appointmentView.setLastModifiedDate(this.getLastModifiedDate());
+		appointmentView.setLastModifiedUser(this.getLastModifiedUser());
+		appointmentView.setPayableAmount(this.getPayableAmount());
+		appointmentView.setPaymentStatus(this.getPaymentStatus());
+		appointmentView.setRemarks(this.getRemarks());
+		appointmentView.setStartDate(this.getStartDate());
+		return appointmentView;
+	}
+
+	@Override
+	public List<AppointmentView> convertEntitiesToViews(
+			List<Appointment> entityList) {
+		List<AppointmentView> appointmentViewList = new ArrayList<AppointmentView>();
+		for (Appointment appointment : entityList) {
+			appointmentViewList.add(appointment.convertEntityToView());
+		}
+		return appointmentViewList;
 	}
 
 }

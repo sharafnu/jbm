@@ -35,4 +35,30 @@ INSERT INTO customer_contract(customer_id, contract_date, expiry_date, contract_
     VALUES (2, TIMESTAMP 'now', TIMESTAMP 'now', 'C/P-100001', 'Contract Type 1', '4500', TIMESTAMP 'now', 'SYSTEM', 'Active');
 
     
-    
+SELECT 
+	a.id as appoinment_id, a.appointment_no as appointment_no, a.appointment_date as appointment_date, 
+	a.start_date as start_date, a.end_date as end_date, a.area_id as area_id, 
+	a.customer_id as customer_id, a.employee_id as employee_id, a.remarks as remarks, 
+	a.hours_spent as hours_spent, a.payable_amount as payable_amount, 
+	a.payment_status as payment_status, a.last_modified_date as last_modified_date, 
+	a.last_modified_user as last_modified_user, a.appointment_status as appointment_status, 
+	a.cancellation_reason as cancellation_reason, 
+	c.first_name as customer_first_name, c.last_name as customer_last_name, 
+	e.first_name as employee_first_name,
+	ar.name as area_name, 
+	ci.name as city_name 
+  FROM appointment a 
+  inner join customer c on c.id=a.customer_id 
+  inner join employee e on e.id=a.employee_id 
+  inner join area ar on ar.id=a.area_id 
+  inner join city ci on ci.id=ar.city_id;
+
+  
+
+INSERT INTO appointment(appointment_no, appointment_date, start_date, area_id, 
+				 customer_id, employee_id, remarks, last_modified_date, last_modified_user, 
+				 appointment_status) 
+				 VALUES ('A/P-10001', TIMESTAMP 'today', TIMESTAMP 'now', 2, 
+				 2, 2, 'New appoinment by Nadeer', TIMESTAMP 'now', 'SYSTEM', 'Created')
+				 
+				 
