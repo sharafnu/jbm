@@ -71,6 +71,8 @@
 <script type="text/javascript"
 	src="<c:url value="/resources/jqwidgets/jqxcombobox.js" />"></script>
 <script type="text/javascript"
+	src="<c:url value="/resources/jqwidgets/jqxtabs.js" />"></script>
+<script type="text/javascript"
 	src="<c:url value="/resources/scripts/demos.js" />"></script>
 	
 	<style>
@@ -146,12 +148,12 @@
 				<div class="header-container">
 					<div class="header">
 						<img id="header-logo"
-							src="<c:url value="/resources/styles/images/sys_header.png" />"
+							src="<c:url value="/resources/styles/images/sys_header1.png" />"
 							alt="" class="header-logo" />
 					</div>
 					<div class="header-adobe-logo">
 						<img id="header-adobe-logo"
-							src="<c:url value="/resources/styles/images/logo_adobe.png" />" />
+							src="<c:url value="/resources/styles/images/header_logo.png" />" />
 					</div>
 					<jsp:include page="menu.jsp" />					
 				</div>

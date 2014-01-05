@@ -6,6 +6,7 @@
 	$(document)
 			.ready(
 					function() {
+						document.title = 'Add Customer Info';
 						// Create jqxExpander.
 
 						// Create jqxInput.

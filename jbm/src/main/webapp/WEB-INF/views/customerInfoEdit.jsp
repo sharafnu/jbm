@@ -6,7 +6,7 @@
 	$(document)
 			.ready(
 					function() {
-						
+						document.title = 'Update Customer Info';
 						setupAddressForm();
 						
 						// Create jqxExpander.

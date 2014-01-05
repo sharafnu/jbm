@@ -3,6 +3,7 @@ package com.innovazions.jbm.controller;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -14,12 +15,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.innovazions.jbm.entity.Appointment;
-import com.innovazions.jbm.service.AppoinmentService;
+import com.innovazions.jbm.service.AppointmentService;
 import com.innovazions.jbm.view.AppointmentView;
 
 /**
@@ -32,24 +34,28 @@ public class AppoinmentController {
 			.getLogger(AppoinmentController.class);
 
 	@Autowired
-	private AppoinmentService appoinmentService;
+	private AppointmentService appointmentService;
 
 	/*
 	 * Customer Contract actions starts
 	 */
 
 	@RequestMapping(value = "/customerAppointmentList")
-	public String customerAppointmentList(Model model) {
+	public String customerAppointmentList(
+			@ModelAttribute("appointmentView") AppointmentView appointmentView,
+			BindingResult result, Model model) {
 		logger.info("AppoinmentController > customerAppointmentList");
 
-		List<Appointment> appointmentList = appoinmentService
-				.getAppointmentListByFilter(null);
+		List<Appointment> appointmentList = appointmentService
+				.getAppointmentListByFilter(appointmentView
+						.convertViewToEntity());
 		List<AppointmentView> appointmentViewList = new Appointment()
 				.convertEntitiesToViews(appointmentList);
 		ObjectMapper objectMapper = new ObjectMapper();
 		String appointmentViewListJSON = "";
 		try {
-			appointmentViewListJSON = objectMapper.writeValueAsString(appointmentViewList);
+			appointmentViewListJSON = objectMapper
+					.writeValueAsString(appointmentViewList);
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -61,13 +67,20 @@ public class AppoinmentController {
 		return "customerAppointmentList";
 	}
 
-	@RequestMapping(value = "/getCustomerAppoinmentListJSON", method = RequestMethod.GET)
+	@RequestMapping(value = "/customerAppoinmentListJSON", method = RequestMethod.GET)
 	public @ResponseBody
-	List<AppointmentView> getCustomerAppoinmentListJSON() {
+	List<AppointmentView> customerAppoinmentListJSON() {
 		logger.info("AppoinmentController > getCustomerAppoinmentListJSON");
-		List<Appointment> appointmentList = appoinmentService
+		List<Appointment> appointmentList = appointmentService
 				.getAppointmentListByFilter(null);
 		return new Appointment().convertEntitiesToViews(appointmentList);
+	}
+
+	@RequestMapping(value = "/customerApointmentAdd", method = RequestMethod.GET)
+	public String customerApointmentAdd(Locale locale, Model model) {
+		logger.info("AppoinmentController > customerApointmentAdd");
+
+		return "customerApointmentAdd";
 	}
 
 	@RequestMapping(value = "/saveCustomerAppoinment", method = RequestMethod.POST)
@@ -81,7 +94,24 @@ public class AppoinmentController {
 		appointmentView.setLastModifiedDate(new Date());
 		appointmentView.setLastModifiedUser("SYSTEM");
 		Appointment appointment = appointmentView.convertViewToEntity();
-		appoinmentService.createAppointment(appointment);
+		appointmentService.createAppointment(appointment);
 		return "Success";
+	}
+
+	@RequestMapping(value = "/customerAppointmentDetails")
+	public String customerAppointmentDetails(Model model) {
+		logger.info("AppoinmentController > customerAppointmentDetails");
+		return "customerAppointmentDetails";
+	}
+
+	@RequestMapping(value = "/getCustomerAppointmentDetails/{appointmentId}", method = RequestMethod.GET)
+	public @ResponseBody
+	AppointmentView getCustomerAppointmentDetails(
+			@PathVariable Long appointmentId) {
+		logger.info("AppoinmentController > getCustomerAppointmentDetails :"
+				+ appointmentId);
+		Appointment appointment = appointmentService
+				.getAppoinmentDetailsByAppoinmentId(appointmentId);
+		return appointment.convertEntityToView();
 	}
 }

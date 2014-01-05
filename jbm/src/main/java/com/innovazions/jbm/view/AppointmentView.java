@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import com.innovazions.jbm.entity.Appointment;
+import com.innovazions.jbm.entity.Area;
+import com.innovazions.jbm.entity.Customer;
+import com.innovazions.jbm.entity.Employee;
 
 public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 
@@ -179,8 +182,30 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 
 	@Override
 	public Appointment convertViewToEntity() {
-		// TODO Auto-generated method stub
-		return null;
+		Appointment appointment = new Appointment();
+		appointment.setAppointmentDate(this.getAppointmentDate());
+		appointment.setAppointmentNo(this.getAppointmentNo());
+		appointment.setAppointmentStatus(this.getAppointmentStatus());
+		Area area = new Area();
+		area.setId(this.getAreaId());
+		appointment.setArea(area);
+		appointment.setCancellationReason(this.getCancellationReason());
+		Customer customer = new Customer();
+		customer.setId(this.getCustomerId());
+		appointment.setCustomer(customer);
+		Employee employee = new Employee();
+		employee.setId(this.getEmployeeId());
+		appointment.setEmployee(employee);
+		appointment.setEndDate(this.getEndDate());
+		appointment.setHoursSpent(this.getHoursSpent());
+		appointment.setId(this.getId());
+		appointment.setLastModifiedDate(this.getLastModifiedDate());
+		appointment.setLastModifiedUser(this.getLastModifiedUser());
+		appointment.setPayableAmount(this.getPayableAmount());
+		appointment.setPaymentStatus(this.getPaymentStatus());
+		appointment.setRemarks(this.getRemarks());
+		appointment.setStartDate(this.getStartDate());
+		return appointment;
 	}
 
 	@Override

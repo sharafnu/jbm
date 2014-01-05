@@ -27,19 +27,18 @@
                         <ul style='width: 200px;'>
                             <li><a href="customerApointmentAdd.html">Add Appointment</a></li>
                             <li><a href="customerAppointmentList.html">Job List</a></li>
-                            <li><a href="appointmentPayments.html">Job Payments</a></li>
+                            <li><a href="customerAppointmentDetails.html">Job Details</a></li>
                         </ul>
                     </li>
                     <li>Other Options
                         <ul style='width: 200px;'>
-                            
+                            <li><a href="#NewFeatures">Upcoming Features</a></li>
                         </ul>
                     </li>
-                    <li>Company
+                    <li>Help
                         <ul style='width: 180px;'>
-                            <li><a href="#About">About Us</a></li>
-                            <li><a href="#Press">Press</a></li>
-                            <li><a href="#ContactUs">Contact Us</a></li>
+                            <li><a href="#About">Help Topic</a></li>
+                            <li><a href="#Press">Support</a></li>
                         </ul>
                     </li>
                 </ul>

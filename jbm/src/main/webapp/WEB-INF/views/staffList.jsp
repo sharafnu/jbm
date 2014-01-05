@@ -5,7 +5,7 @@
 
 <script type="text/javascript">
         $(document).ready(function () {
-            
+        	document.title = 'Staff List';
         	var nationalitySource = [
                           "UAE National",
                           "USA",

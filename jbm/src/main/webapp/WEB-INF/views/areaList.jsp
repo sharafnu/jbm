@@ -5,7 +5,7 @@
 
 <script type="text/javascript">
         $(document).ready(function () {
-            
+        	document.title = 'Area List';
         	var cityUrl = "cityListJSON.html";
             var citySource =
             {

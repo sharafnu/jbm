@@ -14,4 +14,5 @@ public interface AppointmentDAO {
 
 	public List<Appointment> getAppointmentListByFilter(Appointment Appointment);
 
+	public Appointment getAppoinmentDetailsByAppoinmentId(Long appoinmentId);
 }

@@ -13,7 +13,7 @@
 			<div class="footer-separator"></div>
 		
 			<!-- Copyright text et al. -->
-			<div class="footer-copyright">&copy; 2013 Adobe Systems Incorporated. All rights reserved.<br/><a href="/redir/terms" target="_blank">Terms of Use</a>&nbsp; | &nbsp;<a href="/redir/privacy" target="_blank"><span>Privacy Policy and Cookies</span></a></div>
+			<div class="footer-copyright">&copy; 2013 Sharaf Innovazions Inc. All rights reserved.<br/><a href="/redir/terms" target="_blank">Terms of Use</a>&nbsp; | &nbsp;<a href="/redir/privacy" target="_blank"><span>Privacy Policy and Cookies</span></a></div>
 		</div>
 	</div>
 	

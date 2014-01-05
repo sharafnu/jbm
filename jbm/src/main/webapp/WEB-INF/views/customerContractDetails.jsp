@@ -5,7 +5,7 @@
 
 <script type="text/javascript">
         $(document).ready(function () {
-            
+        	document.title = 'Customer Contracts';
         	var customerListUrl = "customerListJSON.html";
             var customerListSource =
             {
