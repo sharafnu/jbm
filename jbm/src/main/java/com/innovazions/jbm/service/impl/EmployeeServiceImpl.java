@@ -5,12 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.innovazions.jbm.dao.AreaDAO;
 import com.innovazions.jbm.dao.EmployeeDAO;
-import com.innovazions.jbm.entity.Area;
-import com.innovazions.jbm.entity.City;
 import com.innovazions.jbm.entity.Employee;
-import com.innovazions.jbm.service.AreaService;
 import com.innovazions.jbm.service.EmployeeService;
 
 @Service

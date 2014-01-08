@@ -34,6 +34,8 @@ public class CustomerView extends GenericView<CustomerView, Customer> {
 	private Integer preferenceSms;
 
 	private String fullName;
+	
+	private String searchText;
 
 	public CustomerView() {
 	}
@@ -145,6 +147,11 @@ public class CustomerView extends GenericView<CustomerView, Customer> {
 	public String getFullName() {
 		return ((this.getFirstName() != null ? this.getFirstName() + " " : "") + (this
 				.getLastName() != null ? this.getLastName() : ""));
+	}
+	
+	public String getComboBoxText() {
+		return "<div class='dottedBox'> "+this.getFullName() + "<br/>" + this.getCustomerCode() + "<br/>"
+				+ this.getMobile1()+"</div>";
 	}
 
 	public void setFullName(String fullName) {

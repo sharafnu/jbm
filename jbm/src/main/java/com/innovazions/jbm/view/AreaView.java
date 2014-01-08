@@ -47,6 +47,11 @@ public class AreaView extends GenericView<AreaView, Area> {
 		this.cityName = cityName;
 	}
 
+	public String getComboBoxText() {
+		return /*"<div class='dottedBox'> " +*/ this.getAreaName() + "<br/>"
+				+ this.getCityName()/* + "</div>"*/;
+	}
+
 	@Override
 	public Area convertViewToEntity() {
 		Area area = new Area();

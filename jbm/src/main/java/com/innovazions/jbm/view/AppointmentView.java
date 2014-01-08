@@ -1,8 +1,10 @@
 package com.innovazions.jbm.view;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.entity.Appointment;
 import com.innovazions.jbm.entity.Area;
 import com.innovazions.jbm.entity.Customer;
@@ -28,9 +30,13 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 
 	private String remarks;
 
+	private String startTime;
+
 	private Date startDate;
 
 	private Date endDate;
+
+	private String endTime;
 
 	private Long areaId;
 
@@ -196,7 +202,6 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 		Employee employee = new Employee();
 		employee.setId(this.getEmployeeId());
 		appointment.setEmployee(employee);
-		appointment.setEndDate(this.getEndDate());
 		appointment.setHoursSpent(this.getHoursSpent());
 		appointment.setId(this.getId());
 		appointment.setLastModifiedDate(this.getLastModifiedDate());
@@ -204,7 +209,27 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 		appointment.setPayableAmount(this.getPayableAmount());
 		appointment.setPaymentStatus(this.getPaymentStatus());
 		appointment.setRemarks(this.getRemarks());
-		appointment.setStartDate(this.getStartDate());
+
+		if (!CommonUtils.isEmpty(this.getStartTime())) {
+			try {
+				appointment.setStartDate(CommonUtils.addTimeStringToDate(
+						appointment.getAppointmentDate(), this.getStartTime()));
+			} catch (ParseException e) {
+				e.printStackTrace();
+				appointment.setStartDate(appointment.getAppointmentDate());
+			}
+		}
+
+		if (!CommonUtils.isEmpty(this.getEndTime())) {
+			try {
+				appointment.setEndDate(CommonUtils.addTimeStringToDate(
+						appointment.getAppointmentDate(), this.getEndTime()));
+			} catch (ParseException e) {
+				e.printStackTrace();
+				appointment.setEndDate(appointment.getAppointmentDate());
+			}
+		}
+
 		return appointment;
 	}
 
@@ -213,6 +238,22 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 			List<AppointmentView> viewList) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
 
 }

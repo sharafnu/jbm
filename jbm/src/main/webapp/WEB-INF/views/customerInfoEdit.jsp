@@ -284,7 +284,7 @@
                    
 		$("#formAddressType").jqxComboBox({ selectedIndex: 0, source: addressTypeSource, width: 230, height: 20});
                    
-        var cityUrl = "cityListJSON.html";
+/*         var cityUrl = "cityListJSON.html";
         var citySource =
         {
             datatype: "json",
@@ -298,8 +298,8 @@
         var cityDataAdapter = new $.jqx.dataAdapter(citySource);
         
         $("#formCityId").jqxComboBox({ selectedIndex: 0, source: cityDataAdapter, displayMember: "cityName", valueMember: "cityId", width: 230, height: 25});
-	
-        var areaListUrl = "areaListJSON.html";
+ */	
+       /*  var areaListUrl = "areaListJSON.html";
         var areaListSource =
         {
             datatype: "json",
@@ -310,9 +310,41 @@
             id: 'areaId',
             url: areaListUrl
         };
-        var cityDataAdapter = new $.jqx.dataAdapter(areaListSource);
-        
-        $("#formAreaId").jqxComboBox({ selectedIndex: 0, source: cityDataAdapter, displayMember: "areaName", valueMember: "areaId", width: 230, height: 25});
+        */ 
+        //$("#formAreaId").jqxComboBox({ selectedIndex: 0, source: areaDataAdapter, displayMember: "areaName", valueMember: "areaId", width: 230, height: 25});
+	
+        var areaListUrl = "areaListJSON.html";
+		var areaListSource = {
+			datatype : "json",
+			datafields : [ {
+				name : 'areaName',
+				type : 'string'
+			}, {
+				name : 'comboBoxText',
+				type : 'string'
+			}, {
+				name : 'areaId',
+				type : 'int'
+			} ],
+			id : 'areaId',
+			url : areaListUrl
+		};
+		var areaListDataAdapter = new $.jqx.dataAdapter(areaListSource);
+	
+		$("#formAreaId").jqxComboBox({
+			selectedIndex : -1,
+			source : areaListDataAdapter,
+			displayMember : "comboBoxText",
+			valueMember : "areaId",
+			width : 230,
+			height : 20,
+			searchMode: "containsignorecase",
+			autoComplete: true,
+			renderSelectedItem: function(index, item) {
+				var item = areaListDataAdapter.records[index];
+				return item.areaName;   
+	        }
+		});
 	
         $("#formBuildingName").jqxInput({
 			width : '230px',
@@ -330,7 +362,7 @@
         saveButton.click(function (event) {
         	
          	var addressTypeItem = $("#formAddressType").jqxComboBox('getSelectedItem');
-        	var cityItem = $("#formCityId").jqxComboBox('getSelectedItem');
+        	//var cityItem = $("#formCityId").jqxComboBox('getSelectedItem');
         	var areaItem = $("#formAreaId").jqxComboBox('getSelectedItem');
         	var customerIdItem = $("#formCustomerId").jqxComboBox('getSelectedItem');
 			var custId = customerIdItem.value;
@@ -345,7 +377,7 @@
             //Clear form values
             
             $("#formAddressType").val("");
-            $("#formCityId").val("");
+            //$("#formCityId").val("");
             $("#formAreaId").val("");
             $("#formBuildingName").val("");
             $("#formFlatNo").val("");
@@ -431,10 +463,10 @@
 		         <td align="right">Address Type:</td>
 		         <td align="left"><div id="formAddressType" ></div></td>
 		     </tr>
-		     <tr>
+		     <!-- <tr>
 		         <td align="right">City:</td>
 		         <td align="left"><div id="formCityId" ></div></td>
-		     </tr>
+		     </tr> -->
 		     <tr>
 		         <td align="right">Area:</td>
 		         <td align="left"><div id="formAreaId" ></div></td>

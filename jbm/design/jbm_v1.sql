@@ -195,3 +195,52 @@ ALTER TABLE customer_address
 ALTER COLUMN id 
 SET DEFAULT NEXTVAL('customer_address_id_seq');
 
+--system_property
+CREATE TABLE system_property (
+       id BIGINT NOT NULL
+     , prop_key VARCHAR(512) NOT NULL
+     , prop_value VARCHAR(1024) NOT NULL
+     , description VARCHAR(512) NOT NULL
+     , PRIMARY KEY (id)
+);
+
+CREATE SEQUENCE "system_property_id_seq";
+
+ALTER TABLE system_property
+ALTER COLUMN id 
+SET DEFAULT NEXTVAL('system_property_id_seq');
+
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('TOPIC_ICONS_LOCATION', 'ui/jqxtree/images/', 'Tree nodes icon location');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('TOPIC_ICONS_EXTN', '.png', 'Tree nodes icon extenstion');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('TOPIC_CONTENT_BASE_URL', 'ui/', 'Topic content URL pattern');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('TOPIC_CONTENT_SUFFIX', '.jsp', 'Topic content page extenstion');
+
+-- sec_user
+
+CREATE SEQUENCE "sec_user_id_seq";
+
+CREATE TABLE sec_user (
+       id BIGINT NOT NULL
+     , email VARCHAR(128) NOT NULL
+     , first_name VARCHAR(256) NOT NULL
+     , last_name VARCHAR(256)
+     , password VARCHAR(64) NOT NULL
+     , role VARCHAR(64) NOT NULL
+     , enabled BOOLEAN NOT NULL DEFAULT false
+     , PRIMARY KEY (id)
+);
+
+ALTER TABLE sec_user
+ALTER COLUMN id 
+SET DEFAULT NEXTVAL('sec_user_id_seq');
+
+insert into SEC_USER(email, first_name, last_name, password, enabled) values (
+	'nadeer@infosuluzions.com', 'Nadeer', 'Ali', 'nadeer', 'CUSTOMER_CARE', true);
+	
+insert into SEC_USER(email, first_name, last_name, password, enabled) values (
+	'sharaf@infosuluzions.com', 'Sharafudeen', 'Aboobacker', 'CUSTOMER_CARE', true);
+
+insert into SEC_USER(email, first_name, last_name, password, enabled) values (
+	'admin', 'Super', 'Administrator', 'admin123', 'ADMIN', true);
+
+	

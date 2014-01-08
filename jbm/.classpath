@@ -28,5 +28,8 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/postgresql-8.3-603.jdbc4.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jackson-core-asl-1.9.9.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jackson-mapper-asl-1.9.9.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jsmpp-2.1.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mail-1.4.3.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/smslib-3.5.4.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -123,4 +123,11 @@ public class CustomerAddressView extends
 		return null;
 	}
 
+	public String getComboBoxText() {
+		return "<div class='dottedBox'> <b>Type : </b>" + this.getAddressType()
+				+ "<br/><b>Building : </b>" + this.getBuildingName()
+				+ " <br/><b>Flat : </b>" + this.getFlatNo()
+				+ "<br/><b>Location : </b>" + this.getAreaName()
+				+ "<br/><b>City : </b>" + this.getCityName() + "</div>";
+	}
 }

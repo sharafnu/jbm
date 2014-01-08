@@ -90,8 +90,8 @@ function loadPaymentStatusCombo() {
 }
 
 function setupAppoinmentListSearchFilters() {
-	loadCustomerCombo();
-	loadEmployeeCombo();
+	loadCustomerCombo(210);
+	loadEmployeeCombo(210);
 	loadAreaCombo();
 	loadAppoinmentCombo();
 	setupDateFilters();
@@ -100,14 +100,15 @@ function setupAppoinmentListSearchFilters() {
 }
 
 function setupAppointmentForm() {
-	loadCustomerCombo();
-	loadEmployeeCombo();
-	loadAreaCombo();
+	loadCustomerCombo(280);
+	loadEmployeeCombo(280);
+	loadCustomerAddressCombo(280);
+	//loadAreaCombo();
 	// Create jqxInput.
-	$("#formJobId").jqxInput({
+	/*$("#formJobId").jqxInput({
 		width : '200px',
 		height : '20px'
-	});
+	});*/
 
 	$("#formAppointmentDate").jqxDateTimeInput({
 		width : '130px',
@@ -123,18 +124,18 @@ function setupAppointmentForm() {
 	
 	$("#formStartTime").jqxDateTimeInput('setDate', new Date());
 	
-	$("#staffCalendar").jqxCalendar({ enableTooltips: true, width: 360, height: 300});
+	//$("#staffCalendar").jqxCalendar({ enableTooltips: true, width: 360, height: 300});
 	
 	 $('#formEmployeeId').on('change', function (event) {
 		 var args = event.args;
          if (args) {
          	var item = args.item;
              if(item.value != "") {
-             	var customerDetailsURL = "getCustomerDetailsJSON/";
+             	/*var customerDetailsURL = "getCustomerDetailsJSON/";
              	customerDetailsURL = customerDetailsURL +item.value+".html";
              	$.get(customerDetailsURL, function(customerView){
              		
-             	});
+             	});*/
              // Create Date objects.
                 var date1 = new Date();
                 var date2 = new Date();
@@ -143,9 +144,9 @@ function setupAppointmentForm() {
                 date2.setDate(15);
                 date3.setDate(16);
                 // Add special dates by invoking the addSpecialDate method.
-                $("#staffCalendar").jqxCalendar('addSpecialDate', date1, '', '3 appoinments');
+               /* $("#staffCalendar").jqxCalendar('addSpecialDate', date1, '', '<table border="1" width="400px"><tr><td>3 appoinments</td></tr></table>');
                 $("#staffCalendar").jqxCalendar('addSpecialDate', date2, '', '6 appoinments');
-                $("#staffCalendar").jqxCalendar('addSpecialDate', date3, '', '1 appoinment'); 
+                $("#staffCalendar").jqxCalendar('addSpecialDate', date3, '', '1 appoinment'); */
              }
          }
 	 });
@@ -155,6 +156,30 @@ function setupAppointmentForm() {
 	});
 	createAppointmentButton.click(function (event) {
 		//$('#form').jqxValidator('validate');
+		
+		var customerIdCombo = $("#formCustomerId").jqxComboBox('getSelectedItem'); 	
+		if(customerIdCombo  != null) {
+			$("#customerId").val(customerIdCombo.value);
+		}
+		
+		var employeeIdCombo = $("#formEmployeeId").jqxComboBox('getSelectedItem'); 	
+		if(employeeIdCombo  != null) {
+			$("#employeeId").val(employeeIdCombo.value);
+		}
+		
+		var customerAddressIdCombo = $("#formCustomerAddressId").jqxComboBox('getSelectedItem'); 	
+		if(customerAddressIdCombo  != null) {
+			$("#customerAddressId").val(customerAddressIdCombo.value);
+		}
+		
+		$("#appointmentDate").val($("#formAppointmentDate").val());
+		
+		$("#startTime").val($("#formStartTime").val());
+		
+		$("#remarks").val($("#formRemarks").val());
+		
+		
+		//$('#form').submit();
     });
 	// Create jqxValidator.
 	/*$("#form")
@@ -198,12 +223,22 @@ function setupAppointmentForm() {
 	});
 }
 
-function loadCustomerCombo() {
+function loadCustomerCombo(comboWidth) {
 	var customerListUrl = "customerListJSON.html";
 	var customerListSource = {
 		datatype : "json",
 		datafields : [ {
 			name : 'fullName',
+			type : 'string'
+		},{
+			name : 'comboBoxText',
+			type : 'string'
+		}, 
+		{
+			name : 'mobile1',
+			type : 'string'
+		}, {
+			name : 'customerCode',
 			type : 'string'
 		}, {
 			name : 'id',
@@ -217,10 +252,16 @@ function loadCustomerCombo() {
 	$("#formCustomerId").jqxComboBox({
 		selectedIndex : -1,
 		source : customerListDataAdapter,
-		displayMember : "fullName",
+		displayMember : "comboBoxText",
 		valueMember : "id",
-		width : 210,
-		height : 20
+		searchMode: "containsignorecase",
+		autoComplete: true,
+		width : comboWidth,
+		height : 20,
+		renderSelectedItem: function(index, item) {
+			var item = customerListDataAdapter.records[index];
+			return item.fullName;   
+        }
 	});
 
 	/*
@@ -230,7 +271,61 @@ function loadCustomerCombo() {
 	 */
 }
 
-function loadEmployeeCombo() {
+function loadCustomerAddressCombo(comboWidth) {
+	var customerAddressListUrl = "getCustomerAddressListJSON/2.html";
+	var customerAddressListSource = {
+		datatype : "json",
+		datafields : [ {
+			name : 'addressType',
+			type : 'string'
+		},{
+			name : 'comboBoxText',
+			type : 'string'
+		}, 
+		{
+			name : 'buildingName',
+			type : 'string'
+		}, {
+			name : 'areaName',
+			type : 'string'
+		}, {
+			name : 'cityName',
+			type : 'string'
+		}, {
+			name : 'flatNo',
+			type : 'string'
+		}, {
+			name : 'id',
+			type : 'int'
+		} ],
+		id : 'id',
+		url : customerAddressListUrl
+	};
+	var customerAddressListDataAdapter = new $.jqx.dataAdapter(customerAddressListSource);
+
+	$("#formCustomerAddressId").jqxComboBox({
+		selectedIndex : -1,
+		source : customerAddressListDataAdapter,
+		displayMember : "comboBoxText",
+		valueMember : "id",
+		searchMode: "containsignorecase",
+		autoComplete: true,
+		width : comboWidth,
+		height : 20,
+		renderSelectedItem: function(index, item) {
+			var item = customerAddressListDataAdapter.records[index];
+			return item.addressType+", "+item.buildingName +", "+item.flatNo+", "+item.areaName+", "+item.cityName;   
+        }
+	});
+
+	/*
+	 * $('#formCustomerId').on('change', function (event) { var args =
+	 * event.args; if (args) { var item = args.item; if(item.value != "") {
+	 * //loadContractDetailsGrid(item.value); } } });
+	 */
+}
+
+function loadEmployeeCombo(comboWidth) {
 	var employeeListUrl = "staffListJSON.html";
 	var employeeListSource = {
 		datatype : "json",
@@ -251,7 +346,7 @@ function loadEmployeeCombo() {
 		source : employeeListDataAdapter,
 		displayMember : "firstName",
 		valueMember : "id",
-		width : 210,
+		width : comboWidth,
 		height : 20
 	});
 }
@@ -262,6 +357,9 @@ function loadAreaCombo() {
 		datatype : "json",
 		datafields : [ {
 			name : 'areaName',
+			type : 'string'
+		}, {
+			name : 'comboBoxText',
 			type : 'string'
 		}, {
 			name : 'areaId',
@@ -275,10 +373,14 @@ function loadAreaCombo() {
 	$("#formAreaId").jqxComboBox({
 		selectedIndex : -1,
 		source : areaListDataAdapter,
-		displayMember : "areaName",
+		displayMember : "comboBoxText",
 		valueMember : "areaId",
 		width : 210,
-		height : 20
+		height : 20,
+		renderSelectedItem: function(index, item) {
+			var item = areaListDataAdapter.records[index];
+			return item.areaName;   
+        }
 	});
 }
 

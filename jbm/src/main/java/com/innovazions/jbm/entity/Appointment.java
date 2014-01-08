@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.view.AppointmentView;
 
 /**
@@ -183,6 +184,14 @@ public class Appointment extends CoreEntity<Appointment, AppointmentView>
 		appointmentView.setPaymentStatus(this.getPaymentStatus());
 		appointmentView.setRemarks(this.getRemarks());
 		appointmentView.setStartDate(this.getStartDate());
+		if (this.getStartDate() != null) {
+			appointmentView.setStartTime(CommonUtils.getTimeStrFromDate(this
+					.getStartDate()));
+		}
+		if (this.getEndDate() != null) {
+			appointmentView.setEndTime(CommonUtils.getTimeStrFromDate(this
+					.getEndDate()));
+		}
 		return appointmentView;
 	}
 

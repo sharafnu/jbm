@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
-import com.innovazions.jbm.entity.Area;
-import com.innovazions.jbm.entity.City;
 import com.innovazions.jbm.entity.Employee;
 
 public class EmployeeExtractor implements ResultSetExtractor<Employee> {

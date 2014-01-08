@@ -145,19 +145,3 @@
 	
 	</head>
 <body>
-	<div class="content">
-		<div class="wrap">
-			<div class="main">
-				<div class="header-container">
-					<div class="header">
-						<img id="header-logo"
-							src="<c:url value="/resources/styles/images/sys_header1.png" />"
-							alt="" class="header-logo" />
-					</div>
-					<div class="header-adobe-logo">
-						<img id="header-adobe-logo"
-							src="<c:url value="/resources/styles/images/header_logo.png" />" />
-					</div>
-					<jsp:include page="menu.jsp" />					
-				</div>
-				

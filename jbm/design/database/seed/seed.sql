@@ -66,3 +66,23 @@ INSERT INTO appointment(appointment_no, appointment_date, start_date, area_id,
 				 appointment_status) 
 				 VALUES ('A/P-10002', TIMESTAMP 'today', TIMESTAMP 'now', 2, 
 				 2, 2, '3M appoinment by Nadeer', TIMESTAMP 'now', 'SYSTEM', 'Created')				 
+
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_SMS_SMPP_ACCOUNT_ID', 	'smppcon', 'SMPP Account Id');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_SMS_SMPP_HOST', 		'localhost', 'SMPP Host IP');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_SMS_SMPP_PORT', 		'2715', 'SMPP Port');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_SMS_SMPP_USER_ID', 	'smppclient1', 'SMPP User Id');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_SMS_SMPP_PASSWORD', 	'password', 'SMPP account password');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_SMS_SMPP_ACCOUNT_TYPE', 	'cp', 'Account Type');
+
+
+insert into SEC_USER(email, first_name, last_name, password, role, enabled) values (
+	'nadeer@infosuluzions.com', 'Nadeer', 'Ali', 'nadeer', 'CUSTOMER_CARE', true);
+	
+insert into SEC_USER(email, first_name, last_name, password, role, enabled) values (
+	'sharaf@infosuluzions.com', 'Sharafudeen', 'Aboobacker', 'sharaf', 'CUSTOMER_CARE', true);
+
+insert into SEC_USER(email, first_name, last_name, password, role, enabled) values (
+	'admin', 'Super', 'Administrator', 'admin123', 'ADMIN', true);
+
+
+	
