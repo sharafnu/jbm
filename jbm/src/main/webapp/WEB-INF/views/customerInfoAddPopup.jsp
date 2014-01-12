@@ -1,43 +1,207 @@
 <script>
 $(document).ready(function() {
-	$('#window').jqxWindow({
-        showCollapseButton: true, maxHeight: 600, maxWidth: 800, minHeight: 200, minWidth: 200, height: 450, width: 800,
+	$('#addCustomerPopupWindow').jqxWindow({
+        showCollapseButton: false, maxHeight: 420, maxWidth: 800, minHeight: 420, minWidth: 800, height: 420, width: 800,
+        autoOpen: false,
         initContent: function () {
            // $('#tab').jqxTabs({ height: '100%', width:  '100%' });
-            $('#window').jqxWindow('focus');
+            $('#addCustomerPopupWindow').jqxWindow('focus');
         }
     });
-	$("#createCustomerExpander").jqxExpander({   width: '380px' });
-	$("#customerAddressExpander").jqxExpander({   width: '280px' });
+	$("#createCustomerExpander").jqxExpander({   width: '380px', showArrow:false });
+	$("#customerResidenceAddressExpander").jqxExpander({   width: '380px', showArrow:false });
+	$("#customerOfficeAddressExpander").jqxExpander({   width: '380px', showArrow:false });
 	
+	setupCustomerAddPopupForm();
+	//$('#addCustomerPopupWindow').jqxWindow('hide');
 });
+
+
+function setupCustomerAddPopupForm() {
+	var areaListUrl = "areaListJSON.html";
+	var areaListSource = {
+		datatype : "json",
+		datafields : [ {
+			name : 'areaName',
+			type : 'string'
+		}, {
+			name : 'comboBoxText',
+			type : 'string'
+		}, {
+			name : 'areaId',
+			type : 'int'
+		} ],
+		id : 'areaId',
+		url : areaListUrl
+	};
+	var areaListDataAdapter = new $.jqx.dataAdapter(areaListSource);
+
+	$("#formAreaIdResidence").jqxComboBox({
+		selectedIndex : -1,
+		source : areaListDataAdapter,
+		displayMember : "comboBoxText",
+		valueMember : "areaId",
+		width : 210,
+		height : 20,
+		renderSelectedItem: function(index, item) {
+			var item = areaListDataAdapter.records[index];
+			return item.areaName;   
+        }
+	});
+	
+	$("#formAreaIdOffice").jqxComboBox({
+		selectedIndex : -1,
+		source : areaListDataAdapter,
+		displayMember : "comboBoxText",
+		valueMember : "areaId",
+		width : 210,
+		height : 20,
+		renderSelectedItem: function(index, item) {
+			var item = areaListDataAdapter.records[index];
+			return item.areaName;   
+        }
+	});
+	
+	// Create jqxInput.
+	$("#firstName").jqxInput({
+		width : '230px',
+		height : '20px'
+	});
+	$("#lastName").jqxInput({
+		width : '230px',
+		height : '20px'
+	});
+	$("#mobile1").jqxInput({
+		width : '230px',
+		height : '20px'
+	});
+	$("#mobile2").jqxInput({
+		width : '230px',
+		height : '20px'
+	});
+	$("#mobile3").jqxInput({
+		width : '230px',
+		height : '20px'
+	});
+	$("#email").jqxInput({
+		width : '230px',
+		height : '20px'
+	});
+	$("#preferenceCallElement").jqxCheckBox({
+		width : 80,
+		height : 25
+	});
+	$("#preferenceEmailElement").jqxCheckBox({
+		width : 80,
+		height : 25
+	});
+	$("#preferenceSmsElement").jqxCheckBox({
+		width : 80,
+		height : 25
+	});
+	
+	$("#residenceBuildingName").jqxInput({
+		width : '230px',
+		height : '20px'
+	});
+	
+	$("#residenceFlatNo").jqxInput({
+		width : '230px',
+		height : '20px'
+	});
+	
+	$("#officeBuildingName").jqxInput({
+		width : '230px',
+		height : '20px'
+	});
+	
+	$("#officeFlatNo").jqxInput({
+		width : '230px',
+		height : '20px'
+	});
+	
+	
+	var createCustomerButton = $("#createCustomerButton").jqxButton({
+		theme : theme
+	});
+	
+	createCustomerButton.click(function (event) {
+    	
+		var residenceAreaId = -1;
+		var officeAreaId = -1;
+		
+		var callPref = 0;
+    	var emailPref = 0;
+    	var smsPref = 0;
+    	
+		var residenceAreaItem = $("#formAreaIdResidence").jqxComboBox('getSelectedItem');
+    	var officeAreaItem = $("#formAreaIdOffice").jqxComboBox('getSelectedItem');
+    	
+    	if(residenceAreaItem  != null) {
+    		residenceAreaId = residenceAreaItem.value;
+		}
+    	
+    	if(officeAreaItem  != null) {
+    		officeAreaId = officeAreaItem.value;
+		}
+    	
+    	var callChecked = $('#preferenceCallElement').jqxCheckBox('checked');
+		var emailChecked = $('#preferenceEmailElement').jqxCheckBox('checked');
+		var smsChecked = $('#preferenceSmsElement').jqxCheckBox('checked');
+		
+		if(callChecked) {
+			callPref  = 1;	
+		}
+		if(emailChecked) {
+			emailPref  = 1;
+		}
+		if(smsChecked) {
+			smsPref  = 1;
+		}
+		
+		$.ajax({
+       	  type: "POST",
+       	  url: "saveCustomerAndAddress.html",
+       	  data: { 	firstName:$("#firstName").val(), lastName:$("#lastName").val(),  
+       				mobile1: $("#mobile1").val(), mobile2: $("#mobile2").val(),
+       			 	mobile3: $("#mobile3").val(),  email: $("#email").val(),
+       				preferenceCall: callPref, preferenceEmail: emailPref,
+       				preferenceSms: smsPref, residenceAreaId :residenceAreaId,
+       				residenceBuildingName:$("#residenceBuildingName").val(), residenceFlatNo:$("#residenceFlatNo").val(),
+       				officeAreaId:officeAreaId, officeBuildingName:$("#officeBuildingName").val(), officeFlatNo:$("#officeFlatNo").val()}
+       	}).done(function( msg ) {
+       	    //alert( "Data Saved: " + msg );
+       	 	loadCustomerCombo(280);
+       	});
+        //Clear form values
+        
+       resetAndClosePopupForm();
+    });
+}
+
+function resetAndClosePopupForm() {
+	$('#addCustomerPopupWindow').jqxWindow('hide');	
+}
 
 </script>
 <div id="customerInfoAddPopup">
 	<div style="width: 100%; height: 650px; margin-top: 50px;"
 		id="mainDemoContainer">
-		<div id="window">
+		<div id="addCustomerPopupWindow">
 			<div id="windowHeader">
-				<span> Movies </span>
+				<span> Add New Customer </span>
 			</div>
 			<div style="overflow: hidden;" id="windowContent">
-				<table width="100%">
+				<table width="100%" border ="0">
 				<tr valign="top">
-				<td>
+				<td rowspan="3">
 				<div id="createCustomerExpander" style="font-family: Verdana; font-size: 13px; width: 380px;">
 			        <div>
 			            Customer Info
 			        </div>
 			        <div style="font-family: Verdana; font-size: 13px;">
             			<form id="form" style="overflow: hidden; margin: 10px;" action="./">
-            			<table border="1" width="100%" class="popupFormTable">
-							<tr>
-								<td colspan="1">Select Customer :</td>
-								<td colspan="1"><div id="formCustomerId" ></div></td>
-								<!-- <td rowspan="18" width="50%" valign="top">
-								    
-								</td> -->
-							</tr>
+            			<table border="0" width="100%" class="popupFormTable">
 							<tr>
 								<td colspan="1">First Name :</td>
 								<td colspan="1"><input id="firstName" /></td>
@@ -73,14 +237,8 @@ $(document).ready(function() {
 								</td>
 							</tr>
 							<tr>
-								<td colspan="2">&nbsp;</td>
-							</tr>
-							<tr>
-								<td colspan="1">
-									<input id="updateCustomerButton" type="button" value="Update Customer" />
-								</td>
-								<td colspan="1">
-									<input id="addAddressButton" type="button" value="Add Address" />
+								<td colspan="2">
+									<input id="createCustomerButton" type="button" value="Add Customer" />
 								</td>
 							</tr>
 						</table>            			            			
@@ -89,39 +247,60 @@ $(document).ready(function() {
 		        </div>
 		        </td>
 		        <td>
-		        <div id="customerAddressExpander" style="font-family: Verdana; font-size: 13px; width: 300px;">
+		        <div id="customerResidenceAddressExpander" style="font-family: Verdana; font-size: 13px; width: 300px;">
 		        	<div>
-		        		Address
+		        		Address - Residence
 		        	</div>
 		        	<div>
-		        		<table class="addressTable">
-						 	<tr>
-						         <td align="right">Address Type:</td>
-						         <td align="left"><div id="formAddressType" ></div></td>
-						     </tr>
-						     <!-- <tr>
-						         <td align="right">City:</td>
-						         <td align="left"><div id="formCityId" ></div></td>
-						     </tr> -->
-						     <tr>
-						         <td align="right">Area:</td>
-						         <td align="left"><div id="formAreaId" ></div></td>
+		        		<table class="popupFormTable" id="addressTableOffice" border="0" width="100%">
+						 	 <tr>
+						         <td align="right" width="30%">Area:</td>
+						         <td align="left" width="70%"><div id="formAreaIdResidence" ></div></td>
 						     </tr>
 						     <tr>
-						         <td align="right">Buliding Name:</td>
-						         <td align="left"><input id="formBuildingName" /></td>
+						         <td align="right">Building Name:</td>
+						         <td align="left"><input id="residenceBuildingName" /></td>
 						     </tr>
 						     <tr>
 						         <td align="right">Flat No:</td>
-						         <td align="left"><input id='formFlatNo'/></td>
+						         <td align="left"><input id='residenceFlatNo'/></td>
 						     </tr>
 						     <tr>
-						         <td align="right"></td>
-						         <td style="padding-top: 10px;" align="right"><input style="margin-right: 5px;" type="button" id="Save" value="Save" /><input id="Cancel" type="button" value="Cancel" /></td>
-				            </tr>
-				            <tr>
-						         <td align="right" colspan="2"></td>
-					        </tr>
+						     	<td>&nbsp;</td>
+						     </tr>
+				        </table>
+		        	</div>
+		        </div>
+		        </td>		        
+		        </tr>
+		        <tr>
+		        	<td>
+		        		&nbsp;<!-- spacer -->
+		        	</td>
+		        </tr>
+		        <tr valign="top">
+		        	<td>
+		        <div id="customerOfficeAddressExpander" style="font-family: Verdana; font-size: 13px; width: 300px;">
+		        	<div>
+		        		Address - Office
+		        	</div>
+		        	<div>
+		        		<table class="popupFormTable" id="addressTable" border="0" width="100%">
+						 	 <tr>
+						         <td align="right" width="30%">Area:</td>
+						         <td align="left" width="70%"><div id="formAreaIdOffice" ></div></td>
+						     </tr>
+						     <tr>
+						         <td align="right">Building Name:</td>
+						         <td align="left"><input id="officeBuildingName" /></td>
+						     </tr>
+						     <tr>
+						         <td align="right">Flat No:</td>
+						         <td align="left"><input id='officeFlatNo'/></td>
+						     </tr>
+						     <tr>
+						     	<td>&nbsp;</td>
+						     </tr>
 				        </table>
 		        	</div>
 		        </div>

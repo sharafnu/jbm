@@ -15,10 +15,6 @@ public class AppointmentPayment implements Serializable {
 
 	private double amountPaid;
 
-	private Timestamp lastModifiedDate;
-
-	private String lastModifiedUser;
-
 	private String paymentMode;
 
 	private Appointment appointment;
@@ -40,22 +36,6 @@ public class AppointmentPayment implements Serializable {
 
 	public void setAmountPaid(double amountPaid) {
 		this.amountPaid = amountPaid;
-	}
-
-	public Timestamp getLastModifiedDate() {
-		return this.lastModifiedDate;
-	}
-
-	public void setLastModifiedDate(Timestamp lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public String getLastModifiedUser() {
-		return this.lastModifiedUser;
-	}
-
-	public void setLastModifiedUser(String lastModifiedUser) {
-		this.lastModifiedUser = lastModifiedUser;
 	}
 
 	public String getPaymentMode() {

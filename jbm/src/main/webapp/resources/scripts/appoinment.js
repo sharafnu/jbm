@@ -1,22 +1,15 @@
 function setupAppointmentDetailsForm() {
-	loadAppoinmentCombo();
+	loadPendingAppoinmentCombo();
 	$("#updateAppointmentButton").jqxButton({
-		theme : theme
+		theme : theme,
+		disabled: true
 	});
-	 $('#appoinmentDetailsTab').jqxTabs({ width: '90%', height: 380, position: 'top'});
+	 $('#appoinmentDetailsTab').jqxTabs({ width: '100%', height: 340, position: 'top'});
 	 $('#appoinmentDetailsTab').jqxTabs({ animationType: 'fade' });
 	 $('#appoinmentDetailsTab').jqxTabs({ selectionTracker: true });
-	 loadAreaCombo();
+	 $('#appoinmentDetailsTab').jqxTabs('disableAt', 1);
 	 loadAppoinmentStatusCombo();
-	 $("#formStartTime").jqxDateTimeInput({
-			width : '130px',
-			height : '20px',
-			formatString: 'T',
-			showCalendarButton: false
-	 });
-		
-	 $("#formStartTime").jqxDateTimeInput('setDate', new Date());
-	 $("#formEndTime").jqxDateTimeInput({
+	$("#formEndTime").jqxDateTimeInput({
 			width : '130px',
 			height : '20px',
 			formatString: 'T',
@@ -39,22 +32,23 @@ function setupAppointmentDetailsForm() {
 	 loadPaymentStatusCombo();
 	 
 	 $("#formInvoiceNo").jqxInput({
-			width : '180px',
+			width : '130px',
 			height : '20px'
 	 });
 	 
 	 
 	 $("#formInvoiceDate").jqxDateTimeInput({
 			width : '130px',
-			height : '20px'
+			height : '20px',
+			formatString: 'dd-MM-yyyy' 
 	});
 	 
-	 $("#formInvoiceAmount").jqxInput({
+	 /*$("#formInvoiceAmount").jqxInput({
 			width : '180px',
 			height : '20px'
-	 });
+	 });*/
 	 
-	 loadFinanceStatusCombo();
+	 //loadFinanceStatusCombo();
 }
 
 
@@ -102,7 +96,7 @@ function setupAppoinmentListSearchFilters() {
 function setupAppointmentForm() {
 	loadCustomerCombo(280);
 	loadEmployeeCombo(280);
-	loadCustomerAddressCombo(280);
+	loadCustomerAddressCombo(280, -1);
 	//loadAreaCombo();
 	// Create jqxInput.
 	/*$("#formJobId").jqxInput({
@@ -112,7 +106,8 @@ function setupAppointmentForm() {
 
 	$("#formAppointmentDate").jqxDateTimeInput({
 		width : '130px',
-		height : '20px'
+		height : '20px',
+		formatString: 'dd-MM-yyyy' 
 	});
 	
 	$("#formStartTime").jqxDateTimeInput({
@@ -179,8 +174,16 @@ function setupAppointmentForm() {
 		$("#remarks").val($("#formRemarks").val());
 		
 		
-		//$('#form').submit();
+		$('#appoinmentAddForm').submit();
     });
+	
+	var addNewCustomerPopuptButton = $("#addNewCustomerPopuptButton").jqxButton({
+		theme : theme
+	});
+	
+	addNewCustomerPopuptButton.click(function (event) {
+		$('#addCustomerPopupWindow').jqxWindow('show');
+	});
 	// Create jqxValidator.
 	/*$("#form")
 			.jqxValidator(
@@ -255,7 +258,7 @@ function loadCustomerCombo(comboWidth) {
 		displayMember : "comboBoxText",
 		valueMember : "id",
 		searchMode: "containsignorecase",
-		autoComplete: true,
+		//autoComplete: true,
 		width : comboWidth,
 		height : 20,
 		renderSelectedItem: function(index, item) {
@@ -271,8 +274,8 @@ function loadCustomerCombo(comboWidth) {
 	 */
 }
 
-function loadCustomerAddressCombo(comboWidth) {
-	var customerAddressListUrl = "getCustomerAddressListJSON/2.html";
+function loadCustomerAddressCombo(comboWidth, customerId) {
+	var customerAddressListUrl = "getCustomerAddressListJSON/"+customerId+".html";
 	var customerAddressListSource = {
 		datatype : "json",
 		datafields : [ {
@@ -309,7 +312,7 @@ function loadCustomerAddressCombo(comboWidth) {
 		displayMember : "comboBoxText",
 		valueMember : "id",
 		searchMode: "containsignorecase",
-		autoComplete: true,
+		//autoComplete: true,
 		width : comboWidth,
 		height : 20,
 		renderSelectedItem: function(index, item) {
@@ -317,12 +320,6 @@ function loadCustomerAddressCombo(comboWidth) {
 			return item.addressType+", "+item.buildingName +", "+item.flatNo+", "+item.areaName+", "+item.cityName;   
         }
 	});
-
-	/*
-	 * $('#formCustomerId').on('change', function (event) { var args =
-	 * event.args; if (args) { var item = args.item; if(item.value != "") {
-	 * //loadContractDetailsGrid(item.value); } } });
-	 */
 }
 
 function loadEmployeeCombo(comboWidth) {
@@ -349,6 +346,7 @@ function loadEmployeeCombo(comboWidth) {
 		width : comboWidth,
 		height : 20
 	});
+	
 }
 
 function loadAreaCombo() {
@@ -385,7 +383,7 @@ function loadAreaCombo() {
 }
 
 function loadAppoinmentCombo() {
-	var appointmentListUrl = "customerAppoinmentListJSON.html";
+	var appointmentListUrl = "customerAppoinmentComboListJSON.html";
 	var appointmentListSource = {
 		datatype : "json",
 		datafields : [ {
@@ -403,6 +401,35 @@ function loadAppoinmentCombo() {
 
 	$("#formAppointmentId").jqxComboBox({
 		selectedIndex : -1,
+		searchMode: "containsignorecase",
+		source : appointmentListDataAdapter,
+		displayMember : "appointmentNo",
+		valueMember : "id",
+		width : 130,
+		height : 20
+	});
+}
+
+function loadPendingAppoinmentCombo() {
+	var appointmentListUrl = "customerPendingAppoinmentComboListJSON.html";
+	var appointmentListSource = {
+		datatype : "json",
+		datafields : [ {
+			name : 'appointmentNo',
+			type : 'string'
+		}, {
+			name : 'id',
+			type : 'int'
+		} ],
+		id : 'id',
+		url : appointmentListUrl
+	};
+	var appointmentListDataAdapter = new $.jqx.dataAdapter(
+			appointmentListSource);
+
+	$("#formAppointmentId").jqxComboBox({
+		selectedIndex : -1,
+		searchMode: "containsignorecase",
 		source : appointmentListDataAdapter,
 		displayMember : "appointmentNo",
 		valueMember : "id",
@@ -414,20 +441,22 @@ function loadAppoinmentCombo() {
 function setupDateFilters() {
 	$("#formFromDate").jqxDateTimeInput({
 		width : '130px',
-		height : '20px'
+		height : '20px',
+		formatString: 'dd-MM-yyyy' 
 	});
 	$('#formFromDate').jqxDateTimeInput({allowNullDate: true});
 	$('#formFromDate').jqxDateTimeInput({ value: new Date(2013, 0, 1) });
 	
 	$("#formToDate").jqxDateTimeInput({
 		width : '130px',
-		height : '20px'
+		height : '20px',
+		formatString: 'dd-MM-yyyy' 
 	});
 	$('#formToDate').jqxDateTimeInput({allowNullDate: true});
 }
 
 function loadAppoinmentStatusCombo() {
-	var appoinmentStatusSource = [ "Created", "Completed", "Cancelled" ];
+	var appoinmentStatusSource = [  "Completed", "Cancelled" ];
 	$("#formAppoinmentStatus").jqxComboBox({
 		selectedIndex : -1,
 		source : appoinmentStatusSource,
@@ -508,12 +537,14 @@ function setupContractsPopupForm() {
 	});
 	$("#frmContractDate").jqxDateTimeInput({
 		width : '200px',
-		height : '20px'
+		height : '20px',
+		formatString: 'dd-MM-yyyy' 
 	});
 
 	$("#frmExpiryDate").jqxDateTimeInput({
 		width : '200px',
-		height : '20px'
+		height : '20px',
+		formatString: 'dd-MM-yyyy' 
 	});
 
 	// initialize the popup window and buttons.
@@ -581,11 +612,8 @@ function setupContractsPopupForm() {
 // //////////////
 // /////////////
 function appoinmentDetailsGrid() {
-	//var appointmentViewListJSONStr = eval('(' + '${appoinmentListJSON}' + ')');
 	var appointmentViewListJSONStr = $("#appointmentViewListJSON").val();
-	// var appointmentViewListJSONStr = '<c:out
-	// value="${appoinmentListJSON}"/>';
-	// alert(appointmentViewListJSONStr);
+
 	var appoinmentListSource = {
 		datatype : "json",
 		datafields : [ {
@@ -606,14 +634,58 @@ function appoinmentDetailsGrid() {
 		}, {
 			name : 'employeeName',
 			type : 'string'
+		}, {
+			name : 'cancellationReason',
+			type : 'string'
+		}, {
+			name : 'hoursSpent',
+			type : 'int'
+		}, {
+			name : 'payableAmount',
+			type : 'int'
+		}, {
+			name : 'paymentStatus',
+			type : 'string'
+		}, {
+			name : 'paymentType',
+			type : 'string'
+		}, {
+			name : 'invoiceNo',
+			type : 'string'
+		}, {
+			name : 'startTime',
+			type : 'string'
+		}, {
+			name : 'endDate',
+			type : 'string'
+		}, {
+			name : 'areaName',
+			type : 'string'
+		}, {
+			name : 'buildingName',
+			type : 'string'
+		}, {
+			name : 'flatNo',
+			type : 'string'
+		}, {
+			name : 'cityName',
+			type : 'string'
+		}, {
+			name : 'id',
+			type : 'string'
+		}, {
+			name : 'invoiceDate',
+			type : 'string'
 		} ],
 		id : 'id',
 		localdata : appointmentViewListJSONStr
 	};
 	var appoinmentDataAdapter = new $.jqx.dataAdapter(appoinmentListSource);
 
-	var imagerenderer = function() {
-		return '<a href="www.google.com" ><img style="margin-left: 5px;margin-top: 5px;" src="resources/images/card.png"/></a>';
+	var imagerenderer = function(row, datafield, value) {
+		/*var url = "customerAppointmentDetailsForSelectedId.html?id="+value;
+		return "<a href='"+url+"' ><img style='margin-left: 5px;margin-top: 5px;' src='resources/images/card.png'/></a>";*/
+		return "";
 	}
 	// initialize jqxGrid
 	$("#jqxgrid")
@@ -623,7 +695,7 @@ function appoinmentDetailsGrid() {
 						source : appoinmentDataAdapter,
 						showstatusbar : true,
 						rowdetails: true,
-						rowdetailstemplate: { rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'><li class='title'></li><li>Notes</li><li>Job Completion</li><li>Job Payments</li></ul><div class='information'></div><div class='notes'></div><div class='jobcompletion'></div><div class='jobpayments'></div></div>", rowdetailsheight: 100 },
+						rowdetailstemplate: { rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'><li class='title'></li><li>Notes</li><li>Job Completion</li></ul><div class='information'></div><div class='notes'></div><div class='jobcompletion'></div></div>", rowdetailsheight: 100 },
 		                ready: function () {
 		                    //$("#jqxgrid").jqxGrid('showrowdetails', 0);		               
 		                },
@@ -660,39 +732,19 @@ function appoinmentDetailsGrid() {
 							width : 90
 						}, {
 							text : '',
-							datafield : 'edit',
+							datafield : 'id',
 							width : 25,
 							cellsrenderer : imagerenderer
 						}
-						// { text: 'Edit', datafield: 'Edit', columntype:
-						// 'button', cellsrenderer: function () {
-						// return "Edit";
-						// }, buttonclick: function (row) {
-						// open the popup window when the user clicks a button.
-						// editrow = row;
-						// var offset = $("#jqxgrid").offset();
-						// $("#popupWindow").jqxWindow({ position: { x:
-						// parseInt(offset.left) + 60, y: parseInt(offset.top) +
-						// 60 } });
-
-						// get the clicked row's data and initialize the input
-						// fields.
-						/*
-						 * var dataRecord = $("#jqxgrid").jqxGrid('getrowdata',
-						 * editrow); $("#firstName").val(dataRecord.firstname);
-						 * $("#lastName").val(dataRecord.lastname);
-						 * $("#product").val(dataRecord.productname);
-						 * $("#quantity").jqxNumberInput({ decimal:
-						 * dataRecord.quantity }); $("#price").jqxNumberInput({
-						 * decimal: dataRecord.price });
-						 *  // show the popup window.
-						 * $("#popupWindow").jqxWindow('open');
-						 */
-						// }
-						// }
-						/* { text: 'Remarks', datafield: 'remarks', width: 120 } */
 						]
 					});
+	
+	$('#jqxGrid').on('rowclick', function (event) 
+			{
+			    var args = event.args;
+			    var row = args.rowindex;
+			    alert(row);
+			}); 
 	
 	
 }
@@ -706,14 +758,33 @@ var initrowdetails = function (index, parentElement, gridElement, datarecord) {
     tabsdiv = $($(parentElement).children()[0]);
     if (tabsdiv != null) {
     	information = tabsdiv.find('.information');
+    	jobcompletion = tabsdiv.find('.jobcompletion');
         notes = tabsdiv.find('.notes');
         var title = tabsdiv.find('.title');
         title.text("Appoinment Details");
-        var container = $('<div style="margin: 5px;"></div>');
-        container.appendTo($(information));
-        var notescontainer = $('<div style="white-space: normal; margin: 5px;"><span>' + datarecord.remarks + '</span></div>');
-        $(notes).append(notescontainer);
-        $(tabsdiv).jqxTabs({ width: 600, height: 170});
+        
+        var infoTable = '<div style="margin: 5px;"><table class="descTable" width="100%" border="0" cellpadding="0" cellspacing="5">';
+        infoTable = infoTable + '<tr><td align="right"><b>Location :</b></td><td>'+datarecord.areaName+ '</td> <td align="right"> <b>Building : </b></td><td> '+datarecord.buildingName+' </td><td align="right"> <b>Flat :</b> </td><td> '+datarecord.flatNo+' </td></tr>';
+        infoTable = infoTable + '<tr><td align="right"><b>Start Time :</b></td><td>'+datarecord.startTime+ '</td> <td align="right"> <b>Remarks : </b></td><td colspan="3"> '+datarecord.remarks+' </td></tr>';
+        infoTable = infoTable +'</table></div>';
+       
+        var infoContainer = $(infoTable);
+        infoContainer.appendTo($(information));
+        
+        if(datarecord.appointmentStatus != "Created") {
+        	var completionTable = '<div style="margin: 5px;"><table class="descTable" width="100%" border="0" cellpadding="0" cellspacing="5">';
+            completionTable = completionTable + '<tr><td align="right"><b>No of Hrs. :</b></td><td>'+datarecord.hoursSpent+ '</td> <td align="right"> <b>Amount : </b></td><td> '+datarecord.payableAmount+' </td><td align="right"> <b>Payment Status :</b> </td><td> '+datarecord.paymentStatus+' </td></tr>';
+            completionTable = completionTable + '<tr><td align="right"><b>Payment Type :</b></td><td>'+datarecord.paymentType+ '</td> <td align="right"> <b>Invoice No. : </b></td><td> '+datarecord.invoiceNo+' </td><td align="right"> <b>Invoice Date : </b></td><td> '+datarecord.invoiceDate+' </td></tr>';
+            completionTable = completionTable +'</table></div>';
+            
+            var jobCompletionContainer = $(completionTable);
+            jobCompletionContainer.appendTo($(jobcompletion));
+            
+            var notescontainer = $('<div style="white-space: normal; margin: 5px;"><span> <b>Cancellation Remarks : </b>' + datarecord.cancellationReason + '</span></div>');
+            $(notes).append(notescontainer);
+        } 
+        
+        $(tabsdiv).jqxTabs({ width: 700, height: 200});
     }
 }
 

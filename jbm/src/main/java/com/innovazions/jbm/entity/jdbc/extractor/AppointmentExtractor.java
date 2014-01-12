@@ -10,6 +10,7 @@ import com.innovazions.jbm.entity.Appointment;
 import com.innovazions.jbm.entity.Area;
 import com.innovazions.jbm.entity.City;
 import com.innovazions.jbm.entity.Customer;
+import com.innovazions.jbm.entity.CustomerAddress;
 import com.innovazions.jbm.entity.Employee;
 
 public class AppointmentExtractor implements ResultSetExtractor<Appointment> {
@@ -31,8 +32,13 @@ public class AppointmentExtractor implements ResultSetExtractor<Appointment> {
 		city.setId(rs.getLong("city_id"));
 		city.setName(rs.getString("city_name"));
 		area.setCity(city);
-		appointment.setArea(area);
-
+		CustomerAddress customerAddress = new CustomerAddress();
+		customerAddress.setArea(area);
+		customerAddress.setBuildingName(rs.getString("building_name"));
+		customerAddress.setFlatNo(rs.getString("flat_no"));
+		customerAddress.setAddressType(rs.getString("address_type"));
+		appointment.setCustomerAddress(customerAddress);
+		
 		Customer customer = new Customer();
 		customer.setId(rs.getLong("customer_id"));
 		customer.setFirstName(rs.getString("customer_first_name"));
@@ -55,5 +61,4 @@ public class AppointmentExtractor implements ResultSetExtractor<Appointment> {
 		appointment.setLastModifiedUser(rs.getString("last_modified_user"));
 		return appointment;
 	}
-
 }

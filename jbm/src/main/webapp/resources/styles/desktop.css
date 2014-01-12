@@ -416,6 +416,18 @@ border-width:1px;
 	height: 30px;
 }
 
+.descTable {
+	
+}
+
+.descTable td{
+	padding: 0px;
+}
+
+.descTable tr {
+	height: 5px;
+}
+
 .searchFiltersTable {
 	
 }
@@ -434,4 +446,41 @@ border-width:1px;
 	border-top: 1px dotted #999999;
 	border-bottom: 1px dotted #999999;
 	padding: 0px;
+}
+
+.userInfoTable {
+	padding: 0px 0px 0px 0px;
+	float:right;
+	padding-right: 60px;
+}
+
+.userInfo{
+	float:right;
+	padding-top:5px;
+	color: orange;
+	font-size: 12px;
+	text-decoration: none;
+}
+
+.logoutLink{
+	float:right;
+	color: #ffffff;
+	font-size: 12px;
+	text-decoration: none;
+}
+
+.logoutLink:hover {
+	text-decoration: underline;
+}
+
+.errorMessage{
+	color: red;
+	font-size: 12px;
+	text-decoration: none;
+}
+
+.infoMessage{
+	color: green;
+	font-size: 12px;
+	text-decoration: none;
 }

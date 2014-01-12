@@ -9,7 +9,7 @@
         $(document).ready(function () {
         	document.title = 'Job List';
         	setupAppoinmentListSearchFilters();
-           	setupContractsPopupForm();
+           	//setupContractsPopupForm();
            	appoinmentDetailsGrid();
         });
         
@@ -19,7 +19,7 @@
 
 <!-- Container for create-account controls, populated by JavaScript code below. -->
 <div id="SIU2" class="SIU2" style="opacity: 1;">
-	<input type="hidden" id="appointmentViewListJSON" value='<c:out value="${appoinmentListJSON}"/>'/>
+	<input type="hidden" id="appointmentViewListJSON" value='<c:out value="${appointmentListJSON}"/>'/>
 	<div id="createAccount" class="cornerDiv">	
 		<div style="background-color: #F4F0F5; color: #000; min-height: 1.5em; vertical-align: middle; padding: 5px; width: 800px;">
 		Job List</div>
@@ -80,42 +80,7 @@
 		</div>
 		
 		
-        				
-        <div id="popupWindow">
-                <div style="overflow: hidden;">
-	                <table class="popupFormTable">
-	                	<tr>
-	                        <td align="right">Contract No:</td>
-	                        <td align="left"><input id="frmContractNo" /></td>
-	                    </tr>
-	                    <tr>
-	                        <td align="right">Contract Type:</td>
-	                        <td align="left"><div id="fromContractType" ></div></td>
-	                    </tr>
-	                    <tr>
-	                        <td align="right">Contract Date:</td>
-	                        <td align="left"><div id="frmContractDate" /></div></td>
-	                    </tr>
-	                    <tr>
-	                        <td align="right">Amount:</td>
-	                        <td align="left"><input id='frmAmount'/></td>
-	                    </tr>
-	                    <tr>
-	                        <td align="right">Expiry Date:</td>
-	                        <td align="left"><div id="frmExpiryDate" ></div></td>
-	                    </tr>
-	                    <tr>
-	                        <td align="right">Status:</td>
-	                        <td align="left"><div id="frmContractStatus" ></div></td>
-	                    </tr>
-	                    <tr>
-	                        <td align="right"></td>
-	                        <td style="padding-top: 10px;" align="right"><input style="margin-right: 5px;" type="button" id="Save" value="Save" /><input id="Cancel" type="button" value="Cancel" /></td>
-	                    </tr>
-	                </table>
-	            </div>
-       		</div>
-       	</div>
+        			       	</div>
       </div>
 
 

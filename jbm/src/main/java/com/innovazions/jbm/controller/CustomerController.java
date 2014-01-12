@@ -16,13 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.innovazions.jbm.common.JBMConstants;
 import com.innovazions.jbm.entity.Customer;
 import com.innovazions.jbm.entity.CustomerAddress;
 import com.innovazions.jbm.entity.CustomerContract;
+import com.innovazions.jbm.service.CommonService;
 import com.innovazions.jbm.service.CustomerAddressService;
 import com.innovazions.jbm.service.CustomerContractService;
 import com.innovazions.jbm.service.CustomerService;
 import com.innovazions.jbm.view.CustomerAddressView;
+import com.innovazions.jbm.view.CustomerAndAddressView;
 import com.innovazions.jbm.view.CustomerContractView;
 import com.innovazions.jbm.view.CustomerView;
 
@@ -30,7 +33,7 @@ import com.innovazions.jbm.view.CustomerView;
  * Handles requests for the customer related actions.
  */
 @Controller
-public class CustomerController {
+public class CustomerController extends AbstractController {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(CustomerController.class);
@@ -44,6 +47,9 @@ public class CustomerController {
 	@Autowired
 	private CustomerContractService customerContractService;
 
+	@Autowired
+	private CommonService commonService;
+	
 	@RequestMapping(value = "/customerInfoAdd", method = RequestMethod.GET)
 	public String customerInfoAdd(Locale locale, Model model) {
 		logger.info("CustomerController > customerInfoAdd");
@@ -58,6 +64,10 @@ public class CustomerController {
 		System.out.println("Customer Name:" + customerView.getFirstName()
 				+ " Mobile:" + customerView.getMobile1());
 		Customer customer = customerView.convertViewToEntity();
+		String customerCode = commonService.getSequenceCodeByType(
+				JBMConstants.SEQ_CUSTOMER_CODE,
+				JBMConstants.PROP_PREFIX_CUSTOMER_CODE);
+		customer.setCustomerCode(customerCode);
 		customer.setLastModifiedUser("demo");
 		customer.setLastModifiedDate(new Date());
 		Long customerId = customerService.createCustomer(customer);
@@ -150,6 +160,28 @@ public class CustomerController {
 		CustomerContract customerContract = customerContractView
 				.convertViewToEntity();
 		customerContractService.createCustomerContract(customerContract);
+		return "Success";
+	}
+
+	@RequestMapping(value = "/saveCustomerAndAddress", method = RequestMethod.POST)
+	public @ResponseBody
+	String saveCustomerAndAddress(
+			@ModelAttribute("customerAndAddressView") CustomerAndAddressView customerAndAddressView,
+			BindingResult result, Model model) {
+		logger.info("CustomerController > saveCustomerAndAddress");
+		System.out.println("Customer Name:"
+				+ customerAndAddressView.getFirstName() + " Mobile:"
+				+ customerAndAddressView.getMobile1());
+		Customer customer = customerAndAddressView.convertViewToEntity();
+		customer.setLastModifiedUser("demo");
+		customer.setLastModifiedDate(new Date());
+		String customerCode = commonService.getSequenceCodeByType(
+				JBMConstants.SEQ_CUSTOMER_CODE,
+				JBMConstants.PROP_PREFIX_CUSTOMER_CODE);
+		customer.setCustomerCode(customerCode);
+		Long customerId = customerService.createCustomerAndAddress(customer);
+		model.addAttribute("infoMessage", "Customer Added : "
+				+ customerCode);
 		return "Success";
 	}
 }

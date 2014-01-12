@@ -1,5 +1,6 @@
 package com.innovazions.jbm.common;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +14,25 @@ public class CommonUtils {
 	public static final String DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 
 	public static final String TIME_FORMAT_HHMMSS_AM_PM = "hh:mm:ss a";
+
+	public static final String DB_DATE_FORMAT_YYYYMMDD = "yyyy-MM-dd";
+
+	public static final String DB_DATE_TIME_FORMAT_YYYYMMDD = "yyyy-MM-dd HH:mm:ss";
+
+	public static String getDBDate(Date inputDate) {
+		DateFormat dateFormat = new SimpleDateFormat(DB_DATE_FORMAT_YYYYMMDD);
+		return dateFormat.format(inputDate);
+	}
+
+	public static Timestamp getTimeStampFromDate(Date inputDate) {
+		return new Timestamp(inputDate.getTime());
+	}
+
+	public static String getDBDateTime(Date inputDate) {
+		DateFormat dateFormat = new SimpleDateFormat(
+				DB_DATE_TIME_FORMAT_YYYYMMDD);
+		return dateFormat.format(inputDate);
+	}
 
 	public static String getFormattedDate(Date inputDate) {
 		DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_DDMMYYYY);

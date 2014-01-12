@@ -9,4 +9,5 @@ public interface CommonDAO {
 
 	public List<SystemProperty> getAllSystemProperties();
 
+	public String getSequenceCodeByType(String type, String prefixPropName);
 }

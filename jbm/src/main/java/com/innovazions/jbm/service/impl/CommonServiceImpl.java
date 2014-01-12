@@ -20,4 +20,9 @@ public class CommonServiceImpl implements CommonService {
 		return commonDAO.getAllSystemProperties();
 	}
 
+	@Override
+	public String getSequenceCodeByType(String type, String prefixPropName) {
+		return commonDAO.getSequenceCodeByType(type, prefixPropName);
+	}
+
 }

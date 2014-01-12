@@ -7,4 +7,6 @@ import com.innovazions.jbm.entity.SystemProperty;
 public interface CommonService {
 
 	public List<SystemProperty> getAllSystemProperties();
+	
+	public String getSequenceCodeByType(String type, String prefixPropName);
 }

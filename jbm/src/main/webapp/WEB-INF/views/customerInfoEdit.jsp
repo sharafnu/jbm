@@ -3,35 +3,57 @@
 	<span class="breadcrumbs">Home > Customer > Update Customer Info</span>
 </div>
 <script type="text/javascript">
+function loadCustomerCombo(comboWidth) {
+	var customerListUrl = "customerListJSON.html";
+	var customerListSource = {
+		datatype : "json",
+		datafields : [ {
+			name : 'fullName',
+			type : 'string'
+		},{
+			name : 'comboBoxText',
+			type : 'string'
+		}, 
+		{
+			name : 'mobile1',
+			type : 'string'
+		}, {
+			name : 'customerCode',
+			type : 'string'
+		}, {
+			name : 'id',
+			type : 'int'
+		} ],
+		id : 'id',
+		url : customerListUrl
+	};
+	var customerListDataAdapter = new $.jqx.dataAdapter(customerListSource);
+
+	$("#formCustomerId").jqxComboBox({
+		selectedIndex : -1,
+		source : customerListDataAdapter,
+		displayMember : "comboBoxText",
+		valueMember : "id",
+		searchMode: "containsignorecase",
+		//autoComplete: true,
+		width : comboWidth,
+		height : 20,
+		renderSelectedItem: function(index, item) {
+			var item = customerListDataAdapter.records[index];
+			return item.fullName;   
+        }
+	});
+	
+	}
+
+
 	$(document)
 			.ready(
 					function() {
 						document.title = 'Update Customer Info';
 						setupAddressForm();
-						
+						loadCustomerCombo(230);
 						// Create jqxExpander.
-						var customerListUrl = "customerListJSON.html";
-			            var customerListSource =
-			            {
-			                datatype: "json",
-			                datafields: [
-			                    { name: 'fullName', type: 'string' },
-			                    { name: 'id', type: 'int' }
-			                ],
-			                id: 'id',
-			                url: customerListUrl
-			            };
-			            var customerListDataAdapter = new $.jqx.dataAdapter(customerListSource);
-			            
-
-						$("#formCustomerId").jqxComboBox({
-							selectedIndex : -1,
-							source : customerListDataAdapter,
-							displayMember : "fullName",
-							valueMember : "id",
-							width : 230,
-							height : 25
-						});
 						
 						 $('#formCustomerId').on('change', function (event) {
 							    var args = event.args;
@@ -339,7 +361,7 @@
 			width : 230,
 			height : 20,
 			searchMode: "containsignorecase",
-			autoComplete: true,
+			//autoComplete: true,
 			renderSelectedItem: function(index, item) {
 				var item = areaListDataAdapter.records[index];
 				return item.areaName;   

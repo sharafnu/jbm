@@ -38,12 +38,17 @@ public class Appointment extends CoreEntity<Appointment, AppointmentView>
 
 	private Date endDate;
 
-	private Area area;
-
 	private Customer customer;
 
 	private Employee employee;
 
+	private CustomerAddress customerAddress;
+
+	//TODO : Check design later
+	private AppointmentPayment appointmentPayment;
+	
+	private Invoice invoice;
+	
 	public Long getId() {
 		return id;
 	}
@@ -132,14 +137,6 @@ public class Appointment extends CoreEntity<Appointment, AppointmentView>
 		this.endDate = endDate;
 	}
 
-	public Area getArea() {
-		return area;
-	}
-
-	public void setArea(Area area) {
-		this.area = area;
-	}
-
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -162,10 +159,6 @@ public class Appointment extends CoreEntity<Appointment, AppointmentView>
 		appointmentView.setAppointmentDate(this.getAppointmentDate());
 		appointmentView.setAppointmentNo(this.getAppointmentNo());
 		appointmentView.setAppointmentStatus(this.getAppointmentStatus());
-		if (this.getArea() != null) {
-			appointmentView.setAreaId(this.getArea().getId());
-			appointmentView.setAreaName(this.getArea().getName());
-		}
 		appointmentView.setCancellationReason(this.getCancellationReason());
 		if (this.getCustomer() != null) {
 			appointmentView.setCustomerId(this.getCustomer().getId());
@@ -174,6 +167,28 @@ public class Appointment extends CoreEntity<Appointment, AppointmentView>
 		if (this.getEmployee() != null) {
 			appointmentView.setEmployeeId(this.getEmployee().getId());
 			appointmentView.setEmployeeName(this.getEmployee().getFirstName());
+		}
+		if (this.getCustomerAddress() != null) {
+			appointmentView.setCustomerAddressId(this.getCustomerAddress()
+					.getId());
+			if (this.getCustomerAddress().getArea() != null) {
+				appointmentView.setAreaId(this.getCustomerAddress().getArea()
+						.getId());
+				appointmentView.setAreaName(this.getCustomerAddress().getArea()
+						.getName());
+				if (this.getCustomerAddress().getArea().getCity() != null) {
+					appointmentView.setCityId(this.getCustomerAddress()
+							.getArea().getCity().getId());
+					appointmentView.setCityName(this.getCustomerAddress()
+							.getArea().getCity().getName());
+				}
+			}
+			appointmentView.setBuildingName(this.getCustomerAddress()
+					.getBuildingName());
+			appointmentView.setFlatNo(this.getCustomerAddress().getFlatNo());
+			appointmentView.setAddressType(this.getCustomerAddress()
+					.getAddressType());
+
 		}
 		appointmentView.setEndDate(this.getEndDate());
 		appointmentView.setHoursSpent(this.getHoursSpent());
@@ -192,6 +207,10 @@ public class Appointment extends CoreEntity<Appointment, AppointmentView>
 			appointmentView.setEndTime(CommonUtils.getTimeStrFromDate(this
 					.getEndDate()));
 		}
+		if (this.getCustomerAddress() != null) {
+			appointmentView.setCustomerAddressId(this.getCustomerAddress()
+					.getId());
+		}
 		return appointmentView;
 	}
 
@@ -203,6 +222,30 @@ public class Appointment extends CoreEntity<Appointment, AppointmentView>
 			appointmentViewList.add(appointment.convertEntityToView());
 		}
 		return appointmentViewList;
+	}
+
+	public CustomerAddress getCustomerAddress() {
+		return customerAddress;
+	}
+
+	public void setCustomerAddress(CustomerAddress customerAddress) {
+		this.customerAddress = customerAddress;
+	}
+
+	public AppointmentPayment getAppointmentPayment() {
+		return appointmentPayment;
+	}
+
+	public void setAppointmentPayment(AppointmentPayment appointmentPayment) {
+		this.appointmentPayment = appointmentPayment;
+	}
+
+	public Invoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
 	}
 
 }

@@ -3,6 +3,8 @@ package com.innovazions.jbm.controller;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.innovazions.jbm.common.JBMConstants;
 import com.innovazions.jbm.entity.Area;
 import com.innovazions.jbm.entity.City;
 import com.innovazions.jbm.entity.Employee;
 import com.innovazions.jbm.service.AreaService;
+import com.innovazions.jbm.service.CommonService;
 import com.innovazions.jbm.service.EmployeeService;
 import com.innovazions.jbm.view.AreaView;
 import com.innovazions.jbm.view.CityView;
@@ -27,21 +31,29 @@ import com.innovazions.jbm.view.EmployeeView;
  * Handles requests for the application home page.
  */
 @Controller
-public class MasterController {
+public class MasterController extends AbstractController {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(MasterController.class);
 
 	@Autowired
 	private AreaService areaService;
+
 	@Autowired
 	private EmployeeService employeeService;
+
+	@Autowired
+	private CommonService commonService;
 
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/areaList", method = RequestMethod.GET)
-	public String areaList(Locale locale, Model model) {
+	public String areaList(Locale locale, Model model,
+			HttpServletRequest request) {
+		if (!request.isUserInRole("ROLE_ADMIN")) {
+			return "home";
+		}
 		logger.info("MasterController > areaList");
 		return "areaList";
 	}
@@ -57,7 +69,10 @@ public class MasterController {
 	@RequestMapping(value = "/saveArea", method = RequestMethod.POST)
 	public @ResponseBody
 	String saveArea(@ModelAttribute("areaView") AreaView areaView,
-			BindingResult result) {
+			BindingResult result, HttpServletRequest request) {
+		if (!request.isUserInRole("ROLE_ADMIN")) {
+			return "home";
+		}
 		System.out.println("Area Name:" + areaView.getAreaName() + " City Id:"
 				+ areaView.getCityId());
 		Area area = areaView.convertViewToEntity();
@@ -74,7 +89,11 @@ public class MasterController {
 	}
 
 	@RequestMapping(value = "/staffDetails", method = RequestMethod.GET)
-	public String staffDetails(Locale locale, Model model) {
+	public String staffDetails(Locale locale, Model model,
+			HttpServletRequest request) {
+		if (!request.isUserInRole("ROLE_ADMIN")) {
+			return "home";
+		}
 		logger.info("Master Controller >> staffDetails");
 		return "staffList";
 	}
@@ -91,10 +110,17 @@ public class MasterController {
 	public @ResponseBody
 	String saveEmployee(
 			@ModelAttribute("employeeView") EmployeeView employeeView,
-			BindingResult result) {
+			BindingResult result, HttpServletRequest request) {
+		if (!request.isUserInRole("ROLE_ADMIN")) {
+			return "home";
+		}
 		System.out.println("Employee Name:" + employeeView.getFirstName()
 				+ " Join Date:" + employeeView.getJoinDate());
 		Employee employee = employeeView.convertViewToEntity();
+		String empCode = commonService.getSequenceCodeByType(
+				JBMConstants.SEQ_EMPLOYEE_CODE,
+				JBMConstants.PROP_PREFIX_EMPLOYEE_CODE);
+		employee.setEmployeeCode(empCode);
 		employeeService.createEmployee(employee);
 		return "Success";
 	}

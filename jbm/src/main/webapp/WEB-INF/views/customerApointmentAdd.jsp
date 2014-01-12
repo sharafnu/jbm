@@ -7,19 +7,17 @@
 	src="<c:url value="/resources/scripts/appoinment.js" />"></script>
 <script type="text/javascript">
 
-	$(document).ready(function() {
-		document.title = 'Add Appointment';
-		setupAppointmentForm();
-		
-		var staffAppoinmentCountListURL = "staffAppoinmentCountListJSON/1.html";
+	function loadStaffAppointmentCountList(appointmentDate) {
+		var staffAppoinmentCountListURL = "staffAppoinmentCountListJSON/"+$('#formAppointmentDate').val()+".html";
+		//alert(staffAppoinmentCountListURL);
         var staffAppoinmentCountListSource =
         {
             datatype: "json",
             datafields: [
-                { name: 'staffName', 		type: 'string' },
-                { name: 'appoinmentCount', 	type: 'number' }
+                { name: 'employeeName', 		type: 'string' },
+                { name: 'appointmentCount', 	type: 'number' }
             ],
-            id: 'staffId',
+            id: 'employeeId',
             url: staffAppoinmentCountListURL
         };
         var staffAppoinmentCountListDataAdapter = new $.jqx.dataAdapter(staffAppoinmentCountListSource);
@@ -39,10 +37,34 @@
                         $("#staffAppoinmentInfoList").jqxTooltip('open', pageX + 15, pageY + 15);
                     },
                     columns: [
-                      { text: 'Staff Name', columntype: 'textbox', filtertype: 'textbox', filtercondition: 'CONTAINS', datafield: 'staffName', width: 240 },
-                      { text: 'Count', datafield: 'appoinmentCount', filtertype: 'number',  cellsalign: 'right', width: 55 }
+                      { text: 'Staff Name', columntype: 'textbox', filtertype: 'textbox', filtercondition: 'CONTAINS', datafield: 'employeeName', width: 240 },
+                      { text: 'Count', datafield: 'appointmentCount', filtertype: 'number',  cellsalign: 'right', width: 55 }
                     ]
                 });
+	}
+	
+	$(document).ready(function() {
+		document.title = 'Add Appointment';
+		setupAppointmentForm();
+		
+		$('#formCustomerId').on('change', function(event) {
+			var args = event.args;
+			if (args) {
+				var item = args.item;
+				if (item.value != "") {
+					loadCustomerAddressCombo(280, item.value);
+				}
+			}
+		});
+		
+		$('#formAppointmentDate').on('valuechanged', function (event) {           
+			//alert($('#formAppointmentDate').val());
+			loadStaffAppointmentCountList($('#formAppointmentDate').val());
+        });
+		
+		
+		loadStaffAppointmentCountList($('#formAppointmentDate').val());
+		
 	});
 </script>
 
@@ -53,7 +75,7 @@
 <div id="SIU2" class="SIU2" style="opacity: 1;">
 	<div id="createAccount" class="cornerDiv">
 			<div style="background-color: #F4F0F5; color: #000; min-height: 1.5em; vertical-align: middle; padding: 5px; width: 800px;">
-				<span>New Appointments</span><span style="margin-left: 350px">Staff Appointments List</span></div>
+				<span>New Appointments</span><span style="margin-left: 350px">Staff Availability</span></div>
 			<div style="font-family: Verdana; font-size: 13px; overflow: hidden; margin: 5px;">
 				<table border="0" width="100%" class="popupFormTable">
 					<tr>
@@ -101,12 +123,23 @@
 								<input type="hidden" id="remarks" 			name="remarks"/>
 								<input type="hidden" id="startTime" 			name="startTime"/>
 								<input id="createAppointmentButton" type="button" value="Create Appoinment" />
+								<input id="addNewCustomerPopuptButton" type="button" value="Add New Customer" />
 								</form>
+						</td>						
+					</tr>
+					<tr>
+						<td colspan="2">
+							<c:if test="${not empty errorMessage}">
+							    <span class="errorMessage">${errorMessage}</span>
+							</c:if>
+							<c:if test="${not empty infoMessage}">
+							    <span class="infoMessage">${infoMessage}</span>
+							</c:if>
 						</td>						
 					</tr>
 				</table>				
 	</div>
 </div>
 <jsp:include page="customerInfoAddPopup.jsp" />
-
+<jsp:include page="staffAppointmentListPopup.jsp" />
 <jsp:include page="includes/footer.jsp" />

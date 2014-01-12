@@ -107,7 +107,7 @@ public class SMSNotificationServiceImpl implements SMSNotificationService,
 						CommonUtils.getFormattedDate(appointment
 								.getAppointmentDate()));
 				smsContent = smsContent.replace("{location}", appointment
-						.getArea().getName());
+						.getCustomerAddress().toString());
 				OutboundMessage msg = new OutboundMessage(appointment
 						.getCustomer().getMobile1(),
 						"Hello from SMSLib and JSMPP");
@@ -159,24 +159,24 @@ public class SMSNotificationServiceImpl implements SMSNotificationService,
 	}
 
 	public static void main(String[] args) throws ParseException {
-		String userTime  = "02:22:03 PM";
+		String userTime = "02:22:03 PM";
 		Date userDate = new Date();
-		
+
 		SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a");
-		
+
 		Calendar userDateCal = Calendar.getInstance();
 		userDateCal.setTime(userDate);
-				
+
 		Calendar userTimeCal = Calendar.getInstance();
 		userTimeCal.setTime(dateFormat.parse(userTime));
-		
+
 		System.out.println(userDateCal.getTime());
-		
+
 		userDateCal.set(Calendar.HOUR, userTimeCal.get(Calendar.HOUR));
 		userDateCal.set(Calendar.MINUTE, userTimeCal.get(Calendar.MINUTE));
 		userDateCal.set(Calendar.SECOND, userTimeCal.get(Calendar.SECOND));
 		userDateCal.set(Calendar.AM_PM, userTimeCal.get(Calendar.AM_PM));
 		System.out.println(userDateCal.getTime());
 	}
-	
+
 }

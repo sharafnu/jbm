@@ -12,6 +12,7 @@
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
+	<context:spring-configured/>
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -24,6 +25,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
+	<context:annotation-config />
 	<context:component-scan base-package="com.innovazions.jbm" />
 
 	<!-- declare datasource bean -->
@@ -34,6 +36,10 @@
 			value="jdbc:postgresql://localhost:5432/jbm" />
 		<beans:property name="username" value="postgres" />
 		<beans:property name="password" value="admin123" />
+		<!-- <beans:property name="url"
+			value="jdbc:postgresql://postgres-jbm-sharaf.jelastic.servint.net/postgres" />
+		<beans:property name="username" value="webadmin" />
+		<beans:property name="password" value="sWSwBKHBEB" /> -->
 	</beans:bean>
 
 	<beans:bean id="propertiesUtil" class="com.innovazions.jbm.common.PropertiesUtil">

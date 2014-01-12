@@ -9,7 +9,9 @@ public interface CustomerService {
 	public Long createCustomer(Customer customer);
 
 	public List<Customer> getCustomerList(Customer customer);
-	
+
 	public Customer getCustomerDetailsByCustomerId(Long customerId);
-	
+
+	public Long createCustomerAndAddress(Customer customer);
+
 }

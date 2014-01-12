@@ -26,15 +26,16 @@ public class CustomerDAOImpl implements CustomerDAO {
 	@Override
 	public long createCustomer(final Customer customer) {
 		System.out.println("Inserting Customer..");
-		final String sql = "INSERT INTO customer (first_name, last_name, mobile_1, mobile_2, mobile_3, email, preference_call, "
-				+ "preference_email, preference_sms, last_modified_date, last_modified_user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		final String sql = "INSERT INTO customer (customer_code, first_name, last_name, mobile_1, mobile_2, mobile_3, email, preference_call, "
+				+ "preference_email, preference_sms, last_modified_date, last_modified_user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		sequence = new PostgreSQLSequenceMaxValueIncrementer(dataSource,
 				"customer_id_seq");
 		jdbcTemplate.update(
 				sql,
-				new Object[] { customer.getFirstName(), customer.getLastName(),
+				new Object[] { customer.getCustomerCode(),
+						customer.getFirstName(), customer.getLastName(),
 						customer.getMobile1(), customer.getMobile2(),
 						customer.getMobile3(), customer.getEmail(),
 						customer.getPreferenceCall(),

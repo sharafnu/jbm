@@ -6,9 +6,11 @@ import java.util.List;
 
 import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.entity.Appointment;
-import com.innovazions.jbm.entity.Area;
+import com.innovazions.jbm.entity.AppointmentPayment;
 import com.innovazions.jbm.entity.Customer;
+import com.innovazions.jbm.entity.CustomerAddress;
 import com.innovazions.jbm.entity.Employee;
+import com.innovazions.jbm.entity.Invoice;
 
 public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 
@@ -28,6 +30,12 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 
 	private String paymentStatus;
 
+	private String paymentType;
+	
+	private String invoiceNo;
+	
+	private Date invoiceDate;
+	
 	private String remarks;
 
 	private String startTime;
@@ -50,6 +58,18 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 
 	private String employeeName;
 
+	private Long customerAddressId;
+	
+	private String addressType;
+	
+	private String buildingName;
+	
+	private String flatNo;
+	
+	private String cityName;
+	
+	private Long cityId;
+	
 	public Long getId() {
 		return id;
 	}
@@ -192,9 +212,6 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 		appointment.setAppointmentDate(this.getAppointmentDate());
 		appointment.setAppointmentNo(this.getAppointmentNo());
 		appointment.setAppointmentStatus(this.getAppointmentStatus());
-		Area area = new Area();
-		area.setId(this.getAreaId());
-		appointment.setArea(area);
 		appointment.setCancellationReason(this.getCancellationReason());
 		Customer customer = new Customer();
 		customer.setId(this.getCustomerId());
@@ -213,23 +230,37 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 		if (!CommonUtils.isEmpty(this.getStartTime())) {
 			try {
 				appointment.setStartDate(CommonUtils.addTimeStringToDate(
-						appointment.getAppointmentDate(), this.getStartTime()));
+						this.getAppointmentDate(), this.getStartTime()));
 			} catch (ParseException e) {
 				e.printStackTrace();
-				appointment.setStartDate(appointment.getAppointmentDate());
+				appointment.setStartDate(this.getAppointmentDate());
 			}
 		}
 
 		if (!CommonUtils.isEmpty(this.getEndTime())) {
 			try {
 				appointment.setEndDate(CommonUtils.addTimeStringToDate(
-						appointment.getAppointmentDate(), this.getEndTime()));
+						this.getAppointmentDate(), this.getEndTime()));
 			} catch (ParseException e) {
 				e.printStackTrace();
-				appointment.setEndDate(appointment.getAppointmentDate());
+				appointment.setEndDate(this.getAppointmentDate());
 			}
 		}
 
+		CustomerAddress customerAddress = new CustomerAddress();
+		customerAddress.setId(this.getCustomerAddressId());
+		appointment.setCustomerAddress(customerAddress);
+		
+		//Set Payment Details
+		AppointmentPayment appointmentPayment  = new AppointmentPayment();
+		appointmentPayment.setAmountPaid(appointment.getPayableAmount());
+		appointmentPayment.setPaymentMode(this.getPaymentType());
+		appointment.setAppointmentPayment(appointmentPayment);
+		//Set Invoice Details
+		Invoice invoice = new Invoice();
+		invoice.setInvoiceNo(this.getInvoiceNo());
+		invoice.setInoviceDate(this.getInvoiceDate());
+		appointment.setInvoice(invoice);
 		return appointment;
 	}
 
@@ -254,6 +285,78 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
+	}
+
+	public Long getCustomerAddressId() {
+		return customerAddressId;
+	}
+
+	public void setCustomerAddressId(Long customerAddressId) {
+		this.customerAddressId = customerAddressId;
+	}
+
+	public String getAddressType() {
+		return addressType;
+	}
+
+	public void setAddressType(String addressType) {
+		this.addressType = addressType;
+	}
+
+	public String getBuildingName() {
+		return buildingName;
+	}
+
+	public void setBuildingName(String buildingName) {
+		this.buildingName = buildingName;
+	}
+
+	public String getFlatNo() {
+		return flatNo;
+	}
+
+	public void setFlatNo(String flatNo) {
+		this.flatNo = flatNo;
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
+	public Long getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(Long cityId) {
+		this.cityId = cityId;
+	}
+
+	public String getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
+	}
+
+	public String getInvoiceNo() {
+		return invoiceNo;
+	}
+
+	public void setInvoiceNo(String invoiceNo) {
+		this.invoiceNo = invoiceNo;
+	}
+
+	public Date getInvoiceDate() {
+		return invoiceDate;
+	}
+
+	public void setInvoiceDate(Date invoiceDate) {
+		this.invoiceDate = invoiceDate;
 	}
 
 }

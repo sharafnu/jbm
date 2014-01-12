@@ -50,15 +50,16 @@ CREATE TABLE customer (
 );
 
 CREATE SEQUENCE "customer_id_seq";
-CREATE SEQUENCE "customer_code_seq" START 1001;
 
 ALTER TABLE customer
 ALTER COLUMN id 
 SET DEFAULT NEXTVAL('customer_id_seq');
 
-ALTER TABLE customer
-ALTER COLUMN customer_code 
-SET DEFAULT NEXTVAL('customer_code_seq');
+--ALTER TABLE customer
+--ALTER COLUMN customer_code 
+--SET DEFAULT NEXTVAL('customer_code_seq');
+
+ALTER TABLE ONLY customer ALTER COLUMN customer_code SET DEFAULT NULL;
 
 -- area
 CREATE TABLE area (
@@ -83,7 +84,7 @@ CREATE TABLE appointment (
      , appointment_date TIMESTAMP NOT NULL
      , start_date TIMESTAMP
      , end_date TIMESTAMP
-     , area_id BIGINT
+     , customer_address_id BIGINT
      , customer_id BIGINT NOT NULL
      , employee_id BIGINT
      , remarks VARCHAR(1024)
@@ -99,8 +100,8 @@ CREATE TABLE appointment (
                   REFERENCES customer (id)
      , CONSTRAINT FK_appointment_2 FOREIGN KEY (employee_id)
                   REFERENCES employee (id)
-     , CONSTRAINT FK_appointment_3 FOREIGN KEY (area_id)
-                  REFERENCES area (id)
+     , CONSTRAINT FK_appointment_3 FOREIGN KEY (customer_address_id)
+                  REFERENCES customer_address (id)
 );
 
 CREATE SEQUENCE "appointment_id_seq";
@@ -155,7 +156,7 @@ SET DEFAULT NEXTVAL('customer_contract_id_seq');
 CREATE TABLE invoice (
        id BIGINT NOT NULL
      , invoice_no VARCHAR(256) NOT NULL
-     , inovice_date TIMESTAMP
+     , invoice_date TIMESTAMP
      , amount DOUBLE PRECISION
      , appointment_id BIGINT
      , status VARCHAR(16)
@@ -210,17 +211,13 @@ ALTER TABLE system_property
 ALTER COLUMN id 
 SET DEFAULT NEXTVAL('system_property_id_seq');
 
-INSERT INTO system_property (prop_key, prop_value, description) VALUES ('TOPIC_ICONS_LOCATION', 'ui/jqxtree/images/', 'Tree nodes icon location');
-INSERT INTO system_property (prop_key, prop_value, description) VALUES ('TOPIC_ICONS_EXTN', '.png', 'Tree nodes icon extenstion');
-INSERT INTO system_property (prop_key, prop_value, description) VALUES ('TOPIC_CONTENT_BASE_URL', 'ui/', 'Topic content URL pattern');
-INSERT INTO system_property (prop_key, prop_value, description) VALUES ('TOPIC_CONTENT_SUFFIX', '.jsp', 'Topic content page extenstion');
-
 -- sec_user
 
 CREATE SEQUENCE "sec_user_id_seq";
 
 CREATE TABLE sec_user (
        id BIGINT NOT NULL
+     , username VARCHAR(32) NOT NULL  
      , email VARCHAR(128) NOT NULL
      , first_name VARCHAR(256) NOT NULL
      , last_name VARCHAR(256)
@@ -234,13 +231,23 @@ ALTER TABLE sec_user
 ALTER COLUMN id 
 SET DEFAULT NEXTVAL('sec_user_id_seq');
 
-insert into SEC_USER(email, first_name, last_name, password, enabled) values (
-	'nadeer@infosuluzions.com', 'Nadeer', 'Ali', 'nadeer', 'CUSTOMER_CARE', true);
-	
-insert into SEC_USER(email, first_name, last_name, password, enabled) values (
-	'sharaf@infosuluzions.com', 'Sharafudeen', 'Aboobacker', 'CUSTOMER_CARE', true);
+-- sec_user_role
+CREATE SEQUENCE "sec_user_role_id_seq";
 
-insert into SEC_USER(email, first_name, last_name, password, enabled) values (
-	'admin', 'Super', 'Administrator', 'admin123', 'ADMIN', true);
+CREATE TABLE sec_user_role (
+       id BIGINT NOT NULL
+     , user_id BIGINT NOT NULL
+     , role_id BIGINT NOT NULL
+     , PRIMARY KEY (id)
+     , CONSTRAINT FK_user_role_2 FOREIGN KEY (user_id)
+                  REFERENCES SEC_USER (id)
+);
 
-	
+ALTER TABLE sec_user_role
+ALTER COLUMN id 
+SET DEFAULT NEXTVAL('sec_user_role_id_seq');
+
+-- auto gen sequences
+CREATE SEQUENCE "appointment_no_seq" START 1001;
+CREATE SEQUENCE "employee_code_seq" START 1001;
+CREATE SEQUENCE "customer_code_seq" START 1001;

@@ -45,7 +45,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService,
 						CommonUtils.getFormattedDate(appointment
 								.getAppointmentDate()));
 				mailContents = mailContents.replace("{location}", appointment
-						.getArea().getName());
+						.getCustomerAddress().toString());
 				helper.setSubject(subject);
 				helper.setText(mailContents, true);
 				/*

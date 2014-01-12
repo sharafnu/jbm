@@ -36,6 +36,8 @@ public class Customer extends CoreEntity<Customer, CustomerView> implements
 
 	private Integer preferenceSms;
 
+	private List<CustomerAddress> customerAddressList;
+	
 	public Customer() {
 	}
 
@@ -158,5 +160,13 @@ public class Customer extends CoreEntity<Customer, CustomerView> implements
 			customerViewList.add(customer.convertEntityToView());
 		}
 		return customerViewList;
+	}
+
+	public List<CustomerAddress> getCustomerAddressList() {
+		return customerAddressList;
+	}
+
+	public void setCustomerAddressList(List<CustomerAddress> customerAddressList) {
+		this.customerAddressList = customerAddressList;
 	}
 }

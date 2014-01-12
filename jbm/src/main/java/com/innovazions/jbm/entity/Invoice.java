@@ -2,6 +2,7 @@ package com.innovazions.jbm.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 
 
 /**
@@ -15,13 +16,9 @@ public class Invoice implements Serializable {
 
 	private double amount;
 
-	private Timestamp inoviceDate;
+	private Date inoviceDate;
 
 	private String invoiceNo;
-
-	private Timestamp lastModifiedDate;
-
-	private String lastModifiedUser;
 
 	private String status;
 
@@ -44,11 +41,11 @@ public class Invoice implements Serializable {
 		this.amount = amount;
 	}
 
-	public Timestamp getInoviceDate() {
+	public Date getInoviceDate() {
 		return this.inoviceDate;
 	}
 
-	public void setInoviceDate(Timestamp inoviceDate) {
+	public void setInoviceDate(Date inoviceDate) {
 		this.inoviceDate = inoviceDate;
 	}
 
@@ -60,22 +57,7 @@ public class Invoice implements Serializable {
 		this.invoiceNo = invoiceNo;
 	}
 
-	public Timestamp getLastModifiedDate() {
-		return this.lastModifiedDate;
-	}
-
-	public void setLastModifiedDate(Timestamp lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public String getLastModifiedUser() {
-		return this.lastModifiedUser;
-	}
-
-	public void setLastModifiedUser(String lastModifiedUser) {
-		this.lastModifiedUser = lastModifiedUser;
-	}
-
+	
 	public String getStatus() {
 		return this.status;
 	}
