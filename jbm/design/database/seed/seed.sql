@@ -45,6 +45,9 @@ INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_SM
 INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_PREFIX_APPOINTMENT_NO', 	'JB', 'Appoinment No Prefix');
 INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_PREFIX_EMPLOYEE_CODE', 	'EMP', 'Employee Code Prefix');
 INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_PREFIX_CUSTOMER_CODE', 	'CUS', 'Customer Code Prefix');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_PREFIX_CUSTOMER_CONTRACT_CODE', 	'CT', 'Customer Contract Code Prefix');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_DEFAULT_PASSWORD', 		'pass123', 'Default Password');
+
 
 insert into SEC_USER(email, username, first_name, last_name, password, role, enabled) values ('nadeer@infosuluzions.com', 
 'nadeer', 'Nadeer', 'Ali', 'nadeer', 'ROLE_ADMIN', true);

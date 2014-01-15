@@ -29,6 +29,8 @@ public class CustomerContractExtractor implements
 		customerContract.setLastModifiedDate(rs.getDate("last_modified_date"));
 		customerContract
 				.setLastModifiedUser(rs.getString("last_modified_user"));
+		customerContract.setVisitCount(rs.getInt("visit_count"));
+		//customerContract.setUtilizedVisitCount(rs.getInt("utilizedVisitCount"));
 		return customerContract;
 	}
 

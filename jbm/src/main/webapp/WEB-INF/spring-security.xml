@@ -15,7 +15,8 @@
 		<form-login login-page="/login.html" authentication-failure-url="/login.html?error=true"
 			default-target-url="/home.html" />
 
-		<logout invalidate-session="true" logout-success-url="/login.html"
+		<logout invalidate-session="true" logout-success-url="/login.html" 
+			delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE"
 			logout-url="/logout.html" />
 		
 <!-- 		<remember-me user-service-ref="accessManagerService" />	 -->
@@ -33,9 +34,13 @@
 	</authentication-manager>
  -->
  
- <authentication-manager>
+ 	
+ 	<authentication-manager>
 		<authentication-provider user-service-ref="accessManagerService">
-			<!-- <password-encoder ref="passwordEncoder"/> -->
+			<password-encoder hash="md5">
+            	<!-- <salt-source user-property="username"/> -->
+            	<salt-source system-wide="jbm"/>
+        	</password-encoder> 
 		</authentication-provider>
 	</authentication-manager>
 	

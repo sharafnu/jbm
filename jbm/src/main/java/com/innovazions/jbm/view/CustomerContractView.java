@@ -27,6 +27,10 @@ public class CustomerContractView extends
 
 	private Date expiryDate;
 
+	private int visitCount;
+	
+	private int utilizedVisitCount;
+	
 	public Long getId() {
 		return id;
 	}
@@ -114,6 +118,8 @@ public class CustomerContractView extends
 		customerContract.setId(this.getId());
 		customerContract.setLastModifiedDate(this.getLastModifiedDate());
 		customerContract.setLastModifiedUser(this.getLastModifiedUser());
+		customerContract.setVisitCount(this.getVisitCount());
+		customerContract.setUtilizedVisitCount(this.getUtilizedVisitCount());
 		return customerContract;
 	}
 
@@ -122,5 +128,21 @@ public class CustomerContractView extends
 			List<CustomerContractView> viewList) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public int getVisitCount() {
+		return visitCount;
+	}
+
+	public void setVisitCount(int visitCount) {
+		this.visitCount = visitCount;
+	}
+
+	public int getUtilizedVisitCount() {
+		return utilizedVisitCount;
+	}
+
+	public void setUtilizedVisitCount(int utilizedVisitCount) {
+		this.utilizedVisitCount = utilizedVisitCount;
 	}
 }

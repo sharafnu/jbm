@@ -33,6 +33,11 @@ public class CustomerContract extends
 
 	private Date expiryDate;
 
+	private int visitCount;
+	
+	//Transient Field
+	private int utilizedVisitCount;
+	
 	public CustomerContract() {
 	}
 
@@ -117,6 +122,8 @@ public class CustomerContract extends
 		customerContractView.setId(this.getId());
 		customerContractView.setLastModifiedDate(this.getLastModifiedDate());
 		customerContractView.setLastModifiedUser(this.getLastModifiedUser());
+		customerContractView.setVisitCount(this.getVisitCount());
+		customerContractView.setUtilizedVisitCount(this.getUtilizedVisitCount());
 		return customerContractView;
 	}
 
@@ -128,6 +135,22 @@ public class CustomerContract extends
 			contractViewList.add(customerContract.convertEntityToView());
 		}
 		return contractViewList;
+	}
+
+	public int getVisitCount() {
+		return visitCount;
+	}
+
+	public void setVisitCount(int visitCount) {
+		this.visitCount = visitCount;
+	}
+
+	public int getUtilizedVisitCount() {
+		return utilizedVisitCount;
+	}
+
+	public void setUtilizedVisitCount(int utilizedVisitCount) {
+		this.utilizedVisitCount = utilizedVisitCount;
 	}
 
 }

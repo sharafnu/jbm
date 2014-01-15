@@ -7,8 +7,10 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.incrementer.PostgreSQLSequenceMaxValueIncrementer;
 import org.springframework.stereotype.Repository;
 
+import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.dao.EmployeeDAO;
 import com.innovazions.jbm.entity.Employee;
 import com.innovazions.jbm.entity.jdbc.mapper.EmployeeRowMapper;
@@ -19,21 +21,36 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Autowired
 	private DataSource dataSource;
 
+	private PostgreSQLSequenceMaxValueIncrementer sequence;
+
 	@Override
 	public long createEmployee(Employee employee) {
 		System.out.println("Inserting Employee..");
-		String sql = "INSERT INTO employee (employee_code,first_name, nationality, join_date, salary, remarks) "
-				+ "VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO employee (employee_code,first_name, nationality, join_date, salary, remarks, "
+				+ "contact_mobile_no, home_cntry_contact_no, address, passport_no, visa_details, employee_status) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-		jdbcTemplate.update(
-				sql,
-				new Object[] { employee.getEmployeeCode(),
-						employee.getFirstName(), employee.getNationality(),
-						employee.getJoinDate(), employee.getSalary(),
-						employee.getRemarks() });
-		return 0;
+		sequence = new PostgreSQLSequenceMaxValueIncrementer(dataSource,
+				"employee_id_seq");
+		jdbcTemplate
+				.update(sql,
+						new Object[] {
+								employee.getEmployeeCode(),
+								employee.getFirstName(),
+								employee.getNationality(),
+								CommonUtils.getTimeStampFromDate(employee
+										.getJoinDate()), employee.getSalary(),
+								employee.getRemarks(),
+								employee.getContactMobileNo(),
+								employee.getHomeCountryContactNo(),
+								employee.getAddress(),
+								employee.getPassportNo(),
+								employee.getVisaDetails(),
+								employee.getEmployeeStatus() });
+
+		return sequence.nextLongValue() - 1;
 	}
 
 	@Override
@@ -53,7 +70,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		List<Employee> employeeList = new ArrayList<Employee>();
 
 		String sql = "select e.id, e.employee_code, e.first_name,e.nationality, "
-				+ "e.join_date, e.salary, e.remarks from employee e";
+				+ "e.join_date, e.salary, e.remarks, e.contact_mobile_no, e.home_cntry_contact_no,  "
+				+ "e.address, e.passport_no, e.visa_details, e.employee_status from employee e";
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		employeeList = jdbcTemplate.query(sql, new EmployeeRowMapper());

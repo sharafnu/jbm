@@ -1,5 +1,6 @@
 package com.innovazions.jbm.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -16,16 +17,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.common.JBMConstants;
 import com.innovazions.jbm.entity.Area;
 import com.innovazions.jbm.entity.City;
 import com.innovazions.jbm.entity.Employee;
+import com.innovazions.jbm.entity.User;
 import com.innovazions.jbm.service.AreaService;
 import com.innovazions.jbm.service.CommonService;
 import com.innovazions.jbm.service.EmployeeService;
+import com.innovazions.jbm.service.impl.AccessManagerService;
+import com.innovazions.jbm.view.ActionStatus;
 import com.innovazions.jbm.view.AreaView;
 import com.innovazions.jbm.view.CityView;
 import com.innovazions.jbm.view.EmployeeView;
+import com.innovazions.jbm.view.UserView;
 
 /**
  * Handles requests for the application home page.
@@ -44,6 +50,9 @@ public class MasterController extends AbstractController {
 
 	@Autowired
 	private CommonService commonService;
+
+	@Autowired
+	private AccessManagerService userService;
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -108,11 +117,11 @@ public class MasterController extends AbstractController {
 
 	@RequestMapping(value = "/saveEmployee", method = RequestMethod.POST)
 	public @ResponseBody
-	String saveEmployee(
+	ActionStatus saveEmployee(
 			@ModelAttribute("employeeView") EmployeeView employeeView,
 			BindingResult result, HttpServletRequest request) {
 		if (!request.isUserInRole("ROLE_ADMIN")) {
-			return "home";
+			return CommonUtils.getUnAuthorizedAccessActionStatus();
 		}
 		System.out.println("Employee Name:" + employeeView.getFirstName()
 				+ " Join Date:" + employeeView.getJoinDate());
@@ -121,7 +130,44 @@ public class MasterController extends AbstractController {
 				JBMConstants.SEQ_EMPLOYEE_CODE,
 				JBMConstants.PROP_PREFIX_EMPLOYEE_CODE);
 		employee.setEmployeeCode(empCode);
-		employeeService.createEmployee(employee);
+		Long employeeId = employeeService.createEmployee(employee);
+		return CommonUtils.getDataSaveSuccessActionStatus(employeeId, empCode);
+	}
+
+	@RequestMapping(value = "/userDetails", method = RequestMethod.GET)
+	public String userDetails(Locale locale, Model model,
+			HttpServletRequest request) {
+		if (!request.isUserInRole("ROLE_ADMIN")) {
+			return "home";
+		}
+		logger.info("Master Controller >> userDetails");
+		return "userList";
+	}
+
+	@RequestMapping(value = "/userListJSON", method = RequestMethod.GET)
+	public @ResponseBody
+	List<UserView> userListJSON(Model model, HttpServletRequest request) {
+		logger.info("MasterController > userListJSON");
+		if (!request.isUserInRole("ROLE_ADMIN")) {
+			return null;
+		}
+		List<User> userList = userService.getAllUserList();
+		return new User().convertEntitiesToViews(userList);
+	}
+
+	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
+	public @ResponseBody
+	String saveUser(@ModelAttribute("userView") UserView userView,
+			BindingResult result, HttpServletRequest request) {
+		if (!request.isUserInRole("ROLE_ADMIN")) {
+			return "home";
+		}
+		System.out.println("User Name:" + userView.getFirstName() + " User Id:"
+				+ userView.getUsername());
+		User user = userView.convertViewToEntity();
+		user.setLastModifiedDate(new Date());
+		user.setLastModifiedUser("SYSTEM");
+		userService.createUser(user);
 		return "Success";
 	}
 }

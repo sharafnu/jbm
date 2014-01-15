@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.innovazions.jbm.entity.Employee;
 
-public class EmployeeView extends GenericView<EmployeeView, Employee>{
-	
+public class EmployeeView extends GenericView<EmployeeView, Employee> {
+
 	private Long id;
 
 	private String employeeCode;
@@ -25,6 +25,18 @@ public class EmployeeView extends GenericView<EmployeeView, Employee>{
 
 	private double salary;
 
+	private String contactMobileNo;
+
+	private String homeCountryContactNo;
+
+	private String address;
+
+	private String passportNo;
+
+	private String visaDetails;
+
+	private String employeeStatus;
+
 	@Override
 	public Employee convertViewToEntity() {
 		Employee employee = new Employee();
@@ -35,6 +47,12 @@ public class EmployeeView extends GenericView<EmployeeView, Employee>{
 		employee.setNationality(this.getNationality());
 		employee.setRemarks(this.getRemarks());
 		employee.setSalary(this.getSalary());
+		employee.setContactMobileNo(this.getContactMobileNo());
+		employee.setHomeCountryContactNo(this.getHomeCountryContactNo());
+		employee.setAddress(this.getAddress());
+		employee.setPassportNo(this.getPassportNo());
+		employee.setVisaDetails(this.getVisaDetails());
+		employee.setEmployeeStatus(this.getEmployeeStatus());
 		return employee;
 	}
 
@@ -114,5 +132,53 @@ public class EmployeeView extends GenericView<EmployeeView, Employee>{
 
 	public void setSalary(double salary) {
 		this.salary = salary;
+	}
+
+	public String getContactMobileNo() {
+		return contactMobileNo;
+	}
+
+	public void setContactMobileNo(String contactMobileNo) {
+		this.contactMobileNo = contactMobileNo;
+	}
+
+	public String getHomeCountryContactNo() {
+		return homeCountryContactNo;
+	}
+
+	public void setHomeCountryContactNo(String homeCountryContactNo) {
+		this.homeCountryContactNo = homeCountryContactNo;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPassportNo() {
+		return passportNo;
+	}
+
+	public void setPassportNo(String passportNo) {
+		this.passportNo = passportNo;
+	}
+
+	public String getVisaDetails() {
+		return visaDetails;
+	}
+
+	public void setVisaDetails(String visaDetails) {
+		this.visaDetails = visaDetails;
+	}
+
+	public String getEmployeeStatus() {
+		return employeeStatus;
+	}
+
+	public void setEmployeeStatus(String employeeStatus) {
+		this.employeeStatus = employeeStatus;
 	}
 }

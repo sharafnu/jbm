@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.innovazions.jbm.view.ActionStatus;
+
 public class CommonUtils {
 
 	public static final String DATE_FORMAT_DDMMYYYY = "dd/MM/yyyy";
@@ -114,5 +116,35 @@ public class CommonUtils {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				TIME_FORMAT_HHMMSS_AM_PM);
 		return dateFormat.format(inputDate);
+	}
+
+	public static ActionStatus getUnAuthorizedAccessActionStatus() {
+		ActionStatus actionStatus = new ActionStatus(
+				ActionStatus.STATUS_TYPE_ERROR,
+				ActionMessages.STATUS_MESSAGE_UN_AUTHORIZED_ACCESS);
+		return actionStatus;
+	}
+
+	public static ActionStatus getDataSaveSuccessActionStatus() {
+		ActionStatus actionStatus = new ActionStatus(
+				ActionStatus.STATUS_TYPE_SUCCESS,
+				ActionMessages.STATUS_MESSAGE_DATA_SAVE_SUCCESS);
+		return actionStatus;
+	}
+
+	public static ActionStatus getDataSaveSuccessActionStatus(Long generatedId) {
+		ActionStatus actionStatus = new ActionStatus(
+				ActionStatus.STATUS_TYPE_SUCCESS,
+				ActionMessages.STATUS_MESSAGE_DATA_SAVE_SUCCESS, generatedId);
+		return actionStatus;
+	}
+
+	public static ActionStatus getDataSaveSuccessActionStatus(Long generatedId,
+			String generatedCode) {
+		ActionStatus actionStatus = new ActionStatus(
+				ActionStatus.STATUS_TYPE_SUCCESS,
+				ActionMessages.STATUS_MESSAGE_DATA_SAVE_SUCCESS, generatedId,
+				generatedCode);
+		return actionStatus;
 	}
 }

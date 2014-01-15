@@ -159,6 +159,10 @@ public class CustomerController extends AbstractController {
 		customerContractView.setLastModifiedUser("SYSTEM");
 		CustomerContract customerContract = customerContractView
 				.convertViewToEntity();
+		String contractCode = commonService.getSequenceCodeByType(
+				JBMConstants.SEQ_CUSTOMER_CONTRACT_CODE,
+				JBMConstants.PROP_PREFIX_CUSTOMER_CONTRACT_CODE);
+		customerContract.setContractNo(contractCode);
 		customerContractService.createCustomerContract(customerContract);
 		return "Success";
 	}

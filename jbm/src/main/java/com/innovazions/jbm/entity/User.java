@@ -8,7 +8,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class User implements UserDetails {
+import com.innovazions.jbm.common.Roles;
+import com.innovazions.jbm.view.UserView;
+
+public class User extends CoreEntity<User, UserView> implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
@@ -62,7 +65,7 @@ public class User implements UserDetails {
 		return enabled;
 	}
 
-	private List<String> roles = new ArrayList<String>();
+	private List<UserRole> roles;
 
 	public User() {
 	}
@@ -111,11 +114,11 @@ public class User implements UserDetails {
 		this.enabled = enabled;
 	}
 
-	public List<String> getRoles() {
+	public List<UserRole> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<String> roles) {
+	public void setRoles(List<UserRole> roles) {
 		this.roles = roles;
 	}
 
@@ -137,5 +140,41 @@ public class User implements UserDetails {
 		List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
 		list.add(new SimpleGrantedAuthority(getRole()));
 		return list;
+	}
+
+	@Override
+	public UserView convertEntityToView() {
+		UserView userView = new UserView();
+		userView.setEmail(this.getEmail());
+		userView.setEnabled(this.getEnabled());
+		userView.setFirstName(this.getFirstName());
+		userView.setLastName(this.getLastName());
+		userView.setId(this.getId());
+		userView.setLastModifiedDate(this.getLastModifiedDate());
+		userView.setLastModifiedUser(this.getLastModifiedUser());
+		userView.setLastName(this.getLastName());
+		//Mask the password for view
+		userView.setPassword("xxxx");
+		userView.setUsername(this.getUsername());
+		if (this.getRoles() != null) {
+
+			for (UserRole aRole : this.getRoles()) {
+				if (aRole.getRoleId() == Roles.ROLE_ADMIN.getRoleId()) {
+					userView.setAdminRole(1);
+				} else if (aRole.getRoleId() == Roles.ROLE_USER.getRoleId()) {
+					userView.setUserRole(1);
+				}
+			}
+		}
+		return userView;
+	}
+
+	@Override
+	public List<UserView> convertEntitiesToViews(List<User> entityList) {
+		List<UserView> userViewList = new ArrayList<UserView>();
+		for (User user : entityList) {
+			userViewList.add(user.convertEntityToView());
+		}
+		return userViewList;
 	}
 }

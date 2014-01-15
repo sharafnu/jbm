@@ -21,7 +21,12 @@ public class EmployeeExtractor implements ResultSetExtractor<Employee> {
 		employee.setJoinDate(rs.getDate("join_date"));
 		employee.setSalary(rs.getDouble("salary"));
 		employee.setRemarks(rs.getString("remarks"));
+		employee.setContactMobileNo(rs.getString("contact_mobile_no"));
+		employee.setHomeCountryContactNo(rs.getString("home_cntry_contact_no"));
+		employee.setAddress(rs.getString("address"));
+		employee.setPassportNo(rs.getString("passport_no"));
+		employee.setVisaDetails(rs.getString("visa_details"));
+		employee.setEmployeeStatus(rs.getString("employee_status"));
 		return employee;
 	}
-
 }

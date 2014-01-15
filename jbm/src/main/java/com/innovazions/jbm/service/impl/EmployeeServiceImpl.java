@@ -16,8 +16,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private EmployeeDAO employeeDAO;
 
 	@Override
-	public void createEmployee(Employee employee) {
-		employeeDAO.createEmployee(employee);
+	public Long createEmployee(Employee employee) {
+		return employeeDAO.createEmployee(employee);
 	}
 
 	@Override

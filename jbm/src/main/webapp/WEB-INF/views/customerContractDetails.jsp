@@ -49,6 +49,8 @@
                 datatype: "json",
                 datafields: [
                     { name: 'amount', 			type: 'int' },
+                    { name: 'visitCount', 		type: 'int' },
+                    //{ name: 'utilizedVisitCount', 		type: 'int' },
                     { name: 'contractNo', 		type: 'string' },
                     { name: 'contractStatus', 	type: 'string' },
                     { name: 'contractType', 	type: 'string' },
@@ -63,7 +65,7 @@
             // initialize jqxGrid
             $("#jqxgrid").jqxGrid(
             {
-                width: 750,
+                width: 760,
                 source: customerContractDataAdapter,
                 showstatusbar: true,
                 renderstatusbar: function (statusbar) {
@@ -91,21 +93,21 @@
                 editable: false,
                 selectionmode: 'none',
                 columns: [
-		  		  { text: 'Contract No',  		datafield: 'contractNo', 		width: 170 }, 	
-                  { text: 'Contract Type',  	datafield: 'contractType', 		width: 150 },
+		  		  { text: 'Contract No',  		datafield: 'contractNo', 		width: 150 }, 	
+                  { text: 'Contract Type',  	datafield: 'contractType', 		width: 160 },
                   { text: 'Contract Date',  	datafield: 'contractDate', 		width: 100 },
-                  { text: 'Amount',  			datafield: 'amount', 			width: 100 },
+                  { text: 'Amount',  			datafield: 'amount', 			width: 80 },
+                  { text: 'No. of Visits',  	datafield: 'visitCount', 		width: 90 },
+                  //{ text: 'Utilized',  			datafield: 'utilizedVisitCount', 	width: 90 },
                   { text: 'Expiry Date',  		datafield: 'expiryDate', 		width: 100 },
-                  { text: 'Contract Status',  	datafield: 'contractStatus', 	width: 130 }
+                  { text: 'Status',  			datafield: 'contractStatus', 	width: 80 }
                 ]
             });
         }
         
         function setupContractsPopupForm() {
          	var contractTypeSource = [
-                          "Contract Type 1",
-                          "Contract Type 2",
-                          "Contract Type 3"
+                          "Visits Promotion"
       		];
          	            
             $("#fromContractType").jqxComboBox({ selectedIndex: 0, source: contractTypeSource, width: 200, height: 20});
@@ -117,17 +119,23 @@
                      	            
             $("#frmContractStatus").jqxComboBox({ selectedIndex: 0, source: contractStatusSource, width: 200, height: 20});
             
+            
+            $("#frmVisitCount").jqxInput({
+				width : '80px',
+				height : '20px'
+			});
             $("#frmAmount").jqxInput({
 				width : '80px',
 				height : '20px'
 			});
             $("#frmContractNo").jqxInput({
 				width : '200px',
-				height : '20px'
+				height : '20px',
+				disabled: true
 			});
-            $("#frmContractDate").jqxDateTimeInput({width: '200px', height: '20px'});
+            $("#frmContractDate").jqxDateTimeInput({width: '200px', height: '20px', formatString: 'dd-MM-yyyy'});
            	
-            $("#frmExpiryDate").jqxDateTimeInput({width: '200px', height: '20px'});
+            $("#frmExpiryDate").jqxDateTimeInput({width: '200px', height: '20px', formatString: 'dd-MM-yyyy'});
             
             // initialize the popup window and buttons.
             $("#popupWindow").jqxWindow({
@@ -148,13 +156,15 @@
 		       	  type: "POST",
 		       	  url: "saveCustomerContract.html",
 		       	  data: { contractNo: $("#frmContractNo").val(), contractType: contractTypeItem.value, contractDate: $("#frmContractDate").val(), 
-		       		amount: $("#frmAmount").val(), expiryDate: $("#frmExpiryDate").val(), contractStatus: contractStatusItem.value, customerId:customerIdItem.value }
+		       		amount: $("#frmAmount").val(), visitCount: $("#frmVisitCount").val(), expiryDate: $("#frmExpiryDate").val(), contractStatus: contractStatusItem.value, customerId:customerIdItem.value }
 		       	}).done(function( msg ) {
 		       	    //alert( "Data Saved: " + msg );
+		       		$("#jqxgrid").jqxGrid('updatebounddata');
 		       	});
-	       	    $("#jqxgrid").jqxGrid('addrow', null, row);
+	       	    //$("#jqxgrid").jqxGrid('addrow', null, row);
                 //Clear form values
                 $("#frmAmount").val("");
+                $("#frmVisitCount").val("");
                 $("#frmContractNo").val("");
                 $("#frmContractStatus").val("");
                 $("#fromContractType").val("");
@@ -173,7 +183,7 @@
 	<div id="createAccount" class="cornerDiv">	
 		<div style="background-color: #F4F0F5; color: #000; min-height: 1.5em; vertical-align: middle; padding: 5px; width: 800px;">
 		Customer Contracts</div>
-        <div style="font-family: Verdana; font-size: 13px; overflow: hidden; margin: 10px;">
+        <div style="font-family: Verdana; font-size: 13px; overflow: hidden; margin: 5px;">
 				<table border="0" width="100%" class="popupFormTable">
 					<tr>
 						<td colspan="1" width="20%">Select Customer :</td>
@@ -212,6 +222,10 @@
 	                    <tr>
 	                        <td align="right">Amount:</td>
 	                        <td align="left"><input id='frmAmount'/></td>
+	                    </tr>
+	                    <tr>
+	                        <td align="right">No. of Visits:</td>
+	                        <td align="left"><input id='frmVisitCount'/></td>
 	                    </tr>
 	                    <tr>
 	                        <td align="right">Expiry Date:</td>

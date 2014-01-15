@@ -251,3 +251,15 @@ SET DEFAULT NEXTVAL('sec_user_role_id_seq');
 CREATE SEQUENCE "appointment_no_seq" START 1001;
 CREATE SEQUENCE "employee_code_seq" START 1001;
 CREATE SEQUENCE "customer_code_seq" START 1001;
+ALTER SEQUENCE "customer_contract_id_seq" START 1001;
+-- employee alter
+
+ALTER table employee add COLUMN contact_mobile_no varchar(16);
+ALTER table employee add COLUMN home_cntry_contact_no varchar(16);
+ALTER table employee add COLUMN address varchar(1024);
+ALTER table employee add COLUMN passport_no varchar(32);
+ALTER table employee add COLUMN visa_details varchar(512);
+ALTER table employee add COLUMN employee_status varchar(16);
+
+-- customer_contract alter
+alter table customer_contract add column visit_count int;

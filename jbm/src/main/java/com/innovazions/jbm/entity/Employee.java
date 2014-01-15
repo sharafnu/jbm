@@ -33,6 +33,18 @@ public class Employee extends CoreEntity<Employee, EmployeeView> implements
 
 	private double salary;
 
+	private String contactMobileNo;
+	
+	private String homeCountryContactNo;
+	
+	private String address;
+	
+	private String passportNo;
+	
+	private String visaDetails;
+	
+	private String employeeStatus;
+	
 	public Employee() {
 	}
 
@@ -118,6 +130,12 @@ public class Employee extends CoreEntity<Employee, EmployeeView> implements
 		employeeView.setNationality(this.getNationality());
 		employeeView.setRemarks(this.getRemarks());
 		employeeView.setSalary(this.getSalary());
+		employeeView.setContactMobileNo(this.getContactMobileNo());
+		employeeView.setHomeCountryContactNo(this.getHomeCountryContactNo());
+		employeeView.setAddress(this.getAddress());
+		employeeView.setPassportNo(this.getPassportNo());
+		employeeView.setVisaDetails(this.getVisaDetails());
+		employeeView.setEmployeeStatus(this.getEmployeeStatus());
 		return employeeView;
 	}
 
@@ -128,6 +146,54 @@ public class Employee extends CoreEntity<Employee, EmployeeView> implements
 			employeeViewList.add(employee.convertEntityToView());
 		}
 		return employeeViewList;
+	}
+
+	public String getContactMobileNo() {
+		return contactMobileNo;
+	}
+
+	public void setContactMobileNo(String contactMobileNo) {
+		this.contactMobileNo = contactMobileNo;
+	}
+
+	public String getHomeCountryContactNo() {
+		return homeCountryContactNo;
+	}
+
+	public void setHomeCountryContactNo(String homeCountryContactNo) {
+		this.homeCountryContactNo = homeCountryContactNo;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPassportNo() {
+		return passportNo;
+	}
+
+	public void setPassportNo(String passportNo) {
+		this.passportNo = passportNo;
+	}
+
+	public String getVisaDetails() {
+		return visaDetails;
+	}
+
+	public void setVisaDetails(String visaDetails) {
+		this.visaDetails = visaDetails;
+	}
+
+	public String getEmployeeStatus() {
+		return employeeStatus;
+	}
+
+	public void setEmployeeStatus(String employeeStatus) {
+		this.employeeStatus = employeeStatus;
 	}
 
 }
