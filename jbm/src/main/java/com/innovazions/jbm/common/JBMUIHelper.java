@@ -1,6 +1,8 @@
 package com.innovazions.jbm.common;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,4 +47,34 @@ public class JBMUIHelper implements JBMConstants {
 		}
 		return false;
 	}
+
+	public static void main(String[] args) {
+		timeComboList();
+	}
+
+	public static List<String> timeComboList() {
+		List<String> hourList = new ArrayList<String>();
+		int morningstart = 9;
+		int morningend = 12;
+		for (int i = morningstart; i < morningend; i++) {
+			String anHour = String.format("%02d:00", i);
+			hourList.add(anHour + " am");
+			anHour = String.format("%02d:30", i);
+			hourList.add(anHour + " am");
+		}
+
+		String anHour = String.format("%02d:00", 12);
+		hourList.add(anHour + " pm");
+		int afternoonstart = 1;
+		int afternoonend = 9;
+		for (int i = afternoonstart; i < afternoonend; i++) {
+			anHour = String.format("%02d:00", i);
+			hourList.add(anHour + " pm");
+			anHour = String.format("%02d:30", i);
+			hourList.add(anHour + " pm");
+		}
+
+		return hourList;
+	}
+
 }

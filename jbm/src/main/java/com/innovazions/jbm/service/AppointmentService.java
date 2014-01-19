@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.innovazions.jbm.entity.Appointment;
+import com.innovazions.jbm.vo.DailyAppointmentCountVO;
 import com.innovazions.jbm.vo.StaffAppointmentCountVO;
 
 public interface AppointmentService {
@@ -22,4 +23,11 @@ public interface AppointmentService {
 
 	public List<StaffAppointmentCountVO> getAllStaffAppointmentCountListByDate(
 			Date appointmentDate);
+
+	public List<DailyAppointmentCountVO> getDailyAppointmentCountList();
+	
+	public List<DailyAppointmentCountVO> getDailyAppointmentCountListByStaffId(Long staffId);
+	
+	List<Appointment> getStaffAppointmentsBetweenDates(Long staffId,
+			Date fromDateTime, Date toDateTime);
 }

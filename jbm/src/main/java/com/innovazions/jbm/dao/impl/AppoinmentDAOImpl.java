@@ -19,6 +19,7 @@ import com.innovazions.jbm.common.JBMConstants;
 import com.innovazions.jbm.dao.AppointmentDAO;
 import com.innovazions.jbm.entity.Appointment;
 import com.innovazions.jbm.entity.jdbc.mapper.AppointmentRowMapper;
+import com.innovazions.jbm.vo.DailyAppointmentCountVO;
 import com.innovazions.jbm.vo.StaffAppointmentCountVO;
 
 @Repository
@@ -56,10 +57,10 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 	@Override
 	public long createAppointment(Appointment appointment) {
 		System.out.println("Inserting Appointment..");
-		final String sql = "INSERT INTO appointment(appointment_no, appointment_date, start_date, customer_address_id, "
+		final String sql = "INSERT INTO appointment(appointment_no, appointment_date, start_date, end_date, customer_address_id, "
 				+ "customer_id, employee_id, remarks, last_modified_date, last_modified_user, "
 				+ "appointment_status) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		sequence = new PostgreSQLSequenceMaxValueIncrementer(dataSource,
@@ -72,6 +73,8 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 								.getAppointmentDate()),
 						CommonUtils.getTimeStampFromDate(appointment
 								.getStartDate()),
+						CommonUtils.getTimeStampFromDate(appointment
+								.getEndDate()),
 						appointment.getCustomerAddress().getId(),
 						appointment.getCustomer().getId(),
 						appointment.getEmployee().getId(),
@@ -303,5 +306,90 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 							}
 						});
 		return staffAppointmentCountList;
+	}
+
+	@Override
+	public List<DailyAppointmentCountVO> getDailyAppointmentCountList() {
+		String sql = "select appointment_date, count(appointment.id) appointment_count from appointment where "
+				+ "appointment_status=? "
+				+ "group by appointment_date order by appointment_date";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		System.out.println(sql);
+		List<DailyAppointmentCountVO> appointmentCountList = jdbcTemplate
+				.query(sql,
+						new Object[] { JBMConstants.APPOINTMENT_STATUS_CREATED },
+						new RowMapper<DailyAppointmentCountVO>() {
+							public DailyAppointmentCountVO mapRow(ResultSet rs,
+									int rowNum) throws SQLException {
+								DailyAppointmentCountVO appointmentCountVO = new DailyAppointmentCountVO();
+								appointmentCountVO.setAppointmentDate(rs
+										.getDate(1));
+								appointmentCountVO.setAppointmentCount(rs
+										.getInt(2));
+								return appointmentCountVO;
+							}
+						});
+		return appointmentCountList;
+	}
+
+	@Override
+	public List<DailyAppointmentCountVO> getDailyAppointmentCountListByStaffId(
+			Long staffId) {
+		String sql = "select appointment_date, count(appointment.id) appointment_count from appointment where "
+				+ "employee_id=? and appointment_status=? "
+				+ "group by appointment_date order by appointment_date";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		System.out.println(sql);
+		List<DailyAppointmentCountVO> appointmentCountList = jdbcTemplate
+				.query(sql, new Object[] { staffId,
+						JBMConstants.APPOINTMENT_STATUS_CREATED },
+						new RowMapper<DailyAppointmentCountVO>() {
+							public DailyAppointmentCountVO mapRow(ResultSet rs,
+									int rowNum) throws SQLException {
+								DailyAppointmentCountVO appointmentCountVO = new DailyAppointmentCountVO();
+								appointmentCountVO.setAppointmentDate(rs
+										.getDate(1));
+								appointmentCountVO.setAppointmentCount(rs
+										.getInt(2));
+								return appointmentCountVO;
+							}
+						});
+		return appointmentCountList;
+	}
+
+	@Override
+	public List<Appointment> getStaffAppointmentsBetweenDates(Long staffId,
+			Date fromDateTime, Date toDateTime) {
+		/*
+		 * select end_date, appointment_no from appointment where employee_id=1
+		 * and ('2014-01-19 13:00:00' <end_date and '2014-01-19 13:00:00'
+		 * >=start_date) or ('2014-01-19 17:00:00' >=start_date and '2014-01-19
+		 * 17:00:00' <end_date)
+		 */
+		String sql = "select appointment_no, start_date, end_date from appointment where employee_id=? and "
+				+ "(? < end_date and  ? >=start_date) or "
+				+ "(? >=start_date and  ? <end_date)";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		System.out.println(sql);
+		System.out.println(fromDateTime);
+		System.out.println(toDateTime);
+		List<Appointment> appointmentCountList = jdbcTemplate.query(
+				sql,
+				new Object[] { staffId,
+						CommonUtils.getTimeStampFromDate(fromDateTime),
+						CommonUtils.getTimeStampFromDate(fromDateTime),
+						CommonUtils.getTimeStampFromDate(toDateTime),
+						CommonUtils.getTimeStampFromDate(toDateTime) },
+				new RowMapper<Appointment>() {
+					public Appointment mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Appointment appointment = new Appointment();
+						appointment.setAppointmentNo(rs.getString(1));
+						appointment.setStartDate(rs.getDate(2));
+						appointment.setEndDate(rs.getDate(3));
+						return appointment;
+					}
+				});
+		return appointmentCountList;
 	}
 }

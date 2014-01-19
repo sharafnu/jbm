@@ -1,6 +1,8 @@
 package com.innovazions.jbm.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -28,6 +30,8 @@ import com.innovazions.jbm.service.CommonService;
 import com.innovazions.jbm.service.EmailNotificationService;
 import com.innovazions.jbm.service.SMSNotificationService;
 import com.innovazions.jbm.view.AppointmentView;
+import com.innovazions.jbm.view.EventView;
+import com.innovazions.jbm.vo.DailyAppointmentCountVO;
 import com.innovazions.jbm.vo.StaffAppointmentCountVO;
 
 /**
@@ -197,9 +201,9 @@ public class AppointmentController extends AbstractController {
 		return null;
 	}
 
-	@RequestMapping(value = "/staffAppoinmentCountListJSON/{appointmentDate}", method = RequestMethod.GET)
+	@RequestMapping(value = "/staffAppoinmentCountListByDateJSON/{appointmentDate}", method = RequestMethod.GET)
 	public @ResponseBody
-	List<StaffAppointmentCountVO> staffAppoinmentCountListJSON(
+	List<StaffAppointmentCountVO> staffAppoinmentCountListByDateJSON(
 			@PathVariable Date appointmentDate) {
 		logger.info("AppoinmentController > staffAppoinmentCountListJSON :"
 				+ appointmentDate);
@@ -211,67 +215,65 @@ public class AppointmentController extends AbstractController {
 				.getAllStaffAppointmentCountListByDate(CommonUtils
 						.getMidnightDate(appointmentDate));
 		return staffAppointmentCountList;
-		/*
-		 * List<StaffAppoinmentInfoView> appoinmentInfoList = new
-		 * ArrayList<StaffAppoinmentInfoView>(); StaffAppoinmentInfoView
-		 * appoinmentInfoView1 = new StaffAppoinmentInfoView( 1l,
-		 * "Sharafudeen Aboobacker", 10d); StaffAppoinmentInfoView
-		 * appoinmentInfoView2 = new StaffAppoinmentInfoView( 2l,
-		 * "Salman Aboobacker", 0d); StaffAppoinmentInfoView appoinmentInfoView3
-		 * = new StaffAppoinmentInfoView( 3l, "Sainaba Aboobacker", 20d);
-		 * StaffAppoinmentInfoView appoinmentInfoView4 = new
-		 * StaffAppoinmentInfoView( 4l, "Mariyam M V", 2d);
-		 * StaffAppoinmentInfoView appoinmentInfoView5 = new
-		 * StaffAppoinmentInfoView( 5l, "Hana Fathima", 1d);
-		 * StaffAppoinmentInfoView appoinmentInfoView6 = new
-		 * StaffAppoinmentInfoView( 6l, "Nadeer Ali", 7d);
-		 * StaffAppoinmentInfoView appoinmentInfoView7 = new
-		 * StaffAppoinmentInfoView( 7l, "Mujeeb Khan", 22d);
-		 * StaffAppoinmentInfoView appoinmentInfoView8 = new
-		 * StaffAppoinmentInfoView( 8l, "Adil Borkar", 34d);
-		 * StaffAppoinmentInfoView appoinmentInfoView9 = new
-		 * StaffAppoinmentInfoView( 9l, "Ayisha M V", 15d);
-		 * StaffAppoinmentInfoView appoinmentInfoView10 = new
-		 * StaffAppoinmentInfoView( 10l, "Ishan Muhammed", 20d);
-		 * 
-		 * StaffAppoinmentInfoView appoinmentInfoView11 = new
-		 * StaffAppoinmentInfoView( 11l, "Tapas Kumar", 20d);
-		 * StaffAppoinmentInfoView appoinmentInfoView12 = new
-		 * StaffAppoinmentInfoView( 12l, "Ritesh Kumar", 20d);
-		 * StaffAppoinmentInfoView appoinmentInfoView13 = new
-		 * StaffAppoinmentInfoView( 13l, "Sinu Sarun Sam", 20d);
-		 * StaffAppoinmentInfoView appoinmentInfoView14 = new
-		 * StaffAppoinmentInfoView( 14l, "Mallika Shetty", 20d);
-		 * StaffAppoinmentInfoView appoinmentInfoView15 = new
-		 * StaffAppoinmentInfoView( 15l, "Biju Lazer", 20d);
-		 * StaffAppoinmentInfoView appoinmentInfoView16 = new
-		 * StaffAppoinmentInfoView( 16l, "Sinique Muhammed", 20d);
-		 * StaffAppoinmentInfoView appoinmentInfoView17 = new
-		 * StaffAppoinmentInfoView( 17l, "Mohammed Rashid", 20d);
-		 * StaffAppoinmentInfoView appoinmentInfoView18 = new
-		 * StaffAppoinmentInfoView( 18l, "Saju Kabir", 20d);
-		 * 
-		 * appoinmentInfoList.add(appoinmentInfoView1);
-		 * appoinmentInfoList.add(appoinmentInfoView2);
-		 * appoinmentInfoList.add(appoinmentInfoView3);
-		 * appoinmentInfoList.add(appoinmentInfoView4);
-		 * appoinmentInfoList.add(appoinmentInfoView5);
-		 * appoinmentInfoList.add(appoinmentInfoView6);
-		 * appoinmentInfoList.add(appoinmentInfoView7);
-		 * appoinmentInfoList.add(appoinmentInfoView8);
-		 * appoinmentInfoList.add(appoinmentInfoView9);
-		 * appoinmentInfoList.add(appoinmentInfoView10);
-		 * 
-		 * appoinmentInfoList.add(appoinmentInfoView11);
-		 * appoinmentInfoList.add(appoinmentInfoView12);
-		 * appoinmentInfoList.add(appoinmentInfoView13);
-		 * appoinmentInfoList.add(appoinmentInfoView14);
-		 * appoinmentInfoList.add(appoinmentInfoView15);
-		 * appoinmentInfoList.add(appoinmentInfoView16);
-		 * appoinmentInfoList.add(appoinmentInfoView17);
-		 * appoinmentInfoList.add(appoinmentInfoView18);
-		 * 
-		 * return appoinmentInfoList;
-		 */
 	}
+
+	@RequestMapping(value = "/staffAppointmentCountListJSON/{staffId}", method = RequestMethod.GET)
+	public @ResponseBody
+	List<EventView> staffAppointmentCountListJSON(@PathVariable Long staffId) {
+		logger.info("AppoinmentController > staffAppointmentCountListJSON :"
+				+ staffId);
+		System.out.println("staffId : " + staffId);
+		List<DailyAppointmentCountVO> staffAppointmentCountList = new ArrayList<DailyAppointmentCountVO>();
+		if (staffId != null && staffId > 0) {
+			staffAppointmentCountList = appointmentService
+					.getDailyAppointmentCountListByStaffId(staffId);
+		} else {
+			staffAppointmentCountList = appointmentService
+					.getDailyAppointmentCountList();
+		}
+		return convertToEventList(staffAppointmentCountList);
+	}
+
+	private List<EventView> convertToEventList(
+			List<DailyAppointmentCountVO> staffAppointmentCountList) {
+		long i = 0l;
+		List<EventView> eventViewList = new ArrayList<EventView>();
+		for (DailyAppointmentCountVO dailyAppointmentCountVO : staffAppointmentCountList) {
+			eventViewList.add(new EventView(i++, dailyAppointmentCountVO
+					.getAppointmentCount() + "", dailyAppointmentCountVO
+					.getAppointmentDate()));
+		}
+		return eventViewList;
+	}
+
+	@RequestMapping(value = "/checkStaffAppointmentSlots", method = RequestMethod.POST)
+	public @ResponseBody
+	String checkStaffAppointmentSlots(
+			@ModelAttribute("appointmentView") AppointmentView appointmentView,
+			BindingResult result, Model model) {
+		System.out.println("Appointment Date: "
+				+ appointmentView.getAppointmentDate() + "Start Time:"
+				+ appointmentView.getStartTime() + " End Time:"
+				+ appointmentView.getEndTime()+ " Staff Id:"
+						+ appointmentView.getEmployeeId());
+
+		try {
+			List<Appointment> appointmentsList = appointmentService
+					.getStaffAppointmentsBetweenDates(appointmentView
+							.getEmployeeId(), CommonUtils.addTimeStringToDate(
+							appointmentView.getAppointmentDate(),
+							appointmentView.getStartTime()), CommonUtils
+							.addTimeStringToDate(
+									appointmentView.getAppointmentDate(),
+									appointmentView.getEndTime()));
+			if (appointmentsList.size() > 0) {
+				return "false";
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return "false";
+		}
+		return "true";
+	}
+
 }

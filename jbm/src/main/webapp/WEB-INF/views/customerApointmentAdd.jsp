@@ -3,6 +3,14 @@
 <div>
 	<span class="breadcrumbs">Home > Job Management > Add Appointment</span>
 </div>
+
+<!-- For Calendar -->
+<link href='<c:url value="/resources/cal/css/fullcalendar.css" />' rel='stylesheet' />
+<link href='<c:url value="/resources/cal/css/fullcalendar.print.css" />' rel='stylesheet' />
+<script src='<c:url value="/resources/scripts/jquery-ui.min.js" />'></script>
+<script src='<c:url value="/resources/cal/js/fullcalendar.min.js" />'></script>
+<script src='<c:url value="/resources/cal/js/gcal.js" />'></script>
+
 <script type="text/javascript"
 	src="<c:url value="/resources/scripts/appoinment.js" />"></script>
 <script type="text/javascript">
@@ -57,15 +65,129 @@
 			}
 		});
 		
+		$('#formEmployeeId').on('change', function(event) {
+			var args = event.args;
+			if (args) {
+				var item = args.item;
+				if (item.value != "") {
+					$('#calendar').fullCalendar('destroy'); 
+					loadMonthylAppointmentCalendar(item.value);
+				}
+			}
+		});
+		
 		$('#formAppointmentDate').on('valuechanged', function (event) {           
 			//alert($('#formAppointmentDate').val());
-			loadStaffAppointmentCountList($('#formAppointmentDate').val());
+			//loadStaffAppointmentCountList($('#formAppointmentDate').val());
+        });
+		
+		$('#formStartTime').on('change', function (event) {   
+			var args = event.args;
+			if(args == undefined) {
+				alert("Invalid Selection");
+				$('#formStartTime').val("");
+			} 
+			if (args) {
+	         	var item = args.item;
+	         	 if(item.value != null && item.value != "") {
+	            	 var frmHr = item.value.substr(0,2);
+	            	 var toHr = parseInt(frmHr)+4;
+	            	 $('#formEndTime').val(toHr+":"+item.value.substr(3,5));    	 
+	             }
+	         }
+        });
+		
+		$('#formEndTime').on('change', function (event) {
+			var args = event.args;
+			if(args == undefined) {
+				alert("Invalid Selection");
+				$('#formEndTime').val("");
+			} 
+			if (args) {
+	         	var item = args.item;
+	         	 if(item.value != null && item.value != "") {
+	            	var toHr = item.value.substr(0,2);
+	            	var toMin = item.value.substr(3,5);
+	            	var frmTimeCombo = $("#formStartTime").jqxComboBox('getSelectedItem'); 	
+	         		if(frmTimeCombo  != null) {
+	         			var frmHr = frmTimeCombo.value.substr(0,2);
+	         			var frmMin = frmTimeCombo.value.substr(3,5);
+	         			//alert(toHr+":"+toMin);
+	         			//alert(frmHr+":"+frmMin);
+	         			if(parseInt(toHr) <(parseInt(frmHr)+4)) {
+	         				alert("End time should be atleast 4 hours greater than Start time !");
+	         				toHr = parseInt(frmHr)+4;
+	   	            		$('#formEndTime').val(toHr+":"+frmMin);
+	         			} else if(parseInt(toHr) == (parseInt(frmHr)+4)) {
+	         				if(parseInt(toMin) < parseInt(frmMin)) {
+	         					alert("End time should be atleast 4 hours greater than Start time !");
+		         				toHr = parseInt(frmHr)+4;
+		   	            		$('#formEndTime').val(toHr+":"+frmMin);
+	         				}
+	         			}
+	         		}	 
+	             }
+	         }
         });
 		
 		
-		loadStaffAppointmentCountList($('#formAppointmentDate').val());
+		//loadStaffAppointmentCountList($('#formAppointmentDate').val());
+		loadMonthylAppointmentCalendar(-1);
 		
+		setupFormValidations();
 	});
+	
+	function setupFormValidations() {
+		
+		$('#appointmentMainForm').jqxValidator({
+			//_margin: 30,
+			rules: [
+			{ input: '#formEndTime', message: 'Time slot not available !', 
+					action: 'change', rule: function (input, commit) {
+				var fromTime = $("#formStartTime").val();
+				var toTime = $("#formEndTime").val();
+				var employeeIdCombo = $("#formEmployeeId").jqxComboBox('getSelectedItem'); 	
+
+				$.ajax({
+				url: "checkStaffAppointmentSlots.html",
+				type: 'POST',
+				data: {startTime: fromTime, endTime: toTime, appointmentDate: $("#formAppointmentDate").val(), employeeId: employeeIdCombo.value},
+				success: function(data)
+				{
+					if (data == "true")
+					{
+						commit(true);
+					}
+					else commit(false);
+				},
+				error: function()
+				{
+					commit(false);
+				}
+			});
+			}
+			}]
+		});
+	}
+	
+	function loadMonthylAppointmentCalendar(staffId) {
+		$('#calendar').fullCalendar({
+			
+			editable: true,
+			events: 'staffAppointmentCountListJSON/'+staffId+'.html',
+			eventRender: function(event, element) {
+		        element.attr('title', event.tooltip);
+		    },
+			loading: function(bool) {
+				if (bool) {
+					$('#loading').show();
+				}else{
+					$('#loading').hide();
+				}
+			}
+		});
+	}
+	
 </script>
 
 
@@ -74,16 +196,20 @@
 <!-- Container for create-account controls, populated by JavaScript code below. -->
 <div id="SIU2" class="SIU2" style="opacity: 1;">
 	<div id="createAccount" class="cornerDiv">
-			<div style="background-color: #F4F0F5; color: #000; min-height: 1.5em; vertical-align: middle; padding: 5px; width: 800px;">
-				<span>New Appointments</span><span style="margin-left: 350px">Staff Availability</span></div>
+			<div style="background-color: #F4F0F5; color: #000; min-height: 1.5em; vertical-align: middle; padding: 5px; width: 830px;">
+				<span>New Appointments</span><span id='showCalendarLink' style="margin-left: 350px">
+					Staff Availability <i class='fa fa-calendar'></i>
+				</span></div>
 			<div style="font-family: Verdana; font-size: 13px; overflow: hidden; margin: 5px;">
+				<form class="form" id="appointmentMainForm">
 				<table border="0" width="100%" class="popupFormTable">
 					<tr>
 						<td colspan="1" width="20%" nowrap>Appointment Date :</td>
 						<td colspan="1" width="35%"><div id="formAppointmentDate" ></div></td>	
 						<td rowspan="18" width="45%" valign="top">
-							    <div style="margin-left: 5px; margin-top: 0px" id="staffAppoinmentInfoList"></div>							
-						    <!-- <div style="margin-left: 5px; margin-top: 0px" id="staffCalendar"></div> -->
+							    <!-- <div style="margin-left: 5px; margin-top: 0px" id="staffAppoinmentInfoList"></div>	 -->						
+						    	<!-- <div style="margin-left: 5px; margin-top: 0px" id="staffCalendar"></div> -->
+								<div id='calendar'></div>								    	
 						</td>
 					</tr>
 <!-- 					<tr>
@@ -91,12 +217,16 @@
 						<td colspan="1"><div id="formAppointmentDate" ></div></td>						
 					</tr> -->
 					<tr>
+						<td colspan="1">Select Staff :</td>
+						<td colspan="1"><div id="formEmployeeId" ></div></td>
+					</tr>
+					<tr>
 						<td colspan="1">Start Time :</td>
 						<td colspan="1"><div id="formStartTime" ></div></td>
 					</tr>
 					<tr>
-						<td colspan="1">Select Staff :</td>
-						<td colspan="1"><div id="formEmployeeId" ></div></td>
+						<td colspan="1">End Time :</td>
+						<td colspan="1"><div id="formEndTime" ></div></td>
 					</tr>
 					<tr>
 						<td colspan="1">Select Customer :</td>
@@ -108,7 +238,7 @@
 					</tr>
 					<tr>
 						<td colspan="1">Remarks :</td>
-						<td colspan="1"><textarea id="formRemarks" rows="4" cols="24"></textarea></td>
+						<td colspan="1"><textarea class="textArea" id="formRemarks" rows="4" cols="34"></textarea></td>
 					</tr>
 					<tr>
 						<td colspan="2">&nbsp;</td>
@@ -122,6 +252,7 @@
 								<input type="hidden" id="employeeId" 			name="employeeId"/>
 								<input type="hidden" id="remarks" 			name="remarks"/>
 								<input type="hidden" id="startTime" 			name="startTime"/>
+								<input type="hidden" id="endTime" 			name="endTime"/>
 								<input id="createAppointmentButton" type="button" value="Create Appoinment" />
 								<input id="addNewCustomerPopuptButton" type="button" value="Add New Customer" />
 								</form>
@@ -137,9 +268,11 @@
 							</c:if>
 						</td>						
 					</tr>
-				</table>				
+				</table>
+				</form>				
 	</div>
 </div>
 <jsp:include page="customerInfoAddPopup.jsp" />
-<jsp:include page="staffAppointmentListPopup.jsp" />
+<%-- <jsp:include page="staffAppointmentListPopup.jsp" /> --%>
+<jsp:include page="detailedCalendarInfoPopup.jsp" />
 <jsp:include page="includes/footer.jsp" />

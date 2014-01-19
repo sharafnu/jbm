@@ -17,9 +17,10 @@
 <title>:: Welcome to Appointments Manager ::</title>
 <link type="text/css" rel="Stylesheet"
 	href="<c:url value="/resources/jqwidgets/styles/jqx.base.css" />" />
+<link type="text/css" rel="Stylesheet"
+	href="<c:url value="/resources/jqwidgets/styles/jqx.orange.css" />" />
 
 <link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/resources/login/css/font-awesome.min.css" />">
-	
 <script type="text/javascript"
 	src="<c:url value="/resources/scripts/jquery-1.10.2.min.js" />"></script>
 <script type="text/javascript"

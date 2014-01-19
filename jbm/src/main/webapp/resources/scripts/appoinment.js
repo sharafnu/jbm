@@ -110,17 +110,89 @@ function setupAppointmentForm() {
 		formatString: 'dd-MM-yyyy' 
 	});
 	
-	$("#formStartTime").jqxDateTimeInput({
+	/*$("#formStartTime").jqxDateTimeInput({
 		width : '130px',
 		height : '20px',
-		formatString: 'T',
+		formatString: 'hh:mm tt',
 		showCalendarButton: false
 	});
 	
-	$("#formStartTime").jqxDateTimeInput('setDate', new Date());
+	$("#formStartTime").jqxDateTimeInput('setDate', new Date());*/
 	
-	//$("#staffCalendar").jqxCalendar({ enableTooltips: true, width: 360, height: 300});
+	//var hourListArr = ["09:00 am","09:30 am","10:00 am","10:30 am","11:00 am","11:30 am","12:00 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm","07:00 pm","07:30 pm","08:00 pm","08:30 pm"];
+	var startHourListArr = [
+                  {value: "09:00 am", label: "09:00 am"},
+                  {value: "09:30 am", label: "09:30 am"},
+                  {value: "10:00 am", label: "10:00 am"},
+                  {value: "10:30 am", label: "10:30 am"},
+                  {value: "11:00 am", label: "11:00 am"},
+                  {value: "11:30 am", label: "11:30 am"},
+                  {value: "12:00 pm", label: "12:00 pm"},
+                  {value: "12:30 pm", label: "12:30 pm"},
+                  {value: "13:00 pm", label: "01:00 pm"},
+                  {value: "13:30 pm", label: "01:30 pm"},
+                  {value: "14:00 pm", label: "02:00 pm"},
+                  {value: "14:30 pm", label: "02:30 pm"},
+                  {value: "15:00 pm", label: "03:00 pm"},
+                  {value: "15:30 pm", label: "03:30 pm"},
+                  {value: "16:00 pm", label: "04:00 pm"},
+                  {value: "16:30 pm", label: "04:30 pm"},
+                  {value: "17:00 pm", label: "05:00 pm"},
+                  {value: "17:30 pm", label: "05:30 pm"},
+                  {value: "18:00 pm", label: "06:00 pm"},
+                  {value: "18:30 pm", label: "06:30 pm"},
+                  {value: " pm", label: "07:00 pm"}
+		        ];
 	
+	var endHourListArr = [
+        {value: "13:00 pm", label: "01:00 pm"},
+        {value: "13:30 pm", label: "01:30 pm"},
+        {value: "14:00 pm", label: "02:00 pm"},
+        {value: "14:30 pm", label: "02:30 pm"},
+        {value: "15:00 pm", label: "03:00 pm"},
+        {value: "15:30 pm", label: "03:30 pm"},
+        {value: "16:00 pm", label: "04:00 pm"},
+        {value: "16:30 pm", label: "04:30 pm"},
+        {value: "17:00 pm", label: "05:00 pm"},
+        {value: "17:30 pm", label: "05:30 pm"},
+        {value: "18:00 pm", label: "06:00 pm"},
+        {value: "18:30 pm", label: "06:30 pm"},
+        {value: "19:00 pm", label: "07:00 pm"},
+        {value: "19:30 pm", label: "07:30 pm"},
+        {value: "20:00 pm", label: "08:00 pm"},
+        {value: "20:30 pm", label: "08:30 pm"},
+        {value: "21:00 pm", label: "09:00 pm"},
+        {value: "21:30 pm", label: "09:30 pm"},
+        {value: "22:00 pm", label: "10:00 pm"},
+        {value: "22:30 pm", label: "10:30 pm"},
+        {value: "23:00 pm", label: "11:00 pm"}
+    ];
+	
+	$("#formStartTime").jqxComboBox({
+		selectedIndex : -1,
+		source : startHourListArr,
+		width : 130,
+		height : 20
+	});
+	$("#formEndTime").jqxComboBox({
+		selectedIndex : -1,
+		source : endHourListArr,
+		width : 130,
+		height : 20
+	});
+	
+	$("#showCalendarLink").click(function (event) {
+		$('#detailedCalendarInfoPopupWindow').jqxWindow('show');
+	});
+	
+	//$("#staffCalendar").jqxCalendar({ enableTooltips: false, width: 360, height: 340, theme: 'orange'});
+	 var date1 = new Date();
+     var date2 = new Date();
+     var date3 = new Date();
+     date1.setDate(5);
+     date2.setDate(15);
+     date3.setDate(16);
+	//$("#staffCalendar").jqxCalendar('addSpecialDate', date1, '', '<div class="numberCircle">30</div>');
 	 $('#formEmployeeId').on('change', function (event) {
 		 var args = event.args;
          if (args) {
@@ -170,6 +242,7 @@ function setupAppointmentForm() {
 		$("#appointmentDate").val($("#formAppointmentDate").val());
 		
 		$("#startTime").val($("#formStartTime").val());
+		$("#endTime").val($("#formEndTime").val());
 		
 		$("#remarks").val($("#formRemarks").val());
 		
@@ -184,6 +257,16 @@ function setupAppointmentForm() {
 	addNewCustomerPopuptButton.click(function (event) {
 		$('#addCustomerPopupWindow').jqxWindow('show');
 	});
+	
+	var addNewCustomerPopuptButton = $("#addNewCustomerPopuptButton").jqxButton({
+		theme : theme
+	});
+	
+	addNewCustomerPopuptButton.click(function (event) {
+		$('#addCustomerPopupWindow').jqxWindow('show');
+	});
+
+
 	// Create jqxValidator.
 	/*$("#form")
 			.jqxValidator(

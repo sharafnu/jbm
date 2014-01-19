@@ -2,7 +2,7 @@
 <script type="text/javascript">
             $(document).ready(function () {
                 // Create a jqxMenu
-                $("#jqxMenu").jqxMenu({ width: '880', height: '30px'});
+                $("#jqxMenu").jqxMenu({ width: '895', height: '30px'});
                 $("#jqxMenu").css('visibility', 'visible');
                 $("#jqxMenu").jqxMenu({ showTopLevelArrows: true });
             });

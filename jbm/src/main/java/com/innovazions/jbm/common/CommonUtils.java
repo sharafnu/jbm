@@ -15,7 +15,7 @@ public class CommonUtils {
 
 	public static final String DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 
-	public static final String TIME_FORMAT_HHMMSS_AM_PM = "hh:mm:ss a";
+	public static final String TIME_FORMAT_HHMMSS_AM_PM = "hh:mm a";
 
 	public static final String DB_DATE_FORMAT_YYYYMMDD = "yyyy-MM-dd";
 

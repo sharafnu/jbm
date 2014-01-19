@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.common.JBMConstants;
+import com.innovazions.jbm.common.JBMUIHelper;
 import com.innovazions.jbm.entity.Area;
 import com.innovazions.jbm.entity.City;
 import com.innovazions.jbm.entity.Employee;
@@ -169,5 +170,12 @@ public class MasterController extends AbstractController {
 		user.setLastModifiedUser("SYSTEM");
 		userService.createUser(user);
 		return "Success";
+	}
+
+	@RequestMapping(value = "/timeComboList", method = RequestMethod.GET)
+	public @ResponseBody
+	List<String> timeComboList(Model model, HttpServletRequest request) {
+		logger.info("MasterController > timeComboList");
+		return JBMUIHelper.timeComboList();
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.innovazions.jbm.dao.AppointmentDAO;
 import com.innovazions.jbm.entity.Appointment;
 import com.innovazions.jbm.service.AppointmentService;
+import com.innovazions.jbm.vo.DailyAppointmentCountVO;
 import com.innovazions.jbm.vo.StaffAppointmentCountVO;
 
 @Service
@@ -54,4 +55,21 @@ public class AppointmentServiceImpl implements AppointmentService {
 				.getAllStaffAppointmentCountListByDate(appointmentDate);
 	}
 
+	@Override
+	public List<DailyAppointmentCountVO> getDailyAppointmentCountList() {
+		return appointmentDAO.getDailyAppointmentCountList();
+	}
+
+	@Override
+	public List<DailyAppointmentCountVO> getDailyAppointmentCountListByStaffId(
+			Long staffId) {
+		return appointmentDAO.getDailyAppointmentCountListByStaffId(staffId);
+	}
+
+	@Override
+	public List<Appointment> getStaffAppointmentsBetweenDates(Long staffId,
+			Date fromDateTime, Date toDateTime) {
+		return appointmentDAO.getStaffAppointmentsBetweenDates(staffId,
+				fromDateTime, toDateTime);
+	}
 }

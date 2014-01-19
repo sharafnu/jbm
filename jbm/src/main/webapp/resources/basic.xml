@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns='http://www.w3.org/2005/Atom' xmlns:openSearch='http://a9.com/-/spec/opensearchrss/1.0/' xmlns:gCal='http://schemas.google.com/gCal/2005'>
+<id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic</id>
+<updated>2014-01-16T05:34:58.000Z</updated>
+<category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/>
+<title type='text'>US Holidays</title>
+<subtitle type='text'>US Holidays</subtitle>
+<link rel='alternate' type='text/html' href='http://www.google.com/calendar/embed?src=usa__en%40holiday.calendar.google.com'/>
+<link rel='http://schemas.google.com/g/2005#feed' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic'/>
+<link rel='http://schemas.google.com/g/2005#batch' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/batch'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic?max-results=25'/><link rel='next' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic?start-index=26&amp;max-results=25'/><author><name>US Holidays</name></author><generator version='1.0' uri='http://www.google.com/calendar'>Google Calendar</generator><openSearch:totalResults>88</openSearch:totalResults><openSearch:startIndex>1</openSearch:startIndex><openSearch:itemsPerPage>25</openSearch:itemsPerPage><gCal:timezone value='UTC'/><gCal:timesCleaned value='0'/><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%4076c19cdf14e8f7b2d6f2ecf733419b72ca0223ca</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/>
+<title type='html'>Washington&amp;#39;s Birthday (Presidents Day)</title>
+<summary type='html'>
+When: Mon Feb 17, 2014
+&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Mon Feb 17, 2014&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEA3NmMxOWNkZjE0ZThmN2IyZDZmMmVjZjczMzQxOWI3MmNhMDIyM2NhIHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%4076c19cdf14e8f7b2d6f2ecf733419b72ca0223ca'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40666cb9cac3b0a7b1406d0b1a1c80ff81077ce285</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Washington&amp;#39;s Birthday (Presidents Day)</title><summary type='html'>When: Mon Feb 16, 2015&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Mon Feb 16, 2015&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEA2NjZjYjljYWMzYjBhN2IxNDA2ZDBiMWExYzgwZmY4MTA3N2NlMjg1IHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40666cb9cac3b0a7b1406d0b1a1c80ff81077ce285'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40258c5cf884149b805ce513baa63a1bd10f6dab41</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Washington&amp;#39;s Birthday (Presidents Day)</title><summary type='html'>When: Mon Feb 18, 2013&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Mon Feb 18, 2013&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEAyNThjNWNmODg0MTQ5YjgwNWNlNTEzYmFhNjNhMWJkMTBmNmRhYjQxIHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40258c5cf884149b805ce513baa63a1bd10f6dab41'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40d5901da7e1f6787741841589def05852709da66f</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Veterans Day</title><summary type='html'>When: Tue Nov 11, 2014&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Tue Nov 11, 2014&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEBkNTkwMWRhN2UxZjY3ODc3NDE4NDE1ODlkZWYwNTg1MjcwOWRhNjZmIHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40d5901da7e1f6787741841589def05852709da66f'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40b7a972f85a48421e09d0adda1e41a8ee01508a27</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Veterans Day</title><summary type='html'>When: Wed Nov 11, 2015&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Wed Nov 11, 2015&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEBiN2E5NzJmODVhNDg0MjFlMDlkMGFkZGExZTQxYThlZTAxNTA4YTI3IHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40b7a972f85a48421e09d0adda1e41a8ee01508a27'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%407b46454d483d43de6f2c1d846c78fe390c69eb74</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Veterans Day</title><summary type='html'>When: Mon Nov 11, 2013&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Mon Nov 11, 2013&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEA3YjQ2NDU0ZDQ4M2Q0M2RlNmYyYzFkODQ2Yzc4ZmUzOTBjNjllYjc0IHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%407b46454d483d43de6f2c1d846c78fe390c69eb74'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40fff51fd29a48358fcfe9f59e2ec644da6d895e44</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Valentine&amp;#39;s Day</title><summary type='html'>When: Sat Feb 14, 2015&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Sat Feb 14, 2015&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEBmZmY1MWZkMjlhNDgzNThmY2ZlOWY1OWUyZWM2NDRkYTZkODk1ZTQ0IHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40fff51fd29a48358fcfe9f59e2ec644da6d895e44'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40be7c9a465368f46febb4f5ad6f4b2ffa3453048d</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Valentine&amp;#39;s Day</title><summary type='html'>When: Thu Feb 14, 2013&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Thu Feb 14, 2013&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEBiZTdjOWE0NjUzNjhmNDZmZWJiNGY1YWQ2ZjRiMmZmYTM0NTMwNDhkIHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40be7c9a465368f46febb4f5ad6f4b2ffa3453048d'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40580a20bcfc3b1c5f9428b067fca1e75243921d4a</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Valentine&amp;#39;s Day</title><summary type='html'>When: Fri Feb 14, 2014&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Fri Feb 14, 2014&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEA1ODBhMjBiY2ZjM2IxYzVmOTQyOGIwNjdmY2ExZTc1MjQzOTIxZDRhIHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40580a20bcfc3b1c5f9428b067fca1e75243921d4a'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40c4b28eab8856a708fbeefa638a15d71979f9863c</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Thanksgiving</title><summary type='html'>When: Thu Nov 27, 2014&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Thu Nov 27, 2014&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEBjNGIyOGVhYjg4NTZhNzA4ZmJlZWZhNjM4YTE1ZDcxOTc5Zjk4NjNjIHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40c4b28eab8856a708fbeefa638a15d71979f9863c'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%4094589da9ca438eb240391798389a6554fe909b5b</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Thanksgiving</title><summary type='html'>When: Thu Nov 26, 2015&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Thu Nov 26, 2015&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEA5NDU4OWRhOWNhNDM4ZWIyNDAzOTE3OTgzODlhNjU1NGZlOTA5YjViIHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%4094589da9ca438eb240391798389a6554fe909b5b'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%400268dc94392abe94dd6b1947b340ef1f6f698031</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Thanksgiving</title><summary type='html'>When: Thu Nov 28, 2013&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Thu Nov 28, 2013&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEAwMjY4ZGM5NDM5MmFiZTk0ZGQ2YjE5NDdiMzQwZWYxZjZmNjk4MDMxIHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%400268dc94392abe94dd6b1947b340ef1f6f698031'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%409b99d5a5e0200c8e4d691c1f77132ac4d08d4428</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Tax Day</title><summary type='html'>When: Tue Apr 15, 2014&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Tue Apr 15, 2014&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEA5Yjk5ZDVhNWUwMjAwYzhlNGQ2OTFjMWY3NzEzMmFjNGQwOGQ0NDI4IHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%409b99d5a5e0200c8e4d691c1f77132ac4d08d4428'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%403ef8b28b293ffe5a5495eec3e50d6789a78ddc46</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Tax Day</title><summary type='html'>When: Wed Apr 15, 2015&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Wed Apr 15, 2015&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEAzZWY4YjI4YjI5M2ZmZTVhNTQ5NWVlYzNlNTBkNjc4OWE3OGRkYzQ2IHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%403ef8b28b293ffe5a5495eec3e50d6789a78ddc46'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%401c2c0f1f07858ab7a27636e35a0bc83ad867d548</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Tax Day</title><summary type='html'>When: Mon Apr 15, 2013&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Mon Apr 15, 2013&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEAxYzJjMGYxZjA3ODU4YWI3YTI3NjM2ZTM1YTBiYzgzYWQ4NjdkNTQ4IHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%401c2c0f1f07858ab7a27636e35a0bc83ad867d548'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%409cc61996cf26cc4ae6340c16a61208f88eb99d9f</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>St. Patrick&amp;#39;s Day</title><summary type='html'>When: Tue Mar 17, 2015&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Tue Mar 17, 2015&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEA5Y2M2MTk5NmNmMjZjYzRhZTYzNDBjMTZhNjEyMDhmODhlYjk5ZDlmIHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%409cc61996cf26cc4ae6340c16a61208f88eb99d9f'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%409967bd167d8c821bef15bc1aff90ff909357e07e</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>St. Patrick&amp;#39;s Day</title><summary type='html'>When: Sun Mar 17, 2013&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Sun Mar 17, 2013&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEA5OTY3YmQxNjdkOGM4MjFiZWYxNWJjMWFmZjkwZmY5MDkzNTdlMDdlIHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%409967bd167d8c821bef15bc1aff90ff909357e07e'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%406dd8e0bd26fdfa8abf822c0812b9b0e2aec22370</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>St. Patrick&amp;#39;s Day</title><summary type='html'>When: Mon Mar 17, 2014&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Mon Mar 17, 2014&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEA2ZGQ4ZTBiZDI2ZmRmYThhYmY4MjJjMDgxMmI5YjBlMmFlYzIyMzcwIHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%406dd8e0bd26fdfa8abf822c0812b9b0e2aec22370'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40f466a5f90f75cdf293f4df3f1020c9afa57205a6</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Patriot Day</title><summary type='html'>When: Wed Sep 11, 2013&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Wed Sep 11, 2013&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEBmNDY2YTVmOTBmNzVjZGYyOTNmNGRmM2YxMDIwYzlhZmE1NzIwNWE2IHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40f466a5f90f75cdf293f4df3f1020c9afa57205a6'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40ec09e7b9eab6e169890bdaff1c181fe5f91bbbe2</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Patriot Day</title><summary type='html'>When: Thu Sep 11, 2014&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Thu Sep 11, 2014&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEBlYzA5ZTdiOWVhYjZlMTY5ODkwYmRhZmYxYzE4MWZlNWY5MWJiYmUyIHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40ec09e7b9eab6e169890bdaff1c181fe5f91bbbe2'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%404c20d0c05f3c9754878301f6d2b2f0e5148d1ee3</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>Patriot Day</title><summary type='html'>When: Fri Sep 11, 2015&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Fri Sep 11, 2015&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEA0YzIwZDBjMDVmM2M5NzU0ODc4MzAxZjZkMmIyZjBlNTE0OGQxZWUzIHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%404c20d0c05f3c9754878301f6d2b2f0e5148d1ee3'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40af39e570e1bdb0416358261115a54c0c210196d6</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>New Year&amp;#39;s Eve</title><summary type='html'>When: Tue Dec 31, 2013&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Tue Dec 31, 2013&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEBhZjM5ZTU3MGUxYmRiMDQxNjM1ODI2MTExNWE1NGMwYzIxMDE5NmQ2IHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40af39e570e1bdb0416358261115a54c0c210196d6'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%404d763a800bed3165c96fd74633c35d52584f356c</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>New Year&amp;#39;s Eve</title><summary type='html'>When: Wed Dec 31, 2014&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Wed Dec 31, 2014&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEA0ZDc2M2E4MDBiZWQzMTY1Yzk2ZmQ3NDYzM2MzNWQ1MjU4NGYzNTZjIHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%404d763a800bed3165c96fd74633c35d52584f356c'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40f5f0f46aabf9c90c42b681fe54cd0796ed084058</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>New Year&amp;#39;s Day</title><summary type='html'>When: Wed Jan 1, 2014&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Wed Jan 1, 2014&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEBmNWYwZjQ2YWFiZjljOTBjNDJiNjgxZmU1NGNkMDc5NmVkMDg0MDU4IHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40f5f0f46aabf9c90c42b681fe54cd0796ed084058'/><author><name>US Holidays</name></author></entry><entry><id>http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40c0be67b055836245ac78e245478757185b8681d5</id><published>2014-01-16T05:34:58.000Z</published><updated>2014-01-16T05:34:58.000Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'/><title type='html'>New Year&amp;#39;s Day</title><summary type='html'>When: Thu Jan 1, 2015&lt;br&gt;
+&lt;br&gt;Who: US Holidays
+
+&lt;br&gt;Event Status: confirmed</summary><content type='html'>When: Thu Jan 1, 2015&lt;br /&gt;
+&lt;br /&gt;Who: US Holidays
+
+&lt;br /&gt;Event Status: confirmed</content><link rel='alternate' type='text/html' href='http://www.google.com/calendar/event?eid=aEBjMGJlNjdiMDU1ODM2MjQ1YWM3OGUyNDU0Nzg3NTcxODViODY4MWQ1IHVzYV9fZW5AaA' title='alternate'/><link rel='self' type='application/atom+xml' href='http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic/h%40c0be67b055836245ac78e245478757185b8681d5'/><author><name>US Holidays</name></author></entry></feed>
