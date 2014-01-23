@@ -72,4 +72,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return appointmentDAO.getStaffAppointmentsBetweenDates(staffId,
 				fromDateTime, toDateTime);
 	}
+
+	@Override
+	public List<DailyAppointmentCountVO> getStaffAppointmentsTimeBreakups(
+			Date appointmentDate) {
+		return appointmentDAO.getStaffAppointmentsTimeBreakups(appointmentDate);
+	}
 }

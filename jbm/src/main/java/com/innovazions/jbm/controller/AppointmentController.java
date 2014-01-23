@@ -231,17 +231,45 @@ public class AppointmentController extends AbstractController {
 			staffAppointmentCountList = appointmentService
 					.getDailyAppointmentCountList();
 		}
-		return convertToEventList(staffAppointmentCountList);
+		return convertToEventListMonthView(staffAppointmentCountList);
 	}
 
-	private List<EventView> convertToEventList(
+	@RequestMapping(value = "/getStaffAppointmentsTimeBreakupsJSON/{appointmentDate}", method = RequestMethod.GET)
+	public @ResponseBody
+	List<EventView> getStaffAppointmentsTimeBreakupsJSON(
+			@PathVariable Date appointmentDate) {
+		logger.info("AppoinmentController > getStaffAppointmentsTimeBreakupsJSON :"
+				+ appointmentDate);
+		List<DailyAppointmentCountVO> staffAppointmentCountList = new ArrayList<DailyAppointmentCountVO>();
+		staffAppointmentCountList = appointmentService
+				.getStaffAppointmentsTimeBreakups(null);
+		return convertToEventListDayView(staffAppointmentCountList);
+	}
+
+	private List<EventView> convertToEventListMonthView(
 			List<DailyAppointmentCountVO> staffAppointmentCountList) {
-		long i = 0l;
+		long i = 1l;
+		List<EventView> eventViewList = new ArrayList<EventView>();
+		for (DailyAppointmentCountVO dailyAppointmentCountVO : staffAppointmentCountList) {
+			eventViewList.add(new EventView(i, dailyAppointmentCountVO
+					.getAppointmentCount() + "", CommonUtils
+					.getJavaScriptDateTime(dailyAppointmentCountVO
+							.getAppointmentDate()), true));
+		}
+		return eventViewList;
+	}
+
+	private List<EventView> convertToEventListDayView(
+			List<DailyAppointmentCountVO> staffAppointmentCountList) {
+		long i = 1l;
 		List<EventView> eventViewList = new ArrayList<EventView>();
 		for (DailyAppointmentCountVO dailyAppointmentCountVO : staffAppointmentCountList) {
 			eventViewList.add(new EventView(i++, dailyAppointmentCountVO
-					.getAppointmentCount() + "", dailyAppointmentCountVO
-					.getAppointmentDate()));
+					.getAppointmentCount() + "", CommonUtils
+					.getJavaScriptDateTime(dailyAppointmentCountVO
+							.getStartDate()),
+					CommonUtils.getJavaScriptDateTime(dailyAppointmentCountVO
+							.getEndDate()), false));
 		}
 		return eventViewList;
 	}
@@ -254,8 +282,8 @@ public class AppointmentController extends AbstractController {
 		System.out.println("Appointment Date: "
 				+ appointmentView.getAppointmentDate() + "Start Time:"
 				+ appointmentView.getStartTime() + " End Time:"
-				+ appointmentView.getEndTime()+ " Staff Id:"
-						+ appointmentView.getEmployeeId());
+				+ appointmentView.getEndTime() + " Staff Id:"
+				+ appointmentView.getEmployeeId());
 
 		try {
 			List<Appointment> appointmentsList = appointmentService

@@ -25,7 +25,7 @@
 							width : '200px',
 							height : '20px'
 						});
-						$("#mobile3").jqxInput({
+						$("#landline").jqxInput({
 							width : '200px',
 							height : '20px'
 						});
@@ -81,7 +81,7 @@
 														rule : 'phone'
 													},
 													{
-														input : "#mobile3",
+														input : "#landline",
 														message : 'Invalid mobile 3!',
 														action : 'valuechanged, blur',
 														rule : 'phone'
@@ -146,10 +146,10 @@
 						<td colspan="3"><input id="mobile2" /></td>
 					</tr>
 					<tr>
-						<td colspan="3">Mobile No 3</td>
+						<td colspan="3">Landline No</td>
 					</tr>
 					<tr>
-						<td colspan="3"><input id="mobile3" /></td>
+						<td colspan="3"><input id="landline" /></td>
 					</tr>
 					<tr>
 						<td colspan="3">Email</td>

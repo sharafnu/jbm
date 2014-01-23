@@ -19,6 +19,7 @@
             
             var employeeStatusSource = [
 	             "Active",
+	             "In-Active", 
 	             "Resigned"
             ];
                        

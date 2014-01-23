@@ -21,6 +21,8 @@ public class CommonUtils {
 
 	public static final String DB_DATE_TIME_FORMAT_YYYYMMDD = "yyyy-MM-dd HH:mm:ss";
 
+	public static final String JS_DATE_TIME_FORMAT_YYYYMMDD = "yyyy-MM-dd HH:mm:ss";
+
 	public static String getDBDate(Date inputDate) {
 		DateFormat dateFormat = new SimpleDateFormat(DB_DATE_FORMAT_YYYYMMDD);
 		return dateFormat.format(inputDate);
@@ -146,5 +148,11 @@ public class CommonUtils {
 				ActionMessages.STATUS_MESSAGE_DATA_SAVE_SUCCESS, generatedId,
 				generatedCode);
 		return actionStatus;
+	}
+
+	public static String getJavaScriptDateTime(Date startDate) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				JS_DATE_TIME_FORMAT_YYYYMMDD);
+		return dateFormat.format(startDate);
 	}
 }

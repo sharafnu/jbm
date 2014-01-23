@@ -25,7 +25,7 @@ public class CustomerView extends GenericView<CustomerView, Customer> {
 
 	private String mobile2;
 
-	private String mobile3;
+	private String landline;
 
 	private Integer preferenceCall;
 
@@ -112,12 +112,12 @@ public class CustomerView extends GenericView<CustomerView, Customer> {
 		this.mobile2 = mobile2;
 	}
 
-	public String getMobile3() {
-		return this.mobile3;
+	public String getLandline() {
+		return this.landline;
 	}
 
-	public void setMobile3(String mobile3) {
-		this.mobile3 = mobile3;
+	public void setLandline(String landline) {
+		this.landline = landline;
 	}
 
 	public Integer getPreferenceCall() {
@@ -170,7 +170,7 @@ public class CustomerView extends GenericView<CustomerView, Customer> {
 		customer.setLastName(this.getLastName());
 		customer.setMobile1(this.getMobile1());
 		customer.setMobile2(this.getMobile2());
-		customer.setMobile3(this.getMobile3());
+		customer.setLandline(this.getLandline());
 		customer.setPreferenceCall(this.getPreferenceCall());
 		customer.setPreferenceEmail(this.getPreferenceEmail());
 		customer.setPreferenceSms(this.getPreferenceSms());

@@ -67,7 +67,7 @@ function loadCustomerCombo(comboWidth) {
 			                        		$("#lastName").val(customerView.lastName);
 			                        		$("#mobile1").val(customerView.mobile1);
 			                        		$("#mobile2").val(customerView.mobile2);
-			                        		$("#mobile3").val(customerView.mobile3);
+			                        		$("#landline").val(customerView.landline);
 			                        		$("#email").val(customerView.email);
 			                        		if(customerView.preferenceCall == 1) {
 			                        			$("#preferenceCallElement").jqxCheckBox({ checked: true });	
@@ -107,7 +107,7 @@ function loadCustomerCombo(comboWidth) {
 							width : '230px',
 							height : '20px'
 						});
-						$("#mobile3").jqxInput({
+						$("#landline").jqxInput({
 							width : '230px',
 							height : '20px'
 						});
@@ -179,7 +179,7 @@ function loadCustomerCombo(comboWidth) {
 														rule : 'phone'
 													},
 													{
-														input : "#mobile3",
+														input : "#landline",
 														message : 'Invalid mobile 3!',
 														action : 'valuechanged, blur',
 														rule : 'phone'
@@ -446,8 +446,8 @@ function loadCustomerCombo(comboWidth) {
 						<td colspan="1"><input id="mobile2" /></td>
 					</tr>
 					<tr>
-						<td colspan="1">Mobile No 3 :</td>
-						<td colspan="1"><input id="mobile3" /></td>
+						<td colspan="1">Landline No :</td>
+						<td colspan="1"><input id="landline" /></td>
 					</tr>					
 					<tr>
 						<td colspan="1">Email :</td>

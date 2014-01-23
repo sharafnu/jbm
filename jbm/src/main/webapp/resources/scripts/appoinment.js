@@ -119,8 +119,9 @@ function setupAppointmentForm() {
 	
 	$("#formStartTime").jqxDateTimeInput('setDate', new Date());*/
 	
-	//var hourListArr = ["09:00 am","09:30 am","10:00 am","10:30 am","11:00 am","11:30 am","12:00 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm","07:00 pm","07:30 pm","08:00 pm","08:30 pm"];
-	var startHourListArr = [
+	var startHourListArr = ["09:00 am","09:30 am","10:00 am","10:30 am","11:00 am","11:30 am","12:00 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm"];
+	var endHourListArr = ["01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm","07:00 pm","07:30 pm","08:00 pm","08:30 pm","09:00 pm","09:30 pm","10:00 pm","10:30 pm","11:00 pm"];
+	/*var startHourListArr = [
                   {value: "09:00 am", label: "09:00 am"},
                   {value: "09:30 am", label: "09:30 am"},
                   {value: "10:00 am", label: "10:00 am"},
@@ -166,7 +167,7 @@ function setupAppointmentForm() {
         {value: "22:00 pm", label: "10:00 pm"},
         {value: "22:30 pm", label: "10:30 pm"},
         {value: "23:00 pm", label: "11:00 pm"}
-    ];
+    ];*/
 	
 	$("#formStartTime").jqxComboBox({
 		selectedIndex : -1,
@@ -182,6 +183,8 @@ function setupAppointmentForm() {
 	});
 	
 	$("#showCalendarLink").click(function (event) {
+		//$('#detailedCalendar').fullCalendar('destroy'); 
+		//setupDetailedCalendar();
 		$('#detailedCalendarInfoPopupWindow').jqxWindow('show');
 	});
 	
@@ -406,7 +409,7 @@ function loadCustomerAddressCombo(comboWidth, customerId) {
 }
 
 function loadEmployeeCombo(comboWidth) {
-	var employeeListUrl = "staffListJSON.html";
+	var employeeListUrl = "activeStaffListJSON.html";
 	var employeeListSource = {
 		datatype : "json",
 		datafields : [ {

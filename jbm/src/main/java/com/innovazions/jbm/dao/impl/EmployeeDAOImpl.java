@@ -73,6 +73,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 				+ "e.join_date, e.salary, e.remarks, e.contact_mobile_no, e.home_cntry_contact_no,  "
 				+ "e.address, e.passport_no, e.visa_details, e.employee_status from employee e";
 
+		if (employee != null) {
+			if (!CommonUtils.isEmpty(employee.getEmployeeStatus())) {
+				sql = sql + " where e.employee_status='"
+						+ employee.getEmployeeStatus() + "'";
+			}
+		}
+
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		employeeList = jdbcTemplate.query(sql, new EmployeeRowMapper());
 		return employeeList;

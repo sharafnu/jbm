@@ -30,4 +30,7 @@ public interface AppointmentService {
 	
 	List<Appointment> getStaffAppointmentsBetweenDates(Long staffId,
 			Date fromDateTime, Date toDateTime);
+	
+	public List<DailyAppointmentCountVO> getStaffAppointmentsTimeBreakups(
+			Date appointmentDate);
 }

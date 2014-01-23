@@ -51,6 +51,11 @@
                 });
 	}
 	
+	function zeroPad(num, places) {
+		  var zero = places - num.toString().length + 1;
+		  return Array(+(zero > 0 && zero)).join("0") + num;
+		}
+	
 	$(document).ready(function() {
 		document.title = 'Add Appointment';
 		setupAppointmentForm();
@@ -72,6 +77,7 @@
 				if (item.value != "") {
 					$('#calendar').fullCalendar('destroy'); 
 					loadMonthylAppointmentCalendar(item.value);
+					$("#appointmentMainForm").jqxValidator('validateInput', '#formEndTime');
 				}
 			}
 		});
@@ -79,6 +85,7 @@
 		$('#formAppointmentDate').on('valuechanged', function (event) {           
 			//alert($('#formAppointmentDate').val());
 			//loadStaffAppointmentCountList($('#formAppointmentDate').val());
+			$("#appointmentMainForm").jqxValidator('validateInput', '#formEndTime');
         });
 		
 		$('#formStartTime').on('change', function (event) {   
@@ -92,7 +99,14 @@
 	         	 if(item.value != null && item.value != "") {
 	            	 var frmHr = item.value.substr(0,2);
 	            	 var toHr = parseInt(frmHr)+4;
-	            	 $('#formEndTime').val(toHr+":"+item.value.substr(3,5));    	 
+	            	 if(toHr > 12) {
+	            	 	toHr = toHr -12;
+	            	 }
+	            	 toHr = zeroPad(toHr, 2);
+	            	 
+	            	 var toMin = item.value.substr(3,2);
+	            	 $('#formEndTime').val(toHr+":"+toMin+" pm");
+	            	 $("#appointmentMainForm").jqxValidator('validateInput', '#formEndTime');
 	             }
 	         }
         });
@@ -114,17 +128,25 @@
 	         			var frmMin = frmTimeCombo.value.substr(3,5);
 	         			//alert(toHr+":"+toMin);
 	         			//alert(frmHr+":"+frmMin);
-	         			if(parseInt(toHr) <(parseInt(frmHr)+4)) {
+	         			/* if(parseInt(toHr) <(parseInt(frmHr)+4)) {
 	         				alert("End time should be atleast 4 hours greater than Start time !");
 	         				toHr = parseInt(frmHr)+4;
-	   	            		$('#formEndTime').val(toHr+":"+frmMin);
+	   	            		//$('#formEndTime').val(toHr+":"+frmMin);
+	   	            		toHr = toHr -12;
+	   	            		toHr = zeroPad(toHr, 2);
+	   	            	 	 $('#formEndTime').val(toHr+":"+frmTimeCombo.value.substr(3,2)+" pm");  
 	         			} else if(parseInt(toHr) == (parseInt(frmHr)+4)) {
 	         				if(parseInt(toMin) < parseInt(frmMin)) {
 	         					alert("End time should be atleast 4 hours greater than Start time !");
-		         				toHr = parseInt(frmHr)+4;
+	         					toHr = toHr -12;
+	         					toHr = parseInt(frmHr)+4;
 		   	            		$('#formEndTime').val(toHr+":"+frmMin);
-	         				}
-	         			}
+		   	            		toHr = zeroPad(toHr, 2);
+		   	            	 	 $('#formEndTime').val(toHr+":"+frmTimeCombo.value.substr(3,2)+" pm");  
+	         				} 
+	         			}*/
+	         			//Validate Here
+	         			$("#appointmentMainForm").jqxValidator('validateInput', '#formEndTime');
 	         		}	 
 	             }
 	         }
@@ -147,7 +169,18 @@
 				var fromTime = $("#formStartTime").val();
 				var toTime = $("#formEndTime").val();
 				var employeeIdCombo = $("#formEmployeeId").jqxComboBox('getSelectedItem'); 	
-
+				if(employeeIdCombo == null || employeeIdCombo.value == "") {
+					return;
+				}
+				if(fromTime == "") {
+					return;
+				}
+				if(toTime == "") {
+					return;
+				}
+				if($("#formAppointmentDate").val() == "") {
+					return;
+				}
 				$.ajax({
 				url: "checkStaffAppointmentSlots.html",
 				type: 'POST',
@@ -176,7 +209,7 @@
 			editable: true,
 			events: 'staffAppointmentCountListJSON/'+staffId+'.html',
 			eventRender: function(event, element) {
-		        element.attr('title', event.tooltip);
+		        element.attr('title', event.eventDetails);
 		    },
 			loading: function(bool) {
 				if (bool) {
@@ -245,7 +278,7 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-							<form id="appoinmentAddForm" action="saveCustomerAppoinment.html" method="post">
+							<!-- <form id="appoinmentAddForm" action="saveCustomerAppoinment.html" method="post">
 								<input type="hidden" id="appointmentDate" 	name="appointmentDate"/>
 								<input type="hidden" id="customerAddressId" 	name="customerAddressId"/>
 								<input type="hidden" id="customerId" 			name="customerId"/>
@@ -255,7 +288,9 @@
 								<input type="hidden" id="endTime" 			name="endTime"/>
 								<input id="createAppointmentButton" type="button" value="Create Appoinment" />
 								<input id="addNewCustomerPopuptButton" type="button" value="Add New Customer" />
-								</form>
+								</form> -->
+								<input id="createAppointmentButton" type="button" value="Create Appoinment" />
+								<input id="addNewCustomerPopuptButton" type="button" value="Add New Customer" />
 						</td>						
 					</tr>
 					<tr>
@@ -271,6 +306,15 @@
 				</table>
 				</form>				
 	</div>
+	<form id="appoinmentAddForm" action="saveCustomerAppoinment.html" method="post">
+								<input type="hidden" id="appointmentDate" 	name="appointmentDate"/>
+								<input type="hidden" id="customerAddressId" 	name="customerAddressId"/>
+								<input type="hidden" id="customerId" 			name="customerId"/>
+								<input type="hidden" id="employeeId" 			name="employeeId"/>
+								<input type="hidden" id="remarks" 			name="remarks"/>
+								<input type="hidden" id="startTime" 			name="startTime"/>
+								<input type="hidden" id="endTime" 			name="endTime"/>
+								</form>
 </div>
 <jsp:include page="customerInfoAddPopup.jsp" />
 <%-- <jsp:include page="staffAppointmentListPopup.jsp" /> --%>

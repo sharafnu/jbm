@@ -79,7 +79,7 @@ function setupCustomerAddPopupForm() {
 		width : '230px',
 		height : '20px'
 	});
-	$("#mobile3").jqxInput({
+	$("#landline").jqxInput({
 		width : '230px',
 		height : '20px'
 	});
@@ -164,7 +164,7 @@ function setupCustomerAddPopupForm() {
        	  url: "saveCustomerAndAddress.html",
        	  data: { 	firstName:$("#firstName").val(), lastName:$("#lastName").val(),  
        				mobile1: $("#mobile1").val(), mobile2: $("#mobile2").val(),
-       			 	mobile3: $("#mobile3").val(),  email: $("#email").val(),
+       			 	landline: $("#landline").val(),  email: $("#email").val(),
        				preferenceCall: callPref, preferenceEmail: emailPref,
        				preferenceSms: smsPref, residenceAreaId :residenceAreaId,
        				residenceBuildingName:$("#residenceBuildingName").val(), residenceFlatNo:$("#residenceFlatNo").val(),
@@ -219,8 +219,8 @@ function resetAndClosePopupForm() {
 								<td colspan="1"><input id="mobile2" /></td>
 							</tr>
 							<tr>
-								<td colspan="1">Mobile No 3 :</td>
-								<td colspan="1"><input id="mobile3" /></td>
+								<td colspan="1">Landline No :</td>
+								<td colspan="1"><input id="landline" /></td>
 							</tr>					
 							<tr>
 								<td colspan="1">Email :</td>

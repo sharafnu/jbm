@@ -15,23 +15,32 @@ $(document).ready(function() {
 
 
 function setupDetailedCalendar() {
+	var appointmentDate = $("#formAppointmentDate").val();
 	var date = new Date();
 	var d = date.getDate();
 	var m = date.getMonth();
 	var y = date.getFullYear();
 	
+	var url = 'getStaffAppointmentsTimeBreakupsJSON/'+appointmentDate+'.html';
+	//alert(url);
 	$('#detailedCalendar').fullCalendar({
 		header: {
 			left: 'prev,next today',
 			center: 'title',
 			right: 'agendaWeek,agendaDay'
 		},
-		defaultView: 'agendaWeek',
+		'gotoDate': appointmentDate,
+		defaultView: 'agendaDay',
 		allDaySlot: false,
 		minTime: '9',
 		maxTime:'23',
-		editable: true,
-		events: 'http://localhost:8080/jbm/resources/events.json',
+		editable: false,
+		events: url,
+		eventRender: function(event, element) {
+			//alert(element);
+			
+	        element.attr('title', event.eventDetails);
+	    },
 /* 		events: [
 			{
 				title: '10',
@@ -60,6 +69,8 @@ function setupDetailedCalendar() {
 			}
 		}
 	});
+	$('#calendar').fullCalendar( 'gotoDate', new Date());
+	//$('#detailedCalendar').fullCalendar( 'refetchEvents' );
 }
 
 function resetAndCloseCalendarPopupForm() {

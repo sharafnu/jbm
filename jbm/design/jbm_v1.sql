@@ -263,3 +263,5 @@ ALTER table employee add COLUMN employee_status varchar(16);
 
 -- customer_contract alter
 alter table customer_contract add column visit_count int;
+-- rename mobile_3 to landline
+alter table customer rename column mobile_3 to landline

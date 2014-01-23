@@ -20,7 +20,7 @@ public class CustomerExtractor implements ResultSetExtractor<Customer> {
 		customer.setLastName(rs.getString("last_name"));
 		customer.setMobile1(rs.getString("mobile_1"));
 		customer.setMobile2(rs.getString("mobile_2"));
-		customer.setMobile3(rs.getString("mobile_3"));
+		customer.setLandline(rs.getString("landline"));
 		customer.setEmail(rs.getString("email"));
 		customer.setPreferenceCall(rs.getInt("preference_call"));
 		customer.setPreferenceEmail(rs.getInt("preference_email"));

@@ -9,6 +9,10 @@ public class DailyAppointmentCountVO {
 	private int appointmentCount;
 
 	private long staffId;
+	
+	private Date startDate;
+	
+	private Date endDate;
 
 	public Date getAppointmentDate() {
 		return appointmentDate;
@@ -32,6 +36,22 @@ public class DailyAppointmentCountVO {
 
 	public void setStaffId(long staffId) {
 		this.staffId = staffId;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 }

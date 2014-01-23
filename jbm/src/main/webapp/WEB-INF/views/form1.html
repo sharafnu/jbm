@@ -33,7 +33,7 @@
 	            $("#lastName").jqxInput({  width: '300px', height: '20px'});
 	            //$("#mobile1").jqxMaskedInput({ width: 150, height: 25, mask: '(###)###-####'});
 		    //$("#mobile2").jqxMaskedInput({ width: 150, height: 25, mask: '(###)###-####'});
-                    //$("#mobile3").jqxMaskedInput({ width: 150, height: 25, mask: '(###)###-####'});
+                    //$("#landline").jqxMaskedInput({ width: 150, height: 25, mask: '(###)###-####'});
 		     $("#email").jqxInput({  width: '300px', height: '20px'});	
 	            // Create jqxPasswordInput.
 	            $("#password").jqxPasswordInput({  width: '300px', height: '20px', showStrength: true, showStrengthPosition: "right" });
@@ -60,7 +60,7 @@
 	                        },
 	                        { input: "#mobile1", message: 'Invalid mobile number 1!', action: 'valuechanged, blur', rule: 'phone' },
 				{ input: "#mobile2", message: 'Invalid mobile number 2!', action: 'valuechanged, blur', rule: 'phone' },
-				{ input: "#mobile3", message: 'Invalid mobile number 3!', action: 'valuechanged, blur', rule: 'phone' },
+				{ input: "#landline", message: 'Invalid mobile number 3!', action: 'valuechanged, blur', rule: 'phone' },
 				{ input: '#email', message: 'Invalid e-mail!', action: 'keyup', rule: 'email' },
 	                        { input: "#password", message: "Password is required!", action: 'keyup, blur', rule: 'required' },
 	                        { input: "#passwordConfirm", message: "Password is required!", action: 'keyup, blur', rule: 'required' },
@@ -157,7 +157,7 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <input id="mobile3" />
+                            <input id="landline" />
                         </td>
                     </tr>
 		    <tr>

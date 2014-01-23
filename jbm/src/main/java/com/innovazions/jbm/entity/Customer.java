@@ -28,7 +28,7 @@ public class Customer extends CoreEntity<Customer, CustomerView> implements
 
 	private String mobile2;
 
-	private String mobile3;
+	private String landline;
 
 	private Integer preferenceCall;
 
@@ -97,12 +97,12 @@ public class Customer extends CoreEntity<Customer, CustomerView> implements
 		this.mobile2 = mobile2;
 	}
 
-	public String getMobile3() {
-		return this.mobile3;
+	public String getLandline() {
+		return this.landline;
 	}
 
-	public void setMobile3(String mobile3) {
-		this.mobile3 = mobile3;
+	public void setLandline(String landline) {
+		this.landline = landline;
 	}
 
 	public Integer getPreferenceCall() {
@@ -146,7 +146,7 @@ public class Customer extends CoreEntity<Customer, CustomerView> implements
 		customerView.setLastName(this.getLastName());
 		customerView.setMobile1(this.getMobile1());
 		customerView.setMobile2(this.getMobile2());
-		customerView.setMobile3(this.getMobile3());
+		customerView.setLandline(this.getLandline());
 		customerView.setPreferenceCall(this.getPreferenceCall());
 		customerView.setPreferenceEmail(this.getPreferenceEmail());
 		customerView.setPreferenceSms(this.getPreferenceSms());

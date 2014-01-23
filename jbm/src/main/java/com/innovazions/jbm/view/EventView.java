@@ -1,25 +1,37 @@
 package com.innovazions.jbm.view;
 
-import java.util.Date;
 
 public class EventView {
 
+	public static final String[] EVENT_COLOR_ARRAY = new String[] {
+		"RED", "GREEN", "BLUE", "ORANGE"
+	};
 	private Long id;
 
-	public EventView(Long id, String title, Date start) {
+	public EventView(Long id, String title, String start, boolean allDay) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.start = start;
-		this.allDay = true;
+		this.allDay = allDay;
+		this.tooltip = "Test Tooltip";
+	}
+	
+	public EventView(Long id, String title, String start, String end, boolean allDay) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.start = start;
+		this.end = end;
+		this.allDay = allDay;
 		this.tooltip = "Test Tooltip";
 	}
 
 	private String title;
 
-	private Date start;
+	private String start;
 
-	private Date end;
+	private String end;
 
 	private boolean allDay;
 
@@ -41,19 +53,19 @@ public class EventView {
 		this.title = title;
 	}
 
-	public Date getStart() {
+	public String getStart() {
 		return start;
 	}
 
-	public void setStart(Date start) {
+	public void setStart(String start) {
 		this.start = start;
 	}
 
-	public Date getEnd() {
+	public String getEnd() {
 		return end;
 	}
 
-	public void setEnd(Date end) {
+	public void setEnd(String end) {
 		this.end = end;
 	}
 
@@ -71,5 +83,26 @@ public class EventView {
 
 	public void setTooltip(String tooltip) {
 		this.tooltip = tooltip;
+	}
+	
+	/*public String getColor() {
+		//return EVENT_COLOR_ARRAY[id.intValue()];
+		return "RED";
+	}
+	
+	public String getBackgroundColor(){
+		return "BLUE";
+	}
+	
+	public String getTextColor() {
+		return "BLUE";
+	}
+*/	
+	public String getClassName() {
+		int index = id.intValue();
+		if(id.intValue() > 7) {
+			index = index-7;
+		}
+		return "eventColor"+id.intValue();
 	}
 }

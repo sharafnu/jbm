@@ -53,6 +53,6 @@ public interface JBMConstants {
 	//EmployeeStatus
 	public static final String EMPLOYEE_STATUS_ACTIVE = "Active";
 	public static final String EMPLOYEE_STATUS_RESIGNED = "Resigned";
-	
+	public static final String EMPLOYEE_STATUS_INACTIVE = "In-Active";
 	
 }

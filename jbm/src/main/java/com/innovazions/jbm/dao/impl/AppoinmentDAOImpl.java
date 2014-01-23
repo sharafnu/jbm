@@ -367,12 +367,15 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 		 * 17:00:00' <end_date)
 		 */
 		String sql = "select appointment_no, start_date, end_date from appointment where employee_id=? and "
-				+ "(? < end_date and  ? >=start_date) or "
-				+ "(? >=start_date and  ? <end_date)";
+				+ "((? >= start_date and  ? < end_date) or "
+				+ "(? >start_date and  ? <=end_date))";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		System.out.println(sql);
 		System.out.println(fromDateTime);
 		System.out.println(toDateTime);
+		System.out.println(CommonUtils.getTimeStampFromDate(fromDateTime));
+		System.out.println(CommonUtils.getTimeStampFromDate(toDateTime));
+
 		List<Appointment> appointmentCountList = jdbcTemplate.query(
 				sql,
 				new Object[] { staffId,
@@ -391,5 +394,56 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 					}
 				});
 		return appointmentCountList;
+	}
+
+	@Override
+	public List<DailyAppointmentCountVO> getStaffAppointmentsTimeBreakups(
+			Date appointmentDate) {
+		String sql = null;
+		if (appointmentDate != null) {
+			sql = "select start_date, end_date, count(*) from appointment where "
+					+ "appointment_date=? group by start_date, end_date "
+					+ "order by start_date";
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			System.out.println(sql);
+
+			List<DailyAppointmentCountVO> appointmentCountList = jdbcTemplate
+					.query(sql, new Object[] { CommonUtils
+							.getTimeStampFromDate(appointmentDate) },
+							new RowMapper<DailyAppointmentCountVO>() {
+								public DailyAppointmentCountVO mapRow(
+										ResultSet rs, int rowNum)
+										throws SQLException {
+									DailyAppointmentCountVO appointmentCountVO = new DailyAppointmentCountVO();
+									appointmentCountVO.setStartDate(rs
+											.getTimestamp(1));
+									appointmentCountVO.setEndDate(rs
+											.getTimestamp(2));
+									appointmentCountVO.setAppointmentCount(rs
+											.getInt(3));
+									return appointmentCountVO;
+								}
+							});
+			return appointmentCountList;
+		} else {
+			sql = "select start_date, end_date, count(*) from appointment group by start_date, end_date "
+					+ "order by start_date";
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			System.out.println(sql);
+
+			List<DailyAppointmentCountVO> appointmentCountList = jdbcTemplate
+					.query(sql, new RowMapper<DailyAppointmentCountVO>() {
+						public DailyAppointmentCountVO mapRow(ResultSet rs,
+								int rowNum) throws SQLException {
+							DailyAppointmentCountVO appointmentCountVO = new DailyAppointmentCountVO();
+							appointmentCountVO.setStartDate(rs.getTimestamp(1));
+							appointmentCountVO.setEndDate(rs.getTimestamp(2));
+							appointmentCountVO.setAppointmentCount(rs.getInt(3));
+							return appointmentCountVO;
+						}
+					});
+			return appointmentCountList;
+
+		}
 	}
 }

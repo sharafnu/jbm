@@ -11,7 +11,7 @@ insert into city (name) values ('Dibba Al-Hisn');
 INSERT INTO employee (employee_code,first_name, nationality, join_date, salary, remarks) VALUES 
 ('1000', 'Sharafudeen Aboobacker', 'Indian', TIMESTAMP 'now', '25000', 'Test');
 
-INSERT INTO customer (first_name, last_name, mobile_1, mobile_2, mobile_3, email, preference_call, preference_email, preference_sms, last_modified_date, last_modified_user) VALUES 
+INSERT INTO customer (first_name, last_name, mobile_1, mobile_2, landline, email, preference_call, preference_email, preference_sms, last_modified_date, last_modified_user) VALUES 
 ('Nadeer', 'Ali', '0555653982', '0555653983', '', 'coolnadz@gmail.com', 1, 0, 1, TIMESTAMP 'now', 'SYSTEM');
 
 INSERT INTO customer_address (customer_id, area_id, building_name, flat_no, address_type, last_modified_date, last_modified_user) VALUES 

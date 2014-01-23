@@ -115,6 +115,16 @@ public class MasterController extends AbstractController {
 		List<Employee> employeeList = employeeService.getEmployeeList(null);
 		return new Employee().convertEntitiesToViews(employeeList);
 	}
+	
+	@RequestMapping(value = "/activeStaffListJSON", method = RequestMethod.GET)
+	public @ResponseBody
+	List<EmployeeView> activeStaffListJSON() {
+		logger.info("MasterController > staffListJSON");
+		Employee employee = new Employee();
+		employee.setEmployeeStatus(JBMConstants.EMPLOYEE_STATUS_ACTIVE);
+		List<Employee> employeeList = employeeService.getEmployeeList(employee);
+		return new Employee().convertEntitiesToViews(employeeList);
+	}
 
 	@RequestMapping(value = "/saveEmployee", method = RequestMethod.POST)
 	public @ResponseBody
