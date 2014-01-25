@@ -7,6 +7,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -20,10 +23,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.common.JBMConstants;
+import com.innovazions.jbm.common.JBMUIHelper;
 import com.innovazions.jbm.entity.Appointment;
 import com.innovazions.jbm.service.AppointmentService;
 import com.innovazions.jbm.service.CommonService;
@@ -31,6 +37,7 @@ import com.innovazions.jbm.service.EmailNotificationService;
 import com.innovazions.jbm.service.SMSNotificationService;
 import com.innovazions.jbm.view.AppointmentView;
 import com.innovazions.jbm.view.EventView;
+import com.innovazions.jbm.vo.CalendarAppointmentDetailCalendarVO;
 import com.innovazions.jbm.vo.DailyAppointmentCountVO;
 import com.innovazions.jbm.vo.StaffAppointmentCountVO;
 
@@ -145,7 +152,8 @@ public class AppointmentController extends AbstractController {
 		 */
 		model.addAttribute("infoMessage", "Appointment Created : "
 				+ appointmentNo);
-		return "customerApointmentAdd";
+		return "redirect:customerApointmentAdd.html";
+		// return "customerApointmentAdd";
 	}
 
 	@RequestMapping(value = "/updateCustomerAppoinment", method = RequestMethod.POST)
@@ -174,16 +182,28 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/customerAppointmentDetails")
-	public String customerAppointmentDetails(Model model) {
+	public String customerAppointmentDetails(Model model,
+			HttpServletRequest httpServletRequest) {
 		logger.info("AppoinmentController > customerAppointmentDetails");
+		Integer appointmentId = (Integer) httpServletRequest.getSession()
+				.getAttribute(
+						JBMUIHelper.getLoggedInUserName(httpServletRequest)
+								+ "_SELECTED_APP_ID");
+		model.addAttribute("appointmentId", appointmentId);
+		httpServletRequest.getSession().setAttribute(
+				JBMUIHelper.getLoggedInUserName(httpServletRequest)
+						+ "_SELECTED_APP_ID", null);
 		return "customerAppointmentDetails";
 	}
 
 	@RequestMapping(value = "/customerAppointmentDetailsForSelectedId")
 	public String customerAppointmentDetailsForSelectedId(Model model,
-			@ModelAttribute("appointmentView") AppointmentView appointmentView) {
+			@RequestParam("appointmentId") Integer appointmentId,
+			HttpServletRequest httpServletRequest) {
 		logger.info("AppoinmentController > customerAppointmentDetails");
-		model.addAttribute("appointmentId", appointmentView.getId());
+		httpServletRequest.getSession().setAttribute(
+				JBMUIHelper.getLoggedInUserName(httpServletRequest)
+						+ "_SELECTED_APP_ID", appointmentId);
 		return "redirect:customerAppointmentDetails.html";
 	}
 
@@ -196,6 +216,10 @@ public class AppointmentController extends AbstractController {
 		Appointment appointment = appointmentService
 				.getAppoinmentDetailsByAppoinmentId(appointmentId);
 		if (appointment != null) {
+			System.out.println(CommonUtils.getDBDateTime(appointment
+					.getStartDate()));
+			System.out.println(CommonUtils.getDBDateTime(appointment
+					.getEndDate()));
 			return appointment.convertEntityToView();
 		}
 		return null;
@@ -243,7 +267,7 @@ public class AppointmentController extends AbstractController {
 		List<DailyAppointmentCountVO> staffAppointmentCountList = new ArrayList<DailyAppointmentCountVO>();
 		staffAppointmentCountList = appointmentService
 				.getStaffAppointmentsTimeBreakups(null);
-		return convertToEventListDayView(staffAppointmentCountList);
+		return convertToEventListDayWeekView(staffAppointmentCountList);
 	}
 
 	private List<EventView> convertToEventListMonthView(
@@ -251,25 +275,58 @@ public class AppointmentController extends AbstractController {
 		long i = 1l;
 		List<EventView> eventViewList = new ArrayList<EventView>();
 		for (DailyAppointmentCountVO dailyAppointmentCountVO : staffAppointmentCountList) {
+			List<CalendarAppointmentDetailCalendarVO> staffNameList = appointmentService
+					.getAppointmentStaffNameForCalendarByDate(dailyAppointmentCountVO
+							.getAppointmentDate());
+			StringBuffer staffNameTooltip = new StringBuffer("");
+			for (CalendarAppointmentDetailCalendarVO calendarAppointmentDetailCalendarVO : staffNameList) {
+				staffNameTooltip
+						.append(calendarAppointmentDetailCalendarVO
+								.getEmployeeName())
+						.append(" [")
+						.append(calendarAppointmentDetailCalendarVO
+								.getAppointmentCount()).append("]")
+						.append("\n");
+			}
 			eventViewList.add(new EventView(i, dailyAppointmentCountVO
 					.getAppointmentCount() + "", CommonUtils
 					.getJavaScriptDateTime(dailyAppointmentCountVO
-							.getAppointmentDate()), true));
+							.getAppointmentDate()), true, staffNameTooltip
+					.toString()));
 		}
 		return eventViewList;
 	}
 
-	private List<EventView> convertToEventListDayView(
+	private List<EventView> convertToEventListDayWeekView(
 			List<DailyAppointmentCountVO> staffAppointmentCountList) {
 		long i = 1l;
 		List<EventView> eventViewList = new ArrayList<EventView>();
+
 		for (DailyAppointmentCountVO dailyAppointmentCountVO : staffAppointmentCountList) {
-			eventViewList.add(new EventView(i++, dailyAppointmentCountVO
-					.getAppointmentCount() + "", CommonUtils
-					.getJavaScriptDateTime(dailyAppointmentCountVO
-							.getStartDate()),
-					CommonUtils.getJavaScriptDateTime(dailyAppointmentCountVO
-							.getEndDate()), false));
+
+			List<CalendarAppointmentDetailCalendarVO> staffNameList = appointmentService
+					.getAppointmentStaffNameForCalendarBetweenDate(
+							dailyAppointmentCountVO.getStartDate(),
+							dailyAppointmentCountVO.getEndDate());
+			StringBuffer staffNameTooltip = new StringBuffer("");
+			for (CalendarAppointmentDetailCalendarVO calendarAppointmentDetailCalendarVO : staffNameList) {
+				staffNameTooltip
+						.append(calendarAppointmentDetailCalendarVO
+								.getEmployeeName())
+						.append(" [")
+						.append(calendarAppointmentDetailCalendarVO
+								.getAppointmentCount()).append("]")
+						.append("\n");
+			}
+
+			eventViewList
+					.add(new EventView(i++, dailyAppointmentCountVO
+							.getAppointmentCount() + "", CommonUtils
+							.getJavaScriptDateTime(dailyAppointmentCountVO
+									.getStartDate()), CommonUtils
+							.getJavaScriptDateTime(dailyAppointmentCountVO
+									.getEndDate()), false, staffNameTooltip
+							.toString()));
 		}
 		return eventViewList;
 	}

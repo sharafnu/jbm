@@ -15,4 +15,7 @@ public interface CustomerContractDAO {
 	public List<CustomerContract> getCustomerContractByCustomerId(
 			Long customerId);
 
+	public List<CustomerContract> geCustomerActiveContractListByCustomerId(
+			Long customerId);
+
 }

@@ -85,6 +85,8 @@
 		$('#formAppointmentDate').on('valuechanged', function (event) {           
 			//alert($('#formAppointmentDate').val());
 			//loadStaffAppointmentCountList($('#formAppointmentDate').val());
+			$('#calendar').fullCalendar('destroy'); 
+			loadMonthylAppointmentCalendar(-1);
 			$("#appointmentMainForm").jqxValidator('validateInput', '#formEndTime');
         });
 		
@@ -159,6 +161,7 @@
 		setupFormValidations();
 	});
 	
+	
 	function setupFormValidations() {
 		
 		$('#appointmentMainForm').jqxValidator({
@@ -205,11 +208,11 @@
 	
 	function loadMonthylAppointmentCalendar(staffId) {
 		$('#calendar').fullCalendar({
-			
 			editable: true,
+			showFooter: true,
 			events: 'staffAppointmentCountListJSON/'+staffId+'.html',
 			eventRender: function(event, element) {
-		        element.attr('title', event.eventDetails);
+		        element.attr('title', event.tooltip);
 		    },
 			loading: function(bool) {
 				if (bool) {
@@ -219,6 +222,16 @@
 				}
 			}
 		});
+		var appointmentDate =  $("#formAppointmentDate").val();
+		var day = appointmentDate.substr(0,2);
+		var mon = parseInt(appointmentDate.substr(3,2) - 1);
+		var year = appointmentDate.substr(6,4);
+		
+		//alert(day+" : "+mon+" : "+year);
+		
+		$('#calendar').fullCalendar( 'gotoDate', appointmentDate);
+		$('#calendar').fullCalendar( 'gotoDate', year, mon, day);
+		
 	}
 	
 </script>

@@ -55,4 +55,6 @@ public interface JBMConstants {
 	public static final String EMPLOYEE_STATUS_RESIGNED = "Resigned";
 	public static final String EMPLOYEE_STATUS_INACTIVE = "In-Active";
 	
+	public static final String CUSTOMER_CONTRACT_ACTIVE = "Active";	
+	public static final String CUSTOMER_CONTRACT_EXPIRED = "Expired";
 }

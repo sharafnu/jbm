@@ -27,7 +27,7 @@
                     <li>Customer
                         <ul style='width: 250px;'>
                             <!-- <li><a href="customerList.html">Search Customer</a></li> -->
-                            <li><a href="customerInfoAdd.html">Add New Customer</a></li>
+                            <!-- <li><a href="customerInfoAdd.html">Add New Customer</a></li>  -->
                             <li><a href="customerInfoEdit.html">Search/Edit Customer</a></li>
                             <li><a href="customerContractDetails.html">Customer Contracts</a></li>
                         </ul>

@@ -26,4 +26,10 @@ public class CustomerContractServiceImpl implements CustomerContractService {
 		return customerContractDAO.getCustomerContractByCustomerId(customerId);
 	}
 
+	@Override
+	public List<CustomerContract> geCustomerActiveContractListByCustomerId(
+			Long customerId) {
+		return customerContractDAO.geCustomerActiveContractListByCustomerId(customerId);
+	}
+
 }

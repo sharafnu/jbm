@@ -10,6 +10,7 @@ import org.springframework.jdbc.support.incrementer.PostgreSQLSequenceMaxValueIn
 import org.springframework.stereotype.Repository;
 
 import com.innovazions.jbm.common.CommonUtils;
+import com.innovazions.jbm.common.JBMConstants;
 import com.innovazions.jbm.dao.CustomerContractDAO;
 import com.innovazions.jbm.entity.CustomerContract;
 import com.innovazions.jbm.entity.jdbc.mapper.CustomerContractRowMapper;
@@ -75,6 +76,21 @@ public class CustomerContractDAOImpl implements CustomerContractDAO {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		List<CustomerContract> customerContractList = jdbcTemplate.query(sql,
 				new Object[] { customerId }, new CustomerContractRowMapper());
+		return customerContractList;
+	}
+
+	@Override
+	public List<CustomerContract> geCustomerActiveContractListByCustomerId(
+			Long customerId) {
+		String sql = "SELECT cc.id as customer_contract_id, cc.customer_id as customer_id, cc.contract_date as contract_date, "
+				+ "cc.expiry_date as expiry_date, cc.contract_no as contract_no, cc.contract_type as contract_type, "
+				+ "cc.amount as amount, cc.last_modified_date as last_modified_date, cc.last_modified_user as last_modified_user, "
+				+ "cc.contract_status as contract_status, cc.visit_count as visit_count FROM customer_contract cc "
+				+ "inner join customer c on c.id=cc.customer_id where c.id=? and cc.contract_status=?";
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		List<CustomerContract> customerContractList = jdbcTemplate.query(sql,
+				new Object[] { customerId, JBMConstants.CUSTOMER_CONTRACT_ACTIVE }, new CustomerContractRowMapper());
 		return customerContractList;
 	}
 }

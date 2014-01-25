@@ -22,8 +22,8 @@ public class AppointmentExtractor implements ResultSetExtractor<Appointment> {
 		appointment.setId(rs.getLong("appoinment_id"));
 		appointment.setAppointmentNo(rs.getString("appointment_no"));
 		appointment.setAppointmentDate(rs.getDate("appointment_date"));
-		appointment.setStartDate(rs.getDate("start_date"));
-		appointment.setEndDate(rs.getDate("end_date"));
+		appointment.setStartDate(rs.getTimestamp("start_date"));
+		appointment.setEndDate(rs.getTimestamp("end_date"));
 
 		Area area = new Area();
 		area.setId(rs.getLong("area_id"));

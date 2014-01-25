@@ -19,6 +19,7 @@ import com.innovazions.jbm.common.JBMConstants;
 import com.innovazions.jbm.dao.AppointmentDAO;
 import com.innovazions.jbm.entity.Appointment;
 import com.innovazions.jbm.entity.jdbc.mapper.AppointmentRowMapper;
+import com.innovazions.jbm.vo.CalendarAppointmentDetailCalendarVO;
 import com.innovazions.jbm.vo.DailyAppointmentCountVO;
 import com.innovazions.jbm.vo.StaffAppointmentCountVO;
 
@@ -53,6 +54,26 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 			+ "inner join customer_address ca on ca.id=a.customer_address_id "
 			+ "inner join area ar on ca.area_id=ar.id "
 			+ "inner join city ci on ci.id=ar.city_id where a.id=?";
+
+	private static final String SELECT_APPOINTMENT_DETAILS_FOR_CALENDAR_BY_DATE = "SELECT a.appointment_no as appointment_no, a.remarks as remarks, "
+			+ "a.appointment_status as appointment_status, "
+			+ "c.first_name as customer_first_name, c.last_name as customer_last_name, e.first_name as employee_first_name, "
+			+ "ar.name as area_name, ci.name as city_name, ca.building_name, ca.flat_no, ca.address_type FROM appointment a "
+			+ "inner join customer c on c.id=a.customer_id "
+			+ "inner join employee e on e.id=a.employee_id "
+			+ "inner join customer_address ca on ca.id=a.customer_address_id "
+			+ "inner join area ar on ca.area_id=ar.id "
+			+ "inner join city ci on ci.id=ar.city_id where a.appointment_date=?";
+
+	private static final String SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR_BY_DATE = "SELECT  distinct e.id, e.first_name as employee_first_name, "
+			+ "count(1) as appointmentCount "
+			+ "FROM appointment a inner join employee e on e.id=a.employee_id "
+			+ "where a.appointment_date=? group by e.id, employee_first_name";
+	
+	private static final String SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR_START_AND_END_DATE = "SELECT  distinct e.id, e.first_name as employee_first_name, "
+			+ "count(1) as appointmentCount "
+			+ "FROM appointment a inner join employee e on e.id=a.employee_id "
+			+ "where a.start_date=? and a.end_date=? group by e.id, employee_first_name";
 
 	@Override
 	public long createAppointment(Appointment appointment) {
@@ -145,7 +166,8 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 
 	@Override
 	public Appointment getAppoinmentDetailsByAppoinmentId(Long appointmentId) {
-
+		System.out.println("getAppoinmentDetailsByAppoinmentId :"
+				+ SELECT_APPOINTMENT_BY_ID_QUERY);
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		List<Appointment> appointmentList = jdbcTemplate.query(
 				SELECT_APPOINTMENT_BY_ID_QUERY, new Object[] { appointmentId },
@@ -169,6 +191,10 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 			if (!CommonUtils.isEmpty(appointment.getAppointmentStatus())) {
 				whereQuery.append(" and a.appointment_status=").append(
 						addQuote(appointment.getAppointmentStatus()));
+				argumentCount++;
+			} else {
+				whereQuery.append(" and a.appointment_status=").append(
+						addQuote(JBMConstants.APPOINTMENT_STATUS_CREATED));
 				argumentCount++;
 			}
 			if (!CommonUtils.isEmpty(appointment.getPaymentStatus())) {
@@ -445,5 +471,97 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 			return appointmentCountList;
 
 		}
+	}
+
+	@Override
+	public List<CalendarAppointmentDetailCalendarVO> getAppointmentDetailsForCalendarByDate(
+			Date appointmentDate) {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		System.out.println(SELECT_APPOINTMENT_DETAILS_FOR_CALENDAR_BY_DATE);
+		List<CalendarAppointmentDetailCalendarVO> appointmentDetailList = jdbcTemplate
+				.query(SELECT_APPOINTMENT_DETAILS_FOR_CALENDAR_BY_DATE,
+						new Object[] { CommonUtils
+								.getTimeStampFromDate(appointmentDate) },
+						new RowMapper<CalendarAppointmentDetailCalendarVO>() {
+							public CalendarAppointmentDetailCalendarVO mapRow(
+									ResultSet rs, int rowNum)
+									throws SQLException {
+								CalendarAppointmentDetailCalendarVO appointmentDetailVO = new CalendarAppointmentDetailCalendarVO();
+								appointmentDetailVO.setAppointmentNo(rs
+										.getString("appointment_no"));
+								appointmentDetailVO.setRemarks(rs
+										.getString("remarks"));
+								appointmentDetailVO.setAppointmentStatus(rs
+										.getString("appointment_status"));
+
+								appointmentDetailVO.setCustomerName(rs
+										.getString("customer_first_name")
+										+ " "
+										+ rs.getString("customer_last_name"));
+								appointmentDetailVO.setEmployeeName(rs
+										.getString("employee_first_name"));
+								appointmentDetailVO.setAreaName(rs
+										.getString("area_name"));
+								appointmentDetailVO.setCityName(rs
+										.getString("city_name"));
+								appointmentDetailVO.setBuildingName(rs
+										.getString("building_name"));
+								appointmentDetailVO.setFlatNo(rs
+										.getString("flat_no"));
+								appointmentDetailVO.setAddressType(rs
+										.getString("address_type"));
+								return appointmentDetailVO;
+							}
+						});
+		return appointmentDetailList;
+	}
+
+	@Override
+	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendarByDate(
+			Date appointmentDate) {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		System.out.println(SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR_BY_DATE);
+		List<CalendarAppointmentDetailCalendarVO> appointmentDetailList = jdbcTemplate
+				.query(SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR_BY_DATE,
+						new Object[] { CommonUtils
+								.getTimeStampFromDate(appointmentDate) },
+						new RowMapper<CalendarAppointmentDetailCalendarVO>() {
+							public CalendarAppointmentDetailCalendarVO mapRow(
+									ResultSet rs, int rowNum)
+									throws SQLException {
+								CalendarAppointmentDetailCalendarVO appointmentDetailVO = new CalendarAppointmentDetailCalendarVO();
+								appointmentDetailVO.setEmployeeName(rs
+										.getString("employee_first_name"));
+								appointmentDetailVO.setAppointmentCount(rs
+										.getInt("appointmentCount"));
+								return appointmentDetailVO;
+							}
+						});
+		return appointmentDetailList;
+	}
+
+	@Override
+	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendarBetweenDate(
+			Date startDate, Date endDate) {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		System.out.println(SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR_START_AND_END_DATE);
+		List<CalendarAppointmentDetailCalendarVO> appointmentDetailList = jdbcTemplate
+				.query(SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR_START_AND_END_DATE,
+						new Object[] {
+								CommonUtils.getTimeStampFromDate(startDate),
+								CommonUtils.getTimeStampFromDate(endDate) },
+						new RowMapper<CalendarAppointmentDetailCalendarVO>() {
+							public CalendarAppointmentDetailCalendarVO mapRow(
+									ResultSet rs, int rowNum)
+									throws SQLException {
+								CalendarAppointmentDetailCalendarVO appointmentDetailVO = new CalendarAppointmentDetailCalendarVO();
+								appointmentDetailVO.setEmployeeName(rs
+										.getString("employee_first_name"));
+								appointmentDetailVO.setAppointmentCount(rs
+										.getInt("appointmentCount"));
+								return appointmentDetailVO;
+							}
+						});
+		return appointmentDetailList;
 	}
 }

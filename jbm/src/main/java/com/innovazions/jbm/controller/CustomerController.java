@@ -146,6 +146,18 @@ public class CustomerController extends AbstractController {
 		return new CustomerContract()
 				.convertEntitiesToViews(customerContractList);
 	}
+	
+	@RequestMapping(value = "/geCustomerActiveContractListByCustomerId/{customerId}", method = RequestMethod.GET)
+	public @ResponseBody
+	List<CustomerContractView> geCustomerActiveContractListByCustomerId(
+			@PathVariable Long customerId) {
+		logger.info("CustomerController > getCustomerContractListJSON");
+		List<CustomerContract> customerContractList = customerContractService
+				.geCustomerActiveContractListByCustomerId(customerId);
+		return new CustomerContract()
+				.convertEntitiesToViews(customerContractList);
+	}
+	
 
 	@RequestMapping(value = "/saveCustomerContract", method = RequestMethod.POST)
 	public @ResponseBody

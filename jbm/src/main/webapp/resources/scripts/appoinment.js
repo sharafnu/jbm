@@ -4,23 +4,26 @@ function setupAppointmentDetailsForm() {
 		theme : theme,
 		disabled: true
 	});
-	 $('#appoinmentDetailsTab').jqxTabs({ width: '100%', height: 340, position: 'top'});
+	 $('#appoinmentDetailsTab').jqxTabs({ width: '100%', height: 360, position: 'top'});
 	 $('#appoinmentDetailsTab').jqxTabs({ animationType: 'fade' });
 	 $('#appoinmentDetailsTab').jqxTabs({ selectionTracker: true });
-	 $('#appoinmentDetailsTab').jqxTabs('disableAt', 1);
-	 loadAppoinmentStatusCombo();
-	$("#formEndTime").jqxDateTimeInput({
-			width : '130px',
-			height : '20px',
-			formatString: 'T',
-			showCalendarButton: false
-	 });
-		
-	 $("#formEndTime").jqxDateTimeInput('setDate', new Date());
+	 //$('#appoinmentDetailsTab').jqxTabs('disableAt', 1);
+	loadAppoinmentStatusCombo();
+	loadCustomerContractCombo(-1);
+	var endHourListArr = ["12:00 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm","07:00 pm","07:30 pm","08:00 pm","08:30 pm","09:00 pm","09:30 pm","10:00 pm","10:30 pm","11:00 pm"];
+
+	$("#formEndTime").jqxComboBox({
+			selectedIndex : -1,
+			source : endHourListArr,
+			width : 130,
+			height : 20
+	});
+
 	 
 	 $("#formHoursSpent").jqxInput({
 			width : '130px',
-			height : '20px'
+			height : '20px',
+			disabled: true 
 	});
 	 
 	 $("#formAmountPayable").jqxInput({
@@ -64,7 +67,7 @@ function loadFinanceStatusCombo() {
 }
 
 function loadPaymentTypeCombo() {
-	var paymentTypeSource = [ "Cash", "Credt Card", "Debit Card", "Bank Transfer", "Cheque", "DD" ];
+	var paymentTypeSource = [ "Contract", "Cash", "Credt Card", "Debit Card", "Bank Transfer", "Cheque", "DD" ];
 	$("#formPaymentType").jqxComboBox({
 		selectedIndex : -1,
 		source : paymentTypeSource,
@@ -89,7 +92,7 @@ function setupAppoinmentListSearchFilters() {
 	loadAreaCombo();
 	loadAppoinmentCombo();
 	setupDateFilters();
-	loadAppoinmentStatusCombo();
+	loadAppoinmentStatusComboAll();
 	setupSearchButton();
 }
 
@@ -119,8 +122,8 @@ function setupAppointmentForm() {
 	
 	$("#formStartTime").jqxDateTimeInput('setDate', new Date());*/
 	
-	var startHourListArr = ["09:00 am","09:30 am","10:00 am","10:30 am","11:00 am","11:30 am","12:00 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm"];
-	var endHourListArr = ["01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm","07:00 pm","07:30 pm","08:00 pm","08:30 pm","09:00 pm","09:30 pm","10:00 pm","10:30 pm","11:00 pm"];
+	var startHourListArr = ["08:00 am","09:00 am","09:30 am","10:00 am","10:30 am","11:00 am","11:30 am","12:00 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm"];
+	var endHourListArr = ["12:00 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm","07:00 pm","07:30 pm","08:00 pm","08:30 pm","09:00 pm","09:30 pm","10:00 pm","10:30 pm","11:00 pm"];
 	/*var startHourListArr = [
                   {value: "09:00 am", label: "09:00 am"},
                   {value: "09:30 am", label: "09:30 am"},
@@ -468,6 +471,54 @@ function loadAreaCombo() {
 	});
 }
 
+function loadCustomerContractCombo(customerId) {
+	var customerContractURL = "geCustomerActiveContractListByCustomerId/"+customerId+".html";
+	var customerContractSource = {
+			datatype : "json",
+			datafields : [ {
+				name : 'contractNo',
+				type : 'string'
+			},{
+				name : 'contractType',
+				type : 'string'
+			}, 
+			{
+				name : 'contractDate',
+				type : 'string'
+			}, {
+				name : 'visitCount',
+				type : 'int'
+			}, {
+				name : 'amount',
+				type : 'int'
+			}, {
+				name : 'id',
+				type : 'int'
+			} ],
+			id : 'id',
+			url : customerContractURL
+		};
+	
+	var customerContractListAdapter = new $.jqx.dataAdapter(
+			customerContractSource);
+
+	$("#formCustomerContractId").jqxComboBox({
+		selectedIndex : -1,
+		source : customerContractListAdapter,
+		displayMember : "comboBoxText",
+		valueMember : "id",
+		searchMode: "containsignorecase",
+		//autoComplete: true,
+		width : 230,
+		height : 20,
+		renderSelectedItem: function(index, item) {
+			var item = customerContractListAdapter.records[index];
+			return item.contractNo+" - "+item.contractType +", "+item.contractDate+" / "+item.visitCount+", "+item.amount;   
+        }
+	});
+	
+}
+
 function loadAppoinmentCombo() {
 	var appointmentListUrl = "customerAppoinmentComboListJSON.html";
 	var appointmentListSource = {
@@ -545,6 +596,16 @@ function loadAppoinmentStatusCombo() {
 	var appoinmentStatusSource = [  "Completed", "Cancelled" ];
 	$("#formAppoinmentStatus").jqxComboBox({
 		selectedIndex : -1,
+		source : appoinmentStatusSource,
+		width : 210,
+		height : 20
+	});
+}
+
+function loadAppoinmentStatusComboAll() {
+	var appoinmentStatusSource = [  "Created", "Completed", "Cancelled" ];
+	$("#formAppoinmentStatus").jqxComboBox({
+		selectedIndex : 0,
 		source : appoinmentStatusSource,
 		width : 210,
 		height : 20
@@ -742,7 +803,7 @@ function appoinmentDetailsGrid() {
 			name : 'startTime',
 			type : 'string'
 		}, {
-			name : 'endDate',
+			name : 'endTime',
 			type : 'string'
 		}, {
 			name : 'areaName',
@@ -769,8 +830,8 @@ function appoinmentDetailsGrid() {
 	var appoinmentDataAdapter = new $.jqx.dataAdapter(appoinmentListSource);
 
 	var imagerenderer = function(row, datafield, value) {
-		/*var url = "customerAppointmentDetailsForSelectedId.html?id="+value;
-		return "<a href='"+url+"' ><img style='margin-left: 5px;margin-top: 5px;' src='resources/images/card.png'/></a>";*/
+		var url = "customerAppointmentDetailsForSelectedId.html?appointmentId="+value;
+		return "<a href='"+url+"' ><img style='margin-left: 5px;margin-top: 5px;' src='resources/images/card.png'/></a>";
 		return "";
 	}
 	// initialize jqxGrid
@@ -851,7 +912,7 @@ var initrowdetails = function (index, parentElement, gridElement, datarecord) {
         
         var infoTable = '<div style="margin: 5px;"><table class="descTable" width="100%" border="0" cellpadding="0" cellspacing="5">';
         infoTable = infoTable + '<tr><td align="right"><b>Location :</b></td><td>'+datarecord.areaName+ '</td> <td align="right"> <b>Building : </b></td><td> '+datarecord.buildingName+' </td><td align="right"> <b>Flat :</b> </td><td> '+datarecord.flatNo+' </td></tr>';
-        infoTable = infoTable + '<tr><td align="right"><b>Start Time :</b></td><td>'+datarecord.startTime+ '</td> <td align="right"> <b>Remarks : </b></td><td colspan="3"> '+datarecord.remarks+' </td></tr>';
+        infoTable = infoTable + '<tr><td align="right"><b>Time Slot :</b></td><td>'+datarecord.startTime+ ' - '+datarecord.endTime+'</td> <td align="right"> <b>Remarks : </b></td><td colspan="3"> '+datarecord.remarks+' </td></tr>';
         infoTable = infoTable +'</table></div>';
        
         var infoContainer = $(infoTable);

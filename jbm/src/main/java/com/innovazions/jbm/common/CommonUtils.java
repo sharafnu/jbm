@@ -42,6 +42,12 @@ public class CommonUtils {
 		DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_DDMMYYYY);
 		return dateFormat.format(inputDate);
 	}
+	
+	public static Date getFormattedDateObj(Date inputDate) throws ParseException {
+		DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_DDMMYYYY);
+		String formattedDate = dateFormat.format(inputDate);
+		return dateFormat.parse(formattedDate);
+	}
 
 	public static String getFormattedDateTime(Date inputDate) {
 		DateFormat dateFormat = new SimpleDateFormat(

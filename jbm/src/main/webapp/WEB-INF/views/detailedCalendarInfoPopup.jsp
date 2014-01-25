@@ -29,17 +29,14 @@ function setupDetailedCalendar() {
 			center: 'title',
 			right: 'agendaWeek,agendaDay'
 		},
-		'gotoDate': appointmentDate,
 		defaultView: 'agendaDay',
 		allDaySlot: false,
-		minTime: '9',
+		minTime: '8',
 		maxTime:'23',
 		editable: false,
 		events: url,
 		eventRender: function(event, element) {
-			//alert(element);
-			
-	        element.attr('title', event.eventDetails);
+	        element.attr('title', event.tooltip);
 	    },
 /* 		events: [
 			{
@@ -69,7 +66,13 @@ function setupDetailedCalendar() {
 			}
 		}
 	});
-	$('#calendar').fullCalendar( 'gotoDate', new Date());
+	var day = appointmentDate.substr(0,2);
+	var mon = parseInt(appointmentDate.substr(3,2) - 1);
+	var year = appointmentDate.substr(6,4);
+	
+	//alert(day+" : "+mon+" : "+year);
+	
+	$('#detailedCalendar').fullCalendar( 'gotoDate', year, mon, day);
 	//$('#detailedCalendar').fullCalendar( 'refetchEvents' );
 }
 

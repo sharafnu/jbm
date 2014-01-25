@@ -10,4 +10,7 @@ public interface CustomerContractService {
 
 	public List<CustomerContract> geCustomerContractListByCustomerId(
 			Long customerId);
+
+	public List<CustomerContract> geCustomerActiveContractListByCustomerId(
+			Long customerId);
 }

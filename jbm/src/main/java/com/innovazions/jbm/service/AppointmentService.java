@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.innovazions.jbm.entity.Appointment;
+import com.innovazions.jbm.vo.CalendarAppointmentDetailCalendarVO;
 import com.innovazions.jbm.vo.DailyAppointmentCountVO;
 import com.innovazions.jbm.vo.StaffAppointmentCountVO;
 
@@ -33,4 +34,13 @@ public interface AppointmentService {
 	
 	public List<DailyAppointmentCountVO> getStaffAppointmentsTimeBreakups(
 			Date appointmentDate);
+	
+	public List<CalendarAppointmentDetailCalendarVO> getAppointmentDetailsForCalendarByDate(
+			Date appointmentDate);
+	
+	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendarByDate(
+			Date appointmentDate);
+	
+	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendarBetweenDate(
+			Date startDate, Date endDate);
 }
