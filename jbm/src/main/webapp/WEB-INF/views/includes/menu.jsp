@@ -11,6 +11,21 @@
             <div id='jqxMenu' style='visibility: hidden; margin-left: 0px;'>
                 <ul>
                     <li><a href="home.html">Home</a></li>
+                    <li>Appointments
+                        <ul style='width: 250px;'>
+                            <li><a href="customerApointmentAdd.html">Book Appointment</a></li>
+                            <li><a href="customerAppointmentList.html">Appointment Search/Update</a></li>
+                            <!-- <li><a href="customerAppointmentDetails.html">Update Job Details</a></li> -->
+                        </ul>
+                    </li>
+                    <li>Customer
+                        <ul style='width: 250px;'>
+                            <!-- <li><a href="customerList.html">Search Customer</a></li> -->
+                            <!-- <li><a href="customerInfoAdd.html">Add New Customer</a></li>  -->
+                            <li><a href="customerInfoEdit.html">Search/Edit Customer</a></li>
+                            <li><a href="customerContractDetails.html">Customer Contracts</a></li>
+                        </ul>
+                    </li>
                    	<%if(JBMUIHelper.isAdminUser()) {%>
                    	<li>User Accounts
                         <ul>
@@ -24,21 +39,7 @@
                         </ul>
                     </li>
                     <%}%>
-                    <li>Customer
-                        <ul style='width: 250px;'>
-                            <!-- <li><a href="customerList.html">Search Customer</a></li> -->
-                            <!-- <li><a href="customerInfoAdd.html">Add New Customer</a></li>  -->
-                            <li><a href="customerInfoEdit.html">Search/Edit Customer</a></li>
-                            <li><a href="customerContractDetails.html">Customer Contracts</a></li>
-                        </ul>
-                    </li>
-                    <li>Appointments
-                        <ul style='width: 200px;'>
-                            <li><a href="customerApointmentAdd.html">Book Appointment</a></li>
-                            <li><a href="customerAppointmentList.html">Appointment Search</a></li>
-                            <li><a href="customerAppointmentDetails.html">Update Job Details</a></li>
-                        </ul>
-                    </li>
+                    
                     <li>Help
                         <ul style='width: 180px;'>
                             <li><a href="#Help">Help Topic</a></li>

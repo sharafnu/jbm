@@ -1,5 +1,10 @@
 package com.innovazions.jbm.view;
 
+import java.text.ParseException;
+import java.util.Date;
+
+import com.innovazions.jbm.common.CommonUtils;
+
 public class EventView {
 
 	public static final String[] EVENT_COLOR_ARRAY = new String[] { "RED",
@@ -17,7 +22,7 @@ public class EventView {
 	}
 
 	public EventView(Long id, String title, String start, String end,
-			boolean allDay, String tooltip) {
+			boolean allDay, String tooltip, String eventDescription) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -25,6 +30,7 @@ public class EventView {
 		this.end = end;
 		this.allDay = allDay;
 		this.tooltip = tooltip;
+		this.eventDescription = eventDescription;
 	}
 
 	private String title;
@@ -36,6 +42,8 @@ public class EventView {
 	private boolean allDay;
 
 	private String tooltip;
+
+	private String eventDescription;
 
 	public Long getId() {
 		return id;
@@ -94,10 +102,30 @@ public class EventView {
 	 * public String getTextColor() { return "BLUE"; }
 	 */
 	public String getClassName() {
+
+		// eventColorActive
+		try {
+			Date startDate = CommonUtils.getDate(start);
+			Date endDate = CommonUtils.getDate(end);
+			if (CommonUtils.isCurrentTimeSlot(startDate, endDate)) {
+				return "eventColorActive";
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		int index = id.intValue();
 		if (index > 7) {
-			index = index - 7;
+			index = (index % 7)+1;
 		}
 		return "eventColor" + index;
+	}
+
+	public String getEventDescription() {
+		return eventDescription;
+	}
+
+	public void setEventDescription(String eventDescription) {
+		this.eventDescription = eventDescription;
 	}
 }

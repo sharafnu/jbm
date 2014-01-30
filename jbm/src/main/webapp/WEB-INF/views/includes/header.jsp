@@ -80,6 +80,8 @@
 <script type="text/javascript"
 	src="<c:url value="/resources/jqwidgets/jqxtabs.js" />"></script>
 <script type="text/javascript"
+	src="<c:url value="/resources/jqwidgets/jqxnumberinput.js" />"></script>
+<script type="text/javascript"
 	src="<c:url value="/resources/scripts/demos.js" />"></script>
 	
 	<style>

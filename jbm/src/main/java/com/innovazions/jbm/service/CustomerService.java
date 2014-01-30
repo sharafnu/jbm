@@ -14,4 +14,6 @@ public interface CustomerService {
 
 	public Long createCustomerAndAddress(Customer customer);
 
+	public boolean checkDuplicateMobileNo(String mobileNo);
+
 }

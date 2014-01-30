@@ -18,6 +18,7 @@
 		 var appointmentDetailsURL = "getCustomerAppointmentDetails/";
 		appointmentDetailsURL = appointmentDetailsURL +$('#appointmentId').val()+".html";
     	$.get(appointmentDetailsURL, function(appointmentView){
+    		$("#customerId").val(appointmentView.customerId);
     		$("#appointmentNo").text(appointmentView.appointmentNo);
     		$("#customerName").text(appointmentView.customerName);
     		$("#employeeName").text(appointmentView.employeeName);
@@ -25,6 +26,7 @@
     		$("#appointmentDate").val(appointmentView.appointmentDate);
     		$("#startTime").text(appointmentView.startTime);
     		$("#formEndTime").val(appointmentView.endTime);
+    		$("#notesDetailsDiv").text(appointmentView.remarks);
     		calculateHoursSpent();
     		$("#location").text(appointmentView.flatNo +", "+appointmentView.buildingName+"," +appointmentView.areaName+", "+appointmentView.cityName);            		
     		loadCustomerContractCombo(appointmentView.customerId);
@@ -41,15 +43,19 @@
 						//$('#appoinmentDetailsTab').jqxTabs('enableAt', 1);
 						//show table
 						$("#jobCompletionTable").show();
+						$(".cancellRemarksDiv").hide();
 					} else {
 						//$('#appoinmentDetailsTab').jqxTabs('disableAt', 1);
 						//hide table
 						$("#jobCompletionTable").hide();
+						$(".cancellRemarksDiv").show();
+						//$('#formRemarks').attr("disabled", "enabled");
 					}
 				} else {
 					$("#updateAppointmentButton").jqxButton({ disabled: true });
 					//hide table
 					$("#jobCompletionTable").hide();
+					$(".cancellRemarksDiv").hide();
 				}
 			}
 		});
@@ -61,7 +67,8 @@
 			if (item.value != "") {
 				var appointmentDetailsURL = "getCustomerAppointmentDetails/";
 				appointmentDetailsURL = appointmentDetailsURL +item.value+".html";
-            	$.get(appointmentDetailsURL, function(appointmentView){
+            	$.get(appointmentDetailsURL, function(appointmentView){            		
+            		$("#customerId").val(appointmentView.customerId);
             		$("#appointmentNo").text(appointmentView.appointmentNo);
             		$("#customerName").text(appointmentView.customerName);
             		$("#employeeName").text(appointmentView.employeeName);
@@ -69,6 +76,7 @@
             		$("#appointmentDate").val(appointmentView.appointmentDate);
             		$("#startTime").text(appointmentView.startTime);
             		$("#formEndTime").val(appointmentView.endTime);
+            		$("#notesDetailsDiv").text(appointmentView.remarks);
             		calculateHoursSpent();
             		loadCustomerContractCombo(appointmentView.customerId);
             		$("#location").text(appointmentView.flatNo +", "+appointmentView.buildingName+"," +appointmentView.areaName+", "+appointmentView.cityName);            		
@@ -162,6 +170,9 @@
 	
 		//hide table
 		$("#jobCompletionTable").hide();
+		$(".cancellRemarksDiv").hide();
+		
+		setupFormValidations();
 	});
 	
 	function loadAppoinmentCombo() {
@@ -220,6 +231,39 @@
 			}
 		}
 	});
+	
+function setupFormValidations() {
+		
+		$('#appointmentUpdateMainForm').jqxValidator({
+			//_margin: 30,
+			rules: [
+			{ input: '#formInvoiceNo', message: 'Duplicate Invoice No !', 
+					action: 'blur', rule: function (input, commit) {					
+				var invoiceNo = $("#formInvoiceNo").val();
+				if(invoiceNo == "") {
+					return;
+				}
+				$.ajax({
+				url: "checkDuplicateInvoiceNo.html",
+				type: 'GET',
+				data: {invoiceNo: invoiceNo},
+				success: function(data)
+				{
+					if (data == "false")
+					{
+						commit(true);
+					}
+					else commit(false);
+				},
+				error: function()
+				{
+					commit(false);
+				}
+			});
+			}
+			}]
+		});
+	}
 </script>
 
 
@@ -229,7 +273,9 @@
 			<div style="background-color: #F4F0F5; color: #000; min-height: 1.5em; vertical-align: middle; padding: 5px; width: 830px;">
 				Job Details</div>
 			<div style="font-family: Verdana; font-size: 13px; overflow: hidden; margin: 10px;">
-				<table width="92%" class="popupFormTable">
+				
+				<table width="94%" class="popupFormTable">
+				<form class="form" id="appointmentUpdateMainForm">
 					<tr>
 						<td colspan="1" width="10%" align="right" nowrap> Appointment Id :</td>
 						<td colspan="1" align="left" width="90%"><div id="formAppointmentId" ></div></td>
@@ -240,7 +286,7 @@
 							<div id='appoinmentDetailsTab'>
 								<ul>
 					                <li style="margin-left: 30px;">Job Details</li>
-					                			        
+					                <li style="margin-left: 30px;">Notes</li>			        
 					            </ul>
 								<div id="jobDetailsDiv">
 									<table>
@@ -275,10 +321,10 @@
 														<td align="right">Status :</td>
 														<td><div id="formAppoinmentStatus" ></div></td>
 													</tr>
-													<tr>
-														<td align="right">Remarks :</td>
+													<tr class="cancellRemarksDiv">
+														<td align="right">Cancel Remarks :</td>
 														<td><textarea class="textArea" id="formRemarks" rows="3" cols="24"></textarea></td>
-													</tr>
+													</tr>													
 												</table>
 											</td>
 											<td>
@@ -321,17 +367,20 @@
 									</table>
 	                				
 	                			</div>
-	                			
+	                			<div id="notesDetailsTab">
+	                				<div style="white-space: normal; margin: 5px;"><span id="notesDetailsDiv"></span></div>
+	                			</div>
 	                			
                 			</div>
                 								
 						</td>
 					</tr>
-					
+					</form>
 					<tr>
 						<td colspan="2">
 							<form id="appoinmentUpdateForm" action="updateCustomerAppoinment.html" method="post">
 								<input type="hidden" id="id" 	name="id"/>
+								<input type="hidden" id="customerId" 	name="customerId"/>
 								<input type="hidden" id="appointmentStatus" 	name="appointmentStatus"/>
 								<input type="hidden" id="cancellationReason" 	name="cancellationReason"/>
 								<input type="hidden" id="endTime" 				name="endTime"/>

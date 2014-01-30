@@ -637,5 +637,10 @@ table.fc-border-separate {
 }
 
 .eventColor7 .fc-event-inner {
-    background-color: #C0CEC0;
+    background-color: #8A1EA0;
+}
+
+
+.eventColorActive .fc-event-inner {
+    background-color: #24FF0C;
 }

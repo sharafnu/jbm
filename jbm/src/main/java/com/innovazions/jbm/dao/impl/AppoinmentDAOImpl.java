@@ -18,7 +18,9 @@ import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.common.JBMConstants;
 import com.innovazions.jbm.dao.AppointmentDAO;
 import com.innovazions.jbm.entity.Appointment;
+import com.innovazions.jbm.entity.Customer;
 import com.innovazions.jbm.entity.jdbc.mapper.AppointmentRowMapper;
+import com.innovazions.jbm.entity.jdbc.mapper.CustomerRowMapper;
 import com.innovazions.jbm.vo.CalendarAppointmentDetailCalendarVO;
 import com.innovazions.jbm.vo.DailyAppointmentCountVO;
 import com.innovazions.jbm.vo.StaffAppointmentCountVO;
@@ -69,7 +71,7 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 			+ "count(1) as appointmentCount "
 			+ "FROM appointment a inner join employee e on e.id=a.employee_id "
 			+ "where a.appointment_date=? group by e.id, employee_first_name";
-	
+
 	private static final String SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR_START_AND_END_DATE = "SELECT  distinct e.id, e.first_name as employee_first_name, "
 			+ "count(1) as appointmentCount "
 			+ "FROM appointment a inner join employee e on e.id=a.employee_id "
@@ -544,7 +546,8 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendarBetweenDate(
 			Date startDate, Date endDate) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		System.out.println(SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR_START_AND_END_DATE);
+		System.out
+				.println(SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR_START_AND_END_DATE);
 		List<CalendarAppointmentDetailCalendarVO> appointmentDetailList = jdbcTemplate
 				.query(SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR_START_AND_END_DATE,
 						new Object[] {
@@ -563,5 +566,31 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 							}
 						});
 		return appointmentDetailList;
+	}
+
+	@Override
+	public void cancelAppointment(Appointment appointment) {
+		String updateSQL = "update appointment set appointment_status=?, cancellation_reason=? where id=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+		jdbcTemplate.update(
+				updateSQL,
+				new Object[] { JBMConstants.APPOINTMENT_STATUS_CANCELLED,
+						appointment.getCancellationReason(),
+						appointment.getId() });
+	}
+
+	@Override
+	public boolean isDuplicateInvoiceNo(String invoiceNo) {
+		String sql = "select count(1) from invoice where invoice_no= ?";
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int invoiceCount = jdbcTemplate.queryForInt(sql,
+				new Object[] { invoiceNo.trim() });
+		System.out.println("invoiceCount : "+invoiceCount);
+		if (invoiceCount > 0) {
+			return true;
+		}
+		return false;
 	}
 }

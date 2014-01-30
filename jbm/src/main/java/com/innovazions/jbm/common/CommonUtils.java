@@ -42,8 +42,9 @@ public class CommonUtils {
 		DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_DDMMYYYY);
 		return dateFormat.format(inputDate);
 	}
-	
-	public static Date getFormattedDateObj(Date inputDate) throws ParseException {
+
+	public static Date getFormattedDateObj(Date inputDate)
+			throws ParseException {
 		DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_DDMMYYYY);
 		String formattedDate = dateFormat.format(inputDate);
 		return dateFormat.parse(formattedDate);
@@ -53,6 +54,12 @@ public class CommonUtils {
 		DateFormat dateFormat = new SimpleDateFormat(
 				DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM_SS);
 		return dateFormat.format(inputDate);
+	}
+
+	public static Date getDate(String formattedDate) throws ParseException {
+		DateFormat dateFormat = new SimpleDateFormat(
+				DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM_SS);
+		return dateFormat.parse(formattedDate);
 	}
 
 	public static boolean isEmpty(String inputStr) {
@@ -156,9 +163,23 @@ public class CommonUtils {
 		return actionStatus;
 	}
 
+	public static ActionStatus getSuccessActionStatus(String message) {
+		ActionStatus actionStatus = new ActionStatus(
+				ActionStatus.STATUS_TYPE_SUCCESS, message);
+		return actionStatus;
+	}
+
 	public static String getJavaScriptDateTime(Date startDate) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				JS_DATE_TIME_FORMAT_YYYYMMDD);
 		return dateFormat.format(startDate);
+	}
+
+	public static boolean isCurrentTimeSlot(Date startDate, Date endDate) {
+		Date currentDateTime = new Date();
+		if (currentDateTime.after(startDate) && currentDateTime.before(endDate)) {
+			return true;
+		}
+		return false;
 	}
 }

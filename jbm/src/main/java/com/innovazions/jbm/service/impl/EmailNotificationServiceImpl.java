@@ -68,4 +68,50 @@ public class EmailNotificationServiceImpl implements EmailNotificationService,
 		return null;
 	}
 
+	@Override
+	public Long sendAppoinmentCancellationEmailNotification(
+			Appointment appointment) {
+
+		// TODO : Make an entry to database first
+
+		if (appointment != null && appointment.getCustomer() != null
+				&& !CommonUtils.isEmpty(appointment.getCustomer().getEmail())) {
+			try {
+				MimeMessage formattedMessage = mailSender.createMimeMessage();
+				MimeMessageHelper helper = new MimeMessageHelper(
+						formattedMessage, true);
+				helper.setFrom(PropertiesUtil
+						.getProperty(PROP_EMAIL_NOTIFICATION_FROM_ID));
+				helper.setTo(appointment.getCustomer().getEmail());
+				String subject = PropertiesUtil
+						.getProperty(PROP_EMAIL_APPOINTMENT_CANCEL_SUBJECT);
+				String mailContents = PropertiesUtil
+						.getProperty(PROP_EMAIL_APPOINTMENT_CANCEL_CONTENT);
+				/*
+				 * mailContents = mailContents.replace("{customer_name}",
+				 * appointment.getCustomer().getFullName()); mailContents =
+				 * mailContents.replace("{appoinment_date}",
+				 * CommonUtils.getFormattedDate(appointment
+				 * .getAppointmentDate())); mailContents =
+				 * mailContents.replace("{location}", appointment
+				 * .getCustomerAddress().toString());
+				 */
+				helper.setSubject(subject);
+				helper.setText(mailContents, true);
+				mailSender.send(formattedMessage);
+				System.out.println("Email Send Successfully");
+			} catch (Exception e) {
+				e.printStackTrace();
+				// TODO: handle exception
+			}
+
+			// TODO: Update the DB
+		} else {
+			// Can't send email
+			System.out.println("Error : Customer email id not found !");
+		}
+		return null;
+
+	}
+
 }

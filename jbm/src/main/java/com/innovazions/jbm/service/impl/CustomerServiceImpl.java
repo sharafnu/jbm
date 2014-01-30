@@ -52,4 +52,9 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerId;
 	}
 
+	@Override
+	public boolean checkDuplicateMobileNo(String mobileNo) {
+		return customerDAO.checkDuplicateMobileNo(mobileNo);
+	}
+
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.innovazions.jbm.common.JBMConstants;
 import com.innovazions.jbm.dao.AppointmentDAO;
 import com.innovazions.jbm.entity.Appointment;
 import com.innovazions.jbm.service.AppointmentService;
@@ -41,7 +42,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public void updateAppointment(Appointment appointment) {
-		appointmentDAO.updateAppointment(appointment);
+		if (appointment.getAppointmentStatus().equals(
+				JBMConstants.APPOINTMENT_STATUS_COMPLETED)) {
+			appointmentDAO.updateAppointment(appointment);
+		} else if (appointment.getAppointmentStatus().equals(
+				JBMConstants.APPOINTMENT_STATUS_CANCELLED)) {
+			appointmentDAO.cancelAppointment(appointment);
+		}
+
 	}
 
 	@Override
@@ -83,18 +91,25 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public List<CalendarAppointmentDetailCalendarVO> getAppointmentDetailsForCalendarByDate(
 			Date appointmentDate) {
-		return appointmentDAO.getAppointmentDetailsForCalendarByDate(appointmentDate);
+		return appointmentDAO
+				.getAppointmentDetailsForCalendarByDate(appointmentDate);
 	}
-	
+
 	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendarByDate(
 			Date appointmentDate) {
-		return appointmentDAO.getAppointmentStaffNameForCalendarByDate(appointmentDate);
+		return appointmentDAO
+				.getAppointmentStaffNameForCalendarByDate(appointmentDate);
 	}
 
 	@Override
 	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendarBetweenDate(
 			Date startDate, Date endDate) {
 		// TODO Auto-generated method stub
-		return appointmentDAO.getAppointmentStaffNameForCalendarBetweenDate(startDate, endDate);
+		return appointmentDAO.getAppointmentStaffNameForCalendarBetweenDate(
+				startDate, endDate);
+	}
+
+	public boolean isDuplicateInvoiceNo(String invoiceNo) {
+		return appointmentDAO.isDuplicateInvoiceNo(invoiceNo);
 	}
 }

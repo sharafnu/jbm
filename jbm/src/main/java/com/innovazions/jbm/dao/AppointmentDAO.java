@@ -45,4 +45,8 @@ public interface AppointmentDAO {
 
 	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendarBetweenDate(
 			Date startDate, Date endDate);
+
+	public void cancelAppointment(Appointment appointment);
+
+	public boolean isDuplicateInvoiceNo(String invoiceNo);
 }

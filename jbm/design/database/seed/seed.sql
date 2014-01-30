@@ -48,6 +48,14 @@ INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_PR
 INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_PREFIX_CUSTOMER_CONTRACT_CODE', 	'CT', 'Customer Contract Code Prefix');
 INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_DEFAULT_PASSWORD', 		'pass123', 'Default Password');
 
+--Email Props
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_SMTP_HOST', 							'mail.maxmaid.net', 'Default Password');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_EMAIL_NOTIFICATION_FROM_ID', 			'noreply@maxmaid.net', 'Default Password');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_EMAIL_APPOINTMENT_CREATE_SUBJECT', 	'Appointment Created', 'Default Password');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_EMAIL_APPOINTMENT_CREATE_CONTENT', 	'pass123', 'Default Password');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_EMAIL_APPOINTMENT_CANCEL_SUBJECT', 	'Appointment Cancelled', 'Default Password');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_EMAIL_APPOINTMENT_CANCEL_CONTENT', 	'Dear Customer, You appointment has been cancelled', 'Default Password');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_SMS_APPOINTMENT_CANCEL_CONTENT', 	'Dear Customer, You appointment has been cancelled', 'Default Password');
 
 insert into SEC_USER(email, username, first_name, last_name, password, role, enabled) values ('nadeer@infosuluzions.com', 
 'nadeer', 'Nadeer', 'Ali', 'nadeer', 'ROLE_ADMIN', true);

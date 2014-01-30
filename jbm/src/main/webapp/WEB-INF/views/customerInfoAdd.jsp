@@ -22,6 +22,7 @@
 							width : '230px',
 							height : '20px'
 						});
+						
 						$("#mobile2").jqxInput({
 							width : '230px',
 							height : '20px'

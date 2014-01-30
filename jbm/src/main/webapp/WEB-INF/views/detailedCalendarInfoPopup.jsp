@@ -1,4 +1,6 @@
 <script>
+var calendarCurrentView = "agendaDay";
+
 $(document).ready(function() {
 	$('#detailedCalendarInfoPopupWindow').jqxWindow({
         showCollapseButton: false, maxHeight: 670, maxWidth: 800, minHeight: 670, minWidth: 800, height: 670, width: 800,
@@ -35,8 +37,16 @@ function setupDetailedCalendar() {
 		maxTime:'23',
 		editable: false,
 		events: url,
+		lazyFetching: true,
 		eventRender: function(event, element) {
 	        element.attr('title', event.tooltip);
+	        if(calendarCurrentView == "agendaDay") {
+	        	element.find('.fc-event-title').append("<br/>" + event.eventDescription);
+	        }
+	    },
+	    viewRender: function(view, element) {
+	    	calendarCurrentView = view.name;
+	    	//alert('new view: ' + view.name); 
 	    },
 /* 		events: [
 			{

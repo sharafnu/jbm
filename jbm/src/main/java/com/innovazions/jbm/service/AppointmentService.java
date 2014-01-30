@@ -43,4 +43,6 @@ public interface AppointmentService {
 	
 	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendarBetweenDate(
 			Date startDate, Date endDate);
+	
+	public boolean isDuplicateInvoiceNo(String invoiceNo);
 }

@@ -830,9 +830,12 @@ function appoinmentDetailsGrid() {
 	var appoinmentDataAdapter = new $.jqx.dataAdapter(appoinmentListSource);
 
 	var imagerenderer = function(row, datafield, value) {
-		var url = "customerAppointmentDetailsForSelectedId.html?appointmentId="+value;
-		return "<a href='"+url+"' ><img style='margin-left: 5px;margin-top: 5px;' src='resources/images/card.png'/></a>";
-		return "";
+		if(appoinmentDataAdapter.records[row].appointmentStatus == "Created") {
+			var url = "customerAppointmentDetailsForSelectedId.html?appointmentId="+value;
+			return "<a href='"+url+"' ><img style='margin-left: 5px;margin-top: 5px;' src='resources/images/card.png'/></a>";			
+		} else {
+			return "";
+		}
 	}
 	// initialize jqxGrid
 	$("#jqxgrid")
@@ -926,11 +929,14 @@ var initrowdetails = function (index, parentElement, gridElement, datarecord) {
             
             var jobCompletionContainer = $(completionTable);
             jobCompletionContainer.appendTo($(jobcompletion));
-            
-            var notescontainer = $('<div style="white-space: normal; margin: 5px;"><span> <b>Cancellation Remarks : </b>' + datarecord.cancellationReason + '</span></div>');
-            $(notes).append(notescontainer);
+           
         } 
-        
+        var notesContent = '<div style="white-space: normal; margin: 5px;"><span> <b>Remarks : </b>' + datarecord.remarks + '</span></div>';
+        if(datarecord.appointmentStatus == "Cancelled") {
+        	notesContent = notesContent + '<div style="white-space: normal; margin: 5px;"><span> <b>Cancellation Reason : </b>' + datarecord.cancellationReason + '</span></div>';
+        }
+       var notescontainer = $(notesContent);        
+        $(notes).append(notescontainer);
         $(tabsdiv).jqxTabs({ width: 700, height: 200});
     }
 }

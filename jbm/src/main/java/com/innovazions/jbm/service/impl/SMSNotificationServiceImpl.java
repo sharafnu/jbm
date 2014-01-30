@@ -179,4 +179,52 @@ public class SMSNotificationServiceImpl implements SMSNotificationService,
 		System.out.println(userDateCal.getTime());
 	}
 
+	@Override
+	public void sendAppoinmentCancellationSMSNotification(
+			Appointment appointment) {
+
+		if (Service.getInstance().getServiceStatus() != ServiceStatus.STARTED) {
+			initSMSNotificationService();
+		}
+
+		if (appointment != null && appointment.getCustomer() != null
+				&& !CommonUtils.isEmpty(appointment.getCustomer().getMobile1())) {
+			try {
+				System.out.println("Sending SMS");
+				String smsContent = PropertiesUtil
+						.getProperty(PROP_SMS_APPOINTMENT_CANCEL_CONTENT);
+				/*
+				 * smsContent = smsContent.replace("{customer_name}",
+				 * appointment .getCustomer().getFullName()); smsContent =
+				 * smsContent.replace("{appoinment_date}",
+				 * CommonUtils.getFormattedDate(appointment
+				 * .getAppointmentDate())); smsContent =
+				 * smsContent.replace("{location}", appointment
+				 * .getCustomerAddress().toString());
+				 */
+				OutboundMessage msg = new OutboundMessage(appointment
+						.getCustomer().getMobile1(), smsContent);
+				// Request Delivery Report
+				msg.setStatusReport(true);
+				//Retry in case of exceptions
+				try {
+					Service.getInstance().sendMessage(msg);
+				} catch (Exception e) {
+					// TODO: handle exception
+					System.out.println("Retrying..");
+					Service.getInstance().startService();
+					Service.getInstance().sendMessage(msg);
+				}
+				
+				
+				System.out.println("Message Sent Successfully..");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("Can't send SMS, Mobile number not found !");
+		}
+
+	}
+
 }

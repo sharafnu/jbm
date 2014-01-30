@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.innovazions.jbm.common.JBMConstants;
@@ -199,5 +200,12 @@ public class CustomerController extends AbstractController {
 		model.addAttribute("infoMessage", "Customer Added : "
 				+ customerCode);
 		return "Success";
+	}
+	
+	@RequestMapping(value = "/checkDuplicateMobileNo", method = RequestMethod.GET)
+	public @ResponseBody
+	String checkDuplicateMobileNo(@RequestParam String mobileNo) {
+		System.out.println("mobileNo: " + mobileNo);
+		return customerService.checkDuplicateMobileNo(mobileNo) + "";
 	}
 }

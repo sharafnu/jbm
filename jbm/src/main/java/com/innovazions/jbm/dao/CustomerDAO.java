@@ -16,4 +16,6 @@ public interface CustomerDAO {
 
 	public Customer getCustomerDetailsByCustomerId(Long customerId);
 
+	public boolean checkDuplicateMobileNo(String mobileNo);
+
 }

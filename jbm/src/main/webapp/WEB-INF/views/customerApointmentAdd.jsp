@@ -251,7 +251,7 @@
 				<table border="0" width="100%" class="popupFormTable">
 					<tr>
 						<td colspan="1" width="20%" nowrap>Appointment Date :</td>
-						<td colspan="1" width="35%"><div id="formAppointmentDate" ></div></td>	
+						<td colspan="2" width="35%"><div id="formAppointmentDate" ></div></td>	
 						<td rowspan="18" width="45%" valign="top">
 							    <!-- <div style="margin-left: 5px; margin-top: 0px" id="staffAppoinmentInfoList"></div>	 -->						
 						    	<!-- <div style="margin-left: 5px; margin-top: 0px" id="staffCalendar"></div> -->
@@ -264,33 +264,34 @@
 					</tr> -->
 					<tr>
 						<td colspan="1">Select Staff :</td>
-						<td colspan="1"><div id="formEmployeeId" ></div></td>
+						<td colspan="2"><div id="formEmployeeId" ></div></td>
 					</tr>
 					<tr>
-						<td colspan="1">Start Time :</td>
+						<td colspan="1">Start/End Time :</td>
 						<td colspan="1"><div id="formStartTime" ></div></td>
+						<td><div id="formEndTime" ></div></td>
 					</tr>
-					<tr>
+<!-- 					<tr>
 						<td colspan="1">End Time :</td>
 						<td colspan="1"><div id="formEndTime" ></div></td>
-					</tr>
+					</tr> -->
 					<tr>
 						<td colspan="1">Select Customer :</td>
-						<td colspan="1"><div id="formCustomerId" ></div></td>
+						<td colspan="2"><div id="formCustomerId" ></div></td>
 					</tr>
 					<tr>
 						<td colspan="1">Select Location :</td>
-						<td colspan="1"><div id="formCustomerAddressId" ></div></td>
+						<td colspan="2"><div id="formCustomerAddressId" ></div></td>
 					</tr>
 					<tr>
 						<td colspan="1">Remarks :</td>
-						<td colspan="1"><textarea class="textArea" id="formRemarks" rows="4" cols="34"></textarea></td>
+						<td colspan="2"><textarea class="textArea" id="formRemarks" rows="4" cols="34"></textarea></td>
 					</tr>
 					<tr>
-						<td colspan="2">&nbsp;</td>
+						<td colspan="3">&nbsp;</td>
 					</tr>
 					<tr>
-						<td colspan="2">
+						<td colspan="3">
 							<!-- <form id="appoinmentAddForm" action="saveCustomerAppoinment.html" method="post">
 								<input type="hidden" id="appointmentDate" 	name="appointmentDate"/>
 								<input type="hidden" id="customerAddressId" 	name="customerAddressId"/>
@@ -307,7 +308,7 @@
 						</td>						
 					</tr>
 					<tr>
-						<td colspan="2">
+						<td colspan="3">
 							<c:if test="${not empty errorMessage}">
 							    <span class="errorMessage">${errorMessage}</span>
 							</c:if>

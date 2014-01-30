@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -25,16 +24,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.innovazions.jbm.common.ActionMessages;
 import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.common.JBMConstants;
 import com.innovazions.jbm.common.JBMUIHelper;
 import com.innovazions.jbm.entity.Appointment;
 import com.innovazions.jbm.service.AppointmentService;
 import com.innovazions.jbm.service.CommonService;
+import com.innovazions.jbm.service.CustomerService;
 import com.innovazions.jbm.service.EmailNotificationService;
 import com.innovazions.jbm.service.SMSNotificationService;
+import com.innovazions.jbm.view.ActionStatus;
 import com.innovazions.jbm.view.AppointmentView;
 import com.innovazions.jbm.view.EventView;
 import com.innovazions.jbm.vo.CalendarAppointmentDetailCalendarVO;
@@ -61,6 +63,9 @@ public class AppointmentController extends AbstractController {
 
 	@Autowired
 	private CommonService commonService;
+
+	@Autowired
+	private CustomerService customerService;
 
 	/*
 	 * Customer Contract actions starts
@@ -130,7 +135,7 @@ public class AppointmentController extends AbstractController {
 	@RequestMapping(value = "/saveCustomerAppoinment", method = RequestMethod.POST)
 	public String saveCustomerAppoinment(
 			@ModelAttribute("appointmentView") AppointmentView appointmentView,
-			BindingResult result, Model model) {
+			BindingResult result, final RedirectAttributes redirectAttributes) {
 		System.out.println("Customer Id:" + appointmentView.getCustomerId()
 				+ " Appointment No:" + appointmentView.getAppointmentNo());
 		appointmentView.setLastModifiedDate(new Date());
@@ -150,26 +155,45 @@ public class AppointmentController extends AbstractController {
 		 * smsNotificationService
 		 * .sendAppoinmentCreationSMSNotification(appointment);
 		 */
-		model.addAttribute("infoMessage", "Appointment Created : "
-				+ appointmentNo);
+		redirectAttributes.addFlashAttribute("infoMessage",
+				"Appointment Created : " + appointmentNo);
 		return "redirect:customerApointmentAdd.html";
-		// return "customerApointmentAdd";
 	}
 
 	@RequestMapping(value = "/updateCustomerAppoinment", method = RequestMethod.POST)
 	public String updateCustomerAppoinment(
 			@ModelAttribute("appointmentView") AppointmentView appointmentView,
-			BindingResult result, Model model) {
+			BindingResult result, Model model,
+			final RedirectAttributes redirectAttributes) {
 		System.out.println("Appointment Id:" + appointmentView.getId()
 				+ " Appointment Status:"
 				+ appointmentView.getAppointmentStatus());
 		appointmentView.setLastModifiedDate(new Date());
 		appointmentView.setLastModifiedUser("SYSTEM");
-		// TODO :Change later
-		appointmentView.setAppointmentDate(new Date());
-		appointmentView.setEndDate(new Date());
 		Appointment appointment = appointmentView.convertViewToEntity();
-		appointmentService.updateAppointment(appointment);
+
+		ActionStatus actionStatus = null;
+		appointment.setCustomer(customerService
+				.getCustomerDetailsByCustomerId(appointment.getCustomer()
+						.getId()));
+		if (appointmentView.getAppointmentStatus().equals(
+				JBMConstants.APPOINTMENT_STATUS_COMPLETED)) {
+			// Do Validation
+			// 1.Current time should be greater than end time
+			appointmentService.updateAppointment(appointment);
+			actionStatus = CommonUtils
+					.getSuccessActionStatus(ActionMessages.STATUS_MESSAGE_APPOINTMENT_UPDATED);
+		} else if (appointmentView.getAppointmentStatus().equals(
+				JBMConstants.APPOINTMENT_STATUS_CANCELLED)) {
+			appointmentService.updateAppointment(appointment);
+			emailNotificationService
+					.sendAppoinmentCancellationEmailNotification(appointment);
+			smsNotificationService
+					.sendAppoinmentCancellationSMSNotification(appointment);
+			CommonUtils
+					.getSuccessActionStatus(ActionMessages.STATUS_MESSAGE_APPOINTMENT_CANCELLED);
+		}
+
 		// send mail
 		/*
 		 * emailNotificationService
@@ -177,8 +201,8 @@ public class AppointmentController extends AbstractController {
 		 * smsNotificationService
 		 * .sendAppoinmentCreationSMSNotification(appointment);
 		 */
-		model.addAttribute("infoMessage", "Job Details Updated ");
-		return "customerAppointmentDetails";
+		redirectAttributes.addFlashAttribute("actionStatus", actionStatus);
+		return "redirect:customerAppointmentList.html";
 	}
 
 	@RequestMapping(value = "/customerAppointmentDetails")
@@ -309,24 +333,23 @@ public class AppointmentController extends AbstractController {
 							dailyAppointmentCountVO.getStartDate(),
 							dailyAppointmentCountVO.getEndDate());
 			StringBuffer staffNameTooltip = new StringBuffer("");
+			StringBuffer eventDescription = new StringBuffer("");
 			for (CalendarAppointmentDetailCalendarVO calendarAppointmentDetailCalendarVO : staffNameList) {
-				staffNameTooltip
-						.append(calendarAppointmentDetailCalendarVO
-								.getEmployeeName())
-						.append(" [")
-						.append(calendarAppointmentDetailCalendarVO
-								.getAppointmentCount()).append("]")
+				staffNameTooltip.append(
+						calendarAppointmentDetailCalendarVO.getEmployeeName())
 						.append("\n");
+				eventDescription.append(
+						calendarAppointmentDetailCalendarVO.getEmployeeName())
+						.append("<br/>");
 			}
 
-			eventViewList
-					.add(new EventView(i++, dailyAppointmentCountVO
-							.getAppointmentCount() + "", CommonUtils
-							.getJavaScriptDateTime(dailyAppointmentCountVO
-									.getStartDate()), CommonUtils
-							.getJavaScriptDateTime(dailyAppointmentCountVO
-									.getEndDate()), false, staffNameTooltip
-							.toString()));
+			eventViewList.add(new EventView(i++, dailyAppointmentCountVO
+					.getAppointmentCount() + "", CommonUtils
+					.getJavaScriptDateTime(dailyAppointmentCountVO
+							.getStartDate()),
+					CommonUtils.getJavaScriptDateTime(dailyAppointmentCountVO
+							.getEndDate()), false, staffNameTooltip.toString(),
+					eventDescription.toString()));
 		}
 		return eventViewList;
 	}
@@ -359,6 +382,13 @@ public class AppointmentController extends AbstractController {
 			return "false";
 		}
 		return "true";
+	}
+
+	@RequestMapping(value = "/checkDuplicateInvoiceNo", method = RequestMethod.GET)
+	public @ResponseBody
+	String checkDuplicateInvoiceNo(@RequestParam String invoiceNo) {
+		System.out.println("invoiceNo: " + invoiceNo);
+		return appointmentService.isDuplicateInvoiceNo(invoiceNo) + "";
 	}
 
 }

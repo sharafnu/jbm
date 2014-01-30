@@ -71,16 +71,33 @@ function setupCustomerAddPopupForm() {
 		width : '230px',
 		height : '20px'
 	});
+	
+	$("#mobile1Prefix").jqxInput({
+		width : '40px',
+		height : '20px',
+		disabled: true
+	});
 	$("#mobile1").jqxInput({
-		width : '230px',
+		width : '170px',
 		height : '20px'
 	});
+	
 	$("#mobile2").jqxInput({
-		width : '230px',
+		width : '170px',
 		height : '20px'
+	});
+	$("#mobile2Prefix").jqxInput({
+		width : '40px',
+		height : '20px',
+		disabled: true
+	});
+	$("#landlinePrefix").jqxInput({
+		width : '40px',
+		height : '20px',
+		disabled: true
 	});
 	$("#landline").jqxInput({
-		width : '230px',
+		width : '170px',
 		height : '20px'
 	});
 	$("#email").jqxInput({
@@ -183,6 +200,66 @@ function resetAndClosePopupForm() {
 	$('#addCustomerPopupWindow').jqxWindow('hide');	
 }
 
+function setupFormValidations() {
+	$('#customerAddForm').jqxValidator({
+		//_margin: 30,
+		rules: [
+			{ input: '#firstName', 	message: 'First name is required!', 	action: 'blur', rule: 'required' },
+			{ input: '#lastName', 	message: 'Last name is required!', 		action: 'blur', rule: 'required' },
+			{ input: '#mobile1', 	message: 'Mobile No. 1 is required!', 	action: 'blur', rule: 'required' },
+			{ input: '#mobile1', 	message: 'Mobile No. 1 is invalid !', 	action: 'blur', rule: 'length=9' },
+			{ input: '#mobile1', 	message: 'Mobile No. 1 is invalid !', 	action: 'blur', rule: function(input) {
+				var val = $("#mobile1").val();
+				if(val.indexOf("0") != "-1"){
+					return false;
+				}
+					return true;
+				} 
+			},
+			{ input: '#mobile2', 	message: 'Mobile No. 2 is invalid !', 	action: 'blur', rule: 'length=9' },
+			{ input: '#mobile2', 	message: 'Mobile No. 2 is invalid !', 	action: 'blur', rule: function(input) {
+				var val = $("#mobile2").val();
+				if(val.indexOf("0") != "-1"){
+					return false;
+				}
+					return true;
+				} 
+			},
+			{ input: '#landline', 	message: 'Landline No. is invalid !', 	action: 'blur', rule: 'length=9' },
+			{ input: '#landline', 	message: 'Landline No. is invalid !', 	action: 'blur', rule: function(input) {
+				var val = $("#landline").val();
+				if(val.indexOf("0") != "-1"){
+					return false;
+				}
+					return true;
+				} 
+			},
+			{ input: '#email', 		message: 'Email Id is required!', 		action: 'blur', rule: 'required' },
+			{ input: '#email', 		message: 'Invalid Email!', 				action: 'blur', rule: 'email' },
+			{ input: '#formAreaIdResidence', 	message: 'Residence area is required!', action: 'blur', rule: function(input) {
+				var val = $("#formAreaIdResidence").jqxComboBox('val');
+				if(val==""){
+					return false;
+				}
+					return true;
+				} 
+			},
+			{ input: '#formAreaIdOffice', 	message: 'Office area is required!', action: 'blur', rule: function(input) {
+				var val = $("#formAreaIdOffice").jqxComboBox('val');
+				if(val==""){
+					return false;
+				}
+					return true;
+				} 
+			},
+			{ input: '#residenceBuildingName', 	message: 'Residence Building name is required!', action: 'blur', rule: 'required' },
+			{ input: '#residenceFlatNo', 	message: 'Residence Flat No. is required!', action: 'blur', rule: 'required' },
+			{ input: '#officeBuildingName', 	message: 'Office Building name is required!', action: 'blur', rule: 'required' },
+			{ input: '#officeFlatNo', 	message: 'Office Flat No. is required!', action: 'blur', rule: 'required' }
+		]
+	});
+}
+
 </script>
 <div id="customerInfoAddPopup">
 	<div style="width: 100%; height: 650px; margin-top: 50px;"
@@ -200,7 +277,7 @@ function resetAndClosePopupForm() {
 			            Customer Info
 			        </div>
 			        <div style="font-family: Verdana; font-size: 13px;">
-            			<form id="form" style="overflow: hidden; margin: 10px;" action="./">
+            			<form id="customerAddForm" style="overflow: hidden; margin: 10px;" action="./">
             			<table border="0" width="100%" class="popupFormTable">
 							<tr>
 								<td colspan="1">First Name :</td>
@@ -212,15 +289,15 @@ function resetAndClosePopupForm() {
 							</tr>
 							<tr>
 								<td colspan="1">Mobile No 1 :</td>
-								<td colspan="1"><input id="mobile1" /></td>
+								<td colspan="1" nowrap><input id="mobile1Prefix" value="+971"> - <input id="mobile1" maxlength="9" /></td>
 							</tr>
 							<tr>
 								<td colspan="1">Mobile No 2 :</td>
-								<td colspan="1"><input id="mobile2" /></td>
+								<td colspan="1" nowrap><input id="mobile2Prefix" value="+971"> - <input id="mobile2" maxlength="9"/></td>
 							</tr>
 							<tr>
 								<td colspan="1">Landline No :</td>
-								<td colspan="1"><input id="landline" /></td>
+								<td colspan="1"><input id="landlinePrefix" value="+971"> - <input id="landline" /></td>
 							</tr>					
 							<tr>
 								<td colspan="1">Email :</td>

@@ -112,5 +112,18 @@ public class CustomerDAOImpl implements CustomerDAO {
 			return customerList.get(0);
 		}
 	}
+	
+	@Override
+	public boolean checkDuplicateMobileNo(String mobileNo) {
+		String sql = "select count(1) from customer where mobile_1= ?";
 
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int customerCount = jdbcTemplate.queryForInt(sql,
+				new Object[] { mobileNo.trim() });
+		System.out.println("customer Count : "+customerCount);
+		if (customerCount > 0) {
+			return true;
+		}
+		return false;
+	}
 }
