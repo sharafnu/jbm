@@ -206,9 +206,11 @@ function setupFormValidations() {
 		rules: [
 			{ input: '#firstName', 	message: 'First name is required!', 	action: 'blur', rule: 'required' },
 			{ input: '#lastName', 	message: 'Last name is required!', 		action: 'blur', rule: 'required' },
+			
 			{ input: '#mobile1', 	message: 'Mobile No. 1 is required!', 	action: 'blur', rule: 'required' },
-			{ input: '#mobile1', 	message: 'Mobile No. 1 is invalid !', 	action: 'blur', rule: 'length=9' },
-			{ input: '#mobile1', 	message: 'Mobile No. 1 is invalid !', 	action: 'blur', rule: function(input) {
+			{ input: '#mobile1', 	message: 'Mobile No. 1 length should be 9 !', 	action: 'blur', rule: 'length=9,9' },
+			{ input: '#mobile1', 	message: 'Mobile No. 1 should be a number !', 	action: 'blur', rule: 'number' },
+			{ input: '#mobile1', 	message: 'Mobile No. 1 cannot contain zero!', 	action: 'blur', rule: function(input) {
 				var val = $("#mobile1").val();
 				if(val.indexOf("0") != "-1"){
 					return false;
@@ -216,8 +218,34 @@ function setupFormValidations() {
 					return true;
 				} 
 			},
-			{ input: '#mobile2', 	message: 'Mobile No. 2 is invalid !', 	action: 'blur', rule: 'length=9' },
-			{ input: '#mobile2', 	message: 'Mobile No. 2 is invalid !', 	action: 'blur', rule: function(input) {
+			{ input: '#mobile1', 	message: 'Duplicate Mobile No.!', 	action: 'blur', rule: function(input, commit) {
+				var val = $("#mobile1").val();
+				
+				if(val == ""){
+					return;
+				}				
+				$.ajax({
+					url: "checkDuplicateMobileNo.html",
+					type: 'GET',
+					data: {mobileNo: val},
+					success: function(data)
+					{
+						if (data == "false")
+						{
+							commit(true);
+						}
+						else commit(false);
+					},
+					error: function()
+					{
+						commit(false);
+					}
+				});	
+				}
+			},
+			{ input: '#mobile2', 	message: 'Mobile No. 2 length should be 9 !', 	action: 'blur', rule: 'length=9,9' },
+			{ input: '#mobile2', 	message: 'Mobile No. 2 should be a number !', 	action: 'blur', rule: 'number' },
+			{ input: '#mobile2', 	message: 'Mobile No. 2 cannot contain zero !', 	action: 'blur', rule: function(input) {
 				var val = $("#mobile2").val();
 				if(val.indexOf("0") != "-1"){
 					return false;
@@ -225,7 +253,7 @@ function setupFormValidations() {
 					return true;
 				} 
 			},
-			{ input: '#landline', 	message: 'Landline No. is invalid !', 	action: 'blur', rule: 'length=9' },
+			{ input: '#landline', 	message: 'Landline No. is invalid !', 	action: 'blur', rule: 'length=9,9' },
 			{ input: '#landline', 	message: 'Landline No. is invalid !', 	action: 'blur', rule: function(input) {
 				var val = $("#landline").val();
 				if(val.indexOf("0") != "-1"){
@@ -235,8 +263,8 @@ function setupFormValidations() {
 				} 
 			},
 			{ input: '#email', 		message: 'Email Id is required!', 		action: 'blur', rule: 'required' },
-			{ input: '#email', 		message: 'Invalid Email!', 				action: 'blur', rule: 'email' },
-			{ input: '#formAreaIdResidence', 	message: 'Residence area is required!', action: 'blur', rule: function(input) {
+			{ input: '#email', 		message: 'Invalid Email!', 				action: 'blur', rule: 'email' },			
+			{ input: '#formAreaIdResidence', 	message: 'Residence area is required!', action: 'select', rule: function(input) {
 				var val = $("#formAreaIdResidence").jqxComboBox('val');
 				if(val==""){
 					return false;
@@ -244,7 +272,7 @@ function setupFormValidations() {
 					return true;
 				} 
 			},
-			{ input: '#formAreaIdOffice', 	message: 'Office area is required!', action: 'blur', rule: function(input) {
+			{ input: '#formAreaIdOffice', 	message: 'Office area is required!', action: 'select', rule: function(input) {
 				var val = $("#formAreaIdOffice").jqxComboBox('val');
 				if(val==""){
 					return false;

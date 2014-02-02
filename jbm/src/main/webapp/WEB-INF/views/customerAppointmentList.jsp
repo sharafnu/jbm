@@ -11,6 +11,11 @@
         	setupAppoinmentListSearchFilters();
            	//setupContractsPopupForm();
            	appoinmentDetailsGrid();
+           	if($('#actionMessage').val() != "") {
+           		alert($('#actionMessage').val());
+           	}
+
+
         });
         
     </script>
@@ -20,6 +25,7 @@
 <!-- Container for create-account controls, populated by JavaScript code below. -->
 <div id="SIU2" class="SIU2" style="opacity: 1;">
 	<input type="hidden" id="appointmentViewListJSON" value='<c:out value="${appointmentListJSON}"/>'/>
+	<input type="hidden" id="actionMessage" name="actionMessage" value="${actionMessage}"/>
 	<div id="createAccount" class="cornerDiv">	
 		<div style="background-color: #F4F0F5; color: #000; min-height: 1.5em; vertical-align: middle; padding: 5px; width: 800px;">
 		Job List</div>

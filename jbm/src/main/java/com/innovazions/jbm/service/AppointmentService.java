@@ -26,23 +26,27 @@ public interface AppointmentService {
 			Date appointmentDate);
 
 	public List<DailyAppointmentCountVO> getDailyAppointmentCountList();
-	
-	public List<DailyAppointmentCountVO> getDailyAppointmentCountListByStaffId(Long staffId);
-	
+
+	public List<DailyAppointmentCountVO> getDailyAppointmentCountListByStaffId(
+			Long staffId);
+
 	List<Appointment> getStaffAppointmentsBetweenDates(Long staffId,
 			Date fromDateTime, Date toDateTime);
-	
+
 	public List<DailyAppointmentCountVO> getStaffAppointmentsTimeBreakups(
 			Date appointmentDate);
-	
+
 	public List<CalendarAppointmentDetailCalendarVO> getAppointmentDetailsForCalendarByDate(
 			Date appointmentDate);
-	
+
 	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendarByDate(
 			Date appointmentDate);
-	
+
 	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendarBetweenDate(
 			Date startDate, Date endDate);
-	
+
 	public boolean isDuplicateInvoiceNo(String invoiceNo);
+
+	public List<Appointment> getCustomerCancelledAppointmentBetweenDates(
+			long customerId, Date startDate, Date endDate);
 }

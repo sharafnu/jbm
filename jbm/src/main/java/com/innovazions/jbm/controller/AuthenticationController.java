@@ -57,5 +57,18 @@ public class AuthenticationController {
 		// This will resolve to /WEB-INF/jsp/deniedpage.jsp
 		return "login";
 	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(ModelMap model, HttpServletRequest request) {
+		logger.debug("AuthenticationController > logout");
+		if(request.getSession() != null) {
+			request.getSession().invalidate();
+		}
+		/*model.put("error", "true");
+		model.put("errorMessage", "You are un-authorized to access this page!");
+		*/// This will resolve to /WEB-INF/jsp/deniedpage.jsp
+		return "logout";
+	}
+	
 
 }

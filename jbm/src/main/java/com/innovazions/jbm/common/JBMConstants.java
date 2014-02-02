@@ -22,11 +22,15 @@ public interface JBMConstants {
 	public static final String PROP_SMS_APPOINTMENT_CREATE_CONTENT = "PROP_SMS_APPOINTMENT_CREATE_CONTENT";
 	public static final String PROP_SMS_APPOINTMENT_CANCEL_CONTENT = "PROP_SMS_APPOINTMENT_CANCEL_CONTENT";
 	
+	
 	// Prefix Properties
 	public static final String PROP_PREFIX_APPOINTMENT_NO = "PROP_PREFIX_APPOINTMENT_NO";
 	public static final String PROP_PREFIX_EMPLOYEE_CODE = "PROP_PREFIX_EMPLOYEE_CODE";
 	public static final String PROP_PREFIX_CUSTOMER_CODE = "PROP_PREFIX_CUSTOMER_CODE";
 	public static final String PROP_PREFIX_CUSTOMER_CONTRACT_CODE = "PROP_PREFIX_CUSTOMER_CONTRACT_CODE";
+	
+	//Cancellation history offset days
+	public static final String PROP_CUSTOMER_CANCELLATION_OFFSET_DAYS = "PROP_CUSTOMER_CANCELLATION_OFFSET_DAYS";
 	
 	//Default Password
 	public static final String PROP_DEFAULT_PASSWORD = "PROP_DEFAULT_PASSWORD";

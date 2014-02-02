@@ -587,10 +587,38 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		int invoiceCount = jdbcTemplate.queryForInt(sql,
 				new Object[] { invoiceNo.trim() });
-		System.out.println("invoiceCount : "+invoiceCount);
+		System.out.println("invoiceCount : " + invoiceCount);
 		if (invoiceCount > 0) {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public List<Appointment> getCustomerCancelledAppointmentBetweenDates(
+			long customerId, Date startDate, Date endDate) {
+		String sql = "select appointment_no, appointment_date, cancellation_reason "
+				+ "from appointment where appointment_status=? and customer_id=? and (appointment_date between ? and ?)"
+				+ "order by appointment_no";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		List<Appointment> appointmentList = jdbcTemplate.query(sql,
+				new Object[] { JBMConstants.APPOINTMENT_STATUS_CANCELLED,
+						customerId,
+						CommonUtils.getTimeStampFromDate(startDate),
+						CommonUtils.getTimeStampFromDate(endDate) },
+				new RowMapper<Appointment>() {
+					public Appointment mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Appointment appointment = new Appointment();
+						appointment.setAppointmentNo(rs
+								.getString("appointment_no"));
+						appointment.setCancellationReason(rs
+								.getString("cancellation_reason"));
+						appointment.setAppointmentDate(rs
+								.getDate("appointment_date"));
+						return appointment;
+					}
+				});
+		return appointmentList;
 	}
 }

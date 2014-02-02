@@ -71,3 +71,5 @@ insert into SEC_USER_ROLE(user_id, role_id) values(1,2);
 insert into SEC_USER_ROLE(user_id, role_id) values(2,2);
 insert into SEC_USER_ROLE(user_id, role_id) values(3,1);
 insert into SEC_USER_ROLE(user_id, role_id) values(3,2);
+
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_CUSTOMER_CANCELLATION_OFFSET_DAYS', '15', 'Days Offset');

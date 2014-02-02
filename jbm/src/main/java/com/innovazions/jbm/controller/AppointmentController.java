@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -30,13 +31,13 @@ import com.innovazions.jbm.common.ActionMessages;
 import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.common.JBMConstants;
 import com.innovazions.jbm.common.JBMUIHelper;
+import com.innovazions.jbm.common.PropertiesUtil;
 import com.innovazions.jbm.entity.Appointment;
 import com.innovazions.jbm.service.AppointmentService;
 import com.innovazions.jbm.service.CommonService;
 import com.innovazions.jbm.service.CustomerService;
 import com.innovazions.jbm.service.EmailNotificationService;
 import com.innovazions.jbm.service.SMSNotificationService;
-import com.innovazions.jbm.view.ActionStatus;
 import com.innovazions.jbm.view.AppointmentView;
 import com.innovazions.jbm.view.EventView;
 import com.innovazions.jbm.vo.CalendarAppointmentDetailCalendarVO;
@@ -172,7 +173,7 @@ public class AppointmentController extends AbstractController {
 		appointmentView.setLastModifiedUser("SYSTEM");
 		Appointment appointment = appointmentView.convertViewToEntity();
 
-		ActionStatus actionStatus = null;
+		String message = "";
 		appointment.setCustomer(customerService
 				.getCustomerDetailsByCustomerId(appointment.getCustomer()
 						.getId()));
@@ -181,8 +182,7 @@ public class AppointmentController extends AbstractController {
 			// Do Validation
 			// 1.Current time should be greater than end time
 			appointmentService.updateAppointment(appointment);
-			actionStatus = CommonUtils
-					.getSuccessActionStatus(ActionMessages.STATUS_MESSAGE_APPOINTMENT_UPDATED);
+			message = ActionMessages.STATUS_MESSAGE_APPOINTMENT_UPDATED;
 		} else if (appointmentView.getAppointmentStatus().equals(
 				JBMConstants.APPOINTMENT_STATUS_CANCELLED)) {
 			appointmentService.updateAppointment(appointment);
@@ -190,8 +190,7 @@ public class AppointmentController extends AbstractController {
 					.sendAppoinmentCancellationEmailNotification(appointment);
 			smsNotificationService
 					.sendAppoinmentCancellationSMSNotification(appointment);
-			CommonUtils
-					.getSuccessActionStatus(ActionMessages.STATUS_MESSAGE_APPOINTMENT_CANCELLED);
+			message = ActionMessages.STATUS_MESSAGE_APPOINTMENT_CANCELLED;
 		}
 
 		// send mail
@@ -201,33 +200,36 @@ public class AppointmentController extends AbstractController {
 		 * smsNotificationService
 		 * .sendAppoinmentCreationSMSNotification(appointment);
 		 */
-		redirectAttributes.addFlashAttribute("actionStatus", actionStatus);
+		redirectAttributes.addFlashAttribute("actionMessage", message);
 		return "redirect:customerAppointmentList.html";
 	}
 
 	@RequestMapping(value = "/customerAppointmentDetails")
 	public String customerAppointmentDetails(Model model,
-			HttpServletRequest httpServletRequest) {
+			HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse) {
 		logger.info("AppoinmentController > customerAppointmentDetails");
 		Integer appointmentId = (Integer) httpServletRequest.getSession()
 				.getAttribute(
-						JBMUIHelper.getLoggedInUserName(httpServletRequest)
-								+ "_SELECTED_APP_ID");
+						JBMUIHelper.getLoggedInUserName(httpServletRequest,
+								httpServletResponse) + "_SELECTED_APP_ID");
 		model.addAttribute("appointmentId", appointmentId);
 		httpServletRequest.getSession().setAttribute(
-				JBMUIHelper.getLoggedInUserName(httpServletRequest)
-						+ "_SELECTED_APP_ID", null);
+				JBMUIHelper.getLoggedInUserName(httpServletRequest,
+						httpServletResponse) + "_SELECTED_APP_ID", null);
 		return "customerAppointmentDetails";
 	}
 
 	@RequestMapping(value = "/customerAppointmentDetailsForSelectedId")
 	public String customerAppointmentDetailsForSelectedId(Model model,
 			@RequestParam("appointmentId") Integer appointmentId,
-			HttpServletRequest httpServletRequest) {
+			HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse) {
 		logger.info("AppoinmentController > customerAppointmentDetails");
 		httpServletRequest.getSession().setAttribute(
-				JBMUIHelper.getLoggedInUserName(httpServletRequest)
-						+ "_SELECTED_APP_ID", appointmentId);
+				JBMUIHelper.getLoggedInUserName(httpServletRequest,
+						httpServletResponse) + "_SELECTED_APP_ID",
+				appointmentId);
 		return "redirect:customerAppointmentDetails.html";
 	}
 
@@ -389,6 +391,29 @@ public class AppointmentController extends AbstractController {
 	String checkDuplicateInvoiceNo(@RequestParam String invoiceNo) {
 		System.out.println("invoiceNo: " + invoiceNo);
 		return appointmentService.isDuplicateInvoiceNo(invoiceNo) + "";
+	}
+
+	@RequestMapping(value = "/getCancelledAppointments/{customerId}", method = RequestMethod.GET)
+	public @ResponseBody
+	String getCancelledAppointments(@PathVariable Long customerId) {
+		System.out.println("customerId: " + customerId);
+		int offsetDays = new Integer(
+				PropertiesUtil
+						.getProperty(JBMConstants.PROP_CUSTOMER_CANCELLATION_OFFSET_DAYS));
+		Date today = new Date();
+		Date endDate = CommonUtils.getEndMidnightDate(today);
+		Date startDate = CommonUtils.getPastDate(endDate, offsetDays);
+		List<Appointment> appointmentList = appointmentService
+				.getCustomerCancelledAppointmentBetweenDates(customerId,
+						startDate, endDate);
+		StringBuffer cancelledAppointmentList = new StringBuffer("");
+		for (Appointment appointment : appointmentList) {
+			cancelledAppointmentList.append(
+					appointment.getAppointmentDate() + " - "
+							+ appointment.getAppointmentNo()).append("\n");
+
+		}
+		return cancelledAppointmentList.toString();
 	}
 
 }

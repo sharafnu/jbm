@@ -66,6 +66,7 @@
 				var item = args.item;
 				if (item.value != "") {
 					loadCustomerAddressCombo(280, item.value);
+					showEmployeeCancellations(item.value);
 				}
 			}
 		});
@@ -159,8 +160,24 @@
 		loadMonthylAppointmentCalendar(-1);
 		
 		setupFormValidations();
+		
 	});
 	
+	
+	function showEmployeeCancellations(customerId) {
+		var url = 'getCancelledAppointments/'+customerId+".html";
+		$.ajax({
+			url: url,
+			type: 'GET',
+			success: function(cancelledAppList)
+			{
+				alert(cancelledAppList);			
+			}
+		});
+		
+		$("#customerAppDetails").html('<i class="fa fa-info-circle" style="color:orange"></i> View');		
+		$("#customerAppDetails").jqxTooltip({ theme:'orange', content: 'The Amazing Spider-man', position: 'right', autoHide: true, name: 'customerAppDetailsTooltip'});
+	}
 	
 	function setupFormValidations() {
 		
@@ -277,7 +294,11 @@
 					</tr> -->
 					<tr>
 						<td colspan="1">Select Customer :</td>
-						<td colspan="2"><div id="formCustomerId" ></div></td>
+						<td colspan="2"><div id="formCustomerId" ></div>
+						<span id="customerAppDetails">
+							<!-- //Customer Cancellation Details -->
+						</span>
+						</td>
 					</tr>
 					<tr>
 						<td colspan="1">Select Location :</td>

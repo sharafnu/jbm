@@ -286,7 +286,7 @@ h4 {
 									<td width="70%">
 									</td>
 									<td>
-										<a><span class="userInfo"><i class="fa fa-user"></i> <%=JBMUIHelper.getLoggedInUserFullName(request)%></span></a>
+										<a><span class="userInfo"><i class="fa fa-user"></i> <%=JBMUIHelper.getLoggedInUserFullName(request, response)%></span></a>
 									</td>
 								</tr>
 								<tr>

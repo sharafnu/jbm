@@ -1,10 +1,12 @@
 package com.innovazions.jbm.common;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,26 +15,36 @@ import com.innovazions.jbm.entity.User;
 
 public class JBMUIHelper implements JBMConstants {
 
-	public static String getLoggedInUserName(HttpServletRequest request) {
-		User loggedInUser = getLoggedInUserObj(request);
+	public static String getLoggedInUserName(HttpServletRequest request,
+			HttpServletResponse response) {
+		User loggedInUser = getLoggedInUserObj(request, response);
 		if (loggedInUser != null && loggedInUser.getId() != null) {
 			return loggedInUser.getUsername();
 		}
 		return "";
 	}
 
-	public static String getLoggedInUserFullName(HttpServletRequest request) {
-		User loggedInUser = getLoggedInUserObj(request);
+	public static String getLoggedInUserFullName(HttpServletRequest request,
+			HttpServletResponse response) {
+		User loggedInUser = getLoggedInUserObj(request, response);
 		if (loggedInUser != null && loggedInUser.getId() != null) {
 			return loggedInUser.toString();
 		}
 		return "";
 	}
 
-	public static User getLoggedInUserObj(HttpServletRequest request) {
+	public static User getLoggedInUserObj(HttpServletRequest request, HttpServletResponse response) {
 		User loggedInUser = null;
 		loggedInUser = (User) request.getSession().getAttribute(
 				LOGGED_IN_USER_OBJ);
+		if (loggedInUser == null) {
+			try {
+				response.sendRedirect("/logout.html");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return loggedInUser;
 	}
 

@@ -112,4 +112,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public boolean isDuplicateInvoiceNo(String invoiceNo) {
 		return appointmentDAO.isDuplicateInvoiceNo(invoiceNo);
 	}
+
+	@Override
+	public List<Appointment> getCustomerCancelledAppointmentBetweenDates(
+			long customerId, Date startDate, Date endDate) {
+		return appointmentDAO.getCustomerCancelledAppointmentBetweenDates(
+				customerId, startDate, endDate);
+	}
 }

@@ -182,4 +182,11 @@ public class CommonUtils {
 		}
 		return false;
 	}
+
+	public static Date getPastDate(Date inputDate, int offsetDays) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(inputDate);
+		calendar.add(Calendar.DAY_OF_MONTH, (offsetDays * -1));
+		return calendar.getTime();
+	}
 }
