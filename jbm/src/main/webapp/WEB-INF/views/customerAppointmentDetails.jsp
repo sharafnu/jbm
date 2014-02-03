@@ -120,6 +120,9 @@
     	 } else if(frmMin > toMin) {
     		 totalHours = totalHours - 0.5;
     	 }
+    	 if(totalHours > 12) {
+    		 totalHours = totalHours - 12;
+    	 }
 		$("#formHoursSpent").val(totalHours);
 		
 	}
@@ -134,6 +137,11 @@
 					return;
 				} else {
 					$("#id").val(appointmentIdCombo.value);
+				}
+				
+				if(parseFloat($("#formHoursSpent").val()) <4){
+					jqxAlert.alert('Total hours spent should be greater than or equal to 4 hours. Please correct End Time !');
+					return;
 				}
 				
 				var paymentStatusCombo = $("#formPaymentStatus").jqxComboBox('getSelectedItem'); 	
@@ -164,8 +172,24 @@
 				$("#invoiceNo").val($("#formInvoiceNo").val());
 				$("#invoiceDate").val($("#formInvoiceDate").val());
 				
-				
-				$('#appoinmentUpdateForm').submit();
+				$.ajax({
+					url: "checkAppointmentEndTime.html",
+					type: 'GET',
+					data: {appointmentId: $("#id").val(), appointmentDate: $("#appointmentDate").val(), endTime: $("#endTime").val()},
+					success: function(data)
+					{
+						if(data) {
+							//$('#appoinmentUpdateForm').submit();
+						} else {
+							jqxAlert.alert("Appointment end date/time cannot be greater than current date/time");
+						}
+					},
+					error: function()
+					{
+						jqxAlert.alert("System Error Occured ! Please contact Support.");
+					}
+				});
+				//
 			});
 	
 		//hide table
@@ -174,6 +198,9 @@
 		
 		setupFormValidations();
 	});
+	
+	
+	
 	
 	function loadAppoinmentCombo() {
 		var appointmentListUrl = "customerAppoinmentComboListJSON.html";

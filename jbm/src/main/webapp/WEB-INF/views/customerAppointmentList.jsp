@@ -4,7 +4,7 @@
 	<span class="breadcrumbs">Home > Job Management > Job List </span>
 </div>
 <script type="text/javascript"
-	src="<c:url value="/resources/scripts/appoinment.js" />"></script>
+	src="<c:url value="/resources/scripts/appoinment-search-list.js" />"></script>
 <script type="text/javascript">
         $(document).ready(function () {
         	document.title = 'Job List';
@@ -14,10 +14,10 @@
            	if($('#actionMessage').val() != "") {
            		alert($('#actionMessage').val());
            	}
-
-
+			//set selected filters
+			//setSelectedFilters();
         });
-        
+
     </script>
 
 
@@ -50,18 +50,20 @@
 					<tr>
 						<td colspan="1" width="15%" align="right" nowrap>Status :</td>
 						<td colspan="1" align="left" width="20%"><div id="formAppoinmentStatus" ></div></td>						
-						<td align="right">
+						<td align="right" nowrap>
 							<form id="appoinmentSearchForm" action="customerAppointmentList.html" method="post">
 								<!-- All hidden fields goes here -->
-								<input type="hidden" id="appointmentNo" 	name="appointmentNo"/>
-								<input type="hidden" id="appointmentStatus" name="appointmentStatus"/>
-								<input type="hidden" id="startDate" 		name="startDate"/>
-								<input type="hidden" id="endDate" 			name="endDate"/>
-								<input type="hidden" id="areaId" 			name="areaId"/>
-								<input type="hidden" id="customerId" 		name="customerId"/>
-								<input type="hidden" id="employeeId" 		name="employeeId"/>
+								<input type="hidden" id="id" 	name="id" value="${appointmentView.id}"/>
+								<input type="hidden" id="appointmentNo" 	name="appointmentNo" value="${appointmentView.appointmentNo}"/>
+								<input type="hidden" id="appointmentStatus" name="appointmentStatus" value="${appointmentView.appointmentStatus}"/>
+								<input type="hidden" id="startDate" 		name="startDate" value="${appointmentView.startDateStr}"/>
+								<input type="hidden" id="endDate" 			name="endDate" value="${appointmentView.endDateStr}"/>
+								<input type="hidden" id="areaId" 			name="areaId" value="${appointmentView.areaId}"/>
+								<input type="hidden" id="customerId" 		name="customerId" value="${appointmentView.customerId}"/>
+								<input type="hidden" id="employeeId" 		name="employeeId" value="${appointmentView.employeeId}"/>
 								
 								<input id="searchButton" type="button" value="Search" />
+								<input id="resetButton" type="button" value="Reset" />
 							</form>
 						</td>						
 					</tr>

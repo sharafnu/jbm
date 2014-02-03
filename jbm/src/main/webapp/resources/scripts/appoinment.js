@@ -10,7 +10,7 @@ function setupAppointmentDetailsForm() {
 	 //$('#appoinmentDetailsTab').jqxTabs('disableAt', 1);
 	loadAppoinmentStatusCombo();
 	loadCustomerContractCombo(-1);
-	var endHourListArr = ["12:00 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm","07:00 pm","07:30 pm","08:00 pm","08:30 pm","09:00 pm","09:30 pm","10:00 pm","10:30 pm","11:00 pm"];
+	var endHourListArr = ["12:00 pm","12:30 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm","07:00 pm","07:30 pm","08:00 pm","08:30 pm","09:00 pm","09:30 pm","10:00 pm","10:30 pm","11:00 pm"];
 
 	$("#formEndTime").jqxComboBox({
 			selectedIndex : -1,
@@ -603,9 +603,9 @@ function loadAppoinmentStatusCombo() {
 }
 
 function loadAppoinmentStatusComboAll() {
-	var appoinmentStatusSource = [  "Created", "Completed", "Cancelled" ];
+	var appoinmentStatusSource = [  "All", "Created", "Completed", "Cancelled" ];
 	$("#formAppoinmentStatus").jqxComboBox({
-		selectedIndex : 0,
+		selectedIndex : 1,
 		source : appoinmentStatusSource,
 		width : 210,
 		height : 20
@@ -621,7 +621,7 @@ function setupSearchButton() {
 				// $('#appoinmentSearchForm').jqxValidator('validate');
 				var appointmentNoCombo = $("#formAppointmentId").jqxComboBox('getSelectedItem'); 	
 				if(appointmentNoCombo != null) {
-					$("#appointmentNo").val(appointmentNoCombo.value);
+					$("#id").val(appointmentNoCombo.value);
 				}
 				
 				var areaIdCombo = $("#formAreaId").jqxComboBox('getSelectedItem'); 	
@@ -758,186 +758,5 @@ function setupContractsPopupForm() {
 // //////////////
 // //////////////
 // /////////////
-function appoinmentDetailsGrid() {
-	var appointmentViewListJSONStr = $("#appointmentViewListJSON").val();
 
-	var appoinmentListSource = {
-		datatype : "json",
-		datafields : [ {
-			name : 'appointmentDate',
-			type : 'string'
-		}, {
-			name : 'appointmentNo',
-			type : 'string'
-		}, {
-			name : 'appointmentStatus',
-			type : 'string'
-		}, {
-			name : 'remarks',
-			type : 'string'
-		}, {
-			name : 'customerName',
-			type : 'string'
-		}, {
-			name : 'employeeName',
-			type : 'string'
-		}, {
-			name : 'cancellationReason',
-			type : 'string'
-		}, {
-			name : 'hoursSpent',
-			type : 'int'
-		}, {
-			name : 'payableAmount',
-			type : 'int'
-		}, {
-			name : 'paymentStatus',
-			type : 'string'
-		}, {
-			name : 'paymentType',
-			type : 'string'
-		}, {
-			name : 'invoiceNo',
-			type : 'string'
-		}, {
-			name : 'startTime',
-			type : 'string'
-		}, {
-			name : 'endTime',
-			type : 'string'
-		}, {
-			name : 'areaName',
-			type : 'string'
-		}, {
-			name : 'buildingName',
-			type : 'string'
-		}, {
-			name : 'flatNo',
-			type : 'string'
-		}, {
-			name : 'cityName',
-			type : 'string'
-		}, {
-			name : 'id',
-			type : 'string'
-		}, {
-			name : 'invoiceDate',
-			type : 'string'
-		} ],
-		id : 'id',
-		localdata : appointmentViewListJSONStr
-	};
-	var appoinmentDataAdapter = new $.jqx.dataAdapter(appoinmentListSource);
-
-	var imagerenderer = function(row, datafield, value) {
-		if(appoinmentDataAdapter.records[row].appointmentStatus == "Created") {
-			var url = "customerAppointmentDetailsForSelectedId.html?appointmentId="+value;
-			return "<a href='"+url+"' ><img style='margin-left: 5px;margin-top: 5px;' src='resources/images/card.png'/></a>";			
-		} else {
-			return "";
-		}
-	}
-	// initialize jqxGrid
-	$("#jqxgrid")
-			.jqxGrid(
-					{
-						width : 780,
-						source : appoinmentDataAdapter,
-						showstatusbar : true,
-						rowdetails: true,
-						rowdetailstemplate: { rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'><li class='title'></li><li>Notes</li><li>Job Completion</li></ul><div class='information'></div><div class='notes'></div><div class='jobcompletion'></div></div>", rowdetailsheight: 100 },
-		                ready: function () {
-		                    //$("#jqxgrid").jqxGrid('showrowdetails', 0);		               
-		                },
-		                initrowdetails: initrowdetails,
-						renderstatusbar : function(statusbar) {
-							// appends buttons to the status bar.							
-						},
-						pageable : true,
-						autoheight : true,
-						sortable : true,
-						altrows : true,
-						enabletooltips : true,
-						editable : false,
-						selectionmode : 'none',
-						columns : [ {
-							text : 'Appointment No',
-							datafield : 'appointmentNo',
-							width : 125
-						}, {
-							text : 'Appnmt. Date',
-							datafield : 'appointmentDate',
-							width : 110
-						}, {
-							text : 'Customer Name',
-							datafield : 'customerName',
-							width : 200
-						}, {
-							text : 'Staff Name',
-							datafield : 'employeeName',
-							width : 200
-						}, {
-							text : 'Status',
-							datafield : 'appointmentStatus',
-							width : 90
-						}, {
-							text : '',
-							datafield : 'id',
-							width : 25,
-							cellsrenderer : imagerenderer
-						}
-						]
-					});
-	
-	$('#jqxGrid').on('rowclick', function (event) 
-			{
-			    var args = event.args;
-			    var row = args.rowindex;
-			    alert(row);
-			}); 
-	
-	
-}
-
-var initrowdetails = function (index, parentElement, gridElement, datarecord) {
-	var tabsdiv = null;
-    var information = null;
-    var notes = null;
-    var jobpayments = null;
-    var jobcompletion = null;
-    tabsdiv = $($(parentElement).children()[0]);
-    if (tabsdiv != null) {
-    	information = tabsdiv.find('.information');
-    	jobcompletion = tabsdiv.find('.jobcompletion');
-        notes = tabsdiv.find('.notes');
-        var title = tabsdiv.find('.title');
-        title.text("Appoinment Details");
-        
-        var infoTable = '<div style="margin: 5px;"><table class="descTable" width="100%" border="0" cellpadding="0" cellspacing="5">';
-        infoTable = infoTable + '<tr><td align="right"><b>Location :</b></td><td>'+datarecord.areaName+ '</td> <td align="right"> <b>Building : </b></td><td> '+datarecord.buildingName+' </td><td align="right"> <b>Flat :</b> </td><td> '+datarecord.flatNo+' </td></tr>';
-        infoTable = infoTable + '<tr><td align="right"><b>Time Slot :</b></td><td>'+datarecord.startTime+ ' - '+datarecord.endTime+'</td> <td align="right"> <b>Remarks : </b></td><td colspan="3"> '+datarecord.remarks+' </td></tr>';
-        infoTable = infoTable +'</table></div>';
-       
-        var infoContainer = $(infoTable);
-        infoContainer.appendTo($(information));
-        
-        if(datarecord.appointmentStatus != "Created") {
-        	var completionTable = '<div style="margin: 5px;"><table class="descTable" width="100%" border="0" cellpadding="0" cellspacing="5">';
-            completionTable = completionTable + '<tr><td align="right"><b>No of Hrs. :</b></td><td>'+datarecord.hoursSpent+ '</td> <td align="right"> <b>Amount : </b></td><td> '+datarecord.payableAmount+' </td><td align="right"> <b>Payment Status :</b> </td><td> '+datarecord.paymentStatus+' </td></tr>';
-            completionTable = completionTable + '<tr><td align="right"><b>Payment Type :</b></td><td>'+datarecord.paymentType+ '</td> <td align="right"> <b>Invoice No. : </b></td><td> '+datarecord.invoiceNo+' </td><td align="right"> <b>Invoice Date : </b></td><td> '+datarecord.invoiceDate+' </td></tr>';
-            completionTable = completionTable +'</table></div>';
-            
-            var jobCompletionContainer = $(completionTable);
-            jobCompletionContainer.appendTo($(jobcompletion));
-           
-        } 
-        var notesContent = '<div style="white-space: normal; margin: 5px;"><span> <b>Remarks : </b>' + datarecord.remarks + '</span></div>';
-        if(datarecord.appointmentStatus == "Cancelled") {
-        	notesContent = notesContent + '<div style="white-space: normal; margin: 5px;"><span> <b>Cancellation Reason : </b>' + datarecord.cancellationReason + '</span></div>';
-        }
-       var notescontainer = $(notesContent);        
-        $(notes).append(notescontainer);
-        $(tabsdiv).jqxTabs({ width: 700, height: 200});
-    }
-}
 

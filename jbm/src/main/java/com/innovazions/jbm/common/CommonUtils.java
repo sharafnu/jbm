@@ -23,9 +23,16 @@ public class CommonUtils {
 
 	public static final String JS_DATE_TIME_FORMAT_YYYYMMDD = "yyyy-MM-dd HH:mm:ss";
 
+	public static final String JS_DATE_FORMAT_YYYYMMDD = "MM-dd-yyyy";
+	
 	public static String getDBDate(Date inputDate) {
 		DateFormat dateFormat = new SimpleDateFormat(DB_DATE_FORMAT_YYYYMMDD);
 		return dateFormat.format(inputDate);
+	}
+	
+	public static Date parseDBDate(String inputDate) throws ParseException {
+		DateFormat dateFormat = new SimpleDateFormat(DB_DATE_FORMAT_YYYYMMDD);
+		return dateFormat.parse(inputDate);
 	}
 
 	public static Timestamp getTimeStampFromDate(Date inputDate) {
@@ -172,6 +179,12 @@ public class CommonUtils {
 	public static String getJavaScriptDateTime(Date startDate) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				JS_DATE_TIME_FORMAT_YYYYMMDD);
+		return dateFormat.format(startDate);
+	}
+	
+	public static String getJavaScriptDate(Date startDate) throws ParseException {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				JS_DATE_FORMAT_YYYYMMDD);
 		return dateFormat.format(startDate);
 	}
 

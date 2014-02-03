@@ -31,11 +31,11 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 	private String paymentStatus;
 
 	private String paymentType;
-	
+
 	private String invoiceNo;
-	
+
 	private Date invoiceDate;
-	
+
 	private String remarks;
 
 	private String startTime;
@@ -59,17 +59,17 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 	private String employeeName;
 
 	private Long customerAddressId;
-	
+
 	private String addressType;
-	
+
 	private String buildingName;
-	
+
 	private String flatNo;
-	
+
 	private String cityName;
-	
+
 	private Long cityId;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -209,16 +209,24 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 	@Override
 	public Appointment convertViewToEntity() {
 		Appointment appointment = new Appointment();
+		if (this.getId() != null && this.getId() > 0) {
+			appointment.setId(this.getId());
+		}
 		appointment.setAppointmentDate(this.getAppointmentDate());
 		appointment.setAppointmentNo(this.getAppointmentNo());
 		appointment.setAppointmentStatus(this.getAppointmentStatus());
 		appointment.setCancellationReason(this.getCancellationReason());
-		Customer customer = new Customer();
-		customer.setId(this.getCustomerId());
-		appointment.setCustomer(customer);
-		Employee employee = new Employee();
-		employee.setId(this.getEmployeeId());
-		appointment.setEmployee(employee);
+		if (this.getCustomerId() != null && this.getCustomerId() > 0) {
+			Customer customer = new Customer();
+			customer.setId(this.getCustomerId());
+			appointment.setCustomer(customer);
+		}
+		if (this.getEmployeeId() != null && this.getEmployeeId() > 0) {
+			Employee employee = new Employee();
+			employee.setId(this.getEmployeeId());
+			appointment.setEmployee(employee);
+		}
+
 		appointment.setHoursSpent(this.getHoursSpent());
 		appointment.setId(this.getId());
 		appointment.setLastModifiedDate(this.getLastModifiedDate());
@@ -227,6 +235,12 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 		appointment.setPaymentStatus(this.getPaymentStatus());
 		appointment.setRemarks(this.getRemarks());
 
+		if (this.getStartDate() != null) {
+			appointment.setStartDate(this.getStartDate());
+		}
+		if (this.getEndDate() != null) {
+			appointment.setEndDate(this.getEndDate());
+		}
 		if (!CommonUtils.isEmpty(this.getStartTime())) {
 			try {
 				appointment.setStartDate(CommonUtils.addTimeStringToDate(
@@ -250,13 +264,13 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 		CustomerAddress customerAddress = new CustomerAddress();
 		customerAddress.setId(this.getCustomerAddressId());
 		appointment.setCustomerAddress(customerAddress);
-		
-		//Set Payment Details
-		AppointmentPayment appointmentPayment  = new AppointmentPayment();
+
+		// Set Payment Details
+		AppointmentPayment appointmentPayment = new AppointmentPayment();
 		appointmentPayment.setAmountPaid(appointment.getPayableAmount());
 		appointmentPayment.setPaymentMode(this.getPaymentType());
 		appointment.setAppointmentPayment(appointmentPayment);
-		//Set Invoice Details
+		// Set Invoice Details
 		Invoice invoice = new Invoice();
 		invoice.setInvoiceNo(this.getInvoiceNo());
 		invoice.setInoviceDate(this.getInvoiceDate());
@@ -357,6 +371,30 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 
 	public void setInvoiceDate(Date invoiceDate) {
 		this.invoiceDate = invoiceDate;
+	}
+
+	public String getStartDateStr() {
+		if (this.getStartDate() != null) {
+			try {
+				return CommonUtils.getJavaScriptDate(this.getStartDate());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	public String getEndDateStr() {
+		if (this.getEndDate() != null) {
+			try {
+				return CommonUtils.getJavaScriptDate(this.getEndDate());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 
 }

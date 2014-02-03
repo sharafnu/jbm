@@ -46,6 +46,7 @@ public interface JBMConstants {
 	public static final String SEQ_CUSTOMER_CONTRACT_CODE = "customer_contract_id_seq";
 	
 	// Appointment Status
+	public static final String APPOINTMENT_STATUS_ALL = "All";
 	public static final String APPOINTMENT_STATUS_CREATED = "Created";
 	public static final String APPOINTMENT_STATUS_COMPLETED = "Completed";
 	public static final String APPOINTMENT_STATUS_CANCELLED = "Cancelled";

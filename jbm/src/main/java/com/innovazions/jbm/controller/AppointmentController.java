@@ -95,7 +95,18 @@ public class AppointmentController extends AbstractController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		/*
+		 * try { if (appointmentView.getStartDate() != null) {
+		 * appointmentView.setStartDate(CommonUtils
+		 * .getJavaScriptDateObj(appointmentView.getStartDate())); } if
+		 * (appointmentView.getEndDate() != null) {
+		 * appointmentView.setEndDate(CommonUtils
+		 * .getJavaScriptDateObj(appointmentView.getEndDate())); } } catch
+		 * (ParseException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); }
+		 */
 		model.addAttribute("appointmentListJSON", appointmentViewListJSON);
+		model.addAttribute("appointmentView", appointmentView);
 		return "customerAppointmentList";
 	}
 
@@ -406,14 +417,59 @@ public class AppointmentController extends AbstractController {
 		List<Appointment> appointmentList = appointmentService
 				.getCustomerCancelledAppointmentBetweenDates(customerId,
 						startDate, endDate);
-		StringBuffer cancelledAppointmentList = new StringBuffer("");
-		for (Appointment appointment : appointmentList) {
-			cancelledAppointmentList.append(
-					appointment.getAppointmentDate() + " - "
-							+ appointment.getAppointmentNo()).append("\n");
+		if (appointmentList.size() > 0) {
+			StringBuffer cancelledAppointmentList = new StringBuffer(
+					"<table class='bordered'>");
+			cancelledAppointmentList.append("<tr>");
+			cancelledAppointmentList.append("<th>");
+			cancelledAppointmentList.append("Code");
+			cancelledAppointmentList.append("</th>");
+			cancelledAppointmentList.append("<th>");
+			cancelledAppointmentList.append("Date");
+			cancelledAppointmentList.append("</th>");
+			cancelledAppointmentList.append("<th>");
+			cancelledAppointmentList.append("Cancellation Reason");
+			cancelledAppointmentList.append("</th>");
+			cancelledAppointmentList.append("</tr>");
+			for (Appointment appointment : appointmentList) {
+				cancelledAppointmentList.append("<tr>");
+				cancelledAppointmentList.append("<td>");
+				cancelledAppointmentList.append(
+						appointment.getAppointmentDate()).append("<br/>");
+				cancelledAppointmentList.append("</td>");
+				cancelledAppointmentList.append("<td>");
+				cancelledAppointmentList.append(appointment.getAppointmentNo());
+				cancelledAppointmentList.append("</td>");
+				cancelledAppointmentList.append("<td>");
+				cancelledAppointmentList.append(appointment
+						.getCancellationReason());
+				cancelledAppointmentList.append("</td>");
+				cancelledAppointmentList.append("</tr>");
 
+			}
+			cancelledAppointmentList.append("</table>");
+			return cancelledAppointmentList.toString();
 		}
-		return cancelledAppointmentList.toString();
+		return "";
 	}
 
+	@RequestMapping(value = "/checkAppointmentEndTime", method = RequestMethod.GET)
+	public @ResponseBody
+	boolean checkAppointmentEndTime(@RequestParam Long appointmentId,
+			@RequestParam String appointmentDate, @RequestParam String endTime) {
+		try {
+			Date endDate = CommonUtils.addTimeStringToDate(
+					CommonUtils.parseDBDate(appointmentDate), endTime);
+			int res = endDate.compareTo(new Date());
+			if (res > 0) {
+				return false;
+			} else {
+				return true;
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

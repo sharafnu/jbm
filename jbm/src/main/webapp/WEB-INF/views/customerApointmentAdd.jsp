@@ -165,18 +165,22 @@
 	
 	
 	function showEmployeeCancellations(customerId) {
+		$("#customerAppDetails").html("");
 		var url = 'getCancelledAppointments/'+customerId+".html";
 		$.ajax({
 			url: url,
 			type: 'GET',
 			success: function(cancelledAppList)
 			{
-				alert(cancelledAppList);			
+				if(cancelledAppList != "") {
+					$("#customerAppDetails").html('<i class="fa fa-info-circle" style="color:orange"></i> View');		
+					//$("#customerAppDetails").jqxTooltip({ theme:'orange', content: 'The Amazing Spider-man', position: 'right', autoHide: true, name: 'customerAppDetailsTooltip'});
+					$("#customerAppDetails").jqxTooltip({ content: cancelledAppList, position: 'right', autoHide: false, name: 'customerAppDetailsTooltip'});
+				}
+				//alert(cancelledAppList);			
 			}
 		});
-		
-		$("#customerAppDetails").html('<i class="fa fa-info-circle" style="color:orange"></i> View');		
-		$("#customerAppDetails").jqxTooltip({ theme:'orange', content: 'The Amazing Spider-man', position: 'right', autoHide: true, name: 'customerAppDetailsTooltip'});
+			
 	}
 	
 	function setupFormValidations() {

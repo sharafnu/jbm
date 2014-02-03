@@ -1,6 +1,7 @@
 package com.innovazions.jbm.entity;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -191,6 +192,7 @@ public class Appointment extends CoreEntity<Appointment, AppointmentView>
 
 		}
 		appointmentView.setEndDate(this.getEndDate());
+		appointmentView.setStartDate(this.getStartDate());
 		appointmentView.setHoursSpent(this.getHoursSpent());
 		appointmentView.setId(this.getId());
 		appointmentView.setLastModifiedDate(this.getLastModifiedDate());
@@ -198,7 +200,12 @@ public class Appointment extends CoreEntity<Appointment, AppointmentView>
 		appointmentView.setPayableAmount(this.getPayableAmount());
 		appointmentView.setPaymentStatus(this.getPaymentStatus());
 		appointmentView.setRemarks(this.getRemarks());
-		appointmentView.setStartDate(this.getStartDate());
+		/*try {
+			appointmentView.setStartDate(CommonUtils.getJavaScriptDateTimeObj(this.getStartDate()));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 		if (this.getStartDate() != null) {
 			appointmentView.setStartTime(CommonUtils.getTimeStrFromDate(this
 					.getStartDate()));

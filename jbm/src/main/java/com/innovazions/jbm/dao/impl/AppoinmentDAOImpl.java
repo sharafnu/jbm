@@ -156,6 +156,7 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 				SELECT_APPOINTMENT_QUERY)
 				.append(constructQueryWhereClause(appointment));
 
+		queryWithWhereClause.append(" ORDER BY appointment_no");
 		System.out.println("SELECT QUERY : " + queryWithWhereClause.toString());
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -184,66 +185,80 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 	private String constructQueryWhereClause(Appointment appointment) {
 		StringBuffer whereQuery = new StringBuffer("");
 		int argumentCount = 0;
+		boolean searchById = false;
 		if (appointment != null) {
+			System.out.println(appointment.getId());
 			if (appointment.getId() != null && appointment.getId() > 0) {
-				whereQuery.append(" and a.appoinment_id=").append(
-						appointment.getId());
+				searchById = true;
+				whereQuery.append(" and a.id=").append(appointment.getId());
 				argumentCount++;
 			}
-			if (!CommonUtils.isEmpty(appointment.getAppointmentStatus())) {
-				whereQuery.append(" and a.appointment_status=").append(
-						addQuote(appointment.getAppointmentStatus()));
-				argumentCount++;
-			} else {
-				whereQuery.append(" and a.appointment_status=").append(
-						addQuote(JBMConstants.APPOINTMENT_STATUS_CREATED));
-				argumentCount++;
-			}
-			if (!CommonUtils.isEmpty(appointment.getPaymentStatus())) {
-				whereQuery.append(" and a.payment_status=").append(
-						addQuote(appointment.getPaymentStatus()));
-				argumentCount++;
-			}
-			if (appointment.getCustomer() != null
-					&& appointment.getCustomer().getId() != null
-					&& appointment.getCustomer().getId() > 0) {
-				whereQuery.append(" and a.customer_id=").append(
-						appointment.getCustomer().getId());
-				argumentCount++;
-			}
-			if (appointment.getEmployee() != null
-					&& appointment.getEmployee().getId() != null
-					&& appointment.getEmployee().getId() > 0) {
-				whereQuery.append(" and a.employee_id=").append(
-						appointment.getEmployee().getId());
-				argumentCount++;
-			}
-			if (appointment.getStartDate() != null) {
-				if (appointment.getEndDate() != null) {
-					// between
-					whereQuery
-							.append(" and (appointment_date between ")
-							.append(addQuote(CommonUtils
-									.getMidnightDateStr(appointment
-											.getStartDate())))
-							.append(" and ")
-							.append(addQuote(CommonUtils
-									.getEndMidnightDateStr(appointment
-											.getEndDate()))).append(")");
-					argumentCount++;
+			if (!searchById) {
+				if (!CommonUtils.isEmpty(appointment.getAppointmentStatus())) {
+					if (!appointment.getAppointmentStatus().equals(
+							JBMConstants.APPOINTMENT_STATUS_ALL)) {
+						whereQuery.append(" and a.appointment_status=").append(
+								addQuote(appointment.getAppointmentStatus()));
+						argumentCount++;
+					}
 				} else {
-					// check greater than start date
-					whereQuery.append(" and appointment_date >= ").append(
-							addQuote(CommonUtils.getMidnightDateStr(appointment
-									.getStartDate())));
+					whereQuery.append(" and a.appointment_status=").append(
+							addQuote(JBMConstants.APPOINTMENT_STATUS_CREATED));
 					argumentCount++;
 				}
-			} else if (appointment.getEndDate() != null) {
-				// check less than end date
-				whereQuery.append(" and appointment_date <= ").append(
-						addQuote(CommonUtils.getEndMidnightDateStr(appointment
-								.getEndDate())));
-				argumentCount++;
+				if (!CommonUtils.isEmpty(appointment.getPaymentStatus())) {
+					whereQuery.append(" and a.payment_status=").append(
+							addQuote(appointment.getPaymentStatus()));
+					argumentCount++;
+				}
+				if (appointment.getCustomer() != null
+						&& appointment.getCustomer().getId() != null
+						&& appointment.getCustomer().getId() > 0) {
+					whereQuery.append(" and a.customer_id=").append(
+							appointment.getCustomer().getId());
+					argumentCount++;
+				}
+				if (appointment.getEmployee() != null
+						&& appointment.getEmployee().getId() != null
+						&& appointment.getEmployee().getId() > 0) {
+					whereQuery.append(" and a.employee_id=").append(
+							appointment.getEmployee().getId());
+					argumentCount++;
+				}
+				System.out.println(appointment.getStartDate());
+				System.out.println(appointment.getEndDate());
+				if (appointment.getStartDate() != null) {
+					if (appointment.getEndDate() != null) {
+						// between
+						whereQuery
+								.append(" and (appointment_date between ")
+								.append(addQuote(CommonUtils
+										.getDBDate(CommonUtils
+												.getMidnightDate(appointment
+														.getStartDate()))))
+								.append(" and ")
+								.append(addQuote(CommonUtils
+										.getDBDate(CommonUtils
+												.getEndMidnightDate(appointment
+														.getEndDate()))))
+								.append(")");
+						argumentCount++;
+					} else {
+						// check greater than start date
+						whereQuery.append(" and appointment_date >= ").append(
+								addQuote(CommonUtils.getDBDate(CommonUtils
+										.getMidnightDate(appointment
+												.getStartDate()))));
+						argumentCount++;
+					}
+				} else if (appointment.getEndDate() != null) {
+					// check less than end date
+					whereQuery.append(" and appointment_date <= ").append(
+							addQuote(CommonUtils.getDBDate(CommonUtils
+									.getEndMidnightDate(appointment
+											.getEndDate()))));
+					argumentCount++;
+				}
 			}
 		}
 		System.out.println("WHERE QUERY : " + whereQuery.toString());
