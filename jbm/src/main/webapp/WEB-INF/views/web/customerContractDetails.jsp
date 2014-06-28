@@ -180,7 +180,7 @@
 
 <!-- Container for create-account controls, populated by JavaScript code below. -->
 <div id="SIU2" class="SIU2" style="opacity: 1;">
-	<div id="createAccount" class="cornerDiv">	
+	<div id="createAccount" class="cornerDiv" style="height:330px">	
 		<div style="background-color: #F4F0F5; color: #000; min-height: 1.5em; vertical-align: middle; padding: 5px; width: 800px;">
 		Customer Contracts</div>
         <div style="font-family: Verdana; font-size: 13px; overflow: hidden; margin: 5px;">

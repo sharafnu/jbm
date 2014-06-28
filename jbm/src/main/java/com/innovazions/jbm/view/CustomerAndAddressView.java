@@ -45,12 +45,16 @@ public class CustomerAndAddressView extends
 
 	private String residenceFlatNo;
 
+	private String residenceRemarks;
+	
 	// Office Address Details
 	private Long officeAreaId;
 
 	private String officeBuildingName;
 
 	private String officeFlatNo;
+	
+	private String officeRemarks;
 
 	public CustomerAndAddressView() {
 	}
@@ -188,6 +192,7 @@ public class CustomerAndAddressView extends
 			residenceAddress.setFlatNo(this.getResidenceFlatNo());
 			residenceAddress.setLastModifiedUser("SYSTEM");
 			residenceAddress.setLastModifiedDate(new Date());
+			residenceAddress.setRemarks(this.getResidenceRemarks());
 			customerAddressList.add(residenceAddress);
 		}
 
@@ -202,6 +207,7 @@ public class CustomerAndAddressView extends
 			officeAddress.setFlatNo(this.getOfficeFlatNo());
 			officeAddress.setLastModifiedUser("SYSTEM");
 			officeAddress.setLastModifiedDate(new Date());
+			officeAddress.setRemarks(this.getOfficeRemarks());
 			customerAddressList.add(officeAddress);
 		}
 		customer.setCustomerAddressList(customerAddressList);
@@ -260,6 +266,22 @@ public class CustomerAndAddressView extends
 
 	public void setOfficeFlatNo(String officeFlatNo) {
 		this.officeFlatNo = officeFlatNo;
+	}
+
+	public String getResidenceRemarks() {
+		return residenceRemarks;
+	}
+
+	public void setResidenceRemarks(String residenceRemarks) {
+		this.residenceRemarks = residenceRemarks;
+	}
+
+	public String getOfficeRemarks() {
+		return officeRemarks;
+	}
+
+	public void setOfficeRemarks(String officeRemarks) {
+		this.officeRemarks = officeRemarks;
 	}
 
 }

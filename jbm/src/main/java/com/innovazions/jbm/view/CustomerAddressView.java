@@ -27,6 +27,8 @@ public class CustomerAddressView extends
 
 	private String cityName;
 
+	private String remarks;
+	
 	public Long getId() {
 		return id;
 	}
@@ -113,6 +115,7 @@ public class CustomerAddressView extends
 		customerAddress.setFlatNo(this.getFlatNo());
 		customerAddress.setLastModifiedDate(this.getLastModifiedDate());
 		customerAddress.setLastModifiedUser(this.getLastModifiedUser());
+		customerAddress.setRemarks(this.getRemarks());
 		return customerAddress;
 	}
 
@@ -129,5 +132,13 @@ public class CustomerAddressView extends
 				+ " <br/><b>Flat : </b>" + this.getFlatNo()
 				+ "<br/><b>Location : </b>" + this.getAreaName()
 				+ "<br/><b>City : </b>" + this.getCityName() + "</div>";
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 }

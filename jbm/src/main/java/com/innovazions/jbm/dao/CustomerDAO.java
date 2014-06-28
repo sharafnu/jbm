@@ -18,4 +18,6 @@ public interface CustomerDAO {
 
 	public boolean checkDuplicateMobileNo(String mobileNo);
 
+	public Customer findCustomerByPrimaryMobileNo(String mobileNo);
+
 }

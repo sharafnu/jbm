@@ -105,18 +105,23 @@ public class EventView {
 
 		// eventColorActive
 		try {
-			Date startDate = CommonUtils.getDate(start);
-			Date endDate = CommonUtils.getDate(end);
-			if (CommonUtils.isCurrentTimeSlot(startDate, endDate)) {
-				return "eventColorActive";
+			if (!CommonUtils.isEmpty(start) && !CommonUtils.isEmpty(end)) {
+				System.out.println(start + " : " + end);
+				Date startDate = CommonUtils.getDate(start);
+				Date endDate = CommonUtils.getDate(end);
+				if (CommonUtils.isCurrentTimeSlot(startDate, endDate)) {
+					return "eventColorActive";
+				}
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		int index = id.intValue();
 		if (index > 7) {
-			index = (index % 7)+1;
+			index = (index % 7) + 1;
 		}
 		return "eventColor" + index;
 	}

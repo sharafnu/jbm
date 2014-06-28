@@ -24,6 +24,7 @@ import org.smslib.smpp.BindAttributes.BindType;
 import org.smslib.smpp.jsmpp.JSMPPGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 
 import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.common.JBMConstants;
@@ -40,7 +41,7 @@ public class SMSNotificationServiceImpl implements SMSNotificationService,
 
 	// TODO : Add SMSNotificationDAO here
 
-	public void initSMSNotificationService() {
+	private void initSMSNotificationService() {
 		// Initialize the SMS Gateway connection
 		try {
 			String smppAccountName = PropertiesUtil
@@ -86,11 +87,15 @@ public class SMSNotificationServiceImpl implements SMSNotificationService,
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public Long sendAppoinmentCreationSMSNotification(Appointment appointment) {
+	@Async
+	public void sendAppoinmentCreationSMSNotification(Appointment appointment) {
+
 		if (Service.getInstance().getServiceStatus() != ServiceStatus.STARTED) {
 			initSMSNotificationService();
 		}
@@ -101,19 +106,30 @@ public class SMSNotificationServiceImpl implements SMSNotificationService,
 				System.out.println("Sending SMS");
 				String smsContent = PropertiesUtil
 						.getProperty(PROP_SMS_APPOINTMENT_CREATE_CONTENT);
-				smsContent = smsContent.replace("{customer_name}", appointment
-						.getCustomer().getFullName());
-				smsContent = smsContent.replace("{appoinment_date}",
-						CommonUtils.getFormattedDate(appointment
-								.getAppointmentDate()));
-				smsContent = smsContent.replace("{location}", appointment
-						.getCustomerAddress().toString());
+				System.out.println("smsContent : " + smsContent);
+				/*
+				 * smsContent = smsContent.replace("{customer_name}",
+				 * appointment .getCustomer().getFullName()); smsContent =
+				 * smsContent.replace("{appoinment_date}",
+				 * CommonUtils.getFormattedDate(appointment
+				 * .getAppointmentDate())); smsContent =
+				 * smsContent.replace("{location}", appointment
+				 * .getCustomerAddress().toString());
+				 */
 				OutboundMessage msg = new OutboundMessage(appointment
-						.getCustomer().getMobile1(),
-						"Hello from SMSLib and JSMPP");
+						.getCustomer().getMobile1(), smsContent);
 				// Request Delivery Report
 				msg.setStatusReport(true);
-				Service.getInstance().sendMessage(msg);
+				// Retry in case of exceptions
+				try {
+					//Service.getInstance().sendMessage(msg);
+				} catch (Exception e) {
+					// TODO: handle exception
+					System.out.println("Retrying..");
+					//Service.getInstance().startService();
+					//Service.getInstance().sendMessage(msg);
+				}
+
 				System.out.println("Message Sent Successfully..");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -122,7 +138,6 @@ public class SMSNotificationServiceImpl implements SMSNotificationService,
 			System.out.println("Can't send SMS, Mobile number not found !");
 		}
 
-		return null;
 	}
 
 	public class OutboundNotification implements IOutboundMessageNotification {
@@ -180,6 +195,7 @@ public class SMSNotificationServiceImpl implements SMSNotificationService,
 	}
 
 	@Override
+	@Async
 	public void sendAppoinmentCancellationSMSNotification(
 			Appointment appointment) {
 
@@ -206,17 +222,16 @@ public class SMSNotificationServiceImpl implements SMSNotificationService,
 						.getCustomer().getMobile1(), smsContent);
 				// Request Delivery Report
 				msg.setStatusReport(true);
-				//Retry in case of exceptions
+				// Retry in case of exceptions
 				try {
-					Service.getInstance().sendMessage(msg);
+					//Service.getInstance().sendMessage(msg);
 				} catch (Exception e) {
 					// TODO: handle exception
 					System.out.println("Retrying..");
-					Service.getInstance().startService();
-					Service.getInstance().sendMessage(msg);
+					//Service.getInstance().startService();
+					//Service.getInstance().sendMessage(msg);
 				}
-				
-				
+
 				System.out.println("Message Sent Successfully..");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -227,4 +242,97 @@ public class SMSNotificationServiceImpl implements SMSNotificationService,
 
 	}
 
+	@Override
+	@Async
+	public void sendAppoinmentCompletionSMSNotification(Appointment appointment) {
+
+		if (Service.getInstance().getServiceStatus() != ServiceStatus.STARTED) {
+			initSMSNotificationService();
+		}
+
+		if (appointment != null && appointment.getCustomer() != null
+				&& !CommonUtils.isEmpty(appointment.getCustomer().getMobile1())) {
+			try {
+				System.out.println("Sending SMS");
+				String smsContent = PropertiesUtil
+						.getProperty(PROP_SMS_APPOINTMENT_COMPLETE_CONTENT);
+				/*
+				 * smsContent = smsContent.replace("{customer_name}",
+				 * appointment .getCustomer().getFullName()); smsContent =
+				 * smsContent.replace("{appoinment_date}",
+				 * CommonUtils.getFormattedDate(appointment
+				 * .getAppointmentDate())); smsContent =
+				 * smsContent.replace("{location}", appointment
+				 * .getCustomerAddress().toString());
+				 */
+				OutboundMessage msg = new OutboundMessage(appointment
+						.getCustomer().getMobile1(), smsContent);
+				// Request Delivery Report
+				msg.setStatusReport(true);
+				// Retry in case of exceptions
+				try {
+					//Service.getInstance().sendMessage(msg);
+				} catch (Exception e) {
+					// TODO: handle exception
+					System.out.println("Retrying..");
+					//Service.getInstance().startService();
+					//Service.getInstance().sendMessage(msg);
+				}
+
+				System.out.println("Message Sent Successfully..");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("Can't send SMS, Mobile number not found !");
+		}
+
+	}
+
+	@Override
+	@Async
+	public void sendAppoinmentUpdateSMSNotification(Appointment appointment) {
+
+		if (Service.getInstance().getServiceStatus() != ServiceStatus.STARTED) {
+			initSMSNotificationService();
+		}
+
+		if (appointment != null && appointment.getCustomer() != null
+				&& !CommonUtils.isEmpty(appointment.getCustomer().getMobile1())) {
+			try {
+				System.out.println("Sending SMS");
+				String smsContent = PropertiesUtil
+						.getProperty(PROP_SMS_APPOINTMENT_UPDATE_CONTENT);
+				System.out.println("smsContent : " + smsContent);
+				/*
+				 * smsContent = smsContent.replace("{customer_name}",
+				 * appointment .getCustomer().getFullName()); smsContent =
+				 * smsContent.replace("{appoinment_date}",
+				 * CommonUtils.getFormattedDate(appointment
+				 * .getAppointmentDate())); smsContent =
+				 * smsContent.replace("{location}", appointment
+				 * .getCustomerAddress().toString());
+				 */
+				OutboundMessage msg = new OutboundMessage(appointment
+						.getCustomer().getMobile1(), smsContent);
+				// Request Delivery Report
+				msg.setStatusReport(true);
+				// Retry in case of exceptions
+				try {
+					//Service.getInstance().sendMessage(msg);
+				} catch (Exception e) {
+					// TODO: handle exception
+					System.out.println("Retrying..");
+					//Service.getInstance().startService();
+					//Service.getInstance().sendMessage(msg);
+				}
+
+				System.out.println("Message Sent Successfully..");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("Can't send SMS, Mobile number not found !");
+		}
+	}
 }

@@ -7,24 +7,24 @@
 <html>
 <head>
 <link href="<c:url value="/resources/images/favicon.ico" />" rel="icon" type="image/x-icon" />
-
+<link href="<c:url value="/resources/styles/ribbon-style.css" />"
+	rel="stylesheet" type="text/css">
 <link href="<c:url value="/resources/styles/desktop.css" />"
 	rel="stylesheet" type="text/css">
 <link href="<c:url value="/resources/styles/SIU2.css" />"
 	rel="stylesheet" type="text/css">
 <link href="<c:url value="/resources/styles/rounded-box.css" />"
 	rel="stylesheet" type="text/css">	
-<title>:: Welcome to Appointments Manager ::</title>
-<link type="text/css" rel="Stylesheet"
-	href="<c:url value="/resources/jqwidgets/styles/jqx.base.css" />" />
+<title>:: MaxMaid Online Services ::</title>
+<link type="text/css" rel="Stylesheet" href="<c:url value="/resources/jqwidgets/styles/jqx.base.css" />" />
 <link type="text/css" rel="Stylesheet"
 	href="<c:url value="/resources/jqwidgets/styles/jqx.orange.css" />" />
-
+<link type="text/css" rel="Stylesheet"
+	href="<c:url value="/resources/jqwidgets/styles/jqx.shinyblack.css" />" />
 <link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/resources/login/css/font-awesome.min.css" />">
 <script type="text/javascript"
 	src="<c:url value="/resources/scripts/jquery-1.10.2.min.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/jqwidgets/jqxcore.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/jqwidgets/jqxcore.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/jqwidgets/jqxpasswordinput.js" />"></script>
 <script type="text/javascript"
@@ -37,14 +37,10 @@
 	src="<c:url value="/resources/jqwidgets/jqxtooltip.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/jqwidgets/globalization/globalize.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/jqwidgets/jqxbuttons.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/jqwidgets/jqxscrollbar.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/jqwidgets/jqxlistbox.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/jqwidgets/jqxdropdownlist.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/jqwidgets/jqxbuttons.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/jqwidgets/jqxscrollbar.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/jqwidgets/jqxlistbox.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/jqwidgets/jqxdropdownlist.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/jqwidgets/jqxexpander.js" />"></script>
 <script type="text/javascript"
@@ -53,24 +49,17 @@
 	src="<c:url value="/resources/jqwidgets/jqxmaskedinput.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/jqwidgets/jqxradiobutton.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/jqwidgets/jqxmenu.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/jqwidgets/jqxmenu.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/jqwidgets/jqxcheckbox.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/jqwidgets/jqxgrid.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/jqwidgets/jqxgrid.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/jqwidgets/jqxdatatable.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/jqwidgets/jqxdata.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/jqwidgets/jqxgrid.filter.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/jqwidgets/jqxgrid.sort.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/jqwidgets/jqxgrid.pager.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/jqwidgets/jqxgrid.selection.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/jqwidgets/jqxdata.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/jqwidgets/jqxgrid.filter.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/jqwidgets/jqxgrid.sort.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/jqwidgets/jqxgrid.pager.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/jqwidgets/jqxgrid.selection.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/jqwidgets/jqxgrid.edit.js" />"></script>
 <script type="text/javascript"
@@ -265,6 +254,11 @@ h4 {
                 $("#alert_overlay").height($(document).height());  
            }  
       }  
+      
+      if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    	  // some code..
+    	  alert(navigator.userAgent);
+    	}
  </script>  
  
 	</head>
@@ -275,11 +269,8 @@ h4 {
 				<div class="header-container">
 					<div class="header">
 						<img id="header-logo"
-							src="<c:url value="/resources/styles/images/logo-o.png" />"
-							alt="" class="header-logo" width="26" height="26"/>
-						<img id="header-logo"
-							src="<c:url value="/resources/styles/images/sys_header1.png" />"
-							alt="" class="header-logo" />
+							src="<c:url value="/resources/images/maxmaid_logo_new.gif" />"
+							alt="" class="header-logo"/>
 							
 							<table class="userInfoTable" border="0" width="100%">
 								<tr>
@@ -299,11 +290,7 @@ h4 {
 							</table>
 							
 							
-					</div>
-					<div class="header-adobe-logo">
-						<img id="header-adobe-logo"
-							src="<c:url value="/resources/styles/images/header_logo.png" />" />
-					</div>
+					</div>			
 					<jsp:include page="menu.jsp" />					
 				</div>
 				

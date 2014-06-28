@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.common.JBMConstants;
 import com.innovazions.jbm.entity.Customer;
 import com.innovazions.jbm.entity.CustomerAddress;
@@ -25,6 +26,7 @@ import com.innovazions.jbm.service.CommonService;
 import com.innovazions.jbm.service.CustomerAddressService;
 import com.innovazions.jbm.service.CustomerContractService;
 import com.innovazions.jbm.service.CustomerService;
+import com.innovazions.jbm.view.ActionStatus;
 import com.innovazions.jbm.view.CustomerAddressView;
 import com.innovazions.jbm.view.CustomerAndAddressView;
 import com.innovazions.jbm.view.CustomerContractView;
@@ -182,7 +184,7 @@ public class CustomerController extends AbstractController {
 
 	@RequestMapping(value = "/saveCustomerAndAddress", method = RequestMethod.POST)
 	public @ResponseBody
-	String saveCustomerAndAddress(
+	ActionStatus saveCustomerAndAddress(
 			@ModelAttribute("customerAndAddressView") CustomerAndAddressView customerAndAddressView,
 			BindingResult result, Model model) {
 		logger.info("CustomerController > saveCustomerAndAddress");
@@ -196,10 +198,24 @@ public class CustomerController extends AbstractController {
 				JBMConstants.SEQ_CUSTOMER_CODE,
 				JBMConstants.PROP_PREFIX_CUSTOMER_CODE);
 		customer.setCustomerCode(customerCode);
-		Long customerId = customerService.createCustomerAndAddress(customer);
-		model.addAttribute("infoMessage", "Customer Added : "
-				+ customerCode);
-		return "Success";
+		
+		//Do duplicate check on mobile number
+		int end = customerAndAddressView.getMobile1().length();
+		int start = end - 7;
+		String mobileToSearch = customerAndAddressView.getMobile1().substring(start, end);
+		System.out.println("mobileToSearch:"+mobileToSearch);
+		Customer existingCustomer = customerService
+				.findCustomerByPrimaryMobileNo(mobileToSearch);
+		if(existingCustomer == null) {
+			Long customerId = customerService.createCustomerAndAddress(customer);
+			return CommonUtils.getDataSaveSuccessActionStatus(customerId, customerCode);
+		} else {
+			return CommonUtils.getErrorActionStatus("Customer already exist with same mobile number, Cust Id : "+existingCustomer.getCustomerCode());
+		}
+		/*model.addAttribute("infoMessage", "Customer Added : "
+				+ customerCode);*/
+		
+		//return "Success";
 	}
 	
 	@RequestMapping(value = "/checkDuplicateMobileNo", method = RequestMethod.GET)

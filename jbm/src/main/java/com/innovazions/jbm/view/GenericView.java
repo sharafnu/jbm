@@ -1,5 +1,6 @@
 package com.innovazions.jbm.view;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,7 @@ public abstract class GenericView<View, Entity> {
 
 	private String lastModifiedUser;
 	
-	public abstract Entity convertViewToEntity();
+	public abstract Entity convertViewToEntity() throws ParseException;
 
 	public abstract List<Entity> convertViewsToEntities(List<View> viewList);
 

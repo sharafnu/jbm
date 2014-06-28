@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
-encoding//src/main/webapp/WEB-INF/views/customerInfoAddPopup.jsp=UTF-8
-encoding//src/main/webapp/WEB-INF/views/customerInfoEdit.jsp=UTF-8
-encoding//src/main/webapp/WEB-INF/views/staffList.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/web/customerInfoAddPopup.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/web/customerInfoEdit.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/web/staffList.jsp=UTF-8
+encoding//src/main/webapp/resources/jquery-mobile/jquery.mobile.flatui.css=UTF-8

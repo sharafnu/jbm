@@ -26,6 +26,8 @@ public class CustomerAddress extends
 	private Area area;
 
 	private Customer customer;
+	
+	private String remarks;
 
 	public CustomerAddress() {
 	}
@@ -99,6 +101,7 @@ public class CustomerAddress extends
 		customerAddressView.setId(this.getId());
 		customerAddressView.setLastModifiedDate(this.getLastModifiedDate());
 		customerAddressView.setLastModifiedUser(this.getLastModifiedUser());
+		customerAddressView.setRemarks(this.getRemarks());
 		return customerAddressView;
 	}
 
@@ -110,5 +113,13 @@ public class CustomerAddress extends
 			addressViewList.add(customerAddress.convertEntityToView());
 		}
 		return addressViewList;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 }

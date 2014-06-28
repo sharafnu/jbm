@@ -12,7 +12,9 @@ import org.springframework.stereotype.Repository;
 
 import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.dao.EmployeeDAO;
+import com.innovazions.jbm.entity.Customer;
 import com.innovazions.jbm.entity.Employee;
+import com.innovazions.jbm.entity.jdbc.mapper.CustomerRowMapper;
 import com.innovazions.jbm.entity.jdbc.mapper.EmployeeRowMapper;
 
 @Repository
@@ -85,4 +87,20 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return employeeList;
 	}
 
+	@Override
+	public Employee findEmployeeById(Long employeeId) {
+
+		String sql = "select e.id, e.employee_code, e.first_name,e.nationality, "
+				+ "e.join_date, e.salary, e.remarks, e.contact_mobile_no, e.home_cntry_contact_no,  "
+				+ "e.address, e.passport_no, e.visa_details, e.employee_status from employee e where e.id=?";
+		
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		List<Employee> employeeList = jdbcTemplate.query(sql,
+				new Object[] { employeeId }, new EmployeeRowMapper());
+		if (employeeList.isEmpty()) {
+			return null;
+		} else {
+			return employeeList.get(0);
+		}
+	}
 }

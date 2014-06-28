@@ -16,4 +16,6 @@ public interface CustomerService {
 
 	public boolean checkDuplicateMobileNo(String mobileNo);
 
+	public Customer findCustomerByPrimaryMobileNo(String mobileNo);
+
 }

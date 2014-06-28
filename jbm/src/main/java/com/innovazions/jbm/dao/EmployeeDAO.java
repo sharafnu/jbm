@@ -14,4 +14,6 @@ public interface EmployeeDAO {
 
 	public List<Employee> getEmployeeList(Employee employee);
 
+	Employee findEmployeeById(Long employeeId);
+
 }

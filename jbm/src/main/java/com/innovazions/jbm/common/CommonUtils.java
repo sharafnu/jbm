@@ -25,6 +25,8 @@ public class CommonUtils {
 
 	public static final String JS_DATE_FORMAT_YYYYMMDD = "MM-dd-yyyy";
 	
+	public static final String JS_DATE_FORMAT_DDMMYYYY = "dd-MM-yyyy";
+	
 	public static String getDBDate(Date inputDate) {
 		DateFormat dateFormat = new SimpleDateFormat(DB_DATE_FORMAT_YYYYMMDD);
 		return dateFormat.format(inputDate);
@@ -32,6 +34,11 @@ public class CommonUtils {
 	
 	public static Date parseDBDate(String inputDate) throws ParseException {
 		DateFormat dateFormat = new SimpleDateFormat(DB_DATE_FORMAT_YYYYMMDD);
+		return dateFormat.parse(inputDate);
+	}
+	
+	public static Date parseDBDateDDMMYY(String inputDate) throws ParseException {
+		DateFormat dateFormat = new SimpleDateFormat(JS_DATE_FORMAT_DDMMYYYY);
 		return dateFormat.parse(inputDate);
 	}
 
@@ -139,6 +146,10 @@ public class CommonUtils {
 				TIME_FORMAT_HHMMSS_AM_PM);
 		return dateFormat.format(inputDate);
 	}
+	
+	public static void main(String[] args) {
+		System.out.println(getTimeStrFromDate(new Date()));
+	}
 
 	public static ActionStatus getUnAuthorizedAccessActionStatus() {
 		ActionStatus actionStatus = new ActionStatus(
@@ -173,6 +184,12 @@ public class CommonUtils {
 	public static ActionStatus getSuccessActionStatus(String message) {
 		ActionStatus actionStatus = new ActionStatus(
 				ActionStatus.STATUS_TYPE_SUCCESS, message);
+		return actionStatus;
+	}
+	
+	public static ActionStatus getErrorActionStatus(String message) {
+		ActionStatus actionStatus = new ActionStatus(
+				ActionStatus.STATUS_TYPE_ERROR, message);
 		return actionStatus;
 	}
 

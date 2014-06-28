@@ -6,7 +6,8 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry including="**/*.java" kind="src" path="src/main/resources"/>
+	<classpathentry kind="src" path="src/main/resources/reports"/>
+	<classpathentry excluding="reports/" including="**/*.java" kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
@@ -14,6 +15,12 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="src/test/resources"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/postgresql-8.3-603.jdbc4.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jackson-core-asl-1.9.9.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jackson-mapper-asl-1.9.9.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jsmpp-2.1.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mail-1.4.3.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/smslib-3.5.4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
@@ -25,11 +32,5 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/postgresql-8.3-603.jdbc4.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jackson-core-asl-1.9.9.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jackson-mapper-asl-1.9.9.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jsmpp-2.1.0.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mail-1.4.3.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/smslib-3.5.4.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

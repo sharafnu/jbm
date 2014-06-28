@@ -10,4 +10,6 @@ public interface EmployeeService {
 
 	public List<Employee> getEmployeeList(Employee employee);
 	
+	public Employee findEmployeeById(Long employeeId);
+	
 }

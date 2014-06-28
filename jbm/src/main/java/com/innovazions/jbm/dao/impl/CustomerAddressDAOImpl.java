@@ -24,8 +24,8 @@ public class CustomerAddressDAOImpl implements CustomerAddressDAO {
 	@Override
 	public long createCustomerAddress(CustomerAddress customerAddress) {
 		System.out.println("Inserting CustomerAddress..");
-		final String sql = "INSERT INTO customer_address (customer_id, area_id, building_name, flat_no, address_type, "
-				+ "last_modified_date, last_modified_user) VALUES (?, ?, ?, ?, ?, ?, ?);";
+		final String sql = "INSERT INTO customer_address (customer_id, area_id, building_name, flat_no, address_type, remarks, "
+				+ "last_modified_date, last_modified_user) VALUES (?, ?, ?, ?, ?, ?, ?,?);";
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		sequence = new PostgreSQLSequenceMaxValueIncrementer(dataSource,
@@ -37,6 +37,7 @@ public class CustomerAddressDAOImpl implements CustomerAddressDAO {
 						customerAddress.getBuildingName(),
 						customerAddress.getFlatNo(),
 						customerAddress.getAddressType(),
+						customerAddress.getRemarks(), 
 						customerAddress.getLastModifiedDate(),
 						customerAddress.getLastModifiedUser() });
 		return sequence.nextLongValue() - 1;
@@ -59,7 +60,7 @@ public class CustomerAddressDAOImpl implements CustomerAddressDAO {
 
 		String sql = "select ca.id as address_id, ca.customer_id as customer_id, ca.area_id as area_id, "
 				+ "a.name as area_name, c.name as city_name,c.id as city_id, ca.building_name as building_name, "
-				+ "ca.flat_no as flat_no, ca.address_type as address_type, ca.last_modified_date as last_modified_date, "
+				+ "ca.flat_no as flat_no, ca.address_type as address_type, ca.remarks as remarks, ca.last_modified_date as last_modified_date, "
 				+ "ca.last_modified_user as last_modified_user from customer_address ca "
 				+ "inner join area a on a.id=ca.area_id "
 				+ "inner join city c on c.id=a.city_id where ca.customer_id=?";

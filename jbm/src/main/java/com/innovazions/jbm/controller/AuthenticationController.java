@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Handles requests for the application home page.
  */
 @Controller
-public class AuthenticationController {
+public class AuthenticationController extends AbstractController {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(AuthenticationController.class);
@@ -29,7 +29,7 @@ public class AuthenticationController {
 			@RequestParam(value = "error", required = false) boolean error,
 			HttpServletRequest request, ModelMap model) {
 		logger.debug("AuthenticationController > getLoginPage");
-
+		request.getSession().invalidate();
 		if (error == true) {
 			// Assign an error message
 			model.put("error", "true");

@@ -2,7 +2,7 @@
 <script type="text/javascript">
             $(document).ready(function () {
                 // Create a jqxMenu
-                $("#jqxMenu").jqxMenu({ width: '895', height: '30px'});
+                $("#jqxMenu").jqxMenu({ width: '938', height: '30px', theme: 'shinyblack'});
                 $("#jqxMenu").css('visibility', 'visible');
                 $("#jqxMenu").jqxMenu({ showTopLevelArrows: true });
             });
@@ -36,6 +36,13 @@
                         <ul>
                             <!-- <li><a href="areaList.html">Area List</a></li> -->
                             <li><a href="staffDetails.html">Staff Details</a></li>
+                        </ul>
+                    </li>
+                    <li>Reports
+                        <ul>
+                            <!-- <li><a href="areaList.html">Area List</a></li> -->
+                            <li><a href="dailyAppointmentsReport.html">Daily Appointments</a></li>
+                            <li><a href="staffWiseAppointmentsReport.html">Staff Appointments</a></li>
                         </ul>
                     </li>
                     <%}%>

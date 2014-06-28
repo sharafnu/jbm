@@ -127,6 +127,11 @@ function setupCustomerAddPopupForm() {
 		height : '20px'
 	});
 	
+	$("#residenceRemarks").jqxInput({
+		width : '230px',
+		height : '20px'
+	});
+	
 	$("#officeBuildingName").jqxInput({
 		width : '230px',
 		height : '20px'
@@ -136,7 +141,10 @@ function setupCustomerAddPopupForm() {
 		width : '230px',
 		height : '20px'
 	});
-	
+	$("#officeRemarks").jqxInput({
+		width : '230px',
+		height : '20px'
+	});
 	
 	var createCustomerButton = $("#createCustomerButton").jqxButton({
 		theme : theme
@@ -176,6 +184,47 @@ function setupCustomerAddPopupForm() {
 			smsPref  = 1;
 		}
 		
+		//Do customer mandatory checks
+	
+		if($("#firstName").val() == null || $("#firstName").val() == "") {
+       		alert("Please enter customer first name !");
+       		return;
+       	}
+		
+		if($("#mobile1").val() == null || $("#mobile1").val() == "") {
+       		alert("Please enter customer mobile number 1!");
+       		return;
+       	}
+		
+		//Check whether either of the addess is selected
+		if(residenceAreaId == -1 && officeAreaId == -1) {
+			
+			alert("Please enter atleast one address !");
+			return;			
+		}
+		
+		if(residenceAreaId != -1) {
+			if($("#residenceBuildingName").val() == null || $("#residenceBuildingName").val() == "") {
+				alert("Please enter resident building name !");
+				return;
+			}
+			if($("#residenceFlatNo").val() == null || $("#residenceFlatNo").val() == "") {
+				alert("Please select resident flat number !");
+				retrun;
+			}
+		}
+		
+		if(officeAreaId != -1) {
+			if($("#officeBuildingName").val() == null || $("#officeBuildingName").val() == "") {
+				alert("Please enter office building name !");
+				return;
+			}
+			if($("#officeFlatNo").val() == null || $("#officeFlatNo").val() == "") {
+				alert("Please select office flat number !");
+				retrun;
+			}
+		}
+		
 		$.ajax({
        	  type: "POST",
        	  url: "saveCustomerAndAddress.html",
@@ -185,14 +234,20 @@ function setupCustomerAddPopupForm() {
        				preferenceCall: callPref, preferenceEmail: emailPref,
        				preferenceSms: smsPref, residenceAreaId :residenceAreaId,
        				residenceBuildingName:$("#residenceBuildingName").val(), residenceFlatNo:$("#residenceFlatNo").val(),
-       				officeAreaId:officeAreaId, officeBuildingName:$("#officeBuildingName").val(), officeFlatNo:$("#officeFlatNo").val()}
-       	}).done(function( msg ) {
-       	    //alert( "Data Saved: " + msg );
-       	 	loadCustomerCombo(280);
+       				officeAreaId:officeAreaId, officeBuildingName:$("#officeBuildingName").val(), officeFlatNo:$("#officeFlatNo").val(), 
+       				residenceRemarks: $("#residenceRemarks").val(), officeRemarks:$("#officeRemarks").val()}
+       	}).done(function( actionStatus ) {
+       		if(actionStatus.statusType == "Success") {
+       		 	//alert( "Data Saved: " + msg );
+           	 	loadCustomerComboWithSelectedId(280, actionStatus.generatedId);
+           	 	alert(actionStatus.statusMessage);
+           	 	resetAndClosePopupForm();
+       		} else {
+       			alert(actionStatus.statusMessage);
+       		}       		       	   
        	});
         //Clear form values
-        
-       resetAndClosePopupForm();
+       
     });
 }
 
@@ -212,7 +267,7 @@ function setupFormValidations() {
 			{ input: '#mobile1', 	message: 'Mobile No. 1 should be a number !', 	action: 'blur', rule: 'number' },
 			{ input: '#mobile1', 	message: 'Mobile No. 1 cannot contain zero!', 	action: 'blur', rule: function(input) {
 				var val = $("#mobile1").val();
-				if(val.indexOf("0") != "-1"){
+				if(val.substring(0, 1) == "0") {
 					return false;
 				}
 					return true;
@@ -247,7 +302,7 @@ function setupFormValidations() {
 			{ input: '#mobile2', 	message: 'Mobile No. 2 should be a number !', 	action: 'blur', rule: 'number' },
 			{ input: '#mobile2', 	message: 'Mobile No. 2 cannot contain zero !', 	action: 'blur', rule: function(input) {
 				var val = $("#mobile2").val();
-				if(val.indexOf("0") != "-1"){
+				if(val.substring(0, 1) == "0") {
 					return false;
 				}
 					return true;
@@ -256,7 +311,7 @@ function setupFormValidations() {
 			{ input: '#landline', 	message: 'Landline No. is invalid !', 	action: 'blur', rule: 'length=9,9' },
 			{ input: '#landline', 	message: 'Landline No. is invalid !', 	action: 'blur', rule: function(input) {
 				var val = $("#landline").val();
-				if(val.indexOf("0") != "-1"){
+				if(val.substring(0, 1) == "0") {
 					return false;
 				}
 					return true;
@@ -289,7 +344,7 @@ function setupFormValidations() {
 }
 
 </script>
-<div id="customerInfoAddPopup">
+<div id="customerInfoAddPopup" style="display: none;">
 	<div style="width: 100%; height: 650px; margin-top: 50px;"
 		id="mainDemoContainer">
 		<div id="addCustomerPopupWindow">
@@ -371,6 +426,10 @@ function setupFormValidations() {
 						         <td align="left"><input id='residenceFlatNo'/></td>
 						     </tr>
 						     <tr>
+						         <td align="right">Remarks:</td>
+						         <td align="left"><input id='residenceRemarks'/></td>
+						     </tr>
+						     <tr>
 						     	<td>&nbsp;</td>
 						     </tr>
 				        </table>
@@ -402,6 +461,10 @@ function setupFormValidations() {
 						     <tr>
 						         <td align="right">Flat No:</td>
 						         <td align="left"><input id='officeFlatNo'/></td>
+						     </tr>
+						     <tr>
+						         <td align="right">Remarks:</td>
+						         <td align="left"><input id='officeRemarks'/></td>
 						     </tr>
 						     <tr>
 						     	<td>&nbsp;</td>

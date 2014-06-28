@@ -5,6 +5,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.innovazions.jbm.common.CommonUtils;
@@ -23,7 +24,9 @@ public class EmailNotificationServiceImpl implements EmailNotificationService,
 	// TODO : Add EmailNotificationDAO here
 
 	@Override
-	public Long sendAppoinmentCreationEmailNotification(Appointment appointment) {
+	@Async
+	public void sendAppoinmentCreationEmailNotification(Appointment appointment) {
+
 		// TODO : Make an entry to database first
 
 		if (appointment != null && appointment.getCustomer() != null
@@ -32,31 +35,28 @@ public class EmailNotificationServiceImpl implements EmailNotificationService,
 				MimeMessage formattedMessage = mailSender.createMimeMessage();
 				MimeMessageHelper helper = new MimeMessageHelper(
 						formattedMessage, true);
-				helper.setFrom(appointment.getCustomer().getEmail());
-				helper.setTo(PropertiesUtil
+				helper.setFrom(PropertiesUtil
 						.getProperty(PROP_EMAIL_NOTIFICATION_FROM_ID));
+				helper.setTo(appointment.getCustomer().getEmail());
 				String subject = PropertiesUtil
 						.getProperty(PROP_EMAIL_APPOINTMENT_CREATE_SUBJECT);
 				String mailContents = PropertiesUtil
 						.getProperty(PROP_EMAIL_APPOINTMENT_CREATE_CONTENT);
-				mailContents = mailContents.replace("{customer_name}",
-						appointment.getCustomer().getFullName());
-				mailContents = mailContents.replace("{appoinment_date}",
-						CommonUtils.getFormattedDate(appointment
-								.getAppointmentDate()));
-				mailContents = mailContents.replace("{location}", appointment
-						.getCustomerAddress().toString());
+				/*
+				 * mailContents = mailContents.replace("{customer_name}",
+				 * appointment.getCustomer().getFullName()); mailContents =
+				 * mailContents.replace("{appoinment_date}",
+				 * CommonUtils.getFormattedDate(appointment
+				 * .getAppointmentDate())); mailContents =
+				 * mailContents.replace("{location}", appointment
+				 * .getCustomerAddress().toString());
+				 */
 				helper.setSubject(subject);
 				helper.setText(mailContents, true);
-				/*
-				 * FileSystemResource footerLogo = new FileSystemResource( new
-				 * File( PropertiesUtil
-				 * .getProperty(REGISTRTAION_WELCOME_MAIL_FOOTER_LOGO_PATH)));
-				 * helper.addInline("footerLogo", footerLogo);
-				 */
-				mailSender.send(formattedMessage);
+				//mailSender.send(formattedMessage);
 				System.out.println("Email Send Successfully");
 			} catch (Exception e) {
+				e.printStackTrace();
 				// TODO: handle exception
 			}
 
@@ -65,11 +65,12 @@ public class EmailNotificationServiceImpl implements EmailNotificationService,
 			// Can't send email
 			System.out.println("Error : Customer email id not found !");
 		}
-		return null;
+	
 	}
 
 	@Override
-	public Long sendAppoinmentCancellationEmailNotification(
+	@Async
+	public void sendAppoinmentCancellationEmailNotification(
 			Appointment appointment) {
 
 		// TODO : Make an entry to database first
@@ -98,7 +99,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService,
 				 */
 				helper.setSubject(subject);
 				helper.setText(mailContents, true);
-				mailSender.send(formattedMessage);
+				//mailSender.send(formattedMessage);
 				System.out.println("Email Send Successfully");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -110,7 +111,98 @@ public class EmailNotificationServiceImpl implements EmailNotificationService,
 			// Can't send email
 			System.out.println("Error : Customer email id not found !");
 		}
-		return null;
+		
+	}
+
+	@Override
+	@Async
+	public void sendAppoinmentCompletionEmailNotification(
+			Appointment appointment) {
+
+		// TODO : Make an entry to database first
+
+		if (appointment != null && appointment.getCustomer() != null
+				&& !CommonUtils.isEmpty(appointment.getCustomer().getEmail())) {
+			try {
+				MimeMessage formattedMessage = mailSender.createMimeMessage();
+				MimeMessageHelper helper = new MimeMessageHelper(
+						formattedMessage, true);
+				helper.setFrom(PropertiesUtil
+						.getProperty(PROP_EMAIL_NOTIFICATION_FROM_ID));
+				helper.setTo(appointment.getCustomer().getEmail());
+				String subject = PropertiesUtil
+						.getProperty(PROP_EMAIL_APPOINTMENT_COMPLETE_SUBJECT);
+				String mailContents = PropertiesUtil
+						.getProperty(PROP_EMAIL_APPOINTMENT_COMPLETE_CONTENT);
+				/*
+				 * mailContents = mailContents.replace("{customer_name}",
+				 * appointment.getCustomer().getFullName()); mailContents =
+				 * mailContents.replace("{appoinment_date}",
+				 * CommonUtils.getFormattedDate(appointment
+				 * .getAppointmentDate())); mailContents =
+				 * mailContents.replace("{location}", appointment
+				 * .getCustomerAddress().toString());
+				 */
+				helper.setSubject(subject);
+				helper.setText(mailContents, true);
+				//mailSender.send(formattedMessage);
+				System.out.println("Email Send Successfully");
+			} catch (Exception e) {
+				e.printStackTrace();
+				// TODO: handle exception
+			}
+
+			// TODO: Update the DB
+		} else {
+			// Can't send email
+			System.out.println("Error : Customer email id not found !");
+		}
+
+	}
+
+	@Override
+	@Async
+	public void sendAppoinmentUpdateEmailNotification(Appointment appointment) {
+
+		// TODO : Make an entry to database first
+
+		if (appointment != null && appointment.getCustomer() != null
+				&& !CommonUtils.isEmpty(appointment.getCustomer().getEmail())) {
+			try {
+				MimeMessage formattedMessage = mailSender.createMimeMessage();
+				MimeMessageHelper helper = new MimeMessageHelper(
+						formattedMessage, true);
+				helper.setFrom(PropertiesUtil
+						.getProperty(PROP_EMAIL_NOTIFICATION_FROM_ID));
+				helper.setTo(appointment.getCustomer().getEmail());
+				String subject = PropertiesUtil
+						.getProperty(PROP_EMAIL_APPOINTMENT_UPDATE_SUBJECT);
+				
+				String mailContents = PropertiesUtil
+						.getProperty(PROP_EMAIL_APPOINTMENT_UPDATE_CONTENT);
+				/*
+				 * mailContents = mailContents.replace("{customer_name}",
+				 * appointment.getCustomer().getFullName()); mailContents =
+				 * mailContents.replace("{appoinment_date}",
+				 * CommonUtils.getFormattedDate(appointment
+				 * .getAppointmentDate())); mailContents =
+				 * mailContents.replace("{location}", appointment
+				 * .getCustomerAddress().toString());
+				 */
+				helper.setSubject(subject);
+				helper.setText(mailContents, true);
+				//mailSender.send(formattedMessage);
+				System.out.println("Email Send Successfully");
+			} catch (Exception e) {
+				e.printStackTrace();
+				// TODO: handle exception
+			}
+
+			// TODO: Update the DB
+		} else {
+			// Can't send email
+			System.out.println("Error : Customer email id not found !");
+		}
 
 	}
 

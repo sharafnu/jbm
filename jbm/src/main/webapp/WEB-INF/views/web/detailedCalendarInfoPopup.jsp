@@ -33,7 +33,7 @@ function setupDetailedCalendar() {
 		},
 		defaultView: 'agendaDay',
 		allDaySlot: false,
-		minTime: '8',
+		minTime: '0',
 		maxTime:'23',
 		editable: false,
 		events: url,
@@ -91,7 +91,7 @@ function resetAndCloseCalendarPopupForm() {
 }
 
 </script>
-<div id="detailedCalendarInfoPopup">
+<div id="detailedCalendarInfoPopup" style="display: none;">
 	<div style="width: 100%; height: 650px; margin-top: 50px;"
 		id="calendarWindowContainer">
 		<div id="detailedCalendarInfoPopupWindow">

@@ -23,4 +23,16 @@ public class AbstractController {
 		// Register it as custom editor for the Date type
 		binder.registerCustomEditor(Date.class, editor);
 	}
+
+	public String getDeviceAwareView(String viewName) {
+		/*System.out.println("Device : " + device.toString());
+		if (device.isMobile()) {
+			return viewName + "-mobile";
+		} else if (device.isTablet()) {
+			return viewName + "-tablet";
+		} else {
+			return viewName;
+		}*/
+		return viewName;
+	}
 }

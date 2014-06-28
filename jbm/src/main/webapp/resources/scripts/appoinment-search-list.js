@@ -424,8 +424,10 @@ function appoinmentDetailsGrid() {
 
 	var imagerenderer = function(row, datafield, value) {
 		if(appoinmentDataAdapter.records[row].appointmentStatus == "Created") {
-			var url = "customerAppointmentDetailsForSelectedId.html?appointmentId="+value;
-			return "<a href='"+url+"' ><img style='margin-left: 5px;margin-top: 5px;' src='resources/images/card.png'/></a>";			
+			var updateURL = "customerAppointmentDetailsForSelectedId.html?appointmentId="+value;
+			var editURL = "customerApointmentEdit.html?appointmentId="+value;
+			
+			return "<span><a href='"+updateURL+"' ><img title='Update Appointment Details' width='16px' height='16px' style='margin-left: 5px;margin-top: 5px;' src='resources/images/card.png'/></a><a title='Edit Appointment' href='"+editURL+"' ><img style='margin-left: 5px;margin-top: 5px;' width='16px' height='16px' src='resources/images/edit-icon.png'/></a></span>";			
 		} else {
 			return "";
 		}
@@ -454,9 +456,9 @@ function appoinmentDetailsGrid() {
 						editable : false,
 						selectionmode : 'none',
 						columns : [ {
-							text : 'Appointment No',
+							text : 'Appnmt. No.',
 							datafield : 'appointmentNo',
-							width : 125
+							width : 100
 						}, {
 							text : 'Appnmt. Date',
 							datafield : 'appointmentDate',
@@ -476,7 +478,7 @@ function appoinmentDetailsGrid() {
 						}, {
 							text : '',
 							datafield : 'id',
-							width : 25,
+							width : 45,
 							cellsrenderer : imagerenderer
 						}
 						]

@@ -126,4 +126,21 @@ public class CustomerDAOImpl implements CustomerDAO {
 		}
 		return false;
 	}
+
+	@Override
+	public Customer findCustomerByPrimaryMobileNo(String mobileNo) {
+
+		String sql = "select c.id, c.customer_code, c.first_name,c.last_name, c.mobile_1, c.mobile_2, c.landline, "
+				+ "c.email, c.preference_call, c.preference_email, c.preference_sms, c.last_modified_date, "
+				+ "c.last_modified_user from customer c where substring(c.mobile_1 from '.......$') = ?";
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		List<Customer> customerList = jdbcTemplate.query(sql,
+				new Object[] { mobileNo }, new CustomerRowMapper());
+		if (customerList.isEmpty()) {
+			return null;
+		} else {
+			return customerList.get(0);
+		}
+	}
 }

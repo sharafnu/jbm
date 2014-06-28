@@ -55,21 +55,25 @@ html .fc,
 .fc-header-left {
 	width: 25%;
 	text-align: left;
+	white-space: nowrap;
 	}
 	
 .fc-header-center {
 	text-align: center;
+	white-space: nowrap;
 	}
 	
 .fc-header-right {
 	width: 25%;
 	text-align: right;
+	white-space: nowrap;
 	}
 	
 .fc-header-title {
 	
 	display: inline-block;
 	vertical-align: top;
+	white-space: nowrap;
 	}
 	
 .fc-header-title h2 {

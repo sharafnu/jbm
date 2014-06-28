@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.dao.CustomerAddressDAO;
 import com.innovazions.jbm.dao.CustomerDAO;
 import com.innovazions.jbm.entity.Customer;
@@ -42,11 +43,16 @@ public class CustomerServiceImpl implements CustomerService {
 		Long customerId = customerDAO.createCustomer(customer);
 		List<CustomerAddress> customerAddressesList = customer
 				.getCustomerAddressList();
-		if(customerAddressesList != null) {
+		if (customerAddressesList != null) {
 			for (CustomerAddress customerAddress : customerAddressesList) {
-				customer.setId(customerId);
-				customerAddress.setCustomer(customer);
-				customerAddressDAO.createCustomerAddress(customerAddress);
+				if (customerAddress.getArea() != null
+						&& !CommonUtils.isEmpty(customerAddress
+								.getBuildingName())
+						&& !CommonUtils.isEmpty(customerAddress.getFlatNo())) {
+					customer.setId(customerId);
+					customerAddress.setCustomer(customer);
+					customerAddressDAO.createCustomerAddress(customerAddress);
+				}
 			}
 		}
 		return customerId;
@@ -55,6 +61,11 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public boolean checkDuplicateMobileNo(String mobileNo) {
 		return customerDAO.checkDuplicateMobileNo(mobileNo);
+	}
+
+	@Override
+	public Customer findCustomerByPrimaryMobileNo(String mobileNo) {
+		return customerDAO.findCustomerByPrimaryMobileNo(mobileNo);
 	}
 
 }

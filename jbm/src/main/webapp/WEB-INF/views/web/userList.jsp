@@ -163,11 +163,17 @@
 												// appends buttons to the status bar.
 												var container = $("<div style='overflow: hidden; position: relative; margin: 5px;'></div>");
 												var addButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='resources/images/add.png'/><span style='margin-left: 4px; position: relative; top: -3px;'>Add</span></div>");
+												var editButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='resources/images/edit-icon.png'/><span style='margin-left: 4px; position: relative; top: -3px;'>Edit</span></div>");
 												var deleteButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='resources/images/close.png'/><span style='margin-left: 4px; position: relative; top: -3px;'>Delete</span></div>");
 												container.append(addButton);
+												container.append(editButton);												
 												container.append(deleteButton);
 												statusbar.append(container);
 												addButton.jqxButton({
+													width : 60,
+													height : 20
+												});
+												editButton.jqxButton({
 													width : 60,
 													height : 20
 												});
@@ -237,7 +243,7 @@
 
 <!-- Container for create-account controls, populated by JavaScript code below. -->
 <div id="SIU2" class="SIU2" style="opacity: 1;">
-	<div id="createAccount" class="cornerDiv">	
+	<div id="createAccount" class="cornerDiv" style="height:330px">	
         <div id="jqxgrid">
         </div>
         <div id="popupWindow">

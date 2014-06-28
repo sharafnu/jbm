@@ -45,11 +45,11 @@ public class Appointment extends CoreEntity<Appointment, AppointmentView>
 
 	private CustomerAddress customerAddress;
 
-	//TODO : Check design later
+	// TODO : Check design later
 	private AppointmentPayment appointmentPayment;
-	
+
 	private Invoice invoice;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -169,9 +169,17 @@ public class Appointment extends CoreEntity<Appointment, AppointmentView>
 			appointmentView.setEmployeeId(this.getEmployee().getId());
 			appointmentView.setEmployeeName(this.getEmployee().getFirstName());
 		}
+
+		if (this.getCustomer() != null
+				&& !CommonUtils.isEmpty(this.getCustomer().getMobile1())) {
+			appointmentView
+					.setCustomerMobileNo(this.getCustomer().getMobile1());
+		}
 		if (this.getCustomerAddress() != null) {
 			appointmentView.setCustomerAddressId(this.getCustomerAddress()
 					.getId());
+			appointmentView.setAddressRemarks(this.getCustomerAddress()
+					.getRemarks());
 			if (this.getCustomerAddress().getArea() != null) {
 				appointmentView.setAreaId(this.getCustomerAddress().getArea()
 						.getId());
@@ -200,12 +208,12 @@ public class Appointment extends CoreEntity<Appointment, AppointmentView>
 		appointmentView.setPayableAmount(this.getPayableAmount());
 		appointmentView.setPaymentStatus(this.getPaymentStatus());
 		appointmentView.setRemarks(this.getRemarks());
-		/*try {
-			appointmentView.setStartDate(CommonUtils.getJavaScriptDateTimeObj(this.getStartDate()));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+		/*
+		 * try {
+		 * appointmentView.setStartDate(CommonUtils.getJavaScriptDateTimeObj
+		 * (this.getStartDate())); } catch (ParseException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 */
 		if (this.getStartDate() != null) {
 			appointmentView.setStartTime(CommonUtils.getTimeStrFromDate(this
 					.getStartDate()));

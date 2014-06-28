@@ -68,7 +68,15 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 
 	private String cityName;
 
+	private String customerMobileNo;
+
+	private String addressRemarks;
+
 	private Long cityId;
+
+	private String startDateFilter;
+
+	private String endDateFilter;
 
 	public Long getId() {
 		return id;
@@ -212,6 +220,7 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 		if (this.getId() != null && this.getId() > 0) {
 			appointment.setId(this.getId());
 		}
+		
 		appointment.setAppointmentDate(this.getAppointmentDate());
 		appointment.setAppointmentNo(this.getAppointmentNo());
 		appointment.setAppointmentStatus(this.getAppointmentStatus());
@@ -235,10 +244,24 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 		appointment.setPaymentStatus(this.getPaymentStatus());
 		appointment.setRemarks(this.getRemarks());
 
-		if (this.getStartDate() != null) {
+		if(!CommonUtils.isEmpty(this.getStartDateFilter())) {
+			try {
+				appointment.setStartDate(CommonUtils.parseDBDate(this.getStartDateFilter()));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if (this.getStartDate() != null) {
 			appointment.setStartDate(this.getStartDate());
 		}
-		if (this.getEndDate() != null) {
+		if(!CommonUtils.isEmpty(this.getEndDateFilter())) {
+			try {
+				appointment.setEndDate(CommonUtils.parseDBDate(this.getEndDateFilter()));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if (this.getEndDate() != null) {
 			appointment.setEndDate(this.getEndDate());
 		}
 		if (!CommonUtils.isEmpty(this.getStartTime())) {
@@ -397,4 +420,37 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 		return null;
 	}
 
+	public String getCustomerMobileNo() {
+		return customerMobileNo;
+	}
+
+	public void setCustomerMobileNo(String customerMobileNo) {
+		this.customerMobileNo = customerMobileNo;
+	}
+
+	public String getAddressRemarks() {
+		return addressRemarks;
+	}
+
+	public void setAddressRemarks(String addressRemarks) {
+		this.addressRemarks = addressRemarks;
+	}
+
+	public String getStartDateFilter() {
+		return startDateFilter;
+	}
+
+	public void setStartDateFilter(String startDateFilter) {
+		this.startDateFilter = startDateFilter;
+	}
+
+	public String getEndDateFilter() {
+		return endDateFilter;
+	}
+
+	public void setEndDateFilter(String endDateFilter) {
+		this.endDateFilter = endDateFilter;
+	}
+
+	
 }

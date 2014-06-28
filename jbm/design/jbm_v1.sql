@@ -196,6 +196,9 @@ ALTER TABLE customer_address
 ALTER COLUMN id 
 SET DEFAULT NEXTVAL('customer_address_id_seq');
 
+ALTER table customer_address 
+ADD remarks varchar(512);
+
 --system_property
 CREATE TABLE system_property (
        id BIGINT NOT NULL

@@ -25,6 +25,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDAO.getEmployeeList(employee);
 	}
 
+	@Override
+	public Employee findEmployeeById(Long employeeId) {
+		return employeeDAO.findEmployeeById(employeeId);
+	}
+
 
 	
 }

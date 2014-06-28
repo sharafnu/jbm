@@ -40,9 +40,15 @@
 		<div id="main" role="main">
 
 			<!-- MAIN CONTENT -->
+			
 			<form class="lockscreen animated flipInY" action="j_spring_security_check" method="post">
+				<div>
+					<img id="header-logo"
+							src="<c:url value="/resources/images/maxmaid_logo_new.gif" />"
+							alt="" class="header-logo"/>
+				</div>
 				<div class="logo">
-					<h1 class="semi-bold"><img src="<c:url value="/resources/login/images/logo-o.png" />"> AppointmentsManager</h1>
+					<h5 class="semi-bold">AppointmentsManager</h1>
 				</div>
 				<div>
 					<img src="<c:url value="/resources/login/images/appointment_setting.jpg" />" width="120" height="150">

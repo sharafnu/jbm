@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.innovazions.jbm.common.ActionMessages;
@@ -38,6 +39,7 @@ import com.innovazions.jbm.service.CommonService;
 import com.innovazions.jbm.service.CustomerService;
 import com.innovazions.jbm.service.EmailNotificationService;
 import com.innovazions.jbm.service.SMSNotificationService;
+import com.innovazions.jbm.view.ActionStatus;
 import com.innovazions.jbm.view.AppointmentView;
 import com.innovazions.jbm.view.EventView;
 import com.innovazions.jbm.vo.CalendarAppointmentDetailCalendarVO;
@@ -71,13 +73,32 @@ public class AppointmentController extends AbstractController {
 	/*
 	 * Customer Contract actions starts
 	 */
+	@RequestMapping(value = "/customerAppointmentListJSON")
+	public List<AppointmentView> customerAppointmentListJSON(
+			@ModelAttribute("appointmentView") AppointmentView appointmentView,
+			BindingResult result, Model model) {
+		logger.info("AppoinmentController > customerAppointmentList");
 
+		List<Appointment> appointmentList = appointmentService
+				.getAppointmentListByFilter(appointmentView
+						.convertViewToEntity());
+		List<AppointmentView> appointmentViewList = new Appointment()
+				.convertEntitiesToViews(appointmentList);
+		return appointmentViewList;
+	}
+
+	@RequestMapping(value = "/detailedAppointmentCalendar")
+	public String detailedAppointmentCalendar() {
+		return "detailedCalendar";
+	}
+	
 	@RequestMapping(value = "/customerAppointmentList")
 	public String customerAppointmentList(
 			@ModelAttribute("appointmentView") AppointmentView appointmentView,
 			BindingResult result, Model model) {
 		logger.info("AppoinmentController > customerAppointmentList");
-
+		appointmentView.setAppointmentStatus(appointmentView
+				.getAppointmentStatus());
 		List<Appointment> appointmentList = appointmentService
 				.getAppointmentListByFilter(appointmentView
 						.convertViewToEntity());
@@ -108,6 +129,24 @@ public class AppointmentController extends AbstractController {
 		model.addAttribute("appointmentListJSON", appointmentViewListJSON);
 		model.addAttribute("appointmentView", appointmentView);
 		return "customerAppointmentList";
+	}
+
+	@RequestMapping(value = "/customerAppoinmentComboListJSONAll", method = RequestMethod.GET)
+	public @ResponseBody
+	List<AppointmentView> customerAppoinmentComboListJSONAll() {
+		logger.info("AppoinmentController > getCustomerAppoinmentListJSON");
+		List<Appointment> appointmentList = appointmentService
+				.getAllAppointmentComboList();
+		return new Appointment().convertEntitiesToViews(appointmentList);
+	}
+
+	@RequestMapping(value = "/customerAppoinmentComboListJSONActive", method = RequestMethod.GET)
+	public @ResponseBody
+	List<AppointmentView> customerAppoinmentComboListJSONActive() {
+		logger.info("AppoinmentController > getCustomerAppoinmentListJSON");
+		List<Appointment> appointmentList = appointmentService
+				.getActiveAppointmentComboList();
+		return new Appointment().convertEntitiesToViews(appointmentList);
 	}
 
 	@RequestMapping(value = "/customerAppoinmentComboListJSON", method = RequestMethod.GET)
@@ -144,6 +183,18 @@ public class AppointmentController extends AbstractController {
 		return "customerApointmentAdd";
 	}
 
+	@RequestMapping(value = "/customerApointmentEdit", method = RequestMethod.GET)
+	public ModelAndView customerApointmentEdit(Locale locale, Model model,
+			@RequestParam("appointmentId") Long appointmentId) {
+		logger.info("AppoinmentController > customerApointmentEdit");
+		System.out.println(appointmentId);
+		Appointment appointment = appointmentService
+				.getAppoinmentDetailsByAppoinmentId(appointmentId);
+		return new ModelAndView("customerApointmentEdit", "appointmentView",
+				appointment.convertEntityToView());
+		// return "customerApointmentEdit";
+	}
+
 	@RequestMapping(value = "/saveCustomerAppoinment", method = RequestMethod.POST)
 	public String saveCustomerAppoinment(
 			@ModelAttribute("appointmentView") AppointmentView appointmentView,
@@ -159,14 +210,15 @@ public class AppointmentController extends AbstractController {
 		appointment.setAppointmentNo(appointmentNo);
 		appointment
 				.setAppointmentStatus(JBMConstants.APPOINTMENT_STATUS_CREATED);
+		appointment.setCustomer(customerService
+				.getCustomerDetailsByCustomerId(appointment.getCustomer()
+						.getId()));
 		appointmentService.createAppointment(appointment);
 		// send mail
-		/*
-		 * emailNotificationService
-		 * .sendAppoinmentCreationEmailNotification(appointment);
-		 * smsNotificationService
-		 * .sendAppoinmentCreationSMSNotification(appointment);
-		 */
+		emailNotificationService
+				.sendAppoinmentCreationEmailNotification(appointment);
+		smsNotificationService
+				.sendAppoinmentCreationSMSNotification(appointment);
 		redirectAttributes.addFlashAttribute("infoMessage",
 				"Appointment Created : " + appointmentNo);
 		return "redirect:customerApointmentAdd.html";
@@ -194,6 +246,10 @@ public class AppointmentController extends AbstractController {
 			// 1.Current time should be greater than end time
 			appointmentService.updateAppointment(appointment);
 			message = ActionMessages.STATUS_MESSAGE_APPOINTMENT_UPDATED;
+			emailNotificationService
+					.sendAppoinmentCompletionEmailNotification(appointment);
+			smsNotificationService
+					.sendAppoinmentCompletionSMSNotification(appointment);
 		} else if (appointmentView.getAppointmentStatus().equals(
 				JBMConstants.APPOINTMENT_STATUS_CANCELLED)) {
 			appointmentService.updateAppointment(appointment);
@@ -211,6 +267,37 @@ public class AppointmentController extends AbstractController {
 		 * smsNotificationService
 		 * .sendAppoinmentCreationSMSNotification(appointment);
 		 */
+		redirectAttributes.addFlashAttribute("actionMessage", message);
+		return "redirect:customerAppointmentList.html";
+	}
+
+	@RequestMapping(value = "/modifyCustomerAppoinment", method = RequestMethod.POST)
+	public String modifyCustomerAppoinment(
+			@ModelAttribute("appointmentView") AppointmentView appointmentView,
+			BindingResult result, Model model,
+			final RedirectAttributes redirectAttributes) {
+		System.out.println("Appointment Id:" + appointmentView.getId()
+				+ " Appointment Status:"
+				+ appointmentView.getAppointmentStatus());
+
+		appointmentView.setLastModifiedDate(new Date());
+		appointmentView.setLastModifiedUser("SYSTEM");
+		Appointment appointment = appointmentView.convertViewToEntity();
+
+		String message = "";
+		appointment.setCustomer(customerService
+				.getCustomerDetailsByCustomerId(appointment.getCustomer()
+						.getId()));
+
+		appointmentService.modifyAppointmentDetails(appointment);
+
+		emailNotificationService
+				.sendAppoinmentUpdateEmailNotification(appointment);
+
+		smsNotificationService.sendAppoinmentUpdateSMSNotification(appointment);
+
+		message = ActionMessages.STATUS_MESSAGE_APPOINTMENT_UPDATED;
+
 		redirectAttributes.addFlashAttribute("actionMessage", message);
 		return "redirect:customerAppointmentList.html";
 	}
@@ -367,6 +454,37 @@ public class AppointmentController extends AbstractController {
 		return eventViewList;
 	}
 
+	@RequestMapping(value = "/checkStaffAppointmentSlotsForEdit", method = RequestMethod.POST)
+	public @ResponseBody
+	String checkStaffAppointmentSlotsForEdit(
+			@ModelAttribute("appointmentView") AppointmentView appointmentView,
+			BindingResult result, Model model) {
+		System.out.println("Appointment Date: "
+				+ appointmentView.getAppointmentDate() + "Start Time:"
+				+ appointmentView.getStartTime() + " End Time:"
+				+ appointmentView.getEndTime() + " Staff Id:"
+				+ appointmentView.getEmployeeId());
+
+		try {
+			List<Appointment> appointmentsList = appointmentService
+					.getStaffAppointmentsBetweenDatesNotId(appointmentView
+							.getEmployeeId(), CommonUtils.addTimeStringToDate(
+							appointmentView.getAppointmentDate(),
+							appointmentView.getStartTime()), CommonUtils
+							.addTimeStringToDate(
+									appointmentView.getAppointmentDate(),
+									appointmentView.getEndTime()),
+							appointmentView.getId());
+			if (appointmentsList.size() > 0) {
+				return "false";
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return "false";
+		}
+		return "true";
+	}
+
 	@RequestMapping(value = "/checkStaffAppointmentSlots", method = RequestMethod.POST)
 	public @ResponseBody
 	String checkStaffAppointmentSlots(
@@ -385,6 +503,69 @@ public class AppointmentController extends AbstractController {
 							appointmentView.getAppointmentDate(),
 							appointmentView.getStartTime()), CommonUtils
 							.addTimeStringToDate(
+									appointmentView.getAppointmentDate(),
+									appointmentView.getEndTime()));
+			if (appointmentsList.size() > 0) {
+				return "false";
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return "false";
+		}
+		return "true";
+	}
+
+	@RequestMapping(value = "/checkCustomerDuplicateAppointmentsForEdit", method = RequestMethod.POST)
+	public @ResponseBody
+	String checkCustomerDuplicateAppointmentsForEdit(
+			@ModelAttribute("appointmentView") AppointmentView appointmentView,
+			BindingResult result, Model model) {
+		System.out.println("Appointment Date: "
+				+ appointmentView.getAppointmentDate() + "Start Time:"
+				+ appointmentView.getStartTime() + " End Time:"
+				+ appointmentView.getEndTime() + " Staff Id:"
+				+ appointmentView.getCustomerAddressId());
+
+		try {
+			List<Appointment> appointmentsList = appointmentService
+					.getCustomerAddressAppointmentsBetweenDatesNotId(
+							appointmentView.getCustomerAddressId(), CommonUtils
+									.addTimeStringToDate(appointmentView
+											.getAppointmentDate(),
+											appointmentView.getStartTime()),
+							CommonUtils.addTimeStringToDate(
+									appointmentView.getAppointmentDate(),
+									appointmentView.getEndTime()),
+							appointmentView.getId());
+			if (appointmentsList.size() > 0) {
+				return "false";
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return "false";
+		}
+		return "true";
+	}
+
+	@RequestMapping(value = "/checkCustomerDuplicateAppointments", method = RequestMethod.POST)
+	public @ResponseBody
+	String checkCustomerDuplicateAppointments(
+			@ModelAttribute("appointmentView") AppointmentView appointmentView,
+			BindingResult result, Model model) {
+		System.out.println("Appointment Date: "
+				+ appointmentView.getAppointmentDate() + "Start Time:"
+				+ appointmentView.getStartTime() + " End Time:"
+				+ appointmentView.getEndTime() + " Staff Id:"
+				+ appointmentView.getCustomerAddressId());
+
+		try {
+			List<Appointment> appointmentsList = appointmentService
+					.getCustomerAddressAppointmentsBetweenDates(appointmentView
+							.getCustomerAddressId(), CommonUtils
+							.addTimeStringToDate(
+									appointmentView.getAppointmentDate(),
+									appointmentView.getStartTime()),
+							CommonUtils.addTimeStringToDate(
 									appointmentView.getAppointmentDate(),
 									appointmentView.getEndTime()));
 			if (appointmentsList.size() > 0) {
@@ -453,13 +634,23 @@ public class AppointmentController extends AbstractController {
 		return "";
 	}
 
-	@RequestMapping(value = "/checkAppointmentEndTime", method = RequestMethod.GET)
-	public @ResponseBody
-	boolean checkAppointmentEndTime(@RequestParam Long appointmentId,
-			@RequestParam String appointmentDate, @RequestParam String endTime) {
+	/*
+	 * @RequestMapping(value = "/checkAppointmentEndTime", method =
+	 * RequestMethod.GET) public @ResponseBody boolean
+	 * checkAppointmentEndTime(@RequestParam Long appointmentId,
+	 * 
+	 * @RequestParam Date appointmentDate, @RequestParam String endTime) { try {
+	 * Date endDate = CommonUtils.addTimeStringToDate(appointmentDate, endTime);
+	 * int res = endDate.compareTo(new Date()); if (res > 0) { return false; }
+	 * else { return true; } } catch (ParseException e) { // TODO Auto-generated
+	 * catch block e.printStackTrace(); } return false; }
+	 */
+
+	boolean checkAppointmentEndTime(Long appointmentId, Date appointmentDate,
+			String endTime) {
 		try {
-			Date endDate = CommonUtils.addTimeStringToDate(
-					CommonUtils.parseDBDate(appointmentDate), endTime);
+			Date endDate = CommonUtils.addTimeStringToDate(appointmentDate,
+					endTime);
 			int res = endDate.compareTo(new Date());
 			if (res > 0) {
 				return false;
@@ -467,9 +658,125 @@ public class AppointmentController extends AbstractController {
 				return true;
 			}
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	boolean checkAppointmentEndTimeForCancellation(Long appointmentId,
+			Date appointmentDate, String startTime) {
+		try {
+			Date startDate = CommonUtils.addTimeStringToDate(appointmentDate,
+					startTime);
+			int res = startDate.compareTo(new Date());
+			if (res > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean checkForDuplicateCustomerAppointment(
+			Long customerAddressId, Date startDate, Date endDate) {
+		List<Appointment> customerAppointment = appointmentService
+				.findCustomerAppointmentByAddressAndDate(customerAddressId,
+						startDate, endDate);
+		if (customerAppointment.size() > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	@RequestMapping(value = "/validateAppointmentUpdate", method = RequestMethod.GET)
+	public @ResponseBody
+	ActionStatus validateAppointmentUpdate(
+			@ModelAttribute("appointmentView") AppointmentView appointmentView,
+			BindingResult result) {
+		Appointment appointment = appointmentView.convertViewToEntity();
+
+		StringBuffer message = new StringBuffer("");
+		boolean hasErrors = false;
+		ActionStatus actionStatus = null;
+
+		// Check for valid end date
+		boolean isValidEndTime = checkAppointmentEndTime(appointment.getId(),
+				appointmentView.getAppointmentDate(),
+				appointmentView.getEndTime());
+		if (!isValidEndTime) {
+			hasErrors = true;
+			message.append("Appointment end date/time cannot be greater than current date/time");
+		}
+
+		if (hasErrors) {
+			actionStatus = CommonUtils.getErrorActionStatus(message.toString());
+		} else {
+			actionStatus = CommonUtils.getSuccessActionStatus("");
+		}
+
+		return actionStatus;
+	}
+
+	@RequestMapping(value = "/validateAppointmentUpdateForCancellation", method = RequestMethod.GET)
+	public @ResponseBody
+	ActionStatus validateAppointmentCancellation(
+			@ModelAttribute("appointmentView") AppointmentView appointmentView,
+			BindingResult result) {
+		Appointment appointment = appointmentView.convertViewToEntity();
+
+		StringBuffer message = new StringBuffer("");
+		boolean hasErrors = false;
+		ActionStatus actionStatus = null;
+
+		// Check for valid end date
+		boolean isValidEndTime = checkAppointmentEndTimeForCancellation(
+				appointment.getId(), appointmentView.getAppointmentDate(),
+				appointmentView.getStartTime());
+		if (!isValidEndTime) {
+			hasErrors = true;
+			message.append("Appointment cannot be cancelled since appointment start date is less than current date/time !");
+		}
+
+		if (hasErrors) {
+			actionStatus = CommonUtils.getErrorActionStatus(message.toString());
+		} else {
+			actionStatus = CommonUtils.getSuccessActionStatus("");
+		}
+
+		return actionStatus;
+	}
+
+	@RequestMapping(value = "/validateAppointmentSave", method = RequestMethod.GET)
+	public @ResponseBody
+	ActionStatus validateAppointmentSave(
+			@ModelAttribute("appointmentView") AppointmentView appointmentView,
+			BindingResult result) {
+
+		ActionStatus actionStatus = null;
+
+		Date startDate;
+		try {
+			// startDate = CommonUtils.addTimeStringToDate(
+			// appointmentView.getAppointmentDate(),
+			// appointmentView.getStartTime());
+			// int res = startDate.compareTo(new Date());
+			// if (res < 0) {
+			// actionStatus = CommonUtils
+			// .getErrorActionStatus("Appointment Start Date cannot be less than current time !");
+			// } else {
+			// actionStatus = CommonUtils.getSuccessActionStatus("");
+			// }
+			actionStatus = CommonUtils.getSuccessActionStatus("");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			actionStatus = CommonUtils
+					.getErrorActionStatus("Unexpected error occured, please contact support !");
+		}
+
+		return actionStatus;
 	}
 }

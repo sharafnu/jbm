@@ -33,16 +33,21 @@ public class AppointmentExtractor implements ResultSetExtractor<Appointment> {
 		city.setName(rs.getString("city_name"));
 		area.setCity(city);
 		CustomerAddress customerAddress = new CustomerAddress();
+		customerAddress.setId(rs.getLong("address_id"));
 		customerAddress.setArea(area);
 		customerAddress.setBuildingName(rs.getString("building_name"));
 		customerAddress.setFlatNo(rs.getString("flat_no"));
 		customerAddress.setAddressType(rs.getString("address_type"));
+		customerAddress.setRemarks(rs.getString("addressRemarks"));
 		appointment.setCustomerAddress(customerAddress);
 		
 		Customer customer = new Customer();
 		customer.setId(rs.getLong("customer_id"));
 		customer.setFirstName(rs.getString("customer_first_name"));
 		customer.setLastName(rs.getString("customer_last_name"));
+		customer.setMobile1(rs.getString("mobile1"));
+		customer.setMobile2(rs.getString("mobile2"));
+		
 		appointment.setCustomer(customer);
 
 		Employee employee = new Employee();

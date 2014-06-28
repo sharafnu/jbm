@@ -119,4 +119,41 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return appointmentDAO.getCustomerCancelledAppointmentBetweenDates(
 				customerId, startDate, endDate);
 	}
+
+	@Override
+	public List<Appointment> findCustomerAppointmentByAddressAndDate(
+			Long customerAddressId, Date startDate, Date endDate) {
+		return appointmentDAO.findCustomerAppointmentByAddressAndDate(customerAddressId, startDate, endDate);
+	}
+
+	@Override
+	public List<Appointment> getStaffAppointmentsBetweenDatesNotId(
+			Long staffId, Date fromDateTime, Date toDateTime, Long id) {
+		return appointmentDAO.getStaffAppointmentsBetweenDatesNotId(staffId, fromDateTime, toDateTime, id);
+				
+	}
+
+	@Override
+	public void modifyAppointmentDetails(Appointment appointment) {
+		appointmentDAO.modifyAppointmentDetails(appointment);
+	}
+
+	@Override
+	public List<Appointment> getCustomerAddressAppointmentsBetweenDates(
+			Long customerAddressId, Date fromDateTime, Date toDateTime) {
+		return appointmentDAO.getCustomerAddressAppointmentsBetweenDates(customerAddressId,
+				fromDateTime, toDateTime);
+	}
+
+	@Override
+	public List<Appointment> getCustomerAddressAppointmentsBetweenDatesNotId(
+			Long customerAddressId, Date fromDateTime, Date toDateTime, Long id) {
+		return appointmentDAO.getCustomerAddressAppointmentsBetweenDatesNotId(customerAddressId,
+				fromDateTime, toDateTime, id);
+	}
+
+	@Override
+	public List<Appointment> getActiveAppointmentComboList() {
+	 return appointmentDAO.getActiveAppointmentComboList();
+	}
 }

@@ -21,6 +21,7 @@ public class CustomerAddressExtractor implements
 		customerAddress.setId(rs.getLong("address_id"));
 		customerAddress.setAddressType(rs.getString("address_type"));
 		customerAddress.setBuildingName(rs.getString("building_name"));
+		customerAddress.setRemarks("remarks");
 		Customer customer = new Customer();
 		customer.setId(rs.getLong("customer_id"));
 		customerAddress.setCustomer(customer);

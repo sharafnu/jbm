@@ -49,4 +49,22 @@ public interface AppointmentService {
 
 	public List<Appointment> getCustomerCancelledAppointmentBetweenDates(
 			long customerId, Date startDate, Date endDate);
+
+	public List<Appointment> findCustomerAppointmentByAddressAndDate(
+			Long customerAddressId, Date startDate, Date endDate);
+
+	public List<Appointment> getStaffAppointmentsBetweenDatesNotId(Long staffId,
+			Date fromDateTime, Date toDateTime, Long id);
+	
+	public void modifyAppointmentDetails(Appointment appointment);
+
+	public List<Appointment> getCustomerAddressAppointmentsBetweenDates(
+			Long customerAddressId, Date startDate,
+			Date endDate);
+	
+	public List<Appointment> getCustomerAddressAppointmentsBetweenDatesNotId(
+			Long customerAddressId, Date startDate,
+			Date endDate,Long id);
+	
+	public List<Appointment> getActiveAppointmentComboList();
 }
