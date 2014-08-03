@@ -136,8 +136,12 @@ function loadCustomerCombo(comboWidth) {
 							theme : theme
 						});
 						addAddressButton.click(function (event) {
-	                        $("#popupWindow").jqxWindow({ position: { x: 660, y: 185 } });
+	                        /* $("#popupWindow").jqxWindow({ position: { x: 660, y: 185 } });
 	                        $("#popupWindow").jqxWindow('open');
+	                         */
+							$('#addCustomerPopupWindow').jqxWindow('show');
+
+	                        
 	                    });
 						// Create jqxValidator.
 						$("#form")
@@ -513,3 +517,4 @@ function loadCustomerCombo(comboWidth) {
 </div>
 
 <jsp:include page="includes/footer.jsp" />
+<jsp:include page="customerInfoAddPopup.jsp" />

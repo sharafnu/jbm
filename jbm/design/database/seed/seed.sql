@@ -83,3 +83,17 @@ INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_EM
 INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_EMAIL_APPOINTMENT_UPDATE_SUBJECT', 	'Appointment Updated', 'Default Password');
 INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_SMS_APPOINTMENT_UPDATE_CONTENT', 	'Dear Customer, You appointment details have been updated', 'Default Password');
 
+
+-- SMS HTTP Properties (01-Aug-2014)
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_SMS_HTTP_URL', 				'http://bulksms.vsms.net:5567/eapi/submission/send_sms/2/2.0', 'SMS Http URL');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_SMS_HTTP_USERNAME', 			'anasgh', 'SMS Http User Id');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_SMS_HTTP_PASSWORD', 			'anas2003', 'SMS Http Password');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_SMS_HTTP_ENCODING', 			'ISO-8859-1', 'SMS Http Encoding format');
+INSERT INTO system_property (prop_key, prop_value, description) VALUES ('PROP_SMS_HTTP_DATA_STR_TEMPLATE', 	'username={1}&password={2}&message={3}&want_report=1&msisdn={4}', 'SMS Http Data String template');
+
+UPDATE system_property set description='Add appointment SMS template', prop_value='Your appointment is scheduled on {1}. For cancellation please call 8006296. Thank you for using MaxMaid Services. www.facebook.com/maxmaidcs' 
+where prop_key='PROP_SMS_APPOINTMENT_CREATE_CONTENT';
+
+UPDATE system_property set description='Appointment completion SMS template', prop_value='Your appointment has been completed. Thank you for using MaxMaid Services. www.facebook.com/maxmaidcs' 
+where prop_key='PROP_SMS_APPOINTMENT_COMPLETE_CONTENT';
+

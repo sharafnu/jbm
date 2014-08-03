@@ -14,7 +14,7 @@ public class CommonUtils {
 	public static final String DATE_FORMAT_DDMMYYYY = "dd/MM/yyyy";
 
 	public static final String DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
-
+	
 	public static final String TIME_FORMAT_HHMMSS_AM_PM = "hh:mm a";
 
 	public static final String DB_DATE_FORMAT_YYYYMMDD = "yyyy-MM-dd";
@@ -52,6 +52,11 @@ public class CommonUtils {
 		return dateFormat.format(inputDate);
 	}
 
+	public static String getFormattedDate(Date inputDate, String dateFormat) {
+		DateFormat df = new SimpleDateFormat(dateFormat);
+		return df.format(inputDate);
+	}
+	
 	public static String getFormattedDate(Date inputDate) {
 		DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_DDMMYYYY);
 		return dateFormat.format(inputDate);

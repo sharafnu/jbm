@@ -46,6 +46,10 @@ public class CustomerAndAddressView extends
 	private String residenceFlatNo;
 
 	private String residenceRemarks;
+
+	private Double residenceLatitude;
+	
+	private Double residenceLongitude;
 	
 	// Office Address Details
 	private Long officeAreaId;
@@ -56,6 +60,10 @@ public class CustomerAndAddressView extends
 	
 	private String officeRemarks;
 
+	private Double officeLatitude;
+	
+	private Double officeLongitude;
+	
 	public CustomerAndAddressView() {
 	}
 
@@ -193,6 +201,8 @@ public class CustomerAndAddressView extends
 			residenceAddress.setLastModifiedUser("SYSTEM");
 			residenceAddress.setLastModifiedDate(new Date());
 			residenceAddress.setRemarks(this.getResidenceRemarks());
+			residenceAddress.setLatitude(this.getResidenceLatitude());
+			residenceAddress.setLongitude(this.getResidenceLongitude());
 			customerAddressList.add(residenceAddress);
 		}
 
@@ -208,6 +218,8 @@ public class CustomerAndAddressView extends
 			officeAddress.setLastModifiedUser("SYSTEM");
 			officeAddress.setLastModifiedDate(new Date());
 			officeAddress.setRemarks(this.getOfficeRemarks());
+			officeAddress.setLatitude(this.getOfficeLatitude());
+			officeAddress.setLongitude(this.getOfficeLongitude());
 			customerAddressList.add(officeAddress);
 		}
 		customer.setCustomerAddressList(customerAddressList);
@@ -282,6 +294,38 @@ public class CustomerAndAddressView extends
 
 	public void setOfficeRemarks(String officeRemarks) {
 		this.officeRemarks = officeRemarks;
+	}
+
+	public Double getResidenceLatitude() {
+		return residenceLatitude;
+	}
+
+	public void setResidenceLatitude(Double residenceLatitude) {
+		this.residenceLatitude = residenceLatitude;
+	}
+
+	public Double getResidenceLongitude() {
+		return residenceLongitude;
+	}
+
+	public void setResidenceLongitude(Double residenceLongitude) {
+		this.residenceLongitude = residenceLongitude;
+	}
+
+	public Double getOfficeLatitude() {
+		return officeLatitude;
+	}
+
+	public void setOfficeLatitude(Double officeLatitude) {
+		this.officeLatitude = officeLatitude;
+	}
+
+	public Double getOfficeLongitude() {
+		return officeLongitude;
+	}
+
+	public void setOfficeLongitude(Double officeLongitude) {
+		this.officeLongitude = officeLongitude;
 	}
 
 }

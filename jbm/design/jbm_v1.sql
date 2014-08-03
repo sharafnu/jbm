@@ -270,3 +270,8 @@ alter table customer_contract add column visit_count int;
 alter table customer rename column mobile_3 to landline;
 
 ALTER TABLE system_property ADD CONSTRAINT UK_system_property UNIQUE (prop_key);
+
+alter table customer_address add latitude numeric(16,10) default 25.197139;
+alter table customer_address add longitude numeric(16,10) default 55.274111;
+
+ALTER TABLE customer_address ALTER COLUMN area_id DROP NOT NULL;

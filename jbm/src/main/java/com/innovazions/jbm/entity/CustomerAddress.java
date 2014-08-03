@@ -29,6 +29,11 @@ public class CustomerAddress extends
 	
 	private String remarks;
 
+	private Double latitude;
+	
+	private Double longitude;
+	
+	
 	public CustomerAddress() {
 	}
 
@@ -102,6 +107,8 @@ public class CustomerAddress extends
 		customerAddressView.setLastModifiedDate(this.getLastModifiedDate());
 		customerAddressView.setLastModifiedUser(this.getLastModifiedUser());
 		customerAddressView.setRemarks(this.getRemarks());
+		customerAddressView.setLatitude(this.getLatitude());
+		customerAddressView.setLongitude(this.getLongitude());
 		return customerAddressView;
 	}
 
@@ -121,5 +128,21 @@ public class CustomerAddress extends
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
 	}
 }

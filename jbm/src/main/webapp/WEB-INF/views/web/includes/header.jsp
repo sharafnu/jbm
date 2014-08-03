@@ -19,11 +19,35 @@
 <link type="text/css" rel="Stylesheet" href="<c:url value="/resources/jqwidgets/styles/jqx.base.css" />" />
 <link type="text/css" rel="Stylesheet"
 	href="<c:url value="/resources/jqwidgets/styles/jqx.orange.css" />" />
+	<link type="text/css" rel="Stylesheet"
+	href="<c:url value="/resources/jqwidgets/styles/jqx.fresh.css" />" />
 <link type="text/css" rel="Stylesheet"
 	href="<c:url value="/resources/jqwidgets/styles/jqx.shinyblack.css" />" />
 <link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/resources/login/css/font-awesome.min.css" />">
+
+<%-- <link rel="stylesheet" type="text/css" media="screen" 
+href="<c:url value="/resources/scripts/themes/base/jquery.ui.all.css" />"> --%>
+
 <script type="text/javascript"
-	src="<c:url value="/resources/scripts/jquery-1.10.2.min.js" />"></script>
+src="<c:url value="/resources/scripts/jquery-1.10.2.min.js" />"></script>
+<%-- <script type="text/javascript"
+src="<c:url value="/resources/scripts/jquery-ui.min.js" />"></script> --%>
+
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+ -->
+ <%-- <script type="text/javascript"
+src="<c:url value="/resources/scripts/ui/jquery.ui.core.js" />"></script>
+<script type="text/javascript"
+src="<c:url value="/resources/scripts/ui/jquery.ui.widget.js" />"></script>
+<script type="text/javascript"
+src="<c:url value="/resources/scripts/ui/jquery.ui.position.js" />"></script>
+<script type="text/javascript"
+src="<c:url value="/resources/scripts/ui/jquery.ui.menu.js" />"></script>
+<script type="text/javascript"
+src="<c:url value="/resources/scripts/ui/jquery.ui.autocomplete.js" />"></script>
+	
+		 --%>
 <script type="text/javascript" src="<c:url value="/resources/jqwidgets/jqxcore.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/jqwidgets/jqxpasswordinput.js" />"></script>

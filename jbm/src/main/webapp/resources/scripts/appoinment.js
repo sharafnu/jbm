@@ -361,8 +361,22 @@ function setupAppointmentForm() {
 	});
 	
 	addNewCustomerPopuptButton.click(function (event) {
+		var selectedAddress = $("#formCustomerAddressId").jqxComboBox('getSelectedItem');
+		
 		$('#addCustomerPopupWindow').jqxWindow('show');
 	});
+	
+	/*var viewMapPopupButton = $("#viewMapPopupButton").jqxButton({
+		theme : theme,
+		width: '40px', height: '35px'
+	});
+	
+	$('#viewMapPopupButton').jqxButton({disabled: true });
+	
+	viewMapPopupButton.click(function (event) {
+		$('#viewGoogleMapPopupWindow').jqxWindow('show');
+	});*/
+	
 
 
 	// Create jqxValidator.
@@ -548,7 +562,20 @@ function loadCustomerAddressCombo(comboWidth, customerId) {
 		height : 20,
 		renderSelectedItem: function(index, item) {
 			var item = customerAddressListDataAdapter.records[index];
-			return item.addressType+", "+item.buildingName +", "+item.flatNo+", "+item.areaName+", "+item.cityName;   
+			var address = item.addressType;
+			if(item.buildingName != null && item.buildingName != "") {
+				address += ","+item.buildingName;
+			}
+			if(item.flatNo != null && item.flatNo != "") {
+				address += ","+item.flatNo;
+			}
+			if(item.areaName != null && item.areaName != "") {
+				address += ","+item.buildingName;
+			}
+			if(item.cityName != null && item.cityName != "") {
+				address += ","+item.cityName;
+			}
+			return address;   
         }
 	});
 }
@@ -613,6 +640,7 @@ function loadCustomerAddressComboWithSelectedId(comboWidth, customerId, customer
 			return item.addressType+", "+item.buildingName +", "+item.flatNo+", "+item.areaName+", "+item.cityName;   
         }
 	});
+	
 }
 
 function loadEmployeeCombo(comboWidth) {

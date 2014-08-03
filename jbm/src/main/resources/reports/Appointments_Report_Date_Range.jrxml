@@ -14,9 +14,9 @@
      app."appointment_date",
      app."start_date",
      app."end_date",
-     emp."first_name",
-     cus."first_name",
-     cus."last_name",
+     emp."first_name" as staffName,
+     cus."first_name" as customerFirstName,
+     cus."last_name" as customerLastName,
      cus."mobile_1",
      cus."mobile_2",
      ca."address_type",
@@ -28,14 +28,16 @@ FROM
      INNER JOIN "employee" emp ON app."employee_id" = emp."id"
      INNER JOIN "customer_address" ca ON app."customer_address_id" = ca."id"
 where to_char(app.appointment_date, 'DD-MM-YYYY') between
-$P{startDate} and $P{endDate} and app."appointment_status" <> 'Cancelled']]>
+$P{startDate} and $P{endDate} and app."appointment_status" <> 'Cancelled'
+ order by app."appointment_no" desc]]>
 	</queryString>
 	<field name="appointment_no" class="java.lang.String"/>
 	<field name="appointment_date" class="java.sql.Timestamp"/>
 	<field name="start_date" class="java.sql.Timestamp"/>
 	<field name="end_date" class="java.sql.Timestamp"/>
-	<field name="first_name" class="java.lang.String"/>
-	<field name="last_name" class="java.lang.String"/>
+	<field name="staffname" class="java.lang.String"/>
+	<field name="customerfirstname" class="java.lang.String"/>
+	<field name="customerlastname" class="java.lang.String"/>
 	<field name="mobile_1" class="java.lang.String"/>
 	<field name="mobile_2" class="java.lang.String"/>
 	<field name="address_type" class="java.lang.String"/>
@@ -156,7 +158,7 @@ $P{startDate} and $P{endDate} and app."appointment_status" <> 'Cancelled']]>
 				<text><![CDATA[Sl. No]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="208" y="49" width="149" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="1a5a529a-0de7-4afe-8df8-85ad45476114"/>
+				<reportElement mode="Opaque" x="208" y="49" width="140" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="1a5a529a-0de7-4afe-8df8-85ad45476114"/>
 				<box leftPadding="1" rightPadding="1">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -169,7 +171,7 @@ $P{startDate} and $P{endDate} and app."appointment_status" <> 'Cancelled']]>
 				<text><![CDATA[Customer Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="357" y="49" width="61" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="c5edfdb7-93e0-437c-a091-d111cb844576"/>
+				<reportElement mode="Opaque" x="348" y="49" width="70" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="c5edfdb7-93e0-437c-a091-d111cb844576"/>
 				<box leftPadding="1" rightPadding="1">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -289,7 +291,7 @@ $P{startDate} and $P{endDate} and app."appointment_status" <> 'Cancelled']]>
 				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="208" y="0" width="149" height="20" uuid="4f91e3f9-f808-4103-b004-f6f17a87fd1f"/>
+				<reportElement stretchType="RelativeToBandHeight" x="208" y="0" width="140" height="20" uuid="4f91e3f9-f808-4103-b004-f6f17a87fd1f"/>
 				<box leftPadding="1" rightPadding="1">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -299,10 +301,10 @@ $P{startDate} and $P{endDate} and app."appointment_status" <> 'Cancelled']]>
 				<textElement>
 					<font fontName="SansSerif" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{first_name}+" "+$F{last_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{customerfirstname}+" "+$F{customerlastname}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="357" y="0" width="61" height="20" uuid="c775bd71-208c-4703-a41a-bbbc345a4aa8"/>
+				<reportElement stretchType="RelativeToBandHeight" x="348" y="0" width="70" height="20" uuid="c775bd71-208c-4703-a41a-bbbc345a4aa8"/>
 				<box leftPadding="1" rightPadding="1">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -312,7 +314,7 @@ $P{startDate} and $P{endDate} and app."appointment_status" <> 'Cancelled']]>
 				<textElement>
 					<font fontName="SansSerif" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{mobile_1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["+971"+$F{mobile_1}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="418" y="0" width="174" height="20" uuid="090aecd6-3e53-4977-bd22-7988422f7c1f"/>

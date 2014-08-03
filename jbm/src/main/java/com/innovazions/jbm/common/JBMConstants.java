@@ -28,6 +28,13 @@ public interface JBMConstants {
 	public static final String PROP_SMS_APPOINTMENT_COMPLETE_CONTENT = "PROP_SMS_APPOINTMENT_COMPLETE_CONTENT";
 	public static final String PROP_SMS_APPOINTMENT_UPDATE_CONTENT = "PROP_SMS_APPOINTMENT_UPDATE_CONTENT";
 	
+	// SMS Properties HTTP
+	public static final String PROP_SMS_HTTP_URL = "PROP_SMS_HTTP_URL";//"http://bulksms.vsms.net:5567/eapi/submission/send_sms/2/2.0";
+	public static final String PROP_SMS_HTTP_USERNAME = "PROP_SMS_HTTP_USERNAME";//"anasgh";
+	public static final String PROP_SMS_HTTP_PASSWORD = "PROP_SMS_HTTP_PASSWORD";//"anas2003";
+	public static final String PROP_SMS_HTTP_ENCODING = "PROP_SMS_HTTP_ENCODING";//"ISO-8859-1";
+	public static final String PROP_SMS_HTTP_DATA_STR_TEMPLATE = "PROP_SMS_HTTP_DATA_STR_TEMPLATE";//"username={1}&password={2}&message={3}&want_report=1&msisdn={4}";	
+	
 	// Prefix Properties
 	public static final String PROP_PREFIX_APPOINTMENT_NO = "PROP_PREFIX_APPOINTMENT_NO";
 	public static final String PROP_PREFIX_EMPLOYEE_CODE = "PROP_PREFIX_EMPLOYEE_CODE";

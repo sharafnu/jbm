@@ -1,9 +1,13 @@
 package com.innovazions.jbm.controller;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.common.JBMConstants;
+import com.innovazions.jbm.entity.Appointment;
 import com.innovazions.jbm.entity.Customer;
 import com.innovazions.jbm.entity.CustomerAddress;
 import com.innovazions.jbm.entity.CustomerContract;
@@ -27,6 +32,7 @@ import com.innovazions.jbm.service.CustomerAddressService;
 import com.innovazions.jbm.service.CustomerContractService;
 import com.innovazions.jbm.service.CustomerService;
 import com.innovazions.jbm.view.ActionStatus;
+import com.innovazions.jbm.view.AppointmentView;
 import com.innovazions.jbm.view.CustomerAddressView;
 import com.innovazions.jbm.view.CustomerAndAddressView;
 import com.innovazions.jbm.view.CustomerContractView;
@@ -52,6 +58,34 @@ public class CustomerController extends AbstractController {
 
 	@Autowired
 	private CommonService commonService;
+
+	@RequestMapping(value = "/customerList")
+	public String customerList(
+			@ModelAttribute("appointmentView") CustomerView customerView,
+			BindingResult result, Model model) {
+		logger.info("CustomerController > customerList");
+		
+		
+		List<Customer> customerList = customerService.getCustomerList(customerView.convertViewToEntity());
+		
+		List<CustomerView> customerViewList = new Customer()
+				.convertEntitiesToViews(customerList);
+		ObjectMapper objectMapper = new ObjectMapper();
+		String customerViewListJSON = "";
+		try {
+			customerViewListJSON = objectMapper
+					.writeValueAsString(customerViewList);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("customerListJSON", customerViewListJSON);
+		model.addAttribute("customerView", customerView);
+		return "customerList";
+	}
 	
 	@RequestMapping(value = "/customerInfoAdd", method = RequestMethod.GET)
 	public String customerInfoAdd(Locale locale, Model model) {

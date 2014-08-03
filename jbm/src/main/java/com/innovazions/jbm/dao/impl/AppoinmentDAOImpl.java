@@ -40,8 +40,8 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 			+ "ci.name as city_name, ci.id as city_id, ca.building_name, ca.flat_no, ca.address_type, ca.remarks as addressRemarks FROM appointment a inner join customer c on c.id=a.customer_id "
 			+ "inner join employee e on e.id=a.employee_id "
 			+ "inner join customer_address ca on ca.id=a.customer_address_id "
-			+ "inner join area ar on ca.area_id=ar.id "
-			+ "inner join city ci on ci.id=ar.city_id";
+			+ "left outer join area ar on ca.area_id=ar.id "
+			+ "left outer join city ci on ci.id=ar.city_id";
 
 	private static final String SELECT_APPOINTMENT_BY_ID_QUERY = "SELECT a.id as appoinment_id, a.appointment_no as appointment_no, "
 			+ "a.appointment_date as appointment_date,a.start_date as start_date, a.end_date as end_date, a.customer_address_id as address_id, "
@@ -52,8 +52,8 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 			+ "ci.name as city_name, ci.id as city_id, ca.building_name, ca.flat_no, ca.address_type, ca.remarks as addressRemarks FROM appointment a inner join customer c on c.id=a.customer_id "
 			+ "inner join employee e on e.id=a.employee_id "
 			+ "inner join customer_address ca on ca.id=a.customer_address_id "
-			+ "inner join area ar on ca.area_id=ar.id "
-			+ "inner join city ci on ci.id=ar.city_id where a.id=?";
+			+ "left outer join area ar on ca.area_id=ar.id "
+			+ "left outer join city ci on ci.id=ar.city_id where a.id=?";
 
 	private static final String SELECT_APPOINTMENT_DETAILS_FOR_CALENDAR_BY_DATE = "SELECT a.appointment_no as appointment_no, a.remarks as remarks, "
 			+ "a.appointment_status as appointment_status, "
@@ -62,8 +62,8 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 			+ "inner join customer c on c.id=a.customer_id "
 			+ "inner join employee e on e.id=a.employee_id "
 			+ "inner join customer_address ca on ca.id=a.customer_address_id "
-			+ "inner join area ar on ca.area_id=ar.id "
-			+ "inner join city ci on ci.id=ar.city_id where a.appointment_date=? and a.appointment_status <> ?";
+			+ "left outer join area ar on ca.area_id=ar.id "
+			+ "left outer join city ci on ci.id=ar.city_id where a.appointment_date=? and a.appointment_status <> ?";
 
 	private static final String SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR_BY_DATE = "SELECT  distinct e.id, e.first_name as employee_first_name, "
 			+ "count(1) as appointmentCount "
@@ -154,7 +154,7 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 				SELECT_APPOINTMENT_QUERY)
 				.append(constructQueryWhereClause(appointment));
 
-		queryWithWhereClause.append(" ORDER BY appointment_no");
+		queryWithWhereClause.append(" ORDER BY appointment_no desc");
 		System.out.println("SELECT QUERY : " + queryWithWhereClause.toString());
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -290,7 +290,7 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 
 	@Override
 	public List<Appointment> getAllAppointmentComboList() {
-		String sql = "select id as appoinment_id, appointment_no from appointment order by appointment_no";
+		String sql = "select id as appoinment_id, appointment_no from appointment order by appointment_no desc";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		List<Appointment> appointmentList = jdbcTemplate.query(sql,
 				new RowMapper<Appointment>() {
@@ -308,7 +308,7 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 
 	@Override
 	public List<Appointment> getActiveAppointmentComboList() {
-		String sql = "select id as appoinment_id, appointment_no from appointment where appointment_status ='Created' order by appointment_no";
+		String sql = "select id as appoinment_id, appointment_no from appointment where appointment_status ='Created' order by appointment_no desc";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		List<Appointment> appointmentList = jdbcTemplate.query(sql,
 				new RowMapper<Appointment>() {
@@ -330,7 +330,7 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 
 	@Override
 	public List<Appointment> getPendingAppointmentComboList() {
-		String sql = "select id as appoinment_id, appointment_no from appointment where appointment_status=? order by appointment_no";
+		String sql = "select id as appoinment_id, appointment_no from appointment where appointment_status=? order by appointment_no desc";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		List<Appointment> appointmentList = jdbcTemplate.query(sql,
 				new Object[] { JBMConstants.APPOINTMENT_STATUS_CREATED },
@@ -352,7 +352,7 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 			Date appointmentDate) {
 		String sql = "select employee.id as employee_id, first_name, count(appointment.id) appointment_count from employee "
 				+ "left join appointment on appointment.employee_id=employee.id and appointment_date =? and appointment_status=?"
-				+ "group by employee.id, first_name order by appointment_count asc";
+				+ "group by employee.id, first_name order by appointment_count desc";
 
 		/*
 		 * String sql =
@@ -388,7 +388,7 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 	public List<DailyAppointmentCountVO> getDailyAppointmentCountList() {
 		String sql = "select appointment_date, count(appointment.id) appointment_count from appointment where "
 				+ "appointment_status=? "
-				+ "group by appointment_date order by appointment_date";
+				+ "group by appointment_date order by appointment_date desc";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		System.out.println(sql);
 		List<DailyAppointmentCountVO> appointmentCountList = jdbcTemplate
@@ -413,7 +413,7 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 			Long staffId) {
 		String sql = "select appointment_date, count(appointment.id) appointment_count from appointment where "
 				+ "employee_id=? and appointment_status=? "
-				+ "group by appointment_date order by appointment_date";
+				+ "group by appointment_date order by appointment_date desc";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		System.out.println(sql);
 		List<DailyAppointmentCountVO> appointmentCountList = jdbcTemplate
@@ -475,7 +475,7 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 		if (appointmentDate != null) {
 			sql = "select start_date, end_date, count(*) from appointment where "
 					+ "appointment_date=? and appointment_status <> ? group by start_date, end_date"
-					+ "order by start_date";
+					+ "order by start_date desc";
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			System.out.println(sql);
 
@@ -502,7 +502,7 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 			return appointmentCountList;
 		} else {
 			sql = "select start_date, end_date, count(*) from appointment where appointment_status <> ? group by start_date, end_date "
-					+ "order by start_date";
+					+ "order by start_date desc";
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			System.out.println(sql);
 
@@ -657,7 +657,7 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 			long customerId, Date startDate, Date endDate) {
 		String sql = "select appointment_no, appointment_date, cancellation_reason "
 				+ "from appointment where appointment_status=? and customer_id=? and (appointment_date between ? and ?)"
-				+ "order by appointment_no";
+				+ "order by appointment_no desc";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		List<Appointment> appointmentList = jdbcTemplate.query(sql,
 				new Object[] { JBMConstants.APPOINTMENT_STATUS_CANCELLED,

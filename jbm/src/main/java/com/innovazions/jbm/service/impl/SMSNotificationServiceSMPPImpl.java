@@ -23,6 +23,7 @@ import org.smslib.smpp.BindAttributes;
 import org.smslib.smpp.BindAttributes.BindType;
 import org.smslib.smpp.jsmpp.JSMPPGateway;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 
@@ -33,7 +34,8 @@ import com.innovazions.jbm.entity.Appointment;
 import com.innovazions.jbm.service.SMSNotificationService;
 
 @org.springframework.stereotype.Service
-public class SMSNotificationServiceImpl implements SMSNotificationService,
+@Qualifier("smsNotificationServiceSMPPImpl")
+public class SMSNotificationServiceSMPPImpl implements SMSNotificationService,
 		JBMConstants {
 
 	@Autowired

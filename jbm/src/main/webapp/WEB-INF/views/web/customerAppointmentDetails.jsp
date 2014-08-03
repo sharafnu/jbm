@@ -115,6 +115,7 @@
 			alert("Invalid Selection");
 			$('#formEndTime').val("");
 		} 
+	
 		if (args) {
          	var item = args.item;
          	if(item.value != null && item.value != "") {
@@ -144,12 +145,24 @@
     	 var toMin = parseInt(endTime.substr(3,2));
     	 
     	 var frmAMPM = startTime.substr(6,2);
+    	 var toAMPM = endTime.substr(6,2);
+    	 
     	 var totalHours = 0;
     	 
     	 if(frmAMPM == "AM") {
-    		 totalHours = toHr + 12 - frmHr;
+    		 if(toAMPM == "am") {
+    			 totalHours = toHr - frmHr;	 
+    		 } else {
+    			 totalHours = toHr - frmHr+12;	 
+    		 }
+    		 
     	 } else {
-    		 totalHours = toHr - frmHr;
+    		 if(toAMPM == "am") {
+    			 totalHours = toHr - frmHr+12;	 
+    		 } else {
+    			 totalHours = toHr - frmHr;	 
+    		 }
+    		 //totalHours = toHr - frmHr;
     	 }
     	 
     	 if(toMin > frmMin) {
@@ -157,12 +170,12 @@
     	 } else if(frmMin > toMin) {
     		 totalHours = totalHours - 0.5;
     	 }
-    	 if(totalHours > 12) {
+    	 /* if(totalHours > 12) {
     		 totalHours = totalHours - 12;
     	 }
     	 if(totalHours < 0) {
     		 totalHours = totalHours +12;
-    	 }
+    	 } */
 		$("#formHoursSpent").val(totalHours);
 		
 	}

@@ -417,6 +417,7 @@ function appoinmentDetailsGrid() {
 			name : 'invoiceDate',
 			type : 'string'
 		} ],
+		pagesize: 20,
 		id : 'id',
 		localdata : appointmentViewListJSONStr
 	};

@@ -13,7 +13,7 @@
 
 <script type="text/javascript"
 	src="<c:url value="/resources/scripts/appoinment.js" />"></script>
-<script type="text/javascript">
+ <script type="text/javascript">
 
 	function loadStaffAppointmentCountList(appointmentDate) {
 		var staffAppoinmentCountListURL = "staffAppoinmentCountListJSON/"+$('#formAppointmentDate').val()+".html";
@@ -56,6 +56,14 @@
 		  return Array(+(zero > 0 && zero)).join("0") + num;
 		}
 	
+	function showAddressMap() {
+		//alert("Address Map");
+		//var selectedAddress = $("#formCustomerAddressId").jqxComboBox('getSelectedItem'); 
+		//var address = selectedAddress.label;
+		//$('#viewMapPopupButton').jqxButton({disabled: false });
+		//alert(address);
+	}
+	
 	$(document).ready(function() {
 		document.title = 'Add Appointment';
 		setupAppointmentForm();
@@ -65,8 +73,21 @@
 			if (args) {
 				var item = args.item;
 				if (item.value != "") {
+					$("#formCustomerAddressId").jqxComboBox('clearSelection');
+					//$('#viewMapPopupButton').jqxButton({disabled: true });
 					loadCustomerAddressCombo(280, item.value);
 					showEmployeeCancellations(item.value);
+					//showAddressMap();
+				}
+			}
+		});
+		
+		$('#formCustomerAddressId').on('change', function(event) {
+			var args = event.args;
+			if (args) {
+				var item = args.item;
+				if (item.value != "") {
+					showAddressMap();
 				}
 			}
 		});
@@ -371,10 +392,16 @@
 		
 	}
 	
+	function showGoogleMap() {
+		var selectedAddress = $("#formCustomerAddressId").jqxComboBox('getSelectedItem');
+		if(selectedAddress != null) {
+			$('#viewGoogleMapPopupWindow').jqxWindow('show');
+		} else {
+			alert("Please select a customer address!");
+		}
+		
+	}
 </script>
-
-
-
 
 <!-- Container for create-account controls, populated by JavaScript code below. -->
 <div id="SIU2" class="SIU2" style="opacity: 1;">
@@ -429,7 +456,7 @@
 						<td colspan="2"><textarea class="textArea" id="formRemarks" rows="4" cols="34"></textarea></td>
 					</tr>
 					<tr>
-						<td colspan="3">
+						<td colspan="1">
 							<!-- <form id="appoinmentAddForm" action="saveCustomerAppoinment.html" method="post">
 								<input type="hidden" id="appointmentDate" 	name="appointmentDate"/>
 								<input type="hidden" id="customerAddressId" 	name="customerAddressId"/>
@@ -442,7 +469,15 @@
 								<input id="addNewCustomerPopuptButton" type="button" value="Add New Customer" />
 								</form> -->
 								<input id="createAppointmentButton" type="button" value="Create Appoinment" />
+						</td>
+						<td>		
 								<input id="addNewCustomerPopuptButton" type="button" value="Add New Customer" />
+						</td>
+						
+						<td>	
+								<img id='viewMapPopupButton' title='View Map' onClick="JavaScript:showGoogleMap();" style='width:32px;height:28px;' src='<c:url value="/resources/styles/images/google-map.png" />' />
+								<!-- <input id="viewMapPopupButton" type="button" value="View Map" /> -->
+								
 						</td>						
 					</tr>
 					<tr>
@@ -473,3 +508,4 @@
 <jsp:include page="customerInfoAddPopup.jsp" />
 <jsp:include page="detailedCalendarInfoPopup.jsp" />
 <jsp:include page="includes/footer.jsp" />
+<jsp:include page="includes/viewGoogleMapInclude.jsp" />
