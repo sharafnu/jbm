@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -72,6 +73,15 @@ public class AppointmentController extends AbstractController {
 	@Autowired
 	private CustomerService customerService;
 
+	List<CalendarAppointmentDetailCalendarVO> appointmentCountListForEventCalendar;
+
+	@PostConstruct
+	private void loadAppointmentCache() {
+		appointmentCountListForEventCalendar = appointmentService
+				.getAppointmentStaffNameForCalendar();
+
+	}
+
 	/*
 	 * Customer Contract actions starts
 	 */
@@ -102,7 +112,7 @@ public class AppointmentController extends AbstractController {
 		appointmentView.setAppointmentStatus(appointmentView
 				.getAppointmentStatus());
 		List<Appointment> appointmentList = appointmentService
-				.getAppointmentListByFilter(appointmentView
+				.getAppointmentDetailedListByFilter(appointmentView
 						.convertViewToEntity());
 		List<AppointmentView> appointmentViewList = new Appointment()
 				.convertEntitiesToViews(appointmentList);
@@ -134,8 +144,7 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/customerAppoinmentComboListJSONAll", method = RequestMethod.GET)
-	public @ResponseBody
-	List<AppointmentView> customerAppoinmentComboListJSONAll() {
+	public @ResponseBody List<AppointmentView> customerAppoinmentComboListJSONAll() {
 		logger.info("AppoinmentController > getCustomerAppoinmentListJSON");
 		List<Appointment> appointmentList = appointmentService
 				.getAllAppointmentComboList();
@@ -143,8 +152,7 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/customerAppoinmentComboListJSONActive", method = RequestMethod.GET)
-	public @ResponseBody
-	List<AppointmentView> customerAppoinmentComboListJSONActive() {
+	public @ResponseBody List<AppointmentView> customerAppoinmentComboListJSONActive() {
 		logger.info("AppoinmentController > getCustomerAppoinmentListJSON");
 		List<Appointment> appointmentList = appointmentService
 				.getActiveAppointmentComboList();
@@ -152,8 +160,7 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/customerAppoinmentComboListJSON", method = RequestMethod.GET)
-	public @ResponseBody
-	List<AppointmentView> customerAppoinmentComboListJSON() {
+	public @ResponseBody List<AppointmentView> customerAppoinmentComboListJSON() {
 		logger.info("AppoinmentController > getCustomerAppoinmentListJSON");
 		List<Appointment> appointmentList = appointmentService
 				.getAllAppointmentComboList();
@@ -161,8 +168,7 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/customerPendingAppoinmentComboListJSON", method = RequestMethod.GET)
-	public @ResponseBody
-	List<AppointmentView> customerPendingAppoinmentComboListJSON() {
+	public @ResponseBody List<AppointmentView> customerPendingAppoinmentComboListJSON() {
 		logger.info("AppoinmentController > getCustomerAppoinmentListJSON");
 		List<Appointment> appointmentList = appointmentService
 				.getPendingAppointmentComboList();
@@ -170,8 +176,7 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/customerAppointmentListJSON", method = RequestMethod.GET)
-	public @ResponseBody
-	List<AppointmentView> customerAppointmentListJSON() {
+	public @ResponseBody List<AppointmentView> customerAppointmentListJSON() {
 		logger.info("AppoinmentController > getCustomerAppoinmentListJSON");
 		List<Appointment> appointmentList = appointmentService
 				.getAppointmentListByFilter(null);
@@ -334,8 +339,7 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/getCustomerAppointmentDetails/{appointmentId}", method = RequestMethod.GET)
-	public @ResponseBody
-	AppointmentView getCustomerAppointmentDetails(
+	public @ResponseBody AppointmentView getCustomerAppointmentDetails(
 			@PathVariable Long appointmentId) {
 		logger.info("AppoinmentController > getCustomerAppointmentDetails :"
 				+ appointmentId);
@@ -352,8 +356,7 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/staffAppoinmentCountListByDateJSON/{appointmentDate}", method = RequestMethod.GET)
-	public @ResponseBody
-	List<StaffAppointmentCountVO> staffAppoinmentCountListByDateJSON(
+	public @ResponseBody List<StaffAppointmentCountVO> staffAppoinmentCountListByDateJSON(
 			@PathVariable Date appointmentDate) {
 		logger.info("AppoinmentController > staffAppoinmentCountListJSON :"
 				+ appointmentDate);
@@ -368,8 +371,8 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/staffAppointmentCountListJSON/{staffId}", method = RequestMethod.GET)
-	public @ResponseBody
-	List<EventView> staffAppointmentCountListJSON(@PathVariable Long staffId) {
+	public @ResponseBody List<EventView> staffAppointmentCountListJSON(
+			@PathVariable Long staffId) {
 		logger.info("AppoinmentController > staffAppointmentCountListJSON :"
 				+ staffId);
 		System.out.println("staffId : " + staffId);
@@ -385,15 +388,23 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/getStaffAppointmentsTimeBreakupsJSON/{appointmentDate}", method = RequestMethod.GET)
-	public @ResponseBody
-	List<EventView> getStaffAppointmentsTimeBreakupsJSON(
+	public @ResponseBody List<EventView> getStaffAppointmentsTimeBreakupsJSON(
 			@PathVariable Date appointmentDate) {
 		logger.info("AppoinmentController > getStaffAppointmentsTimeBreakupsJSON :"
 				+ appointmentDate);
-		List<DailyAppointmentCountVO> staffAppointmentCountList = new ArrayList<DailyAppointmentCountVO>();
-		staffAppointmentCountList = appointmentService
-				.getStaffAppointmentsTimeBreakups(null);
-		return convertToEventListDayWeekView(staffAppointmentCountList);
+		// List<DailyAppointmentCountVO> staffAppointmentCountList = new
+		// ArrayList<DailyAppointmentCountVO>();
+		/*
+		 * staffAppointmentCountList = appointmentService
+		 * .getStaffAppointmentsTimeBreakups(null);
+		 */
+
+		/*
+		 * List<CalendarAppointmentDetailCalendarVO> appointmentCountList =
+		 * appointmentService .getAppointmentStaffNameForCalendar();
+		 */
+
+		return convertToEventListDayWeekViewNew(appointmentCountListForEventCalendar);
 	}
 
 	private List<EventView> convertToEventListMonthView(
@@ -456,9 +467,39 @@ public class AppointmentController extends AbstractController {
 		return eventViewList;
 	}
 
+	private List<EventView> convertToEventListDayWeekViewNew(
+			List<CalendarAppointmentDetailCalendarVO> appointmentCountList) {
+		long i = 1l;
+		List<EventView> eventViewList = new ArrayList<EventView>();
+
+		for (CalendarAppointmentDetailCalendarVO calendarAppointmentDetailCalendarVO : appointmentCountList) {
+
+			StringBuffer staffNameTooltip = new StringBuffer("");
+			StringBuffer eventDescription = new StringBuffer("");
+			staffNameTooltip.append(calendarAppointmentDetailCalendarVO
+					.getEmployeeName());
+			eventDescription.append(calendarAppointmentDetailCalendarVO
+					.getEmployeeName());
+
+			eventViewList
+					.add(new EventView(
+							i++,
+							calendarAppointmentDetailCalendarVO
+									.getAppointmentCount() + "",
+							CommonUtils
+									.getJavaScriptDateTime(calendarAppointmentDetailCalendarVO
+											.getStartDate()),
+							CommonUtils
+									.getJavaScriptDateTime(calendarAppointmentDetailCalendarVO
+											.getEndDate()), false,
+							staffNameTooltip.toString(), eventDescription
+									.toString()));
+		}
+		return eventViewList;
+	}
+
 	@RequestMapping(value = "/checkStaffAppointmentSlotsForEdit", method = RequestMethod.POST)
-	public @ResponseBody
-	String checkStaffAppointmentSlotsForEdit(
+	public @ResponseBody String checkStaffAppointmentSlotsForEdit(
 			@ModelAttribute("appointmentView") AppointmentView appointmentView,
 			BindingResult result, Model model) {
 		System.out.println("Appointment Date: "
@@ -488,8 +529,7 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/checkStaffAppointmentSlots", method = RequestMethod.POST)
-	public @ResponseBody
-	String checkStaffAppointmentSlots(
+	public @ResponseBody String checkStaffAppointmentSlots(
 			@ModelAttribute("appointmentView") AppointmentView appointmentView,
 			BindingResult result, Model model) {
 		System.out.println("Appointment Date: "
@@ -518,8 +558,7 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/checkCustomerDuplicateAppointmentsForEdit", method = RequestMethod.POST)
-	public @ResponseBody
-	String checkCustomerDuplicateAppointmentsForEdit(
+	public @ResponseBody String checkCustomerDuplicateAppointmentsForEdit(
 			@ModelAttribute("appointmentView") AppointmentView appointmentView,
 			BindingResult result, Model model) {
 		System.out.println("Appointment Date: "
@@ -550,8 +589,7 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/checkCustomerDuplicateAppointments", method = RequestMethod.POST)
-	public @ResponseBody
-	String checkCustomerDuplicateAppointments(
+	public @ResponseBody String checkCustomerDuplicateAppointments(
 			@ModelAttribute("appointmentView") AppointmentView appointmentView,
 			BindingResult result, Model model) {
 		System.out.println("Appointment Date: "
@@ -581,15 +619,15 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/checkDuplicateInvoiceNo", method = RequestMethod.GET)
-	public @ResponseBody
-	String checkDuplicateInvoiceNo(@RequestParam String invoiceNo) {
+	public @ResponseBody String checkDuplicateInvoiceNo(
+			@RequestParam String invoiceNo) {
 		System.out.println("invoiceNo: " + invoiceNo);
 		return appointmentService.isDuplicateInvoiceNo(invoiceNo) + "";
 	}
 
 	@RequestMapping(value = "/getCancelledAppointments/{customerId}", method = RequestMethod.GET)
-	public @ResponseBody
-	String getCancelledAppointments(@PathVariable Long customerId) {
+	public @ResponseBody String getCancelledAppointments(
+			@PathVariable Long customerId) {
 		System.out.println("customerId: " + customerId);
 		int offsetDays = new Integer(
 				PropertiesUtil
@@ -694,8 +732,7 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/validateAppointmentUpdate", method = RequestMethod.GET)
-	public @ResponseBody
-	ActionStatus validateAppointmentUpdate(
+	public @ResponseBody ActionStatus validateAppointmentUpdate(
 			@ModelAttribute("appointmentView") AppointmentView appointmentView,
 			BindingResult result) {
 		Appointment appointment = appointmentView.convertViewToEntity();
@@ -723,8 +760,7 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/validateAppointmentUpdateForCancellation", method = RequestMethod.GET)
-	public @ResponseBody
-	ActionStatus validateAppointmentCancellation(
+	public @ResponseBody ActionStatus validateAppointmentCancellation(
 			@ModelAttribute("appointmentView") AppointmentView appointmentView,
 			BindingResult result) {
 		Appointment appointment = appointmentView.convertViewToEntity();
@@ -752,8 +788,7 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/validateAppointmentSave", method = RequestMethod.GET)
-	public @ResponseBody
-	ActionStatus validateAppointmentSave(
+	public @ResponseBody ActionStatus validateAppointmentSave(
 			@ModelAttribute("appointmentView") AppointmentView appointmentView,
 			BindingResult result) {
 

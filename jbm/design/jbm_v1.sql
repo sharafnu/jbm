@@ -275,3 +275,21 @@ alter table customer_address add latitude numeric(16,10) default 25.197139;
 alter table customer_address add longitude numeric(16,10) default 55.274111;
 
 ALTER TABLE customer_address ALTER COLUMN area_id DROP NOT NULL;
+
+
+-- sec_master_setup
+CREATE SEQUENCE "sec_master_setup_id_seq";
+
+CREATE TABLE master_setup (
+       id BIGINT NOT NULL
+     , master_type VARCHAR(32) NOT NULL
+     , code VARCHAR(32) NOT NULL
+     , description VARCHAR(256)
+     , PRIMARY KEY (id)
+);
+
+ALTER TABLE master_setup
+ALTER COLUMN id 
+SET DEFAULT NEXTVAL('sec_master_setup_id_seq');
+
+ALTER TABLE customer_address ALTER COLUMN area_id DROP not null;

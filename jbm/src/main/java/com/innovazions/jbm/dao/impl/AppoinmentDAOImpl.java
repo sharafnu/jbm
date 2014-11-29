@@ -18,6 +18,7 @@ import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.common.JBMConstants;
 import com.innovazions.jbm.dao.AppointmentDAO;
 import com.innovazions.jbm.entity.Appointment;
+import com.innovazions.jbm.entity.jdbc.mapper.AppointmentDetailRowMapper;
 import com.innovazions.jbm.entity.jdbc.mapper.AppointmentRowMapper;
 import com.innovazions.jbm.vo.CalendarAppointmentDetailCalendarVO;
 import com.innovazions.jbm.vo.DailyAppointmentCountVO;
@@ -42,6 +43,24 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 			+ "inner join customer_address ca on ca.id=a.customer_address_id "
 			+ "left outer join area ar on ca.area_id=ar.id "
 			+ "left outer join city ci on ci.id=ar.city_id";
+	
+	private static final String SELECT_APPOINTMENT_DETAIL_QUERY = "SELECT a.id as appoinment_id, a.appointment_no as appointment_no, "
+			+ "a.appointment_date as appointment_date,a.start_date as start_date, a.end_date as end_date, a.customer_address_id as address_id, "
+			+ "a.customer_id as customer_id, a.employee_id as employee_id, a.remarks as remarks, a.hours_spent as hours_spent, "
+			+ "a.payable_amount as payable_amount, a.payment_status as payment_status, a.last_modified_date as last_modified_date, "
+			+ "a.last_modified_user as last_modified_user, a.appointment_status as appointment_status, a.cancellation_reason as cancellation_reason, "
+			+ "c.first_name as customer_first_name, c.last_name as customer_last_name, c.mobile_1 as mobile1, c.mobile_2 as mobile2, "
+			+ "e.first_name as employee_first_name, ar.id as area_id, ar.name as area_name, "
+			+ "ci.name as city_name, ci.id as city_id, ca.building_name, ca.flat_no, ca.address_type, ca.remarks as addressRemarks, "
+			+ "ap.amount_paid as amount_paid, ap.payment_mode as payment_mode,   "
+			+ "invoice.amount as invoice_amount, invoice.invoice_no as invoice_no, invoice.invoice_date as  invoice_date "
+			+ "FROM appointment a inner join customer c on c.id=a.customer_id "
+			+ "inner join employee e on e.id=a.employee_id "
+			+ "inner join customer_address ca on ca.id=a.customer_address_id "
+			+ "left outer join area ar on ca.area_id=ar.id "
+			+ "left outer join city ci on ci.id=ar.city_id "
+			+ "left outer join appointment_payment ap on a.id=ap.appointment_id "
+			+ "left outer join invoice invoice on a.id=invoice.appointment_id";
 
 	private static final String SELECT_APPOINTMENT_BY_ID_QUERY = "SELECT a.id as appoinment_id, a.appointment_no as appointment_no, "
 			+ "a.appointment_date as appointment_date,a.start_date as start_date, a.end_date as end_date, a.customer_address_id as address_id, "
@@ -74,6 +93,14 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 			+ "count(1) as appointmentCount "
 			+ "FROM appointment a inner join employee e on e.id=a.employee_id "
 			+ "where a.start_date=? and a.end_date=? and a.appointment_status <> ? group by e.id, employee_first_name";
+
+	private static final String SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR = "select outerAppointment.start_date, outerAppointment.end_date, count(*) as appointmentCount, "
+			+ "(SELECT  string_agg(e.first_name, ', ') as employee_names FROM appointment appointmentInner "
+			+ "inner join employee e on e.id=appointmentInner.employee_id "
+			+ "where appointmentInner.start_date=outerAppointment.start_date "
+			+ "and appointmentInner.end_date=outerAppointment.end_date) from appointment outerAppointment "
+			+ "where outerAppointment.appointment_status <> ?  "
+			+ "group by outerAppointment.start_date, outerAppointment.end_date order by outerAppointment.start_date desc";
 
 	@Override
 	public long createAppointment(Appointment appointment) {
@@ -164,6 +191,24 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 				new AppointmentRowMapper());
 		return appointmentList;
 	}
+	
+	@Override
+	public List<Appointment> getAppointmentDetailedListByFilter(Appointment appointment) {
+
+		StringBuffer queryWithWhereClause = new StringBuffer(
+				SELECT_APPOINTMENT_DETAIL_QUERY)
+				.append(constructQueryWhereClause(appointment));
+
+		queryWithWhereClause.append(" ORDER BY appointment_no desc");
+		System.out.println("SELECT QUERY : " + queryWithWhereClause.toString());
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		List<Appointment> appointmentList = new ArrayList<Appointment>();
+
+		appointmentList = jdbcTemplate.query(queryWithWhereClause.toString(),
+				new AppointmentDetailRowMapper());
+		return appointmentList;
+	}
 
 	@Override
 	public Appointment getAppoinmentDetailsByAppoinmentId(Long appointmentId) {
@@ -192,13 +237,15 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 				argumentCount++;
 			} else if (!CommonUtils.isEmpty(appointment.getAppointmentNo())) {
 				whereQuery.append(" and a.appointment_no like ").append(
-						addQuote("%"+appointment.getAppointmentNo().toUpperCase()+"%"));
+						addQuote("%"
+								+ appointment.getAppointmentNo().toUpperCase()
+								+ "%"));
 				argumentCount++;
 				searchById = true;
 			}
-			
+
 			if (!searchById) {
-				
+
 				if (!CommonUtils.isEmpty(appointment.getAppointmentStatus())) {
 					if (!appointment.getAppointmentStatus().equals(
 							JBMConstants.APPOINTMENT_STATUS_ALL)) {
@@ -206,8 +253,9 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 								.split(",");
 						String statusStr = "";
 						for (int i = 0; i < statusArr.length; i++) {
-							statusStr = statusStr+addQuote(statusArr[i].trim());
-							if (i < (statusArr.length-1)) {
+							statusStr = statusStr
+									+ addQuote(statusArr[i].trim());
+							if (i < (statusArr.length - 1)) {
 								statusStr = statusStr + ",";
 							}
 						}
@@ -225,7 +273,7 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 							addQuote(appointment.getPaymentStatus()));
 					argumentCount++;
 				}
-				
+
 				if (appointment.getCustomer() != null
 						&& appointment.getCustomer().getId() != null
 						&& appointment.getCustomer().getId() > 0) {
@@ -600,6 +648,38 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 	}
 
 	@Override
+	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendar() {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		System.out.println(SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR);
+		List<CalendarAppointmentDetailCalendarVO> appointmentDetailList = jdbcTemplate
+				.query(SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR,
+						new Object[] { JBMConstants.APPOINTMENT_STATUS_CANCELLED },
+						new RowMapper<CalendarAppointmentDetailCalendarVO>() {
+							public CalendarAppointmentDetailCalendarVO mapRow(
+									ResultSet rs, int rowNum)
+									throws SQLException {
+								CalendarAppointmentDetailCalendarVO appointmentDetailVO = new CalendarAppointmentDetailCalendarVO();
+								appointmentDetailVO.setStartDate(rs
+										.getTimestamp("start_date"));
+								appointmentDetailVO.setEndDate(rs
+										.getTimestamp("end_date"));
+								appointmentDetailVO.setEmployeeName(rs
+										.getString("employee_names"));
+								appointmentDetailVO.setAppointmentCount(rs
+										.getInt("appointmentCount"));
+								return appointmentDetailVO;
+							}
+						});
+		return appointmentDetailList;
+	}
+
+	@Override
+	/**
+	 * @deprecated use {@link #new()} instead Use getAppointmentStaffNameForCalendar
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
 	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendarBetweenDate(
 			Date startDate, Date endDate) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

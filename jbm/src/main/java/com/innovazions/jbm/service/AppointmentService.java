@@ -1,6 +1,6 @@
 package com.innovazions.jbm.service;
 
-import java.util.Date;
+import java.util.Date;	
 import java.util.List;
 
 import com.innovazions.jbm.entity.Appointment;
@@ -67,4 +67,8 @@ public interface AppointmentService {
 			Date endDate,Long id);
 	
 	public List<Appointment> getActiveAppointmentComboList();
+	
+	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendar();
+
+	List<Appointment> getAppointmentDetailedListByFilter(Appointment appointment); 
 }

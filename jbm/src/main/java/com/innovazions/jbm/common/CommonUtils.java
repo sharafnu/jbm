@@ -169,6 +169,20 @@ public class CommonUtils {
 				ActionMessages.STATUS_MESSAGE_DATA_SAVE_SUCCESS);
 		return actionStatus;
 	}
+	
+	public static ActionStatus getDataUpdateSuccessActionStatus() {
+		ActionStatus actionStatus = new ActionStatus(
+				ActionStatus.STATUS_TYPE_SUCCESS,
+				ActionMessages.STATUS_MESSAGE_DATA_UPDATE_SUCCESS);
+		return actionStatus;
+	}
+	
+	public static ActionStatus getDataDeleteSuccessActionStatus() {
+		ActionStatus actionStatus = new ActionStatus(
+				ActionStatus.STATUS_TYPE_SUCCESS,
+				ActionMessages.STATUS_MESSAGE_DATA_DELETE_SUCCESS);
+		return actionStatus;
+	}
 
 	public static ActionStatus getDataSaveSuccessActionStatus(Long generatedId) {
 		ActionStatus actionStatus = new ActionStatus(

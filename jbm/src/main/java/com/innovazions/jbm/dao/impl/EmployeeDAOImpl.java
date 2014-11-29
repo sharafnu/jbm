@@ -12,9 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.dao.EmployeeDAO;
-import com.innovazions.jbm.entity.Customer;
 import com.innovazions.jbm.entity.Employee;
-import com.innovazions.jbm.entity.jdbc.mapper.CustomerRowMapper;
 import com.innovazions.jbm.entity.jdbc.mapper.EmployeeRowMapper;
 
 @Repository
@@ -56,15 +54,37 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public long updateEmployee(Employee employee) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void updateEmployee(Employee employee) {
+		String sql = "UPDATE employee SET first_name=?, nationality=?, join_date=?, salary=?, remarks=?, "
+				+ "contact_mobile_no=?, home_cntry_contact_no=?, address=?, passport_no=?, visa_details=?, employee_status=? where employee_code=?";
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+		jdbcTemplate
+				.update(sql,
+						new Object[] {
+								employee.getFirstName(),
+								employee.getNationality(),
+								CommonUtils.getTimeStampFromDate(employee
+										.getJoinDate()), employee.getSalary(),
+								employee.getRemarks(),
+								employee.getContactMobileNo(),
+								employee.getHomeCountryContactNo(),
+								employee.getAddress(),
+								employee.getPassportNo(),
+								employee.getVisaDetails(),
+								employee.getEmployeeStatus(),
+								employee.getEmployeeCode() });
 	}
 
 	@Override
-	public long deleteEmployee(Employee employee) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void deleteEmployee(Employee employee) {
+		if (employee != null
+				&& !CommonUtils.isEmpty(employee.getEmployeeCode())) {
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			jdbcTemplate.execute("delete from employee where employee_code='"
+					+ employee.getEmployeeCode().trim()+"'");
+		}
 	}
 
 	@Override
@@ -93,7 +113,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		String sql = "select e.id, e.employee_code, e.first_name,e.nationality, "
 				+ "e.join_date, e.salary, e.remarks, e.contact_mobile_no, e.home_cntry_contact_no,  "
 				+ "e.address, e.passport_no, e.visa_details, e.employee_status from employee e where e.id=?";
-		
+
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		List<Employee> employeeList = jdbcTemplate.query(sql,
 				new Object[] { employeeId }, new EmployeeRowMapper());

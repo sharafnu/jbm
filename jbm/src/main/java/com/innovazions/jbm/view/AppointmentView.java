@@ -36,6 +36,7 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 
 	private Date invoiceDate;
 
+	private double invoiceAmount;
 	private String remarks;
 
 	private String startTime;
@@ -77,6 +78,10 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 	private String startDateFilter;
 
 	private String endDateFilter;
+	
+	private double paidAmount;
+	
+	private String paymentMode;
 
 	public Long getId() {
 		return id;
@@ -450,6 +455,30 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 
 	public void setEndDateFilter(String endDateFilter) {
 		this.endDateFilter = endDateFilter;
+	}
+
+	public double getPaidAmount() {
+		return paidAmount;
+	}
+
+	public void setPaidAmount(double paidAmount) {
+		this.paidAmount = paidAmount;
+	}
+
+	public String getPaymentMode() {
+		return paymentMode;
+	}
+
+	public void setPaymentMode(String paymentMode) {
+		this.paymentMode = paymentMode;
+	}
+
+	public double getInvoiceAmount() {
+		return invoiceAmount;
+	}
+
+	public void setInvoiceAmount(double invoiceAmount) {
+		this.invoiceAmount = invoiceAmount;
 	}
 
 	

@@ -29,6 +29,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public List<Appointment> getAppointmentListByFilter(Appointment appointment) {
 		return appointmentDAO.getAppointmentListByFilter(appointment);
 	}
+	
+	@Override
+	public List<Appointment> getAppointmentDetailedListByFilter(Appointment appointment) {
+		return appointmentDAO.getAppointmentDetailedListByFilter(appointment);
+	}
 
 	@Override
 	public List<Appointment> getAllAppointmentComboList() {
@@ -155,5 +160,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public List<Appointment> getActiveAppointmentComboList() {
 	 return appointmentDAO.getActiveAppointmentComboList();
+	}
+
+	@Override
+	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendar() {
+		return appointmentDAO.getAppointmentStaffNameForCalendar();
 	}
 }

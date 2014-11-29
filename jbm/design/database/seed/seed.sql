@@ -97,3 +97,8 @@ where prop_key='PROP_SMS_APPOINTMENT_CREATE_CONTENT';
 UPDATE system_property set description='Appointment completion SMS template', prop_value='Your appointment has been completed. Thank you for using MaxMaid Services. www.facebook.com/maxmaidcs' 
 where prop_key='PROP_SMS_APPOINTMENT_COMPLETE_CONTENT';
 
+-- master_setup
+INSERT INTO master_setup (master_type, code, description) VALUES ('Nationality', 'UAE National','UAE National');
+INSERT INTO master_setup (master_type, code, description) VALUES ('Nationality', 'Indian','Indian');
+INSERT INTO master_setup (master_type, code, description) VALUES ('Nationality', 'Filipino','Filipino');
+INSERT INTO master_setup (master_type, code, description) VALUES ('Nationality', 'Pakistani','Pakistani');

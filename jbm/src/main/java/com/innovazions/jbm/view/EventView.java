@@ -106,7 +106,6 @@ public class EventView {
 		// eventColorActive
 		try {
 			if (!CommonUtils.isEmpty(start) && !CommonUtils.isEmpty(end)) {
-				System.out.println(start + " : " + end);
 				Date startDate = CommonUtils.getDate(start);
 				Date endDate = CommonUtils.getDate(end);
 				if (CommonUtils.isCurrentTimeSlot(startDate, endDate)) {

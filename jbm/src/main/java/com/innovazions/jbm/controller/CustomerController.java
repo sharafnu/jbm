@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.common.JBMConstants;
-import com.innovazions.jbm.entity.Appointment;
 import com.innovazions.jbm.entity.Customer;
 import com.innovazions.jbm.entity.CustomerAddress;
 import com.innovazions.jbm.entity.CustomerContract;
@@ -32,7 +31,6 @@ import com.innovazions.jbm.service.CustomerAddressService;
 import com.innovazions.jbm.service.CustomerContractService;
 import com.innovazions.jbm.service.CustomerService;
 import com.innovazions.jbm.view.ActionStatus;
-import com.innovazions.jbm.view.AppointmentView;
 import com.innovazions.jbm.view.CustomerAddressView;
 import com.innovazions.jbm.view.CustomerAndAddressView;
 import com.innovazions.jbm.view.CustomerContractView;

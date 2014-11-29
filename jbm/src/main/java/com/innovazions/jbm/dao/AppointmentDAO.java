@@ -44,6 +44,13 @@ public interface AppointmentDAO {
 	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendarByDate(
 			Date appointmentDate);
 
+	/**
+	 * @deprecated use {@link #getAppointmentStaffNameForCalendar()} instead 
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	@Deprecated
 	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendarBetweenDate(
 			Date startDate, Date endDate);
 
@@ -69,4 +76,8 @@ public interface AppointmentDAO {
 			Long customerAddressId, Date fromDateTime, Date toDateTime, Long id);
 
 	public List<Appointment> getActiveAppointmentComboList();
+
+	List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendar();
+
+	List<Appointment> getAppointmentDetailedListByFilter(Appointment appointment);
 }

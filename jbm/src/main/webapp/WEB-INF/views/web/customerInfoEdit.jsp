@@ -136,13 +136,24 @@ function loadCustomerCombo(comboWidth) {
 							theme : theme
 						});
 						addAddressButton.click(function (event) {
-	                        /* $("#popupWindow").jqxWindow({ position: { x: 660, y: 185 } });
+	                         $("#popupWindow").jqxWindow({ position: { x: 660, y: 185 } });
 	                        $("#popupWindow").jqxWindow('open');
-	                         */
-							$('#addCustomerPopupWindow').jqxWindow('show');
-
+	                         
+							//$('#addCustomerPopupWindow').jqxWindow('show');
 	                        
 	                    });
+						// Create jqxButton.
+						var editAddressButton = $("#editAddressButton").jqxButton({
+							theme : theme
+						});
+						editAddressButton.click(function (event) {
+	                        $("#popupWindow").jqxWindow({ position: { x: 660, y: 185 } });
+	                        $("#popupWindow").jqxWindow('open');
+	                         
+							//$('#addCustomerPopupWindow').jqxWindow('show');
+	                        
+	                    });
+						
 						// Create jqxValidator.
 						$("#form")
 								.jqxValidator(
@@ -284,7 +295,7 @@ function loadCustomerCombo(comboWidth) {
 									info += "<div>City.: "+ employeeAddressRow.cityName+ "</div>";			
 									info += "</div>";
 
-									var buy = "<button class='editAddress' style='margin: 5px; width: 80px; position: relative;  margin-bottom: 3px;'>Edit</button>";
+									var buy = "<button class='editAddress' id='editAddressButton' style='margin: 5px; width: 80px; position: relative;  margin-bottom: 3px;'>Edit</button>";
 
 									item += info;
 									item += buy;

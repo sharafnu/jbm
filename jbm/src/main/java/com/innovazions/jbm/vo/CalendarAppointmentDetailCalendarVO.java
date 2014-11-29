@@ -1,30 +1,35 @@
 package com.innovazions.jbm.vo;
 
+import java.util.Date;
 
 public class CalendarAppointmentDetailCalendarVO {
 
 	private String appointmentNo;
-	
+
 	private String remarks;
-	
+
 	private String appointmentStatus;
-	
+
 	private String customerName;
-	
+
 	private String employeeName;
-	
+
 	private String areaName;
-	
+
 	private String cityName;
-	
+
 	private String buildingName;
-	
+
 	private String flatNo;
-	
+
 	private String addressType;
 
 	private int appointmentCount;
-	
+
+	private Date startDate;
+
+	private Date endDate;
+
 	public String getAppointmentNo() {
 		return appointmentNo;
 	}
@@ -112,6 +117,21 @@ public class CalendarAppointmentDetailCalendarVO {
 	public void setAppointmentCount(int appointmentCount) {
 		this.appointmentCount = appointmentCount;
 	}
-	
-	
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
 }

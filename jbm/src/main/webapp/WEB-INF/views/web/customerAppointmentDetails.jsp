@@ -16,7 +16,7 @@
 	}
 
 	$(document).ready(function() {
-		document.title = 'Add Appointment';
+		document.title = 'Appointment Completion';
 		setupAppointmentDetailsForm();
 		loadAppoinmentCombo();
 		
@@ -247,7 +247,7 @@
 										
 						$("#cancellationReason").val($("#formRemarks").val());
 						$("#endTime").val($("#formEndTime").val());
-						$("#payableAmount").val($("#formAmountPayable").val());
+						$("#payableAmount").val(amountPayable);
 						$("#hoursSpent").val($("#formHoursSpent").val());
 						$("#invoiceNo").val($("#formInvoiceNo").val());
 						$("#invoiceDate").val($("#formInvoiceDate").val());

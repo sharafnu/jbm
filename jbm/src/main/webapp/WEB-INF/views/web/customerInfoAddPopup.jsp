@@ -67,12 +67,15 @@ var residenceAddressMarker = null;
 var officeAddressMarker = null;
 
 var map = null;
+try {
 var infowindow = new google.maps.InfoWindow(
 		  { 
 		    size: new google.maps.Size(200,100)
 		  });
 
-
+} catch(ex) {
+	
+}
 // A function to create the marker and set up the event window function 
 function placeMarker(event) {
 	var residenceAddressSelected = $('#residenceAddressRadio').jqxRadioButton('checked'); 
@@ -126,6 +129,7 @@ var service;
 
 function initialize() {
 
+  try {	
   var markers = [];
   map = new google.maps.Map(document.getElementById('map-canvas'), {
     mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -214,6 +218,9 @@ function initialize() {
   google.maps.event.addListener(map, 'click', function(event) {
 	  alert(event.latLng);
 	});*/
+} catch(exc)
+{
+}
 }
 
 //google.maps.event.addDomListener(window, 'load', initialize);

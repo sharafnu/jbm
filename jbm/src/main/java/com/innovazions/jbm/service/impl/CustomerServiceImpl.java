@@ -45,17 +45,24 @@ public class CustomerServiceImpl implements CustomerService {
 				.getCustomerAddressList();
 		if (customerAddressesList != null) {
 			for (CustomerAddress customerAddress : customerAddressesList) {
-				/*if (customerAddress.getArea() != null
-						&& !CommonUtils.isEmpty(customerAddress
-								.getBuildingName())
-						&& !CommonUtils.isEmpty(customerAddress.getFlatNo())) {*/
-					customer.setId(customerId);
-					customerAddress.setCustomer(customer);
-					if(customerAddress.getArea() != null && customerAddress.getArea().getId() <=0) {
-						customerAddress.getArea().setId(null);
-					}
+				/*
+				 * if (customerAddress.getArea() != null &&
+				 * !CommonUtils.isEmpty(customerAddress .getBuildingName()) &&
+				 * !CommonUtils.isEmpty(customerAddress.getFlatNo())) {
+				 */
+				customer.setId(customerId);
+				customerAddress.setCustomer(customer);
+				if (customerAddress.getArea() != null
+						&& customerAddress.getArea().getId() <= 0) {
+					customerAddress.getArea().setId(null);
+					customerAddress.setArea(null);
+				}
+				if (customerAddress.getArea() != null
+						|| (customerAddress.getLatitude() != null && customerAddress
+								.getLongitude() != null)) {
 					customerAddressDAO.createCustomerAddress(customerAddress);
-				//}
+				}
+				// }
 			}
 		}
 		return customerId;

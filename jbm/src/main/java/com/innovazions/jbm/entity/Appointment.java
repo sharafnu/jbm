@@ -226,6 +226,19 @@ public class Appointment extends CoreEntity<Appointment, AppointmentView>
 			appointmentView.setCustomerAddressId(this.getCustomerAddress()
 					.getId());
 		}
+
+		if (this.getAppointmentPayment() != null) {
+			appointmentView.setPaidAmount(this.getAppointmentPayment()
+					.getAmountPaid());
+			appointmentView.setPaymentMode(this.getAppointmentPayment()
+					.getPaymentMode());
+		}
+
+		if (this.getInvoice() != null) {
+			appointmentView.setInvoiceDate(this.getInvoice().getInoviceDate());
+			appointmentView.setInvoiceNo(this.getInvoice().getInvoiceNo());
+			appointmentView.setInvoiceAmount(this.getInvoice().getAmount());
+		}
 		return appointmentView;
 	}
 

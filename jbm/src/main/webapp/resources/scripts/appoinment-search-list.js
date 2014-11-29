@@ -387,7 +387,7 @@ function appoinmentDetailsGrid() {
 			name : 'paymentStatus',
 			type : 'string'
 		}, {
-			name : 'paymentType',
+			name : 'paymentMode',
 			type : 'string'
 		}, {
 			name : 'invoiceNo',
@@ -520,7 +520,7 @@ var initrowdetails = function (index, parentElement, gridElement, datarecord) {
         if(datarecord.appointmentStatus != "Created") {
         	var completionTable = '<div style="margin: 5px;"><table class="descTable" width="100%" border="0" cellpadding="0" cellspacing="5">';
             completionTable = completionTable + '<tr><td align="right"><b>No of Hrs. :</b></td><td>'+datarecord.hoursSpent+ '</td> <td align="right"> <b>Amount : </b></td><td> '+datarecord.payableAmount+' </td><td align="right"> <b>Payment Status :</b> </td><td> '+datarecord.paymentStatus+' </td></tr>';
-            completionTable = completionTable + '<tr><td align="right"><b>Payment Type :</b></td><td>'+datarecord.paymentType+ '</td> <td align="right"> <b>Invoice No. : </b></td><td> '+datarecord.invoiceNo+' </td><td align="right"> <b>Invoice Date : </b></td><td> '+datarecord.invoiceDate+' </td></tr>';
+            completionTable = completionTable + '<tr><td align="right"><b>Payment Type :</b></td><td>'+datarecord.paymentMode+ '</td> <td align="right"> <b>Invoice No. : </b></td><td> '+datarecord.invoiceNo+' </td><td align="right"> <b>Invoice Date : </b></td><td> '+datarecord.invoiceDate+' </td></tr>';
             completionTable = completionTable +'</table></div>';
             
             var jobCompletionContainer = $(completionTable);

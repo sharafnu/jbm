@@ -4,6 +4,10 @@ public interface ActionMessages {
 
 	// Status Messages
 	public static final String STATUS_MESSAGE_DATA_SAVE_SUCCESS = "Data saved successfully !";
+	
+	public static final String STATUS_MESSAGE_DATA_UPDATE_SUCCESS = "Data updated successfully !";
+	
+	public static final String STATUS_MESSAGE_DATA_DELETE_SUCCESS = "Data deleted successfully !";
 
 	public static final String STATUS_MESSAGE_DATA_SAVE_ERROR = "Error while saving data, Please contact admin !";
 

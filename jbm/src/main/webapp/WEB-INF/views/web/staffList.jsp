@@ -8,12 +8,31 @@
 			.ready(
 					function() {
 						document.title = 'Staff List';
-						var nationalitySource = [ "UAE National", "USA", "UK",
-								"Lebabnon", "Egypt", "India" ];
+
+						var nationalitySourceURL = "masterListJSON/Nationality.html";
+						var nationalitySource = {
+							datatype : "json",
+							datafields : [ {
+								name : 'code',
+								type : 'string'
+							}, {
+								name : 'description',
+								type : 'string'
+							} ],
+							id : 'code',
+							url : nationalitySourceURL
+						};
+						var nationalityListDataAdapter = new $.jqx.dataAdapter(
+								nationalitySource);
+
+						/* 						var nationalitySource = [ "UAE National", "USA", "UK",
+						 "Lebabnon", "Egypt", "India" ]; */
 
 						$("#formNationality").jqxComboBox({
 							selectedIndex : 0,
-							source : nationalitySource,
+							source : nationalityListDataAdapter,
+							displayMember : "description",
+							valueMember : "code",
 							width : 200,
 							height : 20
 						});
@@ -161,8 +180,89 @@
 													height : 20
 												});
 												// add new row.
+												deleteButton
+														.click(function(event) {
+															var getselectedrowindexes = $('#jqxgrid').jqxGrid('getselectedrowindexes');
+															if (getselectedrowindexes.length > 0) {
+											                    // returns the selected row's data.
+											                    var selectedRowData = $('#jqxgrid').jqxGrid('getrowdata', getselectedrowindexes[0]);
+																if(confirm("Are you sure you want to delete the record : "+selectedRowData['employeeCode'])) {
+																	$.ajax(
+																			{
+																				type : "POST",
+																				url : "deleteEmployee.html",
+																				data : {
+																					employeeCode : selectedRowData['employeeCode']	
+																					}
+																			})
+																	.done(
+																			function(actionStatus) {
+																				if (actionStatus.statusType == "Success") {
+																					$("#jqxgrid")
+																							.jqxGrid(
+																									'updatebounddata');
+																				} else {
+																					alert(actionStatus.statusMessage);
+																				}
+																			});
+																}
+															} else {
+																alert("Please select the record to delete!");
+															}
+														});
+												// add new row.
 												addButton
 														.click(function(event) {
+															//Clear data
+															$("#formEmpCode").val("");
+										                    $("#formEmpName").val("");
+										                    $("#formJoinDate").val("");
+										                    $("#formNationality").val("");
+										                    $("#fromRemarks").val("");
+										                    $("#formSalary").val("");
+										                    $("#formContactMobileNo").val("");
+										                    $("#formHomeCountryContactNo").val("");
+										                    $("#formAddress").val("");
+										                    $("#formPassportNo").val("");
+										                    $("#formVisaDetails").val("");
+										                    $("#formEmployeeStatus").val("");
+										                    
+															var offset = 0;//$("#jqxgrid").offset();
+															$("#popupWindow")
+																	.jqxWindow(
+																			{
+																				position : {
+																					x : parseInt(offset.left) + 60,
+																					y : parseInt(offset.top) + 60
+																				}
+																			});
+															$("#popupWindow")
+																	.jqxWindow(
+																			'open');
+														});
+												
+												// edit selected row.
+												editButton
+														.click(function(event) {
+															var getselectedrowindexes = $('#jqxgrid').jqxGrid('getselectedrowindexes');
+															if (getselectedrowindexes.length > 0) {
+											                    // returns the selected row's data.
+											                    var selectedRowData = $('#jqxgrid').jqxGrid('getrowdata', getselectedrowindexes[0]);
+											                    $("#formEmpCode").val((selectedRowData['employeeCode']));
+											                    $("#formEmpName").val((selectedRowData['firstName']));
+											                    $("#formJoinDate").val((selectedRowData['joinDate']));
+											                    $("#formNationality").val((selectedRowData['nationality']));
+											                    $("#fromRemarks").val((selectedRowData['remarks']));
+											                    $("#formSalary").val((selectedRowData['salary']));
+											                    $("#formContactMobileNo").val((selectedRowData['contactMobileNo']));
+											                    $("#formHomeCountryContactNo").val((selectedRowData['homeCountryContactNo']));
+											                    $("#formAddress").val((selectedRowData['address']));
+											                    $("#formPassportNo").val((selectedRowData['passportNo']));
+											                    $("#formVisaDetails").val((selectedRowData['visaDetails']));
+											                    $("#formEmployeeStatus").val((selectedRowData['employeeStatus']));
+											                } else {
+											                	alert("Please select a row to edit!")
+											                }
 															var offset = 0;//$("#jqxgrid").offset();
 															$("#popupWindow")
 																	.jqxWindow(
@@ -257,6 +357,9 @@
 														type : "POST",
 														url : "saveEmployee.html",
 														data : {
+															employeeCode : $(
+															"#formEmpCode")
+															.val(),
 															firstName : $(
 																	"#formEmpName")
 																	.val(),
@@ -325,7 +428,7 @@
 
 	<!-- Container for create-account controls, populated by JavaScript code below. -->
 	<div id="SIU2" class="SIU2" style="opacity: 1;">
-		<div id="createAccount" class="cornerDiv" style="height:380px">
+		<div id="createAccount" class="cornerDiv" style="height: 380px">
 			<div id="jqxgrid"></div>
 
 			<div id="popupWindow">
