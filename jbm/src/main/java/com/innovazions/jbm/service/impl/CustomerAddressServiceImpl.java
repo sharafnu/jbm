@@ -26,4 +26,14 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
 		return customerAddressDAO.getCustomerAddresssByCustomerId(customerId);
 	}
 
+	@Override
+	public void deleteCustomerAddress(Long customerAddressId) {
+		customerAddressDAO.deleteCustomerAddress(customerAddressId);
+	}
+
+	@Override
+	public void updateCustomerAddress(CustomerAddress customerAddress) {
+		customerAddressDAO.updateCustomerAddress(customerAddress);
+	}
+
 }

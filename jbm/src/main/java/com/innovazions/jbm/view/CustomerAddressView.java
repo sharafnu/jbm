@@ -108,6 +108,7 @@ public class CustomerAddressView extends
 	@Override
 	public CustomerAddress convertViewToEntity() {
 		CustomerAddress customerAddress = new CustomerAddress();
+		customerAddress.setId(this.getId());
 		customerAddress.setAddressType(this.getAddressType());
 		Area area = new Area();
 		area.setId(this.getAreaId());

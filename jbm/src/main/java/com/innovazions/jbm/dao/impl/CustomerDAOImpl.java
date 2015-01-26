@@ -72,15 +72,35 @@ public class CustomerDAOImpl implements CustomerDAO {
 	}
 
 	@Override
-	public long updateCustomer(Customer customer) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void updateCustomer(Customer customer) {
+		System.out.println("Updating Customer..");
+		final String sql = "UPDATE customer SET customer_code=?, first_name=?, last_name=?, mobile_1=?, mobile_2=?, landline=?, email=?, preference_call=?, "
+				+ "preference_email=?, preference_sms=?, last_modified_date=?, last_modified_user=? WHERE id=?;";
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		sequence = new PostgreSQLSequenceMaxValueIncrementer(dataSource,
+				"customer_id_seq");
+		jdbcTemplate.update(
+				sql,
+				new Object[] { customer.getCustomerCode(),
+						customer.getFirstName(), customer.getLastName(),
+						customer.getMobile1(), customer.getMobile2(),
+						customer.getLandline(), customer.getEmail(),
+						customer.getPreferenceCall(),
+						customer.getPreferenceEmail(),
+						customer.getPreferenceSms(), new Date(),
+						customer.getLastModifiedUser(), customer.getId() });
 	}
 
 	@Override
-	public long deleteCustomer(Customer customer) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void deleteCustomer(Customer customer) {
+		System.out.println("Deleting Customer..");
+		final String sql = "DELETE from customer WHERE id=" + customer.getId();
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		sequence = new PostgreSQLSequenceMaxValueIncrementer(dataSource,
+				"customer_id_seq");
+		jdbcTemplate.execute(sql);
 	}
 
 	@Override
@@ -112,7 +132,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 			return customerList.get(0);
 		}
 	}
-	
+
 	@Override
 	public boolean checkDuplicateMobileNo(String mobileNo) {
 		String sql = "select count(1) from customer where mobile_1= ?";
@@ -120,7 +140,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		int customerCount = jdbcTemplate.queryForInt(sql,
 				new Object[] { mobileNo.trim() });
-		System.out.println("customer Count : "+customerCount);
+		System.out.println("customer Count : " + customerCount);
 		if (customerCount > 0) {
 			return true;
 		}

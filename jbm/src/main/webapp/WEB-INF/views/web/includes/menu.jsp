@@ -37,6 +37,9 @@
                         <ul>
                             <!-- <li><a href="areaList.html">Area List</a></li> -->
                             <li><a href="staffDetails.html">Staff Details</a></li>
+                            <li><a href="masterList.html">Master Setup</a></li>
+                            <li><a href="systemProperyList.html">System Properties</a></li>
+                            
                         </ul>
                     </li>
                     <li>Reports

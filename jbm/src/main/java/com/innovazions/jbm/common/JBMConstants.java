@@ -44,8 +44,6 @@ public interface JBMConstants {
 	//Cancellation history offset days
 	public static final String PROP_CUSTOMER_CANCELLATION_OFFSET_DAYS = "PROP_CUSTOMER_CANCELLATION_OFFSET_DAYS";
 	
-	//Default Password
-	public static final String PROP_DEFAULT_PASSWORD = "PROP_DEFAULT_PASSWORD";
 	
 	public static final String LOGGED_IN_USER_NAME = "loggedInUserName";
 	public static final String LOGGED_IN_USER_FULL_NAME = "loggedInUserFullName";

@@ -19,6 +19,8 @@ public class SystemPropertyExtractor implements
 		systemProperty.setId(rs.getLong("id"));
 		systemProperty.setPropKey(rs.getString("prop_key"));
 		systemProperty.setPropValue(rs.getString("prop_value"));
+		systemProperty.setPropGroup(rs.getString("prop_group"));
+		systemProperty.setDescription(rs.getString("description"));	
 		return systemProperty;
 	}
 

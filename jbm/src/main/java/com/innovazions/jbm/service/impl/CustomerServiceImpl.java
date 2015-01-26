@@ -5,13 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.dao.CustomerAddressDAO;
 import com.innovazions.jbm.dao.CustomerDAO;
 import com.innovazions.jbm.entity.Customer;
 import com.innovazions.jbm.entity.CustomerAddress;
 import com.innovazions.jbm.service.CustomerService;
-import com.innovazions.jbm.view.CustomerAndAddressView;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -25,7 +23,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public Long createCustomer(Customer customer) {
 		return customerDAO.createCustomer(customer);
-	}
+	}	
 
 	@Override
 	public List<Customer> getCustomerList(Customer customer) {
@@ -76,6 +74,16 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public Customer findCustomerByPrimaryMobileNo(String mobileNo) {
 		return customerDAO.findCustomerByPrimaryMobileNo(mobileNo);
+	}
+
+	@Override
+	public void updateCustomer(Customer customer) {
+		customerDAO.updateCustomer(customer);
+	}
+	
+	@Override
+	public void deleteCustomer(Customer customer) {
+		customerDAO.deleteCustomer(customer);
 	}
 
 }

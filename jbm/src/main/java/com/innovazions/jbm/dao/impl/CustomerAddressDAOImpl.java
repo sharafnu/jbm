@@ -46,15 +46,33 @@ public class CustomerAddressDAOImpl implements CustomerAddressDAO {
 	}
 
 	@Override
-	public long updateCustomerAddress(CustomerAddress customerAddress) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void updateCustomerAddress(CustomerAddress customerAddress) {
+		System.out.println("Updating CustomerAddress..");
+		final String sql = "UPDATE customer_address SET "
+				+ "area_id=?, building_name=?, flat_no=?, address_type=?, remarks=?, "
+				+ "last_modified_date=?, last_modified_user=? WHERE id = ?";
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		sequence = new PostgreSQLSequenceMaxValueIncrementer(dataSource,
+				"customer_address_id_seq");
+		jdbcTemplate.update(
+				sql,
+				new Object[] { customerAddress.getArea().getId(),
+						customerAddress.getBuildingName(),
+						customerAddress.getFlatNo(),
+						customerAddress.getAddressType(),
+						customerAddress.getRemarks(),
+						customerAddress.getLastModifiedDate(),
+						customerAddress.getLastModifiedUser(),
+						customerAddress.getId() });
 	}
 
 	@Override
-	public long deleteCustomerAddress(CustomerAddress customerAddress) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void deleteCustomerAddress(Long customerAddressId) {
+		String sql = "delete from customer_address where id="
+				+ customerAddressId;
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		jdbcTemplate.execute(sql);
 	}
 
 	@Override

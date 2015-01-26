@@ -8,10 +8,10 @@ public interface CustomerAddressDAO {
 
 	public long createCustomerAddress(CustomerAddress customerAddress);
 
-	public long updateCustomerAddress(CustomerAddress customerAddress);
-
-	public long deleteCustomerAddress(CustomerAddress customerAddress);
+	public void updateCustomerAddress(CustomerAddress customerAddress);
 
 	public List<CustomerAddress> getCustomerAddresssByCustomerId(Long customerId);
+
+	void deleteCustomerAddress(Long customerAddressId);
 
 }

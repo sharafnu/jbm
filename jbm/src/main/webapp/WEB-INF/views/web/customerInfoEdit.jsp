@@ -3,6 +3,42 @@
 	<span class="breadcrumbs">Home > Customer > Update Customer Info</span>
 </div>
 <script type="text/javascript">
+
+var addressMap = new Object();
+function editAddress(customerAddressId) {
+	var address = addressMap[customerAddressId];
+	
+	$("#formCustomerAddressId").val(customerAddressId);
+    $("#formAddressType").val(address[1]);
+    $("#formFlatNo").val(address[2]);
+    $("#formBuildingName").val(address[3]);
+    $("#formAreaId").val(address[4]);
+    $("#formRemarks").val(address[6]);
+    
+    $("#popupWindow").jqxWindow({ position: { x: 660, y: 185 } });
+    $("#popupWindow").jqxWindow('open');
+	
+}
+
+function deleteAddress(addressId, customerId) {
+	if(confirm("Are you sure, you want to delete this address?")) {
+		$.ajax(
+				{
+					type : "POST",
+					url : "deleteCustomerAddress/"+addressId+".html",
+				})
+		.done(
+				function(actionStatus) {
+					if (actionStatus.statusType == "Success") {
+						loadAddressGrid(customerId);
+						alert(actionStatus.statusMessage);
+					} else {
+						alert(actionStatus.statusMessage);
+					}
+		});
+	}
+}
+
 function loadCustomerCombo(comboWidth) {
 	var customerListUrl = "customerListJSON.html";
 	var customerListSource = {
@@ -136,18 +172,14 @@ function loadCustomerCombo(comboWidth) {
 							theme : theme
 						});
 						addAddressButton.click(function (event) {
-	                         $("#popupWindow").jqxWindow({ position: { x: 660, y: 185 } });
-	                        $("#popupWindow").jqxWindow('open');
-	                         
-							//$('#addCustomerPopupWindow').jqxWindow('show');
-	                        
-	                    });
-						// Create jqxButton.
-						var editAddressButton = $("#editAddressButton").jqxButton({
-							theme : theme
-						});
-						editAddressButton.click(function (event) {
-	                        $("#popupWindow").jqxWindow({ position: { x: 660, y: 185 } });
+							
+							$("#formCustomerAddressId").val("");
+							$("#formAddressType").val("");
+				            $("#formAreaId").val("");
+				            $("#formBuildingName").val("");
+				            $("#formFlatNo").val("");
+				            $("#formRemarks").val("");
+							$("#popupWindow").jqxWindow({ position: { x: 660, y: 185 } });
 	                        $("#popupWindow").jqxWindow('open');
 	                         
 							//$('#addCustomerPopupWindow').jqxWindow('show');
@@ -225,11 +257,14 @@ function loadCustomerCombo(comboWidth) {
 	});
 	
 	function loadAddressGrid(customerId) {
+		addressMap = new Object();
 		var empAddressSource = {
 		        datatype: "json",
 		        datafields: [
+							{ name: 'id', type: 'int' },
 		                    { name: 'addressType', type: 'string' },
 		                    { name: 'buildingName', type: 'string' },
+		                    { name: 'remarks', type: 'string' },
 		                    { name: 'flatNo', type: 'string' },
 		                    { name: 'areaId', type: 'int' },
 		                    { name: 'customerId', type: 'int' },
@@ -260,8 +295,13 @@ function loadCustomerCombo(comboWidth) {
 							enableHover : false,
 							selectionMode : 'none',
 							rendered : function() {
-								/* $(".buy").jqxButton();
-								$(".buy")
+								try {
+									$(".editAddress").jqxButton();
+									$(".deleteAddress").jqxButton();										
+								} catch (e) {
+									// TODO: handle exception
+								}
+								/* $(".buy")
 										.click(
 												function() {
 													itemsInCart++;
@@ -290,15 +330,28 @@ function loadCustomerCombo(comboWidth) {
 											+ employeeAddressRow.addressType
 											+ "</b></i></div>";
 									info += "<div>Flat No.: "+ employeeAddressRow.flatNo+ "</div>";
-									info += "<div>Building.: "+ employeeAddressRow.buildingName+ "</div>";
-									info += "<div>Area.: "+ employeeAddressRow.areaName+ "</div>";
-									info += "<div>City.: "+ employeeAddressRow.cityName+ "</div>";			
+									info += "<div>Building: "+ employeeAddressRow.buildingName+ "</div>";
+									info += "<div>Area: "+ employeeAddressRow.areaName+ "</div>";
+									info += "<div>City: "+ employeeAddressRow.cityName+ "</div>";
+									info += "<div>Remarks: "+ employeeAddressRow.remarks+ "</div>";
 									info += "</div>";
-
-									var buy = "<button class='editAddress' id='editAddressButton' style='margin: 5px; width: 80px; position: relative;  margin-bottom: 3px;'>Edit</button>";
-
+									
+									
+									var address = []
+									address[0] = employeeAddressRow.id;
+									address[1] = employeeAddressRow.addressType;
+									address[2] = employeeAddressRow.flatNo;
+									address[3] = employeeAddressRow.buildingName;
+									address[4] = employeeAddressRow.areaId;
+									address[5] = employeeAddressRow.cityName;
+									address[6] = employeeAddressRow.remarks;
+									addressMap[employeeAddressRow.id] = address;
+									var edit = "<input type='button' value='Edit' class='editAddress' id='editAddressButton' onClick='editAddress("+employeeAddressRow.id+")'/>";
+									
+									var del = "&nbsp;&nbsp;&nbsp;<input type='button' value='Delete' class='deleteAddress' id='deleteAddressButton' onClick='deleteAddress("+employeeAddressRow.id+", "+employeeAddressRow.customerId+")'/>";
 									item += info;
-									item += buy;
+									item += edit;
+									item += del;
 									item += "</div>";
 									container += item;
 									container += "</div>";
@@ -392,6 +445,11 @@ function loadCustomerCombo(comboWidth) {
 			width : '230px',
 			height : '20px'
 		});
+        
+        $("#formRemarks").jqxInput({
+			width : '230px',
+			height : '20px'
+		});
 
         $("#Cancel").jqxButton({ theme: theme });
         var saveButton =  $("#Save").jqxButton({ theme: theme });
@@ -399,33 +457,38 @@ function loadCustomerCombo(comboWidth) {
         saveButton.click(function (event) {
         	
          	var addressTypeItem = $("#formAddressType").jqxComboBox('getSelectedItem');
-        	//var cityItem = $("#formCityId").jqxComboBox('getSelectedItem');
+         	//var cityItem = $("#formCityId").jqxComboBox('getSelectedItem');
         	var areaItem = $("#formAreaId").jqxComboBox('getSelectedItem');
         	var customerIdItem = $("#formCustomerId").jqxComboBox('getSelectedItem');
+        	var rem = $("#formRemarks").val();
 			var custId = customerIdItem.value;
 			$.ajax({
 	       	  type: "POST",
 	       	  url: "saveCustomerAddress.html",
 	       	  data: { addressType: addressTypeItem.value, buildingName: $("#formBuildingName").val(), flatNo: $("#formFlatNo").val(), 
-	       		customerId: custId, areaId: areaItem.value}
+	       		customerId: custId, areaId: areaItem.value, remarks: rem, id: $("#formCustomerAddressId").val()}
 	       	}).done(function( msg ) {
-	       	    //alert( "Data Saved: " + msg );
+	       	    //alert( msg );
+	       		$("#formCustomerAddressId").val("");
+	            $("#formAddressType").val("");
+	            //$("#formCityId").val("");
+	            $("#formAreaId").val("");
+	            $("#formBuildingName").val("");
+	            $("#formFlatNo").val("");
+	            $("#formRemarks").val("");
+	            $("#popupWindow").jqxWindow('hide');
+	            loadAddressGrid(custId);
 	       	});
             //Clear form values
             
-            $("#formAddressType").val("");
-            //$("#formCityId").val("");
-            $("#formAreaId").val("");
-            $("#formBuildingName").val("");
-            $("#formFlatNo").val("");
-            $("#popupWindow").jqxWindow('hide');
-            loadAddressGrid(custId);
+            
+            
         });
 	}
 </script>
 
 
-<form id="form" action="./">
+<form id="form" action="#">
 
 <!-- Container for create-account controls, populated by JavaScript code below. -->
 <div id="SIU2" class="SIU2" style="opacity: 1;">
@@ -498,6 +561,7 @@ function loadCustomerCombo(comboWidth) {
  		<table class="popupFormTable">
 		 	<tr>
 		         <td align="right">Address Type:</td>
+		         <input type="hidden" id="formCustomerAddressId"/>
 		         <td align="left"><div id="formAddressType" ></div></td>
 		     </tr>
 		     <!-- <tr>
@@ -516,6 +580,11 @@ function loadCustomerCombo(comboWidth) {
 		         <td align="right">Flat No:</td>
 		         <td align="left"><input id='formFlatNo'/></td>
 		     </tr>
+		     <tr>
+		         <td align="right">Remarks:</td>
+		         <td align="left"><input id='formRemarks'/></td>
+		     </tr>
+		     
 		     <tr>
 		         <td align="right"></td>
 		         <td style="padding-top: 10px;" align="right"><input style="margin-right: 5px;" type="button" id="Save" value="Save" /><input id="Cancel" type="button" value="Cancel" /></td>

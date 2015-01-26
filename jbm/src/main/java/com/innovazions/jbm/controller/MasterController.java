@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,14 +19,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.support.XmlWebApplicationContext;
 
 import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.common.JBMConstants;
 import com.innovazions.jbm.common.JBMUIHelper;
+import com.innovazions.jbm.common.PropertiesUtil;
 import com.innovazions.jbm.entity.Area;
 import com.innovazions.jbm.entity.City;
 import com.innovazions.jbm.entity.Employee;
 import com.innovazions.jbm.entity.MasterSetup;
+import com.innovazions.jbm.entity.SystemProperty;
 import com.innovazions.jbm.entity.User;
 import com.innovazions.jbm.service.AreaService;
 import com.innovazions.jbm.service.CommonService;
@@ -36,6 +41,7 @@ import com.innovazions.jbm.view.AreaView;
 import com.innovazions.jbm.view.CityView;
 import com.innovazions.jbm.view.EmployeeView;
 import com.innovazions.jbm.view.MasterSetupView;
+import com.innovazions.jbm.view.SystemPropertyView;
 import com.innovazions.jbm.view.UserView;
 
 /**
@@ -62,6 +68,8 @@ public class MasterController extends AbstractController {
 	@Autowired
 	private AccessManagerService userService;
 
+	@Autowired
+	private ApplicationContext applicationContext;
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -82,6 +90,20 @@ public class MasterController extends AbstractController {
 		return new Area().convertEntitiesToViews(areaList);
 	}
 
+	/**
+	 * 
+	 * Actions for MasterSetup Starts Here >>
+	 */
+	@RequestMapping(value = "/masterList", method = RequestMethod.GET)
+	public String masterList(Locale locale, Model model,
+			HttpServletRequest request) {
+		if (!request.isUserInRole("ROLE_ADMIN")) {
+			return "home";
+		}
+		logger.info("MasterController > masterList");
+		return "masterSetupList";
+	}
+
 	@RequestMapping(value = "/masterListJSON/{masterType}", method = RequestMethod.GET)
 	public @ResponseBody List<MasterSetupView> getMasterListJSON(
 			@PathVariable String masterType) {
@@ -90,6 +112,130 @@ public class MasterController extends AbstractController {
 				.getMasterSetupList(masterType);
 		return new MasterSetup().convertEntitiesToViews(masterSetupList);
 	}
+
+	@RequestMapping(value = "/saveMasterSetup", method = RequestMethod.POST)
+	public @ResponseBody ActionStatus saveMasterSetup(
+			@ModelAttribute("masterSetupView") MasterSetupView masterSetupView,
+			BindingResult result, HttpServletRequest request) {
+		if (!request.isUserInRole("ROLE_ADMIN")) {
+			return CommonUtils.getUnAuthorizedAccessActionStatus();
+		}
+		System.out.println("Master Name:" + masterSetupView.getCode()
+				+ " Desc:" + masterSetupView.getDescription());
+		MasterSetup masterSetup = masterSetupView.convertViewToEntity();
+		if (masterSetup != null && masterSetup.getId() != null
+				&& masterSetup.getId() > 0) {
+			masterSetupService.updateMasterSetup(masterSetup);
+			return CommonUtils.getDataUpdateSuccessActionStatus();
+		} else {
+			masterSetupService.createMasterSetup(masterSetup);
+			return CommonUtils.getDataSaveSuccessActionStatus();
+		}
+	}
+
+	@RequestMapping(value = "/deleteMasterSetup", method = RequestMethod.POST)
+	public @ResponseBody ActionStatus deleteMasterSetup(
+			@ModelAttribute("masterSetupView") MasterSetupView masterSetupView,
+			BindingResult result, HttpServletRequest request) {
+		if (!request.isUserInRole("ROLE_ADMIN")) {
+			return CommonUtils.getUnAuthorizedAccessActionStatus();
+		}
+		MasterSetup masterSetup = masterSetupView.convertViewToEntity();
+
+		ActionStatus message = CommonUtils.getDataDeleteSuccessActionStatus();
+		try {
+			masterSetupService.deleteMasterSetup(masterSetup);
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = CommonUtils
+					.getErrorActionStatus("Unable to delete. Reference records exists");
+		}
+
+		return message;
+	}
+
+	/**
+	 * 
+	 * Actions for MasterSetup Ends Here >>
+	 */
+
+	/**
+	 * 
+	 * Actions for SystemProperty Starts Here >>
+	 */
+	@RequestMapping(value = "/systemProperyList", method = RequestMethod.GET)
+	public String systemProperyList(Locale locale, Model model,
+			HttpServletRequest request) {
+		if (!request.isUserInRole("ROLE_ADMIN")) {
+			return "home";
+		}
+		logger.info("MasterController > propertyList");
+		return "systemProperyList";
+	}
+
+	@RequestMapping(value = "/systemProperyListJSON", method = RequestMethod.GET)
+	public @ResponseBody List<SystemPropertyView> systemProperyListJSON() {
+		logger.info("MasterController > systemProperyListJSON");
+		List<SystemProperty> systemPropertyList = commonService
+				.getAllSystemProperties();
+		return new SystemProperty().convertEntitiesToViews(systemPropertyList);
+	}
+
+	@RequestMapping(value = "/saveSystemProperty", method = RequestMethod.POST)
+	public @ResponseBody ActionStatus saveSystemProperty(
+			@ModelAttribute("systemPropertyView") SystemPropertyView systemPropertyView,
+			BindingResult result, HttpServletRequest request) {
+		if (!request.isUserInRole("ROLE_ADMIN")) {
+			return CommonUtils.getUnAuthorizedAccessActionStatus();
+		}
+		System.out.println("System Property Name:"
+				+ systemPropertyView.getPropKey() + " Desc:"
+				+ systemPropertyView.getDescription());
+		SystemProperty systemProperty = systemPropertyView
+				.convertViewToEntity();
+		if (systemProperty != null && systemProperty.getId() > 0) {
+			commonService.updateSystemProperty(systemProperty);
+			// applicationContext starts life as ClassPathXmlApplicationContext("applicationContext.xml");
+		    ((XmlWebApplicationContext) applicationContext).refresh(); 
+			return CommonUtils.getDataUpdateSuccessActionStatus();
+		} else {
+			commonService.createSystemProperty(systemProperty);
+			// applicationContext starts life as ClassPathXmlApplicationContext("applicationContext.xml");
+		    ((XmlWebApplicationContext) applicationContext).refresh(); 
+
+				return CommonUtils.getDataSaveSuccessActionStatus();
+		}
+	}
+
+	@RequestMapping(value = "/deleteSystemProperty", method = RequestMethod.POST)
+	public @ResponseBody ActionStatus deleteSystemProperty(
+			@ModelAttribute("systemPropertyView") SystemPropertyView systemPropertyView,
+			BindingResult result, HttpServletRequest request) {
+		System.out.println("Deleting SystemProperty"+systemPropertyView.getId());
+		if (!request.isUserInRole("ROLE_ADMIN")) {
+			return CommonUtils.getUnAuthorizedAccessActionStatus();
+		}
+		SystemProperty systemProperty = systemPropertyView
+				.convertViewToEntity();
+
+		ActionStatus message = CommonUtils.getDataDeleteSuccessActionStatus();
+		try {
+			commonService.deleteSystemProperty(systemProperty);
+			((XmlWebApplicationContext) applicationContext).refresh(); 
+			return CommonUtils.getDataUpdateSuccessActionStatus();
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = CommonUtils
+					.getErrorActionStatus("Unable to delete. Reference records exists");
+		}
+
+		return message;
+	}
+
+	/**
+	 * 
+	 * Actions for System Property Ends Here >>
+	 */
 
 	@RequestMapping(value = "/saveArea", method = RequestMethod.POST)
 	public @ResponseBody String saveArea(

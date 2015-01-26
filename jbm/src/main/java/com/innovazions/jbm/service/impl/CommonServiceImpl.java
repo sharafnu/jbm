@@ -1,4 +1,4 @@
-package com.innovazions.jbm.service.impl;
+package com.innovazions.jbm.service.impl;	
 
 import java.util.List;
 
@@ -21,8 +21,26 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	@Override
+	public long createSystemProperty(SystemProperty systemProperty) {
+		
+		return commonDAO.createSystemProperty(systemProperty);
+	}
+
+	@Override
+	public void updateSystemProperty(SystemProperty systemProperty) {
+		commonDAO.updateSystemProperty(systemProperty);
+		
+	}
+
+	@Override
+	public void deleteSystemProperty(SystemProperty systemProperty) {
+		commonDAO.deleteSystemProperty(systemProperty);
+	}
+
+	@Override
 	public String getSequenceCodeByType(String type, String prefixPropName) {
 		return commonDAO.getSequenceCodeByType(type, prefixPropName);
 	}
 
 }
+	

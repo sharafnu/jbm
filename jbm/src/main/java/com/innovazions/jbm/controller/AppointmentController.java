@@ -403,7 +403,8 @@ public class AppointmentController extends AbstractController {
 		 * List<CalendarAppointmentDetailCalendarVO> appointmentCountList =
 		 * appointmentService .getAppointmentStaffNameForCalendar();
 		 */
-
+		appointmentCountListForEventCalendar = appointmentService
+				.getAppointmentStaffNameForCalendar();
 		return convertToEventListDayWeekViewNew(appointmentCountListForEventCalendar);
 	}
 

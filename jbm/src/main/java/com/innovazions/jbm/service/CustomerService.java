@@ -7,6 +7,8 @@ import com.innovazions.jbm.entity.Customer;
 public interface CustomerService {
 
 	public Long createCustomer(Customer customer);
+	
+	public void updateCustomer(Customer customer);
 
 	public List<Customer> getCustomerList(Customer customer);
 
@@ -17,5 +19,7 @@ public interface CustomerService {
 	public boolean checkDuplicateMobileNo(String mobileNo);
 
 	public Customer findCustomerByPrimaryMobileNo(String mobileNo);
+
+	void deleteCustomer(Customer customer);
 
 }

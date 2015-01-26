@@ -8,9 +8,9 @@ public interface CustomerDAO {
 
 	public long createCustomer(Customer customer);
 
-	public long updateCustomer(Customer customer);
+	public void updateCustomer(Customer customer);
 
-	public long deleteCustomer(Customer customer);
+	public void deleteCustomer(Customer customer);
 
 	public List<Customer> getCustomerList(Customer customer);
 

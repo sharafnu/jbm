@@ -17,9 +17,15 @@ public class PropertiesUtil implements InitializingBean {
 	@Autowired
 	private CommonService commonService;
 
+	public void reloadProperties() throws Exception {
+		System.out.println("Re-Loading Properties");
+		afterPropertiesSet();
+	}
+	
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		System.out.println("Loading Properties");
+		propertiesMap = new HashMap<String, String>();
 		List<SystemProperty> systemProperties = commonService
 				.getAllSystemProperties();
 		for (SystemProperty systemProperty : systemProperties) {
