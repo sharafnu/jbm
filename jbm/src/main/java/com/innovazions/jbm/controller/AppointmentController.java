@@ -184,10 +184,12 @@ public class AppointmentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/customerApointmentAdd", method = RequestMethod.GET)
-	public String customerApointmentAdd(Locale locale, Model model) {
+	public ModelAndView customerApointmentAdd(Locale locale, Model model) {
 		logger.info("AppoinmentController > customerApointmentAdd");
 
-		return "customerApointmentAdd";
+		String appointmentCreationSMSFlag = PropertiesUtil.getProperty(JBMConstants.PROP_ENABLE_APPOINTMENT_CREATION_SMS);
+		//return "customerApointmentAdd";
+		return new ModelAndView("customerApointmentAdd", "appointmentCreationSMSFlag", appointmentCreationSMSFlag);
 	}
 
 	@RequestMapping(value = "/customerApointmentEdit", method = RequestMethod.GET)
@@ -224,8 +226,12 @@ public class AppointmentController extends AbstractController {
 		// send mail
 		emailNotificationService
 				.sendAppoinmentCreationEmailNotification(appointment);
-		smsNotificationService
+		if (appointmentView.getSendSMSFlag() != null
+				&& appointmentView.getSendSMSFlag().equals(
+						JBMConstants.OPTION_YES)) {
+			smsNotificationService
 				.sendAppoinmentCreationSMSNotification(appointment);
+		}
 		redirectAttributes.addFlashAttribute("infoMessage",
 				"Appointment Created : " + appointmentNo);
 		return "redirect:customerApointmentAdd.html";
@@ -255,15 +261,24 @@ public class AppointmentController extends AbstractController {
 			message = ActionMessages.STATUS_MESSAGE_APPOINTMENT_UPDATED;
 			emailNotificationService
 					.sendAppoinmentCompletionEmailNotification(appointment);
-			smsNotificationService
-					.sendAppoinmentCompletionSMSNotification(appointment);
+			if (appointmentView.getSendSMSFlagCompletion() != null
+					&& appointmentView.getSendSMSFlagCompletion().equals(
+							JBMConstants.OPTION_YES)) {
+				smsNotificationService
+				.sendAppoinmentCompletionSMSNotification(appointment);
+			}
+			
 		} else if (appointmentView.getAppointmentStatus().equals(
 				JBMConstants.APPOINTMENT_STATUS_CANCELLED)) {
 			appointmentService.updateAppointment(appointment);
 			emailNotificationService
 					.sendAppoinmentCancellationEmailNotification(appointment);
-			smsNotificationService
+			if (appointmentView.getSendSMSFlagCancellation() != null
+					&& appointmentView.getSendSMSFlagCancellation().equals(
+							JBMConstants.OPTION_YES)) {
+				smsNotificationService
 					.sendAppoinmentCancellationSMSNotification(appointment);
+			}
 			message = ActionMessages.STATUS_MESSAGE_APPOINTMENT_CANCELLED;
 		}
 
@@ -314,11 +329,16 @@ public class AppointmentController extends AbstractController {
 			HttpServletRequest httpServletRequest,
 			HttpServletResponse httpServletResponse) {
 		logger.info("AppoinmentController > customerAppointmentDetails");
+		String appointmentCompletionSMSFlag = PropertiesUtil.getProperty(JBMConstants.PROP_ENABLE_APPOINTMENT_COMPLETION_SMS);
+		String appointmentCancellationSMSFlag = PropertiesUtil.getProperty(JBMConstants.PROP_ENABLE_APPOINTMENT_CANCELLATION_SMS);
+		
 		Integer appointmentId = (Integer) httpServletRequest.getSession()
 				.getAttribute(
 						JBMUIHelper.getLoggedInUserName(httpServletRequest,
 								httpServletResponse) + "_SELECTED_APP_ID");
 		model.addAttribute("appointmentId", appointmentId);
+		model.addAttribute("appointmentCompletionSMSFlag", appointmentCompletionSMSFlag);
+		model.addAttribute("appointmentCancellationSMSFlag", appointmentCancellationSMSFlag);
 		httpServletRequest.getSession().setAttribute(
 				JBMUIHelper.getLoggedInUserName(httpServletRequest,
 						httpServletResponse) + "_SELECTED_APP_ID", null);

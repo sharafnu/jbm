@@ -37,6 +37,7 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 	private Date invoiceDate;
 
 	private double invoiceAmount;
+
 	private String remarks;
 
 	private String startTime;
@@ -82,6 +83,12 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 	private double paidAmount;
 	
 	private String paymentMode;
+	
+	private String sendSMSFlag;
+	
+	private String sendSMSFlagCompletion;
+	
+	private String sendSMSFlagCancellation;
 
 	public Long getId() {
 		return id;
@@ -479,6 +486,30 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 
 	public void setInvoiceAmount(double invoiceAmount) {
 		this.invoiceAmount = invoiceAmount;
+	}
+
+	public String getSendSMSFlag() {
+		return sendSMSFlag;
+	}
+
+	public void setSendSMSFlag(String sendSMSFlag) {
+		this.sendSMSFlag = sendSMSFlag;
+	}
+
+	public String getSendSMSFlagCompletion() {
+		return sendSMSFlagCompletion;
+	}
+
+	public void setSendSMSFlagCompletion(String sendSMSFlagCompletion) {
+		this.sendSMSFlagCompletion = sendSMSFlagCompletion;
+	}
+
+	public String getSendSMSFlagCancellation() {
+		return sendSMSFlagCancellation;
+	}
+
+	public void setSendSMSFlagCancellation(String sendSMSFlagCancellation) {
+		this.sendSMSFlagCancellation = sendSMSFlagCancellation;
 	}
 
 	

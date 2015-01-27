@@ -15,38 +15,96 @@
 	    return s;
 	}
 
+	function calculateHoursSpent() {
+		var startTime = $("#startTime").text();
+		var endTime = $('#formEndTime').val();
+		 var frmHr = parseInt(startTime.substr(0,2));
+		 var frmMin = parseInt(startTime.substr(3,2));
+    	 var toHr = parseInt(endTime.substr(0,2));
+    	 var toMin = parseInt(endTime.substr(3,2));
+    	 
+    	 var frmAMPM = startTime.substr(6,2);
+    	 var toAMPM = endTime.substr(6,2);
+    	 
+    	 var totalHours = 0;
+    	 
+    	 if(frmAMPM.toUpperCase() === "AM") {
+    		 if(toAMPM.toUpperCase() === "AM") {
+    			 totalHours = toHr - frmHr;	 
+    		 } else {
+    			 if(toHr == "12") {
+    				 totalHours = toHr - frmHr;
+    			 } else {
+    			 	totalHours = toHr - frmHr+12;
+    			 }
+    		 }
+    		 
+    	 } else {
+    		 if(toAMPM.toUpperCase() === "AM") {
+    			 totalHours = toHr - frmHr+12;	 
+    		 } else {
+    			 totalHours = toHr - frmHr;	 
+    		 }
+    		 //totalHours = toHr - frmHr;
+    	 }
+    	 
+    	 if(toMin > frmMin) {
+    		 totalHours = totalHours + 0.5;
+    	 } else if(frmMin > toMin) {
+    		 totalHours = totalHours - 0.5;
+    	 }
+    	 /* if(totalHours > 12) {
+    		 totalHours = totalHours - 12;
+    	 }
+    	 if(totalHours < 0) {
+    		 totalHours = totalHours +12;
+    	 } */
+		$("#formHoursSpent").val(totalHours);
+		
+	}
+	
+	function handleAppoinmentDetailsData (appointmentView){
+		$("#customerId").val(appointmentView.customerId);
+		$("#appointmentNo").text(appointmentView.appointmentNo);
+		$("#customerName").text(appointmentView.customerName);
+		$("#employeeName").text(appointmentView.employeeName);
+		//$('#formFromDate').jqxDateTimeInput({ value: new Date($('#startDate').val()) });
+		var appointmentDateObj = new Date(appointmentView.appointmentDate);
+		var formattedDate = pad(appointmentDateObj.getDate(), 2)+"-"+pad(appointmentDateObj.getMonth()+1, 2)+"-"+appointmentDateObj.getFullYear();
+		//alert(new Date(appointmentView.appointmentDate));
+		//alert(formattedDate);
+		$("#appointmentDate").val(formattedDate);
+		$("#appointmentDateDisplay").text(formattedDate);
+		
+		$("#startTime").text(appointmentView.startTime);
+		$("#formEndTime").val(appointmentView.endTime);
+		$("#notesDetailsDiv").text(appointmentView.remarks);
+		//calculateHoursSpent();
+		$("#location").text(appointmentView.flatNo +", "+appointmentView.buildingName+"," +appointmentView.areaName+", "+appointmentView.cityName);            		
+		loadCustomerContractCombo(appointmentView.customerId);
+	}	
+	
 	$(document).ready(function() {
 		document.title = 'Appointment Completion';
 		setupAppointmentDetailsForm();
 		loadAppoinmentCombo();
 		
 		//formAppoinmentStatus
-	if($('#appointmentId').val() != "") {
+		if($('#appointmentId').val() != "") {
 		
 		 var appointmentDetailsURL = "getCustomerAppointmentDetails/";
 		appointmentDetailsURL = appointmentDetailsURL +$('#appointmentId').val()+".html";
-    	$.get(appointmentDetailsURL, function(appointmentView){
-    		$("#customerId").val(appointmentView.customerId);
-    		$("#appointmentNo").text(appointmentView.appointmentNo);
-    		$("#customerName").text(appointmentView.customerName);
-    		$("#employeeName").text(appointmentView.employeeName);
-    		//$('#formFromDate').jqxDateTimeInput({ value: new Date($('#startDate').val()) });
-    		var appointmentDateObj = new Date(appointmentView.appointmentDate);
-    		var formattedDate = pad(appointmentDateObj.getDate(), 2)+"-"+pad(appointmentDateObj.getMonth()+1, 2)+"-"+appointmentDateObj.getFullYear();
-    		//alert(new Date(appointmentView.appointmentDate));
-    		//alert(formattedDate);
-    		$("#appointmentDate").val(formattedDate);
-    		$("#appointmentDateDisplay").text(formattedDate);
+		$.ajax({
+	        url : appointmentDetailsURL,
+	        type: 'GET',
+	        success : handleAppoinmentDetailsData
+	    });
+	    
+    	 
     		
-    		$("#startTime").text(appointmentView.startTime);
-    		$("#formEndTime").val(appointmentView.endTime);
-    		$("#notesDetailsDiv").text(appointmentView.remarks);
-    		calculateHoursSpent();
-    		$("#location").text(appointmentView.flatNo +", "+appointmentView.buildingName+"," +appointmentView.areaName+", "+appointmentView.cityName);            		
-    		loadCustomerContractCombo(appointmentView.customerId);
-    	});	
 	}	
 		
+	
 	$('#formAppoinmentStatus').on('change', function(event) {
 			var args = event.args;
 			if (args) {
@@ -85,7 +143,12 @@
 			if (item.value != "") {
 				var appointmentDetailsURL = "getCustomerAppointmentDetails/";
 				appointmentDetailsURL = appointmentDetailsURL +item.value+".html";
-            	$.get(appointmentDetailsURL, function(appointmentView){            		
+				$.ajax({
+			        url : appointmentDetailsURL,
+			        type: 'GET',
+			        success : handleAppoinmentDetailsData
+			    });
+            	/* $.get(appointmentDetailsURL, function(appointmentView){            		
             		$("#customerId").val(appointmentView.customerId);
             		$("#appointmentNo").text(appointmentView.appointmentNo);
             		$("#customerName").text(appointmentView.customerName);
@@ -104,7 +167,7 @@
             		calculateHoursSpent();
             		loadCustomerContractCombo(appointmentView.customerId);
             		$("#location").text(appointmentView.flatNo +", "+appointmentView.buildingName+"," +appointmentView.areaName+", "+appointmentView.cityName);            		
-            	});	
+            	});	 */
 			}
 		}
 	});
@@ -136,49 +199,7 @@
 		return true;
 	}
 	 
-	function calculateHoursSpent() {
-		var startTime = $("#startTime").text();
-		var endTime = $('#formEndTime').val();
-		 var frmHr = parseInt(startTime.substr(0,2));
-		 var frmMin = parseInt(startTime.substr(3,2));
-    	 var toHr = parseInt(endTime.substr(0,2));
-    	 var toMin = parseInt(endTime.substr(3,2));
-    	 
-    	 var frmAMPM = startTime.substr(6,2);
-    	 var toAMPM = endTime.substr(6,2);
-    	 
-    	 var totalHours = 0;
-    	 
-    	 if(frmAMPM == "AM") {
-    		 if(toAMPM == "am") {
-    			 totalHours = toHr - frmHr;	 
-    		 } else {
-    			 totalHours = toHr - frmHr+12;	 
-    		 }
-    		 
-    	 } else {
-    		 if(toAMPM == "am") {
-    			 totalHours = toHr - frmHr+12;	 
-    		 } else {
-    			 totalHours = toHr - frmHr;	 
-    		 }
-    		 //totalHours = toHr - frmHr;
-    	 }
-    	 
-    	 if(toMin > frmMin) {
-    		 totalHours = totalHours + 0.5;
-    	 } else if(frmMin > toMin) {
-    		 totalHours = totalHours - 0.5;
-    	 }
-    	 /* if(totalHours > 12) {
-    		 totalHours = totalHours - 12;
-    	 }
-    	 if(totalHours < 0) {
-    		 totalHours = totalHours +12;
-    	 } */
-		$("#formHoursSpent").val(totalHours);
-		
-	}
+	
 	
 		$("#updateAppointmentButton").click(	
 			function() {
@@ -260,6 +281,11 @@
 							{
 								if(actionStatus.statusType == "Success") {
 									//alert("Complete:Submit");
+									if($("#sendCompletionSMSYes").val() == true) {
+										$("#sendSMSFlagCompletion").val("Yes");
+									} else {
+										$("#sendSMSFlagCompletion").val("No");
+									}
 									$('#appoinmentUpdateForm').submit();
 								} else {
 									//jqxAlert.alert("Appointment end date/time cannot be greater than current date/time");
@@ -281,6 +307,13 @@
 							{
 								if(actionStatus.statusType == "Success") {
 									$("#cancellationReason").val($("#formRemarks").val());
+									
+									if($("#sendCancellationSMSYes").val() == true) {
+										$("#sendSMSFlagCancellation").val("Yes");
+									} else {
+										$("#sendSMSFlagCancellation").val("No");
+									}
+									
 									//alert("Cancel:Submit");
 									$('#appoinmentUpdateForm').submit();
 								} else {
@@ -467,6 +500,19 @@ function setupFormValidations() {
 														<td align="right" nowrap>Cancel Remarks :</td>
 														<td><textarea class="textArea" id="formRemarks" rows="3" cols="24"></textarea></td>
 													</tr>
+													<tr class="cancellRemarksDiv">
+														<td>
+															Send SMS?
+														</td>
+														<td>
+															<div id='sendCancellationSMSYes' style="width:80px; float:left;">
+																Yes
+															</div>
+															<div id='sendCancellationSMSNo' style="width:80px; float:left;">
+																No
+															</div>
+														</td>
+													</tr>
 													<tr class="endTimingsDiv">
 														<td align="right" nowrap>End Time : </td>
 														<td><div id="formEndTime" ></div></td>
@@ -512,6 +558,19 @@ function setupFormValidations() {
 														<td align="right">Payment Due Date :</td>
 														<td><div id="formDueDate" ></div></td>
 													</tr>
+													<tr>
+														<td>
+															Send SMS?
+														</td>
+														<td>
+															<div id='sendCompletionSMSYes' style="width:80px; float:left;">
+																Yes
+															</div>
+															<div id='sendCompletionSMSNo' style="width:80px; float:left;">
+																No
+															</div>
+														</td>
+													</tr>
 												</table>
 											</td>
 										</tr>										
@@ -542,6 +601,10 @@ function setupFormValidations() {
 								<input type="hidden" id="invoiceNo" 			name="invoiceNo"/>
 								<input type="hidden" id="invoiceDate" 		name="invoiceDate"/>
 								<input type="hidden" id="appointmentDate" 	name="appointmentDate"/>
+								<input type="hidden" id="appointmentCompletionSMSFlag" 	name="appointmentCompletionSMSFlag" value="${appointmentCompletionSMSFlag}"/>
+								<input type="hidden" id="appointmentCancellationSMSFlag" 	name="appointmentCancellationSMSFlag" value="${appointmentCancellationSMSFlag}"/>
+								<input type="hidden" id="sendSMSFlagCompletion" 	name="sendSMSFlagCompletion"/>
+								<input type="hidden" id="sendSMSFlagCancellation" 	name="sendSMSFlagCancellation"/>
 								<input id="updateAppointmentButton" type="button" value="Update Appoinment Details" />
 							</form>
 						</td>

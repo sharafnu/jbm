@@ -453,7 +453,20 @@
 					</tr>
 					<tr>
 						<td colspan="1">Remarks :</td>
-						<td colspan="2"><textarea class="textArea" id="formRemarks" rows="4" cols="34"></textarea></td>
+						<td colspan="2"><textarea class="textArea" id="formRemarks" rows="4" cols="32"></textarea></td>
+					</tr>
+					<tr>
+						<td>
+							Send SMS?
+						</td>
+						<td colspan="2">
+									<div id='sendSMSYes' style="width:80px; float:left;">
+										Yes
+									</div>
+									<div id='sendSMSNo' style="width:80px; float:left;">
+										No
+									</div>
+						</td>
 					</tr>
 					<tr>
 						<td colspan="1">
@@ -480,6 +493,7 @@
 								
 						</td>						
 					</tr>
+					
 					<tr>
 						<td colspan="3">
 							<c:if test="${not empty errorMessage}">
@@ -503,6 +517,9 @@
 								<input type="hidden" id="remarks" 			name="remarks"/>
 								<input type="hidden" id="startTime" 			name="startTime"/>
 								<input type="hidden" id="endTime" 			name="endTime"/>
+								<input type="hidden" id="appointmentCreationSMSFlag" 			name="appointmentCreationSMSFlag" value="${appointmentCreationSMSFlag}"/>
+								<input type="hidden" id="sendSMSFlag" 			name="sendSMSFlag"/>
+								
 								</form>
 </div>
 <jsp:include page="customerInfoAddPopup.jsp" />

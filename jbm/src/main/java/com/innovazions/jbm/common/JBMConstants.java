@@ -44,6 +44,14 @@ public interface JBMConstants {
 	//Cancellation history offset days
 	public static final String PROP_CUSTOMER_CANCELLATION_OFFSET_DAYS = "PROP_CUSTOMER_CANCELLATION_OFFSET_DAYS";
 	
+	//Property to enable send sms option on appointment creation screen
+	public static final String PROP_ENABLE_APPOINTMENT_CREATION_SMS = "ENABLE_APPOINTMENT_CREATION_SMS";
+	
+	//Property to enable send sms option on appointment completion screen
+	public static final String PROP_ENABLE_APPOINTMENT_COMPLETION_SMS = "ENABLE_APPOINTMENT_COMPLETION_SMS";
+	
+	//Property to enable send sms option on appointment completion screen
+	public static final String PROP_ENABLE_APPOINTMENT_CANCELLATION_SMS = "ENABLE_APPOINTMENT_CANCELLATION_SMS";
 	
 	public static final String LOGGED_IN_USER_NAME = "loggedInUserName";
 	public static final String LOGGED_IN_USER_FULL_NAME = "loggedInUserFullName";
@@ -75,4 +83,7 @@ public interface JBMConstants {
 	
 	public static final String CUSTOMER_CONTRACT_ACTIVE = "Active";	
 	public static final String CUSTOMER_CONTRACT_EXPIRED = "Expired";
+	
+	public static final String OPTION_YES = "Yes";
+	public static final String OPTION_NO = "No";
 }

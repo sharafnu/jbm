@@ -22,8 +22,29 @@ function setupAppointmentDetailsForm() {
 	 //$('#appoinmentDetailsTab').jqxTabs('disableAt', 1);
 	loadAppoinmentStatusCombo();
 	loadCustomerContractCombo(-1);
-	//var endHourListArr = ["12:00 pm","12:30 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm","07:00 pm","07:30 pm","08:00 pm","08:30 pm","09:00 pm","09:30 pm","10:00 pm","10:30 pm","11:00 pm"];
-	var endHourListArr = ["00:00 am","00:30 am","01:00 am","01:30 am","02:00 am","02:30 am","03:00 am","03:30 am","04:00 am","04:30 am","05:00 am","05:30 am","06:00 am","06:30 am","07:00 am","07:30 am","08:00 am","08:30 am","09:00 am","09:30 am","10:00 am","10:30 am","11:00 am","11:30 am","12:00 pm","12:30 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm","07:00 pm","07:30 pm","08:00 pm","08:30 pm","09:00 pm","09:30 pm","10:00 pm","10:30 pm","11:00 pm","11:30 pm"];
+	
+	
+	$("#sendCompletionSMSYes").jqxRadioButton({ groupName: '1', width: 70, height: 10});
+	$("#sendCompletionSMSNo").jqxRadioButton({ groupName: '1', width: 70, height: 10});
+	
+	if($("#appointmentCompletionSMSFlag").val() == "Yes") {
+		$('#sendCompletionSMSYes').jqxRadioButton('check');
+	} else {
+		$('#sendCompletionSMSNo').jqxRadioButton('check');
+	}
+	
+	$("#sendCancellationSMSYes").jqxRadioButton({ groupName: '2', width: 70, height: 10});
+	$("#sendCancellationSMSNo").jqxRadioButton({ groupName: '2', width: 70, height: 10});
+	
+	if($("#appointmentCancellationSMSFlag").val() == "Yes") {
+		$('#sendCancellationSMSYes').jqxRadioButton('check');
+	} else {
+		$('#sendCancellationSMSNo').jqxRadioButton('check');
+	}
+	
+	
+	//var endHourListArr = ["12:00 PM","12:30 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM"];
+	var endHourListArr = ["00:00 AM","00:30 AM","01:00 AM","01:30 AM","02:00 AM","02:30 AM","03:00 AM","03:30 AM","04:00 AM","04:30 AM","05:00 AM","05:30 AM","06:00 AM","06:30 AM","07:00 AM","07:30 AM","08:00 AM","08:30 AM","09:00 AM","09:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","12:30 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM"];
 	
 	$("#formEndTime").jqxComboBox({
 			selectedIndex : -1,
@@ -130,6 +151,14 @@ function setupAppointmentForm() {
 	loadCustomerCombo(280);
 	loadEmployeeCombo(280);
 	loadCustomerAddressCombo(280, -1);
+	$("#sendSMSYes").jqxRadioButton({ width: 70, height: 10});
+	$("#sendSMSNo").jqxRadioButton({ width: 70, height: 10});
+	if($("#appointmentCreationSMSFlag").val() == "Yes") {
+		$('#sendSMSYes').jqxRadioButton('check');
+	} else {
+		$('#sendSMSNo').jqxRadioButton('check');
+	}
+
 	//loadAreaCombo();
 	// Create jqxInput.
 	/*$("#formJobId").jqxInput({
@@ -152,64 +181,64 @@ function setupAppointmentForm() {
 	
 	$("#formStartTime").jqxDateTimeInput('setDate', new Date());*/
 	
-	/*var startHourListArr = ["08:00 am","09:00 am","09:30 am","10:00 am","10:30 am","11:00 am","11:30 am","12:00 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm"];
-	var endHourListArr = ["12:00 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm","07:00 pm","07:30 pm","08:00 pm","08:30 pm","09:00 pm","09:30 pm","10:00 pm","10:30 pm","11:00 pm"];*/
+	/*var startHourListArr = ["08:00 AM","09:00 AM","09:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM"];
+	var endHourListArr = ["12:00 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM"];*/
 	
-	var startHourListArr = ["00:00 am","00:30 am","01:00 am","01:30 am","02:00 am","02:30 am","03:00 am","03:30 am","04:00 am","04:30 am","05:00 am","05:30 am","06:00 am","06:30 am","07:00 am","07:30 am","08:00 am","08:30 am","09:00 am","09:30 am","10:00 am","10:30 am","11:00 am","11:30 am","12:00 pm","12:30 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm","07:00 pm","07:30 pm","08:00 pm","08:30 pm","09:00 pm","09:30 pm","10:00 pm","10:30 pm","11:00 pm","11:30 pm"];
-	var endHourListArr = ["00:00 am","00:30 am","01:00 am","01:30 am","02:00 am","02:30 am","03:00 am","03:30 am","04:00 am","04:30 am","05:00 am","05:30 am","06:00 am","06:30 am","07:00 am","07:30 am","08:00 am","08:30 am","09:00 am","09:30 am","10:00 am","10:30 am","11:00 am","11:30 am","12:00 pm","12:30 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm","07:00 pm","07:30 pm","08:00 pm","08:30 pm","09:00 pm","09:30 pm","10:00 pm","10:30 pm","11:00 pm","11:30 pm"];
+	var startHourListArr = ["00:00 AM","00:30 AM","01:00 AM","01:30 AM","02:00 AM","02:30 AM","03:00 AM","03:30 AM","04:00 AM","04:30 AM","05:00 AM","05:30 AM","06:00 AM","06:30 AM","07:00 AM","07:30 AM","08:00 AM","08:30 AM","09:00 AM","09:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","12:30 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM"];
+	var endHourListArr = ["00:00 AM","00:30 AM","01:00 AM","01:30 AM","02:00 AM","02:30 AM","03:00 AM","03:30 AM","04:00 AM","04:30 AM","05:00 AM","05:30 AM","06:00 AM","06:30 AM","07:00 AM","07:30 AM","08:00 AM","08:30 AM","09:00 AM","09:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","12:30 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM"];
 	
 	/*var startHourListArr = [
-                  {value: "09:00 am", label: "09:00 am"},
-                  {value: "09:30 am", label: "09:30 am"},
-                  {value: "10:00 am", label: "10:00 am"},
-                  {value: "10:30 am", label: "10:30 am"},
-                  {value: "11:00 am", label: "11:00 am"},
-                  {value: "11:30 am", label: "11:30 am"},
-                  {value: "12:00 pm", label: "12:00 pm"},
-                  {value: "12:30 pm", label: "12:30 pm"},
-                  {value: "13:00 pm", label: "01:00 pm"},
-                  {value: "13:30 pm", label: "01:30 pm"},
-                  {value: "14:00 pm", label: "02:00 pm"},
-                  {value: "14:30 pm", label: "02:30 pm"},
-                  {value: "15:00 pm", label: "03:00 pm"},
-                  {value: "15:30 pm", label: "03:30 pm"},
-                  {value: "16:00 pm", label: "04:00 pm"},
-                  {value: "16:30 pm", label: "04:30 pm"},
-                  {value: "17:00 pm", label: "05:00 pm"},
-                  {value: "17:30 pm", label: "05:30 pm"},
-                  {value: "18:00 pm", label: "06:00 pm"},
-                  {value: "18:30 pm", label: "06:30 pm"},
-                  {value: " pm", label: "07:00 pm"}
+                  {value: "09:00 AM", label: "09:00 AM"},
+                  {value: "09:30 AM", label: "09:30 AM"},
+                  {value: "10:00 AM", label: "10:00 AM"},
+                  {value: "10:30 AM", label: "10:30 AM"},
+                  {value: "11:00 AM", label: "11:00 AM"},
+                  {value: "11:30 AM", label: "11:30 AM"},
+                  {value: "12:00 PM", label: "12:00 PM"},
+                  {value: "12:30 PM", label: "12:30 PM"},
+                  {value: "13:00 PM", label: "01:00 PM"},
+                  {value: "13:30 PM", label: "01:30 PM"},
+                  {value: "14:00 PM", label: "02:00 PM"},
+                  {value: "14:30 PM", label: "02:30 PM"},
+                  {value: "15:00 PM", label: "03:00 PM"},
+                  {value: "15:30 PM", label: "03:30 PM"},
+                  {value: "16:00 PM", label: "04:00 PM"},
+                  {value: "16:30 PM", label: "04:30 PM"},
+                  {value: "17:00 PM", label: "05:00 PM"},
+                  {value: "17:30 PM", label: "05:30 PM"},
+                  {value: "18:00 PM", label: "06:00 PM"},
+                  {value: "18:30 PM", label: "06:30 PM"},
+                  {value: " PM", label: "07:00 PM"}
 		        ];
 	
 	var endHourListArr = [
-        {value: "13:00 pm", label: "01:00 pm"},
-        {value: "13:30 pm", label: "01:30 pm"},
-        {value: "14:00 pm", label: "02:00 pm"},
-        {value: "14:30 pm", label: "02:30 pm"},
-        {value: "15:00 pm", label: "03:00 pm"},
-        {value: "15:30 pm", label: "03:30 pm"},
-        {value: "16:00 pm", label: "04:00 pm"},
-        {value: "16:30 pm", label: "04:30 pm"},
-        {value: "17:00 pm", label: "05:00 pm"},
-        {value: "17:30 pm", label: "05:30 pm"},
-        {value: "18:00 pm", label: "06:00 pm"},
-        {value: "18:30 pm", label: "06:30 pm"},
-        {value: "19:00 pm", label: "07:00 pm"},
-        {value: "19:30 pm", label: "07:30 pm"},
-        {value: "20:00 pm", label: "08:00 pm"},
-        {value: "20:30 pm", label: "08:30 pm"},
-        {value: "21:00 pm", label: "09:00 pm"},
-        {value: "21:30 pm", label: "09:30 pm"},
-        {value: "22:00 pm", label: "10:00 pm"},
-        {value: "22:30 pm", label: "10:30 pm"},
-        {value: "23:00 pm", label: "11:00 pm"}
+        {value: "13:00 PM", label: "01:00 PM"},
+        {value: "13:30 PM", label: "01:30 PM"},
+        {value: "14:00 PM", label: "02:00 PM"},
+        {value: "14:30 PM", label: "02:30 PM"},
+        {value: "15:00 PM", label: "03:00 PM"},
+        {value: "15:30 PM", label: "03:30 PM"},
+        {value: "16:00 PM", label: "04:00 PM"},
+        {value: "16:30 PM", label: "04:30 PM"},
+        {value: "17:00 PM", label: "05:00 PM"},
+        {value: "17:30 PM", label: "05:30 PM"},
+        {value: "18:00 PM", label: "06:00 PM"},
+        {value: "18:30 PM", label: "06:30 PM"},
+        {value: "19:00 PM", label: "07:00 PM"},
+        {value: "19:30 PM", label: "07:30 PM"},
+        {value: "20:00 PM", label: "08:00 PM"},
+        {value: "20:30 PM", label: "08:30 PM"},
+        {value: "21:00 PM", label: "09:00 PM"},
+        {value: "21:30 PM", label: "09:30 PM"},
+        {value: "22:00 PM", label: "10:00 PM"},
+        {value: "22:30 PM", label: "10:30 PM"},
+        {value: "23:00 PM", label: "11:00 PM"}
     ];*/
 	
 	$("#formStartTime").jqxComboBox({
 		selectedIndex : -1,
 		source : startHourListArr,
-		width : 130,
+		width : 120,
 		height : 20
 	});
 	$("#formEndTime").jqxComboBox({
@@ -336,6 +365,14 @@ function setupAppointmentForm() {
 						$("#startTime").val($("#formStartTime").val());
 						$("#endTime").val($("#formEndTime").val());
 						$("#remarks").val($("#formRemarks").val());
+						
+						if($("#sendSMSYes").val() == true) {
+							$("#sendSMSFlag").val("Yes");
+						} else {
+							$("#sendSMSFlag").val("No");
+						}
+						
+						
 						$('#appoinmentAddForm').submit();
 					}
 				},
@@ -1101,8 +1138,8 @@ function setupAppointmentEditForm(customerId, employeeId, customerAddressId, sta
 		formatString: 'dd-MM-yyyy' 
 	});
 	
-	var startHourListArr = ["08:00 am","09:00 am","09:30 am","10:00 am","10:30 am","11:00 am","11:30 am","12:00 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm"];
-	var endHourListArr = ["12:00 pm","01:00 pm","01:30 pm","02:00 pm","02:30 pm","03:00 pm","03:30 pm","04:00 pm","04:30 pm","05:00 pm","05:30 pm","06:00 pm","06:30 pm","07:00 pm","07:30 pm","08:00 pm","08:30 pm","09:00 pm","09:30 pm","10:00 pm","10:30 pm","11:00 pm"];
+	var startHourListArr = ["08:00 AM","09:00 AM","09:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM"];
+	var endHourListArr = ["12:00 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM"];
 	
 	$("#formStartTime").jqxComboBox({
 		selectedIndex : -1,

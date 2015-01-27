@@ -509,10 +509,9 @@ border-width:1px;
 
 .textArea {
 	border-color: #719ECE;
-	padding:10px; 
+	padding:3px; 
 	font-family:"Verdana";
 	border:solid 1px #ccc; 
-	margin:0 0 20px; 
 	-webkit-border-radius: 3px; 
 	-moz-border-radius: 3px; 
 	border-radius: 3px;
