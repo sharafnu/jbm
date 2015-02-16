@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.common.JBMConstants;
 import com.innovazions.jbm.entity.Area;
 import com.innovazions.jbm.entity.Customer;
@@ -199,7 +200,7 @@ public class CustomerAndAddressView extends
 			residenceAddress.setBuildingName(this.getResidenceBuildingName());
 			residenceAddress.setFlatNo(this.getResidenceFlatNo());
 			residenceAddress.setLastModifiedUser("SYSTEM");
-			residenceAddress.setLastModifiedDate(new Date());
+			residenceAddress.setLastModifiedDate(CommonUtils.getCurrentDate("Asia/Dubai"));
 			residenceAddress.setRemarks(this.getResidenceRemarks());
 			residenceAddress.setLatitude(this.getResidenceLatitude());
 			residenceAddress.setLongitude(this.getResidenceLongitude());
@@ -216,7 +217,7 @@ public class CustomerAndAddressView extends
 			officeAddress.setBuildingName(this.getOfficeBuildingName());
 			officeAddress.setFlatNo(this.getOfficeFlatNo());
 			officeAddress.setLastModifiedUser("SYSTEM");
-			officeAddress.setLastModifiedDate(new Date());
+			officeAddress.setLastModifiedDate(CommonUtils.getCurrentDate("Asia/Dubai"));
 			officeAddress.setRemarks(this.getOfficeRemarks());
 			officeAddress.setLatitude(this.getOfficeLatitude());
 			officeAddress.setLongitude(this.getOfficeLongitude());

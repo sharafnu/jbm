@@ -56,7 +56,7 @@ public class AppointmentExtractor implements ResultSetExtractor<Appointment> {
 		appointment.setEmployee(employee);
 
 		appointment.setRemarks(rs.getString("remarks"));
-		appointment.setHoursSpent(rs.getInt("hours_spent"));
+		appointment.setHoursSpent(rs.getFloat("hours_spent"));
 		appointment.setPayableAmount(rs.getDouble("payable_amount"));
 		appointment.setPaymentStatus(rs.getString("payment_status"));
 		appointment.setAppointmentStatus(rs.getString("appointment_status"));

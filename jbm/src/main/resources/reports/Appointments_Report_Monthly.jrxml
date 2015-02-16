@@ -1,57 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Appointment_Report_Date_Range" language="groovy" pageWidth="632" pageHeight="842" columnWidth="592" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8e7e4bf-7e2b-4b39-92d0-3d9d0b3ad652">
-	<property name="ireport.zoom" value="1.0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Appointments_Report_Monthly" language="groovy" pageWidth="632" pageHeight="842" columnWidth="592" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8e7e4bf-7e2b-4b39-92d0-3d9d0b3ad653">
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
-	<parameter name="startDate" class="java.lang.String">
+	<property name="ireport.y" value="48"/>
+	<parameter name="month" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="endDate" class="java.lang.String"/>
+	<parameter name="year" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<parameter name="userId" class="java.lang.String"/>
-	<parameter name="status" class="java.lang.String">
+	<parameter name="yearMonth" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT
-     app."appointment_no",
+		<![CDATA[SELECT app."appointment_no",
      app."appointment_date",
-     app."start_date",
-     app."end_date",
-     emp."first_name" AS staffName,
-     cus."first_name" AS customerFirstName,
-     cus."last_name" AS customerLastName,
-     cus."mobile_1" AS mobile_1,
-     cus."mobile_2" AS mobile_2,
-     ca."address_type" AS address_type,
-     ca."flat_no" AS flat_no,
-     ca."building_name" AS building_name,
-     ca."remarks" AS remarks,
-     area.name as "area_name"
-FROM
-     "appointment" app INNER JOIN "customer" cus ON app."customer_id" = cus."id"
-     INNER JOIN "employee" emp ON app."employee_id" = emp."id"
-     INNER JOIN "customer_address" ca ON app."customer_address_id" = ca."id"
-     INNER JOIN "area" area ON ca."area_id" = area."id"
-WHERE
-     app.appointment_date BETWEEN to_date($P{startDate},'DD-MM-YYYY')and to_date($P{endDate},'DD-MM-YYYY')
-     and app."appointment_status" IN ($P!{status})
-ORDER BY
-     app."appointment_date" DESC]]>
+     app."hours_spent",
+     app."payment_status",
+     app."appointment_status",
+apay.amount_paid,
+     emp."first_name" as staff_name,
+cus.first_name as customer_first_name,
+cus.last_name as customer_last_name
+FROM "appointment" app
+INNER JOIN "employee" emp ON app."employee_id" = emp."id"
+INNER JOIN "customer" cus ON app.customer_id=cus.id
+FULL OUTER JOIN appointment_payment apay ON apay.appointment_id=app.id
+
+WHERE to_char(appointment_date,'YYYY-MM') = $P{yearMonth}
+order by app.appointment_date]]>
 	</queryString>
 	<field name="appointment_no" class="java.lang.String"/>
 	<field name="appointment_date" class="java.sql.Timestamp"/>
-	<field name="start_date" class="java.sql.Timestamp"/>
-	<field name="end_date" class="java.sql.Timestamp"/>
-	<field name="staffname" class="java.lang.String"/>
-	<field name="customerfirstname" class="java.lang.String"/>
-	<field name="customerlastname" class="java.lang.String"/>
-	<field name="mobile_1" class="java.lang.String"/>
-	<field name="mobile_2" class="java.lang.String"/>
-	<field name="address_type" class="java.lang.String"/>
-	<field name="flat_no" class="java.lang.String"/>
-	<field name="building_name" class="java.lang.String"/>
-	<field name="remarks" class="java.lang.String"/>
-	<field name="area_name" class="java.lang.String"/>
+	<field name="hours_spent" class="java.math.BigDecimal"/>
+	<field name="payment_status" class="java.lang.String"/>
+	<field name="appointment_status" class="java.lang.String"/>
+	<field name="amount_paid" class="java.lang.Double"/>
+	<field name="staff_name" class="java.lang.String"/>
+	<field name="customer_first_name" class="java.lang.String"/>
+	<field name="customer_last_name" class="java.lang.String"/>
 	<variable name="reportGeneratedDate" class="java.util.Date">
 		<variableExpression><![CDATA[new java.util.Date()]]></variableExpression>
 	</variable>
@@ -140,19 +128,6 @@ ORDER BY
 				<text><![CDATA[App. Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="116" y="49" width="96" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="b57b5350-e9ea-46a2-ab3f-f41c091bf5fc"/>
-				<box leftPadding="1" rightPadding="1">
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center">
-					<font size="9" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Appointment Time ]]></text>
-			</staticText>
-			<staticText>
 				<reportElement mode="Opaque" x="0" y="49" width="28" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="5327b5b4-0288-467c-893c-1848c481a2a6"/>
 				<box leftPadding="1" rightPadding="1">
 					<topPen lineWidth="1.0"/>
@@ -166,7 +141,7 @@ ORDER BY
 				<text><![CDATA[Sl. No]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="208" y="49" width="140" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="1a5a529a-0de7-4afe-8df8-85ad45476114"/>
+				<reportElement mode="Opaque" x="116" y="49" width="140" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="1a5a529a-0de7-4afe-8df8-85ad45476114"/>
 				<box leftPadding="1" rightPadding="1">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -179,7 +154,7 @@ ORDER BY
 				<text><![CDATA[Customer Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="348" y="49" width="70" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="c5edfdb7-93e0-437c-a091-d111cb844576"/>
+				<reportElement mode="Opaque" x="256" y="49" width="70" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="c5edfdb7-93e0-437c-a091-d111cb844576"/>
 				<box leftPadding="1" rightPadding="1">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -189,10 +164,10 @@ ORDER BY
 				<textElement textAlignment="Center">
 					<font size="9" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Mobile No]]></text>
+				<text><![CDATA[Staff Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="418" y="49" width="174" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="9bd2eb60-ef32-4583-a728-1cf8c79c143c"/>
+				<reportElement mode="Opaque" x="396" y="49" width="55" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="9bd2eb60-ef32-4583-a728-1cf8c79c143c"/>
 				<box leftPadding="1" rightPadding="1">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -202,43 +177,55 @@ ORDER BY
 				<textElement textAlignment="Center">
 					<font size="9" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Address]]></text>
+				<text><![CDATA[Amount]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="192" y="1" width="211" height="19" uuid="13783611-a0ba-49c2-9379-dcf708ee552b"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[Appointments List - All]]></text>
+				<text><![CDATA[Monthly Report]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="192" y="22" width="59" height="17" uuid="deca21fd-ec86-4b90-af7d-594e42e5904e"/>
+				<reportElement x="240" y="22" width="59" height="17" uuid="deca21fd-ec86-4b90-af7d-594e42e5904e"/>
 				<textElement textAlignment="Right">
 					<font isBold="true" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[From Date : ]]></text>
+				<text><![CDATA[Month/Year]]></text>
 			</staticText>
 			<textField pattern="dd-MM-yyyy hh:mm a">
-				<reportElement x="251" y="22" width="53" height="17" uuid="f53e55b9-392a-4f93-ba79-17acb2a23eb4"/>
+				<reportElement x="308" y="22" width="53" height="17" uuid="f53e55b9-392a-4f93-ba79-17acb2a23eb4"/>
 				<textElement>
 					<font isItalic="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{month}+", "+$P{year}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="302" y="22" width="59" height="17" uuid="e3f0000c-73d6-40c7-be90-f8135e8a448f"/>
-				<textElement>
-					<font isBold="true" isItalic="true"/>
+				<reportElement mode="Opaque" x="326" y="49" width="70" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="0ed2b0b2-d1b9-41f1-b445-155066b373a5"/>
+				<box leftPadding="1" rightPadding="1">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="false"/>
 				</textElement>
-				<text><![CDATA[  -  To Date : ]]></text>
+				<text><![CDATA[Status]]></text>
 			</staticText>
-			<textField pattern="dd-MM-yyyy hh:mm a">
-				<reportElement x="361" y="22" width="87" height="17" uuid="03e3e331-17d9-4356-ab97-53f8d3d851e4"/>
-				<textElement>
-					<font isItalic="true"/>
+			<staticText>
+				<reportElement mode="Opaque" x="451" y="49" width="74" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="0212c950-d75a-426e-851e-8b58fc7fb2fb"/>
+				<box leftPadding="1" rightPadding="1">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{endDate}]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[Payment Status]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -248,7 +235,7 @@ ORDER BY
 		<band height="20" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
 				<reportElement stretchType="RelativeToBandHeight" x="28" y="0" width="37" height="20" uuid="94318377-9556-4559-8db1-a623514d91e8"/>
-				<box leftPadding="1" rightPadding="1">
+				<box leftPadding="3" rightPadding="1">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -261,7 +248,7 @@ ORDER BY
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
 				<reportElement stretchType="RelativeToBandHeight" x="65" y="0" width="51" height="20" isRemoveLineWhenBlank="true" uuid="95d77a08-728a-46f3-9816-f2d6c59aea2f"/>
-				<box leftPadding="1" rightPadding="1">
+				<box leftPadding="3" rightPadding="1">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -272,22 +259,9 @@ ORDER BY
 				</textElement>
 				<textFieldExpression><![CDATA[$F{appointment_date}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="116" y="0" width="92" height="20" uuid="240ad602-606d-4639-8bfd-b52f6795066e"/>
-				<box leftPadding="1" rightPadding="1">
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement>
-					<font fontName="SansSerif" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("hh:mm a").format($F{start_date})+" - "+new SimpleDateFormat("hh:mm a").format($F{end_date})]]></textFieldExpression>
-			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="28" height="20" uuid="ae8392a5-0634-4547-bb3d-013bd60fe095"/>
-				<box leftPadding="1" rightPadding="1">
+				<box leftPadding="3" rightPadding="1">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -299,8 +273,8 @@ ORDER BY
 				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="208" y="0" width="140" height="20" uuid="4f91e3f9-f808-4103-b004-f6f17a87fd1f"/>
-				<box leftPadding="1" rightPadding="1">
+				<reportElement stretchType="RelativeToBandHeight" x="116" y="0" width="140" height="20" uuid="4f91e3f9-f808-4103-b004-f6f17a87fd1f"/>
+				<box leftPadding="3" rightPadding="1">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -309,11 +283,11 @@ ORDER BY
 				<textElement>
 					<font fontName="SansSerif" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{customerfirstname}+" "+$F{customerlastname}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{customer_first_name}+$F{customer_last_name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="348" y="0" width="70" height="20" uuid="c775bd71-208c-4703-a41a-bbbc345a4aa8"/>
-				<box leftPadding="1" rightPadding="1">
+				<reportElement stretchType="RelativeToBandHeight" x="256" y="0" width="70" height="20" uuid="c775bd71-208c-4703-a41a-bbbc345a4aa8"/>
+				<box leftPadding="3" rightPadding="1">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -322,11 +296,11 @@ ORDER BY
 				<textElement>
 					<font fontName="SansSerif" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA["+971"+$F{mobile_1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{staff_name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="418" y="0" width="174" height="20" uuid="090aecd6-3e53-4977-bd22-7988422f7c1f"/>
-				<box leftPadding="1" rightPadding="1">
+				<reportElement stretchType="RelativeToBandHeight" x="396" y="0" width="55" height="20" uuid="090aecd6-3e53-4977-bd22-7988422f7c1f"/>
+				<box leftPadding="3" rightPadding="1">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -335,7 +309,33 @@ ORDER BY
 				<textElement>
 					<font fontName="SansSerif" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{area_name}+" - "+$F{building_name}+" - "+$F{flat_no}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{amount_paid}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="326" y="0" width="70" height="20" uuid="e971db8d-69dc-48a8-bef4-5997a4390596"/>
+				<box leftPadding="3" rightPadding="1">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{appointment_status}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="451" y="0" width="74" height="20" uuid="21bba963-b085-43bf-a060-83675f1d2551"/>
+				<box leftPadding="3" rightPadding="1">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payment_status}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

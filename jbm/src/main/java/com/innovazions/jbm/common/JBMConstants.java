@@ -53,6 +53,9 @@ public interface JBMConstants {
 	//Property to enable send sms option on appointment completion screen
 	public static final String PROP_ENABLE_APPOINTMENT_CANCELLATION_SMS = "ENABLE_APPOINTMENT_CANCELLATION_SMS";
 	
+	//Property to enable send sms option on appointment completion screen
+	public static final String PROP_ENABLE_APPOINTMENT_UPDATE_SMS = "ENABLE_APPOINTMENT_UPDATE_SMS";
+	
 	public static final String LOGGED_IN_USER_NAME = "loggedInUserName";
 	public static final String LOGGED_IN_USER_FULL_NAME = "loggedInUserFullName";
 	public static final String LOGGED_IN_USER_OBJ = "loggedInUserObj";

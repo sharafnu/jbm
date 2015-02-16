@@ -18,49 +18,10 @@
 	function calculateHoursSpent() {
 		var startTime = $("#startTime").text();
 		var endTime = $('#formEndTime').val();
-		 var frmHr = parseInt(startTime.substr(0,2));
-		 var frmMin = parseInt(startTime.substr(3,2));
-    	 var toHr = parseInt(endTime.substr(0,2));
-    	 var toMin = parseInt(endTime.substr(3,2));
-    	 
-    	 var frmAMPM = startTime.substr(6,2);
-    	 var toAMPM = endTime.substr(6,2);
-    	 
-    	 var totalHours = 0;
-    	 
-    	 if(frmAMPM.toUpperCase() === "AM") {
-    		 if(toAMPM.toUpperCase() === "AM") {
-    			 totalHours = toHr - frmHr;	 
-    		 } else {
-    			 if(toHr == "12") {
-    				 totalHours = toHr - frmHr;
-    			 } else {
-    			 	totalHours = toHr - frmHr+12;
-    			 }
-    		 }
-    		 
-    	 } else {
-    		 if(toAMPM.toUpperCase() === "AM") {
-    			 totalHours = toHr - frmHr+12;	 
-    		 } else {
-    			 totalHours = toHr - frmHr;	 
-    		 }
-    		 //totalHours = toHr - frmHr;
-    	 }
-    	 
-    	 if(toMin > frmMin) {
-    		 totalHours = totalHours + 0.5;
-    	 } else if(frmMin > toMin) {
-    		 totalHours = totalHours - 0.5;
-    	 }
-    	 /* if(totalHours > 12) {
-    		 totalHours = totalHours - 12;
-    	 }
-    	 if(totalHours < 0) {
-    		 totalHours = totalHours +12;
-    	 } */
-		$("#formHoursSpent").val(totalHours);
 		
+		
+    	 $("#formHoursSpent").val(calculateTimeDifference(startTime,endTime));
+    	 
 	}
 	
 	function handleAppoinmentDetailsData (appointmentView){
@@ -82,12 +43,20 @@
 		//calculateHoursSpent();
 		$("#location").text(appointmentView.flatNo +", "+appointmentView.buildingName+"," +appointmentView.areaName+", "+appointmentView.cityName);            		
 		loadCustomerContractCombo(appointmentView.customerId);
+		$("#formAppoinmentStatus").focus();
 	}	
 	
 	$(document).ready(function() {
 		document.title = 'Appointment Completion';
 		setupAppointmentDetailsForm();
 		loadAppoinmentCombo();
+		
+		$('#formAmountPayable').blur(function() {
+			$("#formInvoiceNo").focus();
+		});
+		
+		
+		$("#formAppoinmentStatus").focus();
 		
 		//formAppoinmentStatus
 		if($('#appointmentId').val() != "") {
@@ -265,7 +234,9 @@
 						/* if(!$('#appointmentUpdateMainForm').jqxValidator('validate')) {
 							return;
 						} */
-										
+						
+						
+						
 						$("#cancellationReason").val($("#formRemarks").val());
 						$("#endTime").val($("#formEndTime").val());
 						$("#payableAmount").val(amountPayable);
@@ -273,7 +244,15 @@
 						$("#invoiceNo").val($("#formInvoiceNo").val());
 						$("#invoiceDate").val($("#formInvoiceDate").val());
 						
-						$.ajax({
+						if(validateAppointmentUpdate($("#appointmentDate").val(), $("#endTime").val())) {
+							if($("#sendCompletionSMSYes").val() == true) {
+								$("#sendSMSFlagCompletion").val("Yes");
+							} else {
+								$("#sendSMSFlagCompletion").val("No");
+							}
+							$('#appoinmentUpdateForm').submit();
+						}
+						/* $.ajax({
 							url: "validateAppointmentUpdate.html",
 							type: 'GET',
 							data: {appointmentId: $("#id").val(), appointmentDate: $("#appointmentDate").val(), endTime: $("#endTime").val()},
@@ -296,10 +275,21 @@
 							{
 								jqxAlert.alert("System Error Occured ! Please contact Support.");
 							}
-						});
+						}); */
 					} else {
-						
-						$.ajax({
+						if(validateAppointmentUpdateForCancellation($("#appointmentDate").val(), $("#startTime").text())) {
+							$("#cancellationReason").val($("#formRemarks").val());
+							
+							if($("#sendCancellationSMSYes").val() == true) {
+								$("#sendSMSFlagCancellation").val("Yes");
+							} else {
+								$("#sendSMSFlagCancellation").val("No");
+							}
+							
+							//alert("Cancel:Submit");
+							$('#appoinmentUpdateForm').submit();
+						}
+						/* $.ajax({
 							url: "validateAppointmentUpdateForCancellation.html",
 							type: 'GET',
 							data: {appointmentId: $("#id").val(), appointmentDate: $("#appointmentDate").val(), startTime: $("#startTime").text()},
@@ -325,7 +315,7 @@
 							{
 								jqxAlert.alert("System Error Occured ! Please contact Support.");
 							}
-						});
+						}); */
 						
 					}
 				}	
@@ -406,7 +396,8 @@ function setupFormValidations() {
 			//_margin: 30,
 			rules: [
 				{ input: '#formInvoiceNo', message: 'Duplicate Invoice No !', 
-						action: 'blur', rule: function (input, commit) {					
+						action: 'blur', rule: function (input, commit) {
+						$("#updateAppointmentButton").jqxButton({ disabled: true });	
 						isDuplicateInvoice = true;
 						var invoiceNo = $("#formInvoiceNo").val();
 						if(invoiceNo == "") {
@@ -422,6 +413,7 @@ function setupFormValidations() {
 								{
 									isDuplicateInvoice = false;
 									commit(true);
+									$("#updateAppointmentButton").jqxButton({ disabled: false });
 								}
 								else {
 									isDuplicateInvoice = true;
@@ -430,7 +422,7 @@ function setupFormValidations() {
 							},
 							error: function()
 							{
-								isDuplicateInvoice = true;
+								//isDuplicateInvoice = true;
 								commit(false);
 							}
 						});
@@ -494,7 +486,7 @@ function setupFormValidations() {
 													</tr>
 													<tr>
 														<td align="right" nowrap>Status :</td>
-														<td><div id="formAppoinmentStatus" ></div></td>
+														<td><div id="formAppoinmentStatus" tabindex="1"></div></td>
 													</tr>
 													<tr class="cancellRemarksDiv">
 														<td align="right" nowrap>Cancel Remarks :</td>
@@ -515,7 +507,7 @@ function setupFormValidations() {
 													</tr>
 													<tr class="endTimingsDiv">
 														<td align="right" nowrap>End Time : </td>
-														<td><div id="formEndTime" ></div></td>
+														<td><div id="formEndTime" tabindex="2"></div></td>
 													</tr>
 													<tr class="endTimingsDiv">
 														<td align="right" nowrap>No. of of hours :</td>
@@ -532,15 +524,15 @@ function setupFormValidations() {
 													</tr>
 													<tr>
 														<td align="right">Payment Status :</td>
-														<td><div id="formPaymentStatus" ></div></td>
+														<td><div id="formPaymentStatus" tabindex="20"></div></td>
 													</tr>
 													<tr>
 														<td align="right">Payment Type :</td>
-														<td><div id="formPaymentType" ></div></td>
+														<td><div id="formPaymentType" tabindex="21"></div></td>
 													</tr>
 													<tr>
 														<td align="right">Contract :</td>
-														<td><div id="formCustomerContractId" ></div></td>
+														<td><div id="formCustomerContractId" tabindex="4"></div></td>
 													</tr>
 													<tr>
 														<td align="right">Invoice No : </td>
@@ -548,7 +540,7 @@ function setupFormValidations() {
 													</tr>
 													<tr>
 														<td align="right">Invoice Date :</td>
-														<td><div id="formInvoiceDate" ></div></td>
+														<td><div id="formInvoiceDate" tabindex="6"></div></td>
 													</tr>
 													<tr>
 														<td align="right">Credit Card/Cheque <br>Other Details : </td>
@@ -556,17 +548,17 @@ function setupFormValidations() {
 													</tr>
 													<tr>
 														<td align="right">Payment Due Date :</td>
-														<td><div id="formDueDate" ></div></td>
+														<td><div id="formDueDate" tabindex="7"></div></td>
 													</tr>
 													<tr>
 														<td>
 															Send SMS?
 														</td>
 														<td>
-															<div id='sendCompletionSMSYes' style="width:80px; float:left;">
+															<div id='sendCompletionSMSYes' style="width:80px; float:left;" tabindex="8">
 																Yes
 															</div>
-															<div id='sendCompletionSMSNo' style="width:80px; float:left;">
+															<div id='sendCompletionSMSNo' style="width:80px; float:left;" tabindex="8">
 																No
 															</div>
 														</td>

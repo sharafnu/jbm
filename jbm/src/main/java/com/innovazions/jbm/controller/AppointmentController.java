@@ -93,7 +93,8 @@ public class AppointmentController extends AbstractController {
 
 		List<Appointment> appointmentList = appointmentService
 				.getAppointmentListByFilter(appointmentView
-						.convertViewToEntity());
+						.convertViewToEntity(), "appointment_no",
+						true);
 		List<AppointmentView> appointmentViewList = new Appointment()
 				.convertEntitiesToViews(appointmentList);
 		return appointmentViewList;
@@ -179,7 +180,8 @@ public class AppointmentController extends AbstractController {
 	public @ResponseBody List<AppointmentView> customerAppointmentListJSON() {
 		logger.info("AppoinmentController > getCustomerAppoinmentListJSON");
 		List<Appointment> appointmentList = appointmentService
-				.getAppointmentListByFilter(null);
+				.getAppointmentListByFilter(null, "appointment_no",
+						true);
 		return new Appointment().convertEntitiesToViews(appointmentList);
 	}
 
@@ -197,10 +199,13 @@ public class AppointmentController extends AbstractController {
 			@RequestParam("appointmentId") Long appointmentId) {
 		logger.info("AppoinmentController > customerApointmentEdit");
 		System.out.println(appointmentId);
+		String appointmentUpdateSMSFlag = PropertiesUtil.getProperty(JBMConstants.PROP_ENABLE_APPOINTMENT_UPDATE_SMS);
 		Appointment appointment = appointmentService
 				.getAppoinmentDetailsByAppoinmentId(appointmentId);
+		AppointmentView appointmentView = appointment.convertEntityToView();
+		appointmentView.setSendSMSFlag(appointmentUpdateSMSFlag);
 		return new ModelAndView("customerApointmentEdit", "appointmentView",
-				appointment.convertEntityToView());
+				appointmentView);
 		// return "customerApointmentEdit";
 	}
 
@@ -210,7 +215,7 @@ public class AppointmentController extends AbstractController {
 			BindingResult result, final RedirectAttributes redirectAttributes) {
 		System.out.println("Customer Id:" + appointmentView.getCustomerId()
 				+ " Appointment No:" + appointmentView.getAppointmentNo());
-		appointmentView.setLastModifiedDate(new Date());
+		appointmentView.setLastModifiedDate(CommonUtils.getCurrentDate("Asia/Dubai"));
 		appointmentView.setLastModifiedUser("SYSTEM");
 		Appointment appointment = appointmentView.convertViewToEntity();
 		String appointmentNo = commonService.getSequenceCodeByType(
@@ -245,7 +250,7 @@ public class AppointmentController extends AbstractController {
 		System.out.println("Appointment Id:" + appointmentView.getId()
 				+ " Appointment Status:"
 				+ appointmentView.getAppointmentStatus());
-		appointmentView.setLastModifiedDate(new Date());
+		appointmentView.setLastModifiedDate(CommonUtils.getCurrentDate("Asia/Dubai"));
 		appointmentView.setLastModifiedUser("SYSTEM");
 		Appointment appointment = appointmentView.convertViewToEntity();
 
@@ -302,7 +307,7 @@ public class AppointmentController extends AbstractController {
 				+ " Appointment Status:"
 				+ appointmentView.getAppointmentStatus());
 
-		appointmentView.setLastModifiedDate(new Date());
+		appointmentView.setLastModifiedDate(CommonUtils.getCurrentDate("Asia/Dubai"));
 		appointmentView.setLastModifiedUser("SYSTEM");
 		Appointment appointment = appointmentView.convertViewToEntity();
 
@@ -315,9 +320,11 @@ public class AppointmentController extends AbstractController {
 
 		emailNotificationService
 				.sendAppoinmentUpdateEmailNotification(appointment);
-
-		smsNotificationService.sendAppoinmentUpdateSMSNotification(appointment);
-
+		if (appointmentView.getSendSMSFlag() != null
+				&& appointmentView.getSendSMSFlag().equals(
+						JBMConstants.OPTION_YES)) {
+			smsNotificationService.sendAppoinmentUpdateSMSNotification(appointment);
+		}
 		message = ActionMessages.STATUS_MESSAGE_APPOINTMENT_UPDATED;
 
 		redirectAttributes.addFlashAttribute("actionMessage", message);
@@ -382,7 +389,7 @@ public class AppointmentController extends AbstractController {
 				+ appointmentDate);
 		System.out.println("appointmentDate : " + appointmentDate);
 		if (appointmentDate == null) {
-			appointmentDate = new Date();
+			appointmentDate = CommonUtils.getCurrentDate("Asia/Dubai");
 		}
 		List<StaffAppointmentCountVO> staffAppointmentCountList = appointmentService
 				.getAllStaffAppointmentCountListByDate(CommonUtils
@@ -653,7 +660,7 @@ public class AppointmentController extends AbstractController {
 		int offsetDays = new Integer(
 				PropertiesUtil
 						.getProperty(JBMConstants.PROP_CUSTOMER_CANCELLATION_OFFSET_DAYS));
-		Date today = new Date();
+		Date today = CommonUtils.getCurrentDate("Asia/Dubai");
 		Date endDate = CommonUtils.getEndMidnightDate(today);
 		Date startDate = CommonUtils.getPastDate(endDate, offsetDays);
 		List<Appointment> appointmentList = appointmentService
@@ -702,7 +709,7 @@ public class AppointmentController extends AbstractController {
 	 * 
 	 * @RequestParam Date appointmentDate, @RequestParam String endTime) { try {
 	 * Date endDate = CommonUtils.addTimeStringToDate(appointmentDate, endTime);
-	 * int res = endDate.compareTo(new Date()); if (res > 0) { return false; }
+	 * int res = endDate.compareTo(CommonUtils.getCurrentDate("Asia/Dubai")); if (res > 0) { return false; }
 	 * else { return true; } } catch (ParseException e) { // TODO Auto-generated
 	 * catch block e.printStackTrace(); } return false; }
 	 */
@@ -712,7 +719,7 @@ public class AppointmentController extends AbstractController {
 		try {
 			Date endDate = CommonUtils.addTimeStringToDate(appointmentDate,
 					endTime);
-			int res = endDate.compareTo(new Date());
+			int res = endDate.compareTo(CommonUtils.getCurrentDate("Asia/Dubai"));
 			if (res > 0) {
 				return false;
 			} else {
@@ -729,7 +736,7 @@ public class AppointmentController extends AbstractController {
 		try {
 			Date startDate = CommonUtils.addTimeStringToDate(appointmentDate,
 					startTime);
-			int res = startDate.compareTo(new Date());
+			int res = startDate.compareTo(CommonUtils.getCurrentDate("Asia/Dubai"));
 			if (res > 0) {
 				return true;
 			} else {
@@ -820,7 +827,7 @@ public class AppointmentController extends AbstractController {
 			// startDate = CommonUtils.addTimeStringToDate(
 			// appointmentView.getAppointmentDate(),
 			// appointmentView.getStartTime());
-			// int res = startDate.compareTo(new Date());
+			// int res = startDate.compareTo(CommonUtils.getCurrentDate("Asia/Dubai"));
 			// if (res < 0) {
 			// actionStatus = CommonUtils
 			// .getErrorActionStatus("Appointment Start Date cannot be less than current time !");

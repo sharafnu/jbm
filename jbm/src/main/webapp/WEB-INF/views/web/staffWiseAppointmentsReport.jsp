@@ -10,7 +10,7 @@
 		document.title = 'Staff Appointments Report';
 		setupStatusCombo();
 		setupReportDate();
-		loadEmployeeCombo(280);
+		loadEmployeeComboWithSelectedValue(280, $("#employeeId").val());
 		$("#downloadReportButton").jqxButton({
 			theme : theme
 		});
@@ -19,6 +19,15 @@
 			theme : theme
 		});
 		
+		$("#resetButton").click(
+			function() {
+				$("#startDateDiv").jqxDateTimeInput('setDate', new Date());
+				$("#endDateDiv").jqxDateTimeInput('setDate', new Date());
+				$("#statusComboBox").jqxComboBox('clearSelection');
+				$("#formEmployeeId").jqxComboBox('clearSelection');
+								
+			}
+		);
 		$("#searchButton").jqxButton({
 			theme : theme
 		});
@@ -179,7 +188,12 @@
               { text: 'Address', 		datafield: 'address', width: 240,             	  
             	  cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
            		       var rowData = $("#jqxgrid").jqxGrid('getrowdata', row);
-           		    return '<div style="display: table-cell; vertical-align: middle; height:40px;">' + (rowData.addressType+"-"+rowData.flatNo+", "+rowData.buildingName+","+rowData.addressRemarks+","+rowData.cityName) + '</div>';
+           		    return '<div style="display: table-cell; vertical-align: middle; height:40px;">'
+					+ (rowData.cityName +" - "+rowData.areaName+ " - "+rowData.buildingName
+							+ " - "
+							+ rowData.flatNo)
+					+ '</div>';
+       //    		    return '<div style="display: table-cell; vertical-align: middle; height:40px;">' + (rowData.addressType+"-"+rowData.flatNo+", "+rowData.buildingName+","+rowData.addressRemarks+","+rowData.cityName) + '</div>';
             	   }
               }
             ]
@@ -282,7 +296,7 @@
 						<form id="reportForm" action="" method="post">
 							<input type="hidden" name="startDate" id="startDate" value='<c:out value="${startDate}"/>' /> 
 							<input type="hidden" name="endDate" id="endDate" value='<c:out value="${endDate}"/>' />
-							<input type="hidden" name="employeeId" id="employeeId"/>
+							<input type="hidden" name="employeeId" id="employeeId" value="${employeeId}"/>
 							<input type="hidden" name="appointmentStatus" id="appointmentStatus" value='<c:out value="${selectedAppointmentStatus}"/>'/>
 							<input id="searchButton" type="button" value="Search" />
 							<input id="downloadReportButton" type="button" value="Download Report" /> 

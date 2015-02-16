@@ -1,7 +1,86 @@
+function validateAppointmentUpdateForCancellation(appointmentDate, startTime) {
+	var day = parseInt(appointmentDate.substr(0, 2));
+	var mon = parseInt(appointmentDate.substr(3, 2)) - 1;
+	var year = parseInt(appointmentDate.substr(6, 4));
 
+	var hour = parseInt(startTime.substr(0, 2));
+	var min = parseInt(startTime.substr(3, 2));
+	var ampm = startTime.substr(6, 2);
+
+	if (hour == 12) {
+		if (ampm === "AM") {
+			hour = 0;
+		} else {
+			
+		}
+	} else {
+		if (ampm === "PM") {
+			hour = hour + 12;
+		}
+	}
+
+	// var d = new Date(year, month, day, hours, minutes, seconds,
+	// milliseconds);
+	var appDate = new Date(year, mon, day, hour, min, 0, 0);
+	var currentDate = new Date();
+	currentDate.setSeconds(0);
+	currentDate.setMilliseconds(0);
+	
+	if(appDate > currentDate) {
+		return true;
+	} else {
+		//Appointment End date is greater than current time;
+		alert("Appointment cannot be cancelled since appointment time already started !");
+		return false;
+	}
+}
+
+function validateAppointmentUpdate(appointmentDate, endTime) {
+	var day = parseInt(appointmentDate.substr(0, 2));
+	var mon = parseInt(appointmentDate.substr(3, 2)) - 1;
+	var year = parseInt(appointmentDate.substr(6, 4));
+
+	var hour = parseInt(endTime.substr(0, 2));
+	var min = parseInt(endTime.substr(3, 2));
+	var ampm = endTime.substr(6, 2);
+
+	if (hour == 12) {
+		if (ampm === "AM") {
+			hour = 0;
+		} else {
+			
+		}
+	} else {
+		if (ampm === "PM") {
+			hour = hour + 12;
+		}
+	}
+
+	// var d = new Date(year, month, day, hours, minutes, seconds,
+	// milliseconds);
+	var appDate = new Date(year, mon, day, hour, min, 0, 0);
+	var currentDate = new Date();
+	currentDate.setSeconds(0);
+	currentDate.setMilliseconds(0);
+	
+	if(appDate < currentDate) {
+		return true;
+	} else {
+		//Appointment End date is greater than current time;
+		alert("Appointment end date/time cannot be greater than current date/time");
+		return false;
+	}
+	/*
+	 * Date endDate = CommonUtils.addTimeStringToDate(appointmentDate, endTime);
+	 * int res = endDate.compareTo(CommonUtils.getCurrentDate("Asia/Dubai")); if
+	 * (res > 0) { return false; } else { return true; }
+	 */
+	alert(appDate + " ## " + currentDate);
+}
 function numberonly(evt) {
 	  var theEvent = evt || window.event;
 	  var key = theEvent.keyCode || theEvent.which;
+	  
 	  key = String.fromCharCode( key );
 	  var regex = /[0-9]|\./;
 	  if( !regex.test(key) ) {
@@ -44,8 +123,9 @@ function setupAppointmentDetailsForm() {
 	
 	
 	//var endHourListArr = ["12:00 PM","12:30 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM"];
-	var endHourListArr = ["00:00 AM","00:30 AM","01:00 AM","01:30 AM","02:00 AM","02:30 AM","03:00 AM","03:30 AM","04:00 AM","04:30 AM","05:00 AM","05:30 AM","06:00 AM","06:30 AM","07:00 AM","07:30 AM","08:00 AM","08:30 AM","09:00 AM","09:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","12:30 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM"];
-	
+	var endHourListArr = ["12:00 AM","12:30 AM","01:00 AM","01:30 AM","02:00 AM","02:30 AM","03:00 AM","03:30 AM","04:00 AM","04:30 AM","05:00 AM","05:30 AM","06:00 AM","06:30 AM","07:00 AM","07:30 AM","08:00 AM","08:30 AM","09:00 AM","09:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","12:30 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM"];
+	//var endHourListArr = [];
+	//var endHourListArr = getStartDateArr();
 	$("#formEndTime").jqxComboBox({
 			selectedIndex : -1,
 			source : endHourListArr,
@@ -60,8 +140,8 @@ function setupAppointmentDetailsForm() {
 			disabled: true 
 	});
 	 
-	 $("#formAmountPayable").jqxNumberInput({ width: '130px', height: '20px', spinButtons: false, inputMode: 'simple' });
-
+	 $("#formAmountPayable").jqxInput({ width: '130px', height: '20px'});
+	 //$("#formAmountPayable").attr('tabindex', '1');
 /*	 $("#formAmountPayable").jqxNumberInput({
 			width : '130px',
 			height : '20px'
@@ -74,7 +154,7 @@ function setupAppointmentDetailsForm() {
 			width : '130px',
 			height : '20px'
 	 });
-	 
+	 //$("#formInvoiceNo .jqx-input-content").attr('tabindex', '5');
 	 
 	 $("#formInvoiceDate").jqxDateTimeInput({
 			width : '130px',
@@ -118,9 +198,9 @@ function loadFinanceStatusCombo() {
 }
 
 function loadPaymentTypeCombo() {
-	var paymentTypeSource = [ "Contract", "Cash", "Credt Card", "Debit Card", "Bank Transfer", "Cheque", "DD" ];
+	var paymentTypeSource = [  "Cash", "Contract", "Credt Card", "Debit Card", "Bank Transfer", "Cheque", "DD" ];
 	$("#formPaymentType").jqxComboBox({
-		selectedIndex : -1,
+		selectedIndex : 0,
 		source : paymentTypeSource,
 		width : 210,
 		height : 20
@@ -130,7 +210,7 @@ function loadPaymentTypeCombo() {
 function loadPaymentStatusCombo() {
 	var paymentStatusSource = [ "Paid", "Not Paid"];
 	$("#formPaymentStatus").jqxComboBox({
-		selectedIndex : -1,
+		selectedIndex : 0,
 		source : paymentStatusSource,
 		width : 210,
 		height : 20
@@ -179,14 +259,20 @@ function setupAppointmentForm() {
 		showCalendarButton: false
 	});
 	
+	
 	$("#formStartTime").jqxDateTimeInput('setDate', new Date());*/
 	
 	/*var startHourListArr = ["08:00 AM","09:00 AM","09:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM"];
 	var endHourListArr = ["12:00 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM"];*/
 	
-	var startHourListArr = ["00:00 AM","00:30 AM","01:00 AM","01:30 AM","02:00 AM","02:30 AM","03:00 AM","03:30 AM","04:00 AM","04:30 AM","05:00 AM","05:30 AM","06:00 AM","06:30 AM","07:00 AM","07:30 AM","08:00 AM","08:30 AM","09:00 AM","09:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","12:30 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM"];
-	var endHourListArr = ["00:00 AM","00:30 AM","01:00 AM","01:30 AM","02:00 AM","02:30 AM","03:00 AM","03:30 AM","04:00 AM","04:30 AM","05:00 AM","05:30 AM","06:00 AM","06:30 AM","07:00 AM","07:30 AM","08:00 AM","08:30 AM","09:00 AM","09:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","12:30 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM"];
+	//var startHourListArr = ["00:00 AM","00:30 AM","01:00 AM","01:30 AM","02:00 AM","02:30 AM","03:00 AM","03:30 AM","04:00 AM","04:30 AM","05:00 AM","05:30 AM","06:00 AM","06:30 AM","07:00 AM","07:30 AM","08:00 AM","08:30 AM","09:00 AM","09:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","12:30 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM"];
 	
+	var startHourListArr = getStartDateArr();
+	//var endHourListArr = ["00:00 AM","00:30 AM","01:00 AM","01:30 AM","02:00 AM","02:30 AM","03:00 AM","03:30 AM","04:00 AM","04:30 AM","05:00 AM","05:30 AM","06:00 AM","06:30 AM","07:00 AM","07:30 AM","08:00 AM","08:30 AM","09:00 AM","09:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","12:30 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM"];
+	var endHourListArr = [];
+	//alert(getStartDateArr());
+	//alert(getEndDateArr(8, 0, 4));
+	//alert(getEndDateArr(8, 30, 4));
 	/*var startHourListArr = [
                   {value: "09:00 AM", label: "09:00 AM"},
                   {value: "09:30 AM", label: "09:30 AM"},
@@ -241,6 +327,15 @@ function setupAppointmentForm() {
 		width : 120,
 		height : 20
 	});
+	var items = $("#formStartTime").jqxComboBox("getItems");
+	$.each(items, function(index) {
+		if (this.value == "09:00 AM") {
+		    indexToSelect = index;
+		    return false;
+		}
+	});
+	$("#formStartTime").jqxComboBox({ selectedIndex: indexToSelect });
+	
 	$("#formEndTime").jqxComboBox({
 		selectedIndex : -1,
 		source : endHourListArr,
@@ -248,6 +343,7 @@ function setupAppointmentForm() {
 		height : 20
 	});
 	
+	handStartTimeChange("09:00 AM");
 	$("#showCalendarLink").click(function (event) {
 		//$('#detailedCalendar').fullCalendar('destroy'); 
 		//setupDetailedCalendar();
@@ -1131,16 +1227,24 @@ function setupAppointmentEditForm(customerId, employeeId, customerAddressId, sta
 	loadEmployeeComboWithSelectedValue(280, employeeId);
 	loadCustomerAddressComboWithSelectedId(280, customerId, customerAddressId);
 	
-
+	$("#sendSMSYes").jqxRadioButton({ width: 70, height: 10});
+	$("#sendSMSNo").jqxRadioButton({ width: 70, height: 10});
+	if($("#appointmentUpdateSMSFlag").val() == "Yes") {
+		$('#sendSMSYes').jqxRadioButton('check');
+	} else {
+		$('#sendSMSNo').jqxRadioButton('check');
+	}
 	$("#formAppointmentDate").jqxDateTimeInput({
 		width : '130px',
 		height : '20px',
 		formatString: 'dd-MM-yyyy' 
 	});
 	
-	var startHourListArr = ["08:00 AM","09:00 AM","09:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM"];
-	var endHourListArr = ["12:00 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM"];
-	
+	//var startHourListArr = ["08:00 AM","09:00 AM","09:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM"];
+	//var endHourListArr = ["12:00 PM","01:00 PM","01:30 PM","02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM","08:30 PM","09:00 PM","09:30 PM","10:00 PM","10:30 PM","11:00 PM"];
+	//var endHourListArr = [];
+	var startHourListArr = getStartDateArr();
+	var endHourListArr = getStartDateArr();
 	$("#formStartTime").jqxComboBox({
 		selectedIndex : -1,
 		source : startHourListArr,
@@ -1192,7 +1296,6 @@ function setupAppointmentEditForm(customerId, employeeId, customerAddressId, sta
 	updateAppointmentButton.click(function (event) {
 		//$('#form').jqxValidator('validate');
 		
-		
 		if($("#isValidSlot").val() == "false") {
 			//$("#appointmentMainForm").jqxValidator('hide');
 			jqxAlert.alert('Select staff is not available on the selected time slot !');
@@ -1224,7 +1327,11 @@ function setupAppointmentEditForm(customerId, employeeId, customerAddressId, sta
 		
 		$("#remarks").val($("#formRemarks").val());
 		
-		
+		if($("#sendSMSYes").val() == true) {
+			$("#sendSMSFlag").val("Yes");
+		} else {
+			$("#sendSMSFlag").val("No");
+		}
 		$('#appoinmentEditForm').submit();
     });
 	

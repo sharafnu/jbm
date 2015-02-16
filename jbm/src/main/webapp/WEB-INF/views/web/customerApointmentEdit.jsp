@@ -103,15 +103,40 @@
 			if (args) {
 	         	var item = args.item;
 	         	 if(item.value != null && item.value != "") {
-	            	 var frmHr = item.value.substr(0,2);
-	            	 var toHr = parseInt(frmHr)+4;
-	            	 if(toHr > 12) {
-	            	 	toHr = toHr -12;
-	            	 }
-	            	 toHr = zeroPad(toHr, 2);
+	         		var startTime = item.value;
+	         		$('#formEndTime').val(addTime(startTime, 4));
+	        		/* var frmHr = startTime.substr(0,2);
+	           	 	var frmMin = startTime.substr(3,2);
+	        	   	 var frmAmPm = startTime.substr(6,2);
+	        	   	 var toAmPm = " "+frmAmPm;
+	        	   	 
+	        	   	
+	        	   	var toHr = parseInt(frmHr)+parseInt(4);
+	        	   	 if(toHr == 12) {
+	        	   		 	
+	        			 if(frmAmPm === "AM") {
+	        	       	 	toAmPm = " PM";
+	        	       	 } else {
+	        	       	 	toAmPm = " AM";
+	        	       	 }		            		 
+	        	       	 	
+	        	   	 } else  if(toHr > 12) {
+	        	   	 	toHr = toHr -12;
+	        	   	 	if(frmHr == 12) {
+	        	   	 		
+	        	   	 	} else {
+	        	       		if(frmAmPm === "AM") {
+	        	       	 		toAmPm = " PM";
+	        	       	 	} else {
+	        	       	 		toAmPm = " AM";
+	        	       	 	}
+	        	   	 	}
+	        	   	 }
+	        	   	 toHr = zeroPad(toHr, 2);
 	            	 
 	            	 var toMin = item.value.substr(3,2);
-	            	 $('#formEndTime').val(toHr+":"+toMin+" pm");
+	            	 var timeDiff = calculateTimeDifference(startTime, "12:00 AM");
+	            	 $('#formEndTime').val(toHr+":"+toMin+toAmPm);*/
 	            	 $("#appointmentMainForm").jqxValidator('validateInput', '#formEndTime');
 	             }
 	         }
@@ -438,6 +463,19 @@
 						<td colspan="2"><textarea class="textArea" id="formRemarks" rows="4" cols="34"></textarea></td>
 					</tr>
 					<tr>
+						<td>
+							Send SMS?
+						</td>
+						<td colspan="2">
+									<div id='sendSMSYes' style="width:80px; float:left;">
+										Yes
+									</div>
+									<div id='sendSMSNo' style="width:80px; float:left;">
+										No
+									</div>
+						</td>
+					</tr>
+					<tr>
 						<td colspan="3">&nbsp;</td>
 					</tr>
 					<tr>
@@ -470,6 +508,8 @@
 		<input type="hidden" id="remarks" 			name="remarks"/>
 		<input type="hidden" id="startTime" 			name="startTime"/>
 		<input type="hidden" id="endTime" 			name="endTime"/>
+		<input type="hidden" id="appointmentUpdateSMSFlag" 			name="appointmentUpdateSMSFlag" value="${appointmentView.sendSMSFlag}"/>
+				<input type="hidden" id="sendSMSFlag" 			name="sendSMSFlag"/>
 	</form>
 </div>
 <jsp:include page="detailedCalendarInfoPopup.jsp" />

@@ -94,14 +94,22 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 			+ "FROM appointment a inner join employee e on e.id=a.employee_id "
 			+ "where a.start_date=? and a.end_date=? and a.appointment_status <> ? group by e.id, employee_first_name";
 
-	private static final String SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR = "select outerAppointment.start_date, outerAppointment.end_date, count(*) as appointmentCount, "
+	/*private static final String SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR = "select outerAppointment.start_date, outerAppointment.end_date, count(*) as appointmentCount, "
 			+ "(SELECT  string_agg(e.first_name, ', ') as employee_names FROM appointment appointmentInner "
 			+ "inner join employee e on e.id=appointmentInner.employee_id "
 			+ "where appointmentInner.start_date=outerAppointment.start_date "
 			+ "and appointmentInner.end_date=outerAppointment.end_date) from appointment outerAppointment "
 			+ "where outerAppointment.appointment_status <> ?  "
-			+ "group by outerAppointment.start_date, outerAppointment.end_date order by outerAppointment.start_date desc";
+			+ "group by outerAppointment.start_date, outerAppointment.end_date order by outerAppointment.start_date desc";*/
 
+	private static final String SELECT_APPOINTMENT_STAFF_NAME_FOR_CALENDAR = "select outerAppointment.start_date, outerAppointment.end_date, count(*) as appointmentCount, "
+	+ "(SELECT  textcat_all(e.first_name || ', ') FROM appointment appointmentInner "
+	+ "inner join employee e on e.id=appointmentInner.employee_id "
+	+ "where appointmentInner.start_date=outerAppointment.start_date "
+	+ "and appointmentInner.end_date=outerAppointment.end_date) as employee_names from appointment outerAppointment "
+	+ "where outerAppointment.appointment_status <> ?  "
+	+ "group by outerAppointment.start_date, outerAppointment.end_date order by outerAppointment.start_date desc";
+	
 	@Override
 	public long createAppointment(Appointment appointment) {
 		System.out.println("Inserting Appointment..");
@@ -175,13 +183,16 @@ public class AppoinmentDAOImpl implements AppointmentDAO {
 	}
 
 	@Override
-	public List<Appointment> getAppointmentListByFilter(Appointment appointment) {
+	public List<Appointment> getAppointmentListByFilter(Appointment appointment, String orderBy, boolean desc) {
 
 		StringBuffer queryWithWhereClause = new StringBuffer(
 				SELECT_APPOINTMENT_QUERY)
 				.append(constructQueryWhereClause(appointment));
-
-		queryWithWhereClause.append(" ORDER BY appointment_no desc");
+		if(!CommonUtils.isEmpty(orderBy)) {
+			queryWithWhereClause.append(" ORDER BY ").append(orderBy).append(((desc) ? " desc" : " asc"));
+		} else {
+			queryWithWhereClause.append(" ORDER BY appointment_no desc");
+		}
 		System.out.println("SELECT QUERY : " + queryWithWhereClause.toString());
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

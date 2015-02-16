@@ -16,6 +16,7 @@
 <link href="<c:url value="/resources/styles/rounded-box.css" />"
 	rel="stylesheet" type="text/css">	
 <title>:: MaxMaid Online Services ::</title>
+<link type="text/css" rel="Stylesheet" href="<c:url value="/resources/scripts/themes/base/minified/jquery-ui.min.css" />" />
 <link type="text/css" rel="Stylesheet" href="<c:url value="/resources/jqwidgets/styles/jqx.base.css" />" />
 <link type="text/css" rel="Stylesheet"
 	href="<c:url value="/resources/jqwidgets/styles/jqx.orange.css" />" />
@@ -30,6 +31,10 @@ href="<c:url value="/resources/scripts/themes/base/jquery.ui.all.css" />"> --%>
 
 <script type="text/javascript"
 src="<c:url value="/resources/scripts/jquery-1.10.2.min.js" />"></script>
+<script type="text/javascript"
+src="<c:url value="/resources/scripts/ui/minified/jquery-ui.min.js" />"></script>
+<script type="text/javascript"
+src="<c:url value="/resources/scripts/commons.js" />"></script>
 <%-- <script type="text/javascript"
 src="<c:url value="/resources/scripts/jquery-ui.min.js" />"></script> --%>
 

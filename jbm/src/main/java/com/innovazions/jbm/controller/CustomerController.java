@@ -1,7 +1,6 @@
 package com.innovazions.jbm.controller;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -110,7 +109,7 @@ public class CustomerController extends AbstractController {
 		customer.setCustomerCode(customerCode);
 		customer.setLastModifiedUser(JBMUIHelper.getLoggedInUserName(request,
 				response));
-		customer.setLastModifiedDate(new Date());
+		customer.setLastModifiedDate(CommonUtils.getCurrentDate("Asia/Dubai"));
 		Long customerId = customerService.createCustomer(customer);
 		System.out.println("Customer Id : " + customerId);
 		model.addAttribute("customerId", customerId);
@@ -124,15 +123,10 @@ public class CustomerController extends AbstractController {
 			HttpServletResponse response) {
 		logger.info("CustomerController > updateCustomer");
 		Customer customer = customerView.convertViewToEntity();
-		String customerCode = commonService.getSequenceCodeByType(
-				JBMConstants.SEQ_CUSTOMER_CODE,
-				JBMConstants.PROP_PREFIX_CUSTOMER_CODE);
-		customer.setCustomerCode(customerCode);
 		customer.setLastModifiedUser(JBMUIHelper.getLoggedInUserName(request,
 				response));
-		customer.setLastModifiedDate(new Date());
-		Long customerId = customerService.createCustomer(customer);
-		model.addAttribute("customerId", customerId);
+		customer.setLastModifiedDate(CommonUtils.getCurrentDate("Asia/Dubai"));
+		customerService.updateCustomer(customer);
 		return "customerInfoEdit";
 	}
 
@@ -145,7 +139,7 @@ public class CustomerController extends AbstractController {
 		customer.setId(customerId);
 		customer.setLastModifiedUser(JBMUIHelper.getLoggedInUserName(request,
 				response));
-		customer.setLastModifiedDate(new Date());
+		customer.setLastModifiedDate(CommonUtils.getCurrentDate("Asia/Dubai"));
 
 		ActionStatus message = CommonUtils.getDataDeleteSuccessActionStatus();
 		try {
@@ -198,7 +192,7 @@ public class CustomerController extends AbstractController {
 		System.out.println("Customer Address:"
 				+ customerAddressView.getAddressType() + " Area Id:"
 				+ customerAddressView.getAreaId());
-		customerAddressView.setLastModifiedDate(new Date());
+		customerAddressView.setLastModifiedDate(CommonUtils.getCurrentDate("Asia/Dubai"));
 		customerAddressView.setLastModifiedUser("SYSTEM");
 		CustomerAddress customerAddress = customerAddressView
 				.convertViewToEntity();
@@ -248,7 +242,7 @@ public class CustomerController extends AbstractController {
 		System.out.println("Customer Contract:"
 				+ customerContractView.getCustomerId() + " Area Id:"
 				+ customerContractView.getContractNo());
-		customerContractView.setLastModifiedDate(new Date());
+		customerContractView.setLastModifiedDate(CommonUtils.getCurrentDate("Asia/Dubai"));
 		customerContractView.setLastModifiedUser("SYSTEM");
 		CustomerContract customerContract = customerContractView
 				.convertViewToEntity();
@@ -272,7 +266,7 @@ public class CustomerController extends AbstractController {
 		Customer customer = customerAndAddressView.convertViewToEntity();
 		customer.setLastModifiedUser(JBMUIHelper.getLoggedInUserName(request,
 				response));
-		customer.setLastModifiedDate(new Date());
+		customer.setLastModifiedDate(CommonUtils.getCurrentDate("Asia/Dubai"));
 		String customerCode = commonService.getSequenceCodeByType(
 				JBMConstants.SEQ_CUSTOMER_CODE,
 				JBMConstants.PROP_PREFIX_CUSTOMER_CODE);

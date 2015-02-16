@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,6 +17,8 @@ public class PropertiesUtil implements InitializingBean {
 
 	@Autowired
 	private CommonService commonService;
+	
+	Logger log = Logger.getLogger(this.getClass().getName());
 
 	public void reloadProperties() throws Exception {
 		System.out.println("Re-Loading Properties");
@@ -32,7 +35,8 @@ public class PropertiesUtil implements InitializingBean {
 			propertiesMap.put(systemProperty.getPropKey(),
 					systemProperty.getPropValue());
 		}
-		System.out.println(propertiesMap.size() + " Properties Loaded..");
+		log.info(propertiesMap.size() + " Properties Loaded..");
+		//System.out.println(propertiesMap.size() + " Properties Loaded..");
 	}
 
 	/**

@@ -16,8 +16,6 @@ public interface AppointmentDAO {
 
 	public long deleteAppointment(Appointment Appointment);
 
-	public List<Appointment> getAppointmentListByFilter(Appointment Appointment);
-
 	public Appointment getAppoinmentDetailsByAppoinmentId(Long appoinmentId);
 
 	public List<Appointment> getAllAppointmentComboList();
@@ -80,4 +78,6 @@ public interface AppointmentDAO {
 	List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendar();
 
 	List<Appointment> getAppointmentDetailedListByFilter(Appointment appointment);
+
+	List<Appointment> getAppointmentListByFilter(Appointment appointment, String orderBy, boolean desc);
 }

@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.common.JBMConstants;
 import com.innovazions.jbm.common.Roles;
 import com.innovazions.jbm.entity.User;
@@ -61,7 +62,7 @@ public class HomeController extends AbstractController {
 			request.getSession().setAttribute(JBMConstants.LOGGED_IN_USER_OBJ,
 					loggedInUserObj);
 		}
-		Date date = new Date();
+		Date date = CommonUtils.getCurrentDate("Asia/Dubai");
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,
 				DateFormat.LONG, locale);
 
@@ -76,7 +77,7 @@ public class HomeController extends AbstractController {
 	public String welcome(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 
-		Date date = new Date();
+		Date date = CommonUtils.getCurrentDate("Asia/Dubai");
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,
 				DateFormat.LONG, locale);
 

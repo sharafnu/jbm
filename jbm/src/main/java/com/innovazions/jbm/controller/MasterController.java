@@ -361,7 +361,7 @@ public class MasterController extends AbstractController {
 		System.out.println("User Name:" + userView.getFirstName() + " User Id:"
 				+ userView.getUsername());
 		User user = userView.convertViewToEntity();
-		user.setLastModifiedDate(new Date());
+		user.setLastModifiedDate(CommonUtils.getCurrentDate("Asia/Dubai"));
 		user.setLastModifiedUser("SYSTEM");
 		userService.createUser(user);
 		return "Success";

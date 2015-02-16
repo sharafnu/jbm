@@ -26,8 +26,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public List<Appointment> getAppointmentListByFilter(Appointment appointment) {
-		return appointmentDAO.getAppointmentListByFilter(appointment);
+	public List<Appointment> getAppointmentListByFilter(Appointment appointment, String orderBy, Boolean desc) {
+		return appointmentDAO.getAppointmentListByFilter(appointment, orderBy, desc);
 	}
 	
 	@Override

@@ -24,3 +24,23 @@ INSERT INTO system_property(prop_group, prop_key, prop_value, description) value
 
 INSERT INTO system_property(prop_group, prop_key, prop_value, description) values 
 ('APPOINTMENT_SETTINGS', 'ENABLE_APPOINTMENT_CANCELLATION_SMS', 'No', 'Flag to enable/disable SMS sending option while cancelling appointment. If set as Yes, appoinment cancellation page will have the send sms option enabled.');
+
+select outerAppointment.start_date, 
+outerAppointment.end_date, count(*) as appointmentCount, 
+(SELECT  textcat_all(e.first_name || ', ')  as employee_names 
+FROM appointment appointmentInner inner join employee e on e.id=appointmentInner.employee_id where appointmentInner.start_date=outerAppointment.start_date and appointmentInner.end_date=outerAppointment.end_date) from appointment outerAppointment where outerAppointment.appointment_status <> ''  group by outerAppointment.start_date, outerAppointment.end_date order by outerAppointment.start_date desc
+
+
+CREATE AGGREGATE textcat_all(
+  basetype    = text,
+  sfunc       = textcat,
+  stype       = text,
+  initcond    = ''
+);
+
+-- New
+ALTER table appointment alter column hours_spent type numeric;
+
+
+INSERT INTO system_property(prop_group, prop_key, prop_value, description) values 
+('APPOINTMENT_SETTINGS', 'ENABLE_APPOINTMENT_UPDATE_SMS', 'No', 'Flag to enable/disable SMS sending option while editing an appointment. If set as Yes, appoinment update page will have the send sms option enabled.');

@@ -24,7 +24,7 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 
 	private String cancellationReason;
 
-	private Integer hoursSpent;
+	private Float hoursSpent;
 
 	private double payableAmount;
 
@@ -130,11 +130,11 @@ public class AppointmentView extends GenericView<AppointmentView, Appointment> {
 		this.cancellationReason = cancellationReason;
 	}
 
-	public Integer getHoursSpent() {
+	public Float getHoursSpent() {
 		return hoursSpent;
 	}
 
-	public void setHoursSpent(Integer hoursSpent) {
+	public void setHoursSpent(Float hoursSpent) {
 		this.hoursSpent = hoursSpent;
 	}
 

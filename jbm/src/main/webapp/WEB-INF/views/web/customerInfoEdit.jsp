@@ -99,6 +99,7 @@ function loadCustomerCombo(comboWidth) {
 			                        	var customerDetailsURL = "getCustomerDetailsJSON/";
 			                        	customerDetailsURL = customerDetailsURL +item.value+".html";
 			                        	$.get(customerDetailsURL, function(customerView){
+			                        		$("#id").val(customerView.id);
 			                        		$("#firstName").val(customerView.firstName);
 			                        		$("#lastName").val(customerView.lastName);
 			                        		$("#mobile1").val(customerView.mobile1);
@@ -203,35 +204,6 @@ function loadCustomerCombo(comboWidth) {
 														}
 													},
 													{
-														input : "#lastName",
-														message : "Last name is required!",
-														action : 'keyup, blur',
-														rule : function(input,
-																commit) {
-															return input.val() != ""
-																	&& input
-																			.val() != "Last";
-														}
-													},
-													/* {
-														input : "#mobile1",
-														message : 'Invalid mobile 1!',
-														action : 'valuechanged, blur',
-														rule : 'phone'
-													},
-													{
-														input : "#mobile2",
-														message : 'Invalid mobile 2!',
-														action : 'valuechanged, blur',
-														rule : 'phone'
-													},
-													{
-														input : "#landline",
-														message : 'Invalid mobile 3!',
-														action : 'valuechanged, blur',
-														rule : 'phone'
-													}, */
-													{
 														input : '#email',
 														message : 'Invalid e-mail!',
 														action : 'keyup',
@@ -248,9 +220,25 @@ function loadCustomerCombo(comboWidth) {
 								.on(
 										'validationSuccess',
 										function(event) {
+											$("#preferenceCall").val(0);
+											$("#preferenceSms").val(0);
+											$("#preferenceEmail").val(0);
+											var callChecked = $('#preferenceCallElement').jqxCheckBox('checked');
+											var emailChecked = $('#preferenceEmailElement').jqxCheckBox('checked');
+											var smsChecked = $('#preferenceSmsElement').jqxCheckBox('checked');
+											if(callChecked) {
+												$("#preferenceCall").val(1);	
+											}
+											if(emailChecked) {
+												$("#preferenceEmail").val(1);	
+											}
+											if(smsChecked) {
+												$("#preferenceSms").val(1);	
+											}
+											$('#form').submit();	
 											$("#createAccount")
 													.jqxExpander('setContent',
-															'<span style="margin: 10px;">Account created.</span>');
+															'<span style="margin: 10px;">Account Updated.</span>');
 										});
 					
 		
@@ -488,8 +476,8 @@ function loadCustomerCombo(comboWidth) {
 </script>
 
 
-<form id="form" action="#">
-
+<form id="form" action="updateCustomer.html" method="post">
+<input type="hidden" id="id" name="id"/>
 <!-- Container for create-account controls, populated by JavaScript code below. -->
 <div id="SIU2" class="SIU2" style="opacity: 1;">
 	<div id="createAccount" class="cornerDiv">
@@ -509,27 +497,27 @@ function loadCustomerCombo(comboWidth) {
 					</tr>
 					<tr>
 						<td colspan="1">First Name :</td>
-						<td colspan="1"><input id="firstName" /></td>
+						<td colspan="1"><input id="firstName" name="firstName"/></td>
 					</tr>
 					<tr>
 						<td colspan="1">Last Name :</td>
-						<td colspan="1"><input id="lastName" /></td>
+						<td colspan="1"><input id="lastName" name="lastName"/></td>
 					</tr>
 					<tr>
 						<td colspan="1">Mobile No 1 :</td>
-						<td colspan="1"><input id="mobile1" /></td>
+						<td colspan="1"><input id="mobile1" name="mobile1"/></td>
 					</tr>
 					<tr>
 						<td colspan="1">Mobile No 2 :</td>
-						<td colspan="1"><input id="mobile2" /></td>
+						<td colspan="1"><input id="mobile2" name="mobile2" /></td>
 					</tr>
 					<tr>
 						<td colspan="1">Landline No :</td>
-						<td colspan="1"><input id="landline" /></td>
+						<td colspan="1"><input id="landline" name="landline" /></td>
 					</tr>					
 					<tr>
 						<td colspan="1">Email :</td>
-						<td colspan="1"><input id="email" /></td>
+						<td colspan="1"><input id="email" name="email"/></td>
 					</tr>
 					<tr>
 						<td colspan="2">Preferred Contact Method :</td>
@@ -539,6 +527,9 @@ function loadCustomerCombo(comboWidth) {
 							<div id='preferenceCallElement' style='margin-left: 10px; width : 60px; float: left;'>Call</div>
 							<div id='preferenceSmsElement' style='margin-left: 10px; width : 60px; float: left;'>SMS</div>
 							<div id='preferenceEmailElement' style='margin-left: 10px; width : 60px; float: left;'>Email</div>
+							<input type="hidden" id="preferenceCall" name="preferenceCall"/>
+							<input type="hidden" id="preferenceSms" name="preferenceSms"/>
+							<input type="hidden" id="preferenceEmail" name="preferenceEmail"/>
 						</td>
 					</tr>
 					<tr>
@@ -597,4 +588,4 @@ function loadCustomerCombo(comboWidth) {
 </div>
 
 <jsp:include page="includes/footer.jsp" />
-<jsp:include page="customerInfoAddPopup.jsp" />
+<%-- <jsp:include page="customerInfoAddPopup.jsp" /> --%>

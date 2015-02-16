@@ -2,6 +2,8 @@ package com.innovazions.jbm.service.impl;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +44,9 @@ public class CommonServiceImpl implements CommonService {
 		return commonDAO.getSequenceCodeByType(type, prefixPropName);
 	}
 
+	@Override
+	public DataSource getDataSource() {
+		return commonDAO.getDataSource();
+	}
 }
 	

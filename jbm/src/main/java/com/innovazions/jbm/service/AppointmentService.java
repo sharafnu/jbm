@@ -12,8 +12,6 @@ public interface AppointmentService {
 
 	public Long createAppointment(Appointment appointment);
 
-	public List<Appointment> getAppointmentListByFilter(Appointment appointment);
-
 	public Appointment getAppoinmentDetailsByAppoinmentId(Long appointmentId);
 
 	public List<Appointment> getAllAppointmentComboList();
@@ -70,5 +68,8 @@ public interface AppointmentService {
 	
 	public List<CalendarAppointmentDetailCalendarVO> getAppointmentStaffNameForCalendar();
 
-	List<Appointment> getAppointmentDetailedListByFilter(Appointment appointment); 
+	List<Appointment> getAppointmentDetailedListByFilter(Appointment appointment);
+
+	List<Appointment> getAppointmentListByFilter(Appointment appointment,
+			String orderBy, Boolean desc); 
 }

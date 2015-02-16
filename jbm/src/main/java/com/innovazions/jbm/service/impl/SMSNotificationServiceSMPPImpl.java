@@ -177,7 +177,7 @@ public class SMSNotificationServiceSMPPImpl implements SMSNotificationService,
 
 	public static void main(String[] args) throws ParseException {
 		String userTime = "02:22:03 PM";
-		Date userDate = new Date();
+		Date userDate = CommonUtils.getCurrentDate("Asia/Dubai");
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a");
 

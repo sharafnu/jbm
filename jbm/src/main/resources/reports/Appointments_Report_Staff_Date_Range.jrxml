@@ -8,6 +8,9 @@
 	</parameter>
 	<parameter name="endDate" class="java.lang.String"/>
 	<parameter name="userId" class="java.lang.String"/>
+	<parameter name="status" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<parameter name="staffId" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -25,13 +28,16 @@
      ca."address_type",
      ca."flat_no",
      ca."building_name",
-     ca."remarks"
+     ca."remarks",
+     area.name as "area_name"
 FROM
      "appointment" app INNER JOIN "customer" cus ON app."customer_id" = cus."id"
      INNER JOIN "employee" emp ON app."employee_id" = emp."id"
      INNER JOIN "customer_address" ca ON app."customer_address_id" = ca."id"
-where app.employee_id=$P{staffId} and to_char(app.appointment_date, 'DD-MM-YYYY') between
-$P{startDate} and $P{endDate} and app."appointment_status" <> 'Cancelled']]>
+     INNER JOIN "area" area ON ca."area_id" = area."id"
+where app.employee_id=$P{staffId} and app.appointment_date between
+to_date($P{startDate},'DD-MM-YYYY') and to_date($P{endDate},'DD-MM-YYYY') and app."appointment_status"  IN ($P!{status}) ORDER BY
+     app."appointment_date" DESC]]>
 	</queryString>
 	<field name="appointment_no" class="java.lang.String"/>
 	<field name="appointment_date" class="java.sql.Timestamp"/>
@@ -45,6 +51,7 @@ $P{startDate} and $P{endDate} and app."appointment_status" <> 'Cancelled']]>
 	<field name="flat_no" class="java.lang.String"/>
 	<field name="building_name" class="java.lang.String"/>
 	<field name="remarks" class="java.lang.String"/>
+	<field name="area_name" class="java.lang.String"/>
 	<variable name="reportGeneratedDate" class="java.util.Date">
 		<variableExpression><![CDATA[new java.util.Date()]]></variableExpression>
 	</variable>
@@ -55,7 +62,7 @@ $P{startDate} and $P{endDate} and app."appointment_status" <> 'Cancelled']]>
 		<band height="57" splitType="Stretch">
 			<image>
 				<reportElement x="1" y="1" width="110" height="47" uuid="ec24f554-e45e-4fcc-89df-3774df8f0dde"/>
-				<imageExpression><![CDATA["C:\\Users\\Sharafs\\Desktop\\maxmaid.png"]]></imageExpression>
+				<imageExpression><![CDATA["maxmaid.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="119" y="0" width="93" height="30" uuid="1656ed84-034d-4645-a23c-f4b16542b718"/>
@@ -335,8 +342,7 @@ $P{startDate} and $P{endDate} and app."appointment_status" <> 'Cancelled']]>
 				<textElement>
 					<font fontName="SansSerif" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{address_type}+" - "+$F{flat_no}+", "+$F{building_name}+
-", "+$F{remarks}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{area_name}+" - "+$F{building_name}+" - "+$F{flat_no}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -27,7 +27,7 @@ public class Appointment extends CoreEntity<Appointment, AppointmentView>
 
 	private String cancellationReason;
 
-	private Integer hoursSpent;
+	private Float hoursSpent;
 
 	private double payableAmount;
 
@@ -90,11 +90,11 @@ public class Appointment extends CoreEntity<Appointment, AppointmentView>
 		this.cancellationReason = cancellationReason;
 	}
 
-	public Integer getHoursSpent() {
+	public Float getHoursSpent() {
 		return hoursSpent;
 	}
 
-	public void setHoursSpent(Integer hoursSpent) {
+	public void setHoursSpent(Float hoursSpent) {
 		this.hoursSpent = hoursSpent;
 	}
 

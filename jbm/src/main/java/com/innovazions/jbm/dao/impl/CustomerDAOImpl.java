@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.incrementer.PostgreSQLSequenceMaxValueIncrementer;
 import org.springframework.stereotype.Repository;
 
+import com.innovazions.jbm.common.CommonUtils;
 import com.innovazions.jbm.dao.CustomerDAO;
 import com.innovazions.jbm.entity.Customer;
 import com.innovazions.jbm.entity.jdbc.mapper.CustomerRowMapper;
@@ -40,7 +41,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 						customer.getLandline(), customer.getEmail(),
 						customer.getPreferenceCall(),
 						customer.getPreferenceEmail(),
-						customer.getPreferenceSms(), new Date(),
+						customer.getPreferenceSms(), CommonUtils.getCurrentDate("Asia/Dubai"),
 						customer.getLastModifiedUser() });
 
 		// Get inserted employee id from the sequence
@@ -74,7 +75,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 	@Override
 	public void updateCustomer(Customer customer) {
 		System.out.println("Updating Customer..");
-		final String sql = "UPDATE customer SET customer_code=?, first_name=?, last_name=?, mobile_1=?, mobile_2=?, landline=?, email=?, preference_call=?, "
+		final String sql = "UPDATE customer SET first_name=?, last_name=?, mobile_1=?, mobile_2=?, landline=?, email=?, preference_call=?, "
 				+ "preference_email=?, preference_sms=?, last_modified_date=?, last_modified_user=? WHERE id=?;";
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -82,13 +83,12 @@ public class CustomerDAOImpl implements CustomerDAO {
 				"customer_id_seq");
 		jdbcTemplate.update(
 				sql,
-				new Object[] { customer.getCustomerCode(),
-						customer.getFirstName(), customer.getLastName(),
+				new Object[] { customer.getFirstName(), customer.getLastName(),
 						customer.getMobile1(), customer.getMobile2(),
 						customer.getLandline(), customer.getEmail(),
 						customer.getPreferenceCall(),
 						customer.getPreferenceEmail(),
-						customer.getPreferenceSms(), new Date(),
+						customer.getPreferenceSms(), CommonUtils.getCurrentDate("Asia/Dubai"),
 						customer.getLastModifiedUser(), customer.getId() });
 	}
 
@@ -109,7 +109,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 		String sql = "select c.id, c.customer_code, c.first_name,c.last_name, c.mobile_1, c.mobile_2, c.landline, "
 				+ "c.email, c.preference_call, c.preference_email, c.preference_sms, c.last_modified_date, "
-				+ "c.last_modified_user from customer c";
+				+ "c.last_modified_user from customer c order by id";
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerList = jdbcTemplate.query(sql, new CustomerRowMapper());

@@ -100,10 +100,11 @@ public class SMSNotificationServiceHTTPImpl implements SMSNotificationService,
 		if (appointment != null && appointment.getCustomer() != null
 				&& !CommonUtils.isEmpty(appointment.getCustomer().getMobile1())) {
 			try {
-				String smsContent = PropertiesUtil
-						.getProperty(PROP_SMS_APPOINTMENT_CANCEL_CONTENT);
-				System.out
-						.println("sendAppoinmentCancellationSMSNotification() > This feature is disabled..");
+				String smsContent = smsTemplateCancelAppointment;
+				String response = sendSMS(smsContent, "+971"
+						+ appointment.getCustomer().getMobile1());
+
+				System.out.println("Message Sent Successfully..:" + response);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -121,7 +122,7 @@ public class SMSNotificationServiceHTTPImpl implements SMSNotificationService,
 				&& !CommonUtils.isEmpty(appointment.getCustomer().getMobile1())) {
 			try {
 				
-				System.out.println("Sending SMS");
+				System.out.println("Sending Cancellation SMS");
 				String message = smsTemplateCompleteAppointment;
 /*				String message = String
 						.format(smsTemplateCompleteAppointment.replaceAll(
@@ -135,8 +136,6 @@ public class SMSNotificationServiceHTTPImpl implements SMSNotificationService,
 
 				System.out.println("Message Sent Successfully..:" + response);
 				
-				System.out
-						.println("sendAppoinmentCompletionSMSNotification() > This feature is disabled..");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -153,11 +152,12 @@ public class SMSNotificationServiceHTTPImpl implements SMSNotificationService,
 		if (appointment != null && appointment.getCustomer() != null
 				&& !CommonUtils.isEmpty(appointment.getCustomer().getMobile1())) {
 			try {
-				System.out.println("Sending SMS");
-				String smsContent = PropertiesUtil
-						.getProperty(PROP_SMS_APPOINTMENT_UPDATE_CONTENT);
-				System.out
-						.println("sendAppoinmentUpdateSMSNotification() > This feature is disabled..");
+				System.out.println("Sending sendAppoinmentUpdateSMSNotification ..");
+				String smsContent = smsTemplateUpdateAppointment;
+				String response = sendSMS(smsContent, "+971"
+						+ appointment.getCustomer().getMobile1());
+
+				System.out.println("Message Sent Successfully..:" + response);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

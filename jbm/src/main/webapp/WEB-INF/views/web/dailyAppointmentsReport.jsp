@@ -24,6 +24,14 @@
 					theme : theme
 				});
 
+				$("#resetButton").click(
+					function() {
+						$("#startDateDiv").jqxDateTimeInput('setDate', new Date());
+						$("#endDateDiv").jqxDateTimeInput('setDate', new Date());
+						$("#statusComboBox").jqxComboBox('clearSelection');
+					}
+				);
+				
 				$("#downloadReportButton").click(
 						function() {
 							if (validSelection()) {
@@ -211,14 +219,9 @@
 											var rowData = $("#jqxgrid")
 													.jqxGrid('getrowdata', row);
 											return '<div style="display: table-cell; vertical-align: middle; height:40px;">'
-													+ (rowData.addressType
-															+ "-"
-															+ rowData.flatNo
-															+ ", "
-															+ rowData.buildingName
-															+ ","
-															+ rowData.addressRemarks
-															+ "," + rowData.cityName)
+													+ (rowData.cityName +" - "+rowData.areaName+ " - "+rowData.buildingName
+															+ " - "
+															+ rowData.flatNo)
 													+ '</div>';
 										}
 									} ]

@@ -51,10 +51,7 @@
                 });
 	}
 	
-	function zeroPad(num, places) {
-		  var zero = places - num.toString().length + 1;
-		  return Array(+(zero > 0 && zero)).join("0") + num;
-		}
+
 	
 	function showAddressMap() {
 		//alert("Address Map");
@@ -112,6 +109,8 @@
 			$("#appointmentMainForm").jqxValidator('validateInput', '#formEndTime');
         });
 		
+		
+		
 		$('#formStartTime').on('change', function (event) {   
 			var args = event.args;
 			if(args == undefined) {
@@ -119,42 +118,10 @@
 				$('#formStartTime').val("");
 			} 
 			if (args) {
+				
 	         	var item = args.item;
-	         	 if(item.value != null && item.value != "") {
-	            	 var frmHr = item.value.substr(0,2);
-	            	 var frmMin = item.value.substr(3,2);
-	            	 var frmAmPm = item.value.substr(6,2);
-	            	 var toAmPm = " "+frmAmPm;
-	            	 
-	            	 var toHr = parseInt(frmHr)+parseInt(4);
-	            	 //alert(toHr);
-	            	 if(toHr == 12) {
-	            		 	
-            		 	if(frmAmPm == "am") {
-		            	 	toAmPm = " pm";
-		            	 } else {
-		            	 	toAmPm = " am";
-		            	 }		            		 
-		            	 	
-	            	 } else  if(toHr > 12) {
-	            	 	toHr = toHr -12;
-	            	 	if(frmHr == 12) {
-	            	 		
-	            	 	} else {
-		            		if(frmAmPm == "am") {
-		            	 		toAmPm = " pm";
-		            	 	} else {
-		            	 		toAmPm = " am";
-		            	 	}
-	            	 	}
-	            	 }
-	            	 toHr = zeroPad(toHr, 2);
-	            	 
-	            	 var toMin = item.value.substr(3,2);
-	            	 $('#formEndTime').val(toHr+":"+toMin+toAmPm);
-	            	 $("#appointmentMainForm").jqxValidator('validateInput', '#formEndTime');
-	             }
-	         }
+				handStartTimeChange(item.value);
+			}
         });
 		
 		$('#formEndTime').on('change', function (event) {
@@ -204,6 +171,49 @@
 		enableFormValidations();
 		
 	});
+	
+	function handStartTimeChange(selectedValue) {
+		
+         	 if(selectedValue != null && selectedValue != "") {
+            	 var frmHr = selectedValue.substr(0,2);
+            	 var frmMin = selectedValue.substr(3,2);
+            	 var frmAmPm = selectedValue.substr(6,2);
+            	 var toAmPm = " "+frmAmPm;
+            	 
+            	 var toHr = parseInt(frmHr)+parseInt(4);
+            	 //alert(toHr);
+            	 if(toHr == 12) {
+            		 	
+        		 	if(frmAmPm === "AM") {
+	            	 	toAmPm = " PM";
+	            	 } else {
+	            	 	toAmPm = " AM";
+	            	 }		            		 
+	            	 	
+            	 } else  if(toHr > 12) {
+            	 	toHr = toHr -12;
+            	 	if(frmHr == 12) {
+            	 		
+            	 	} else {
+	            		if(frmAmPm === "AM") {
+	            	 		toAmPm = " PM";
+	            	 	} else {
+	            	 		toAmPm = " AM";
+	            	 	}
+            	 	}
+            	 }
+            	 toHr = zeroPad(toHr, 2);
+            	 
+            	 var endDateArr = getEndDateArr(parseInt(frmHr), parseInt(frmMin), 0, frmAmPm);
+            	 //Set End date array values
+ 				$("#formEndTime").jqxComboBox({source: endDateArr});
+            	
+            	 var toMin = selectedValue.substr(3,2);
+            	 $('#formEndTime').val(toHr+":"+toMin+toAmPm);
+            	 $("#appointmentMainForm").jqxValidator('validateInput', '#formEndTime');
+             }
+         
+	}
 	
 	function enableFormValidations() {
 		$("#isValidSlot").val("false");

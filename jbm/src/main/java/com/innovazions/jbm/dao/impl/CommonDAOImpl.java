@@ -87,4 +87,8 @@ public class CommonDAOImpl implements CommonDAO {
 					+ systemProperty.getId());
 		}
 	}
+
+	public DataSource getDataSource() {
+		return dataSource;
+	}
 }

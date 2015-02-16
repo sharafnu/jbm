@@ -26,11 +26,13 @@
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
 
-	<beans:bean id="JBMViewResolver" class="com.innovazions.jbm.viewresolver.JBMViewResolver">
+	<beans:bean id="JBMViewResolver"
+		class="com.innovazions.jbm.viewresolver.JBMViewResolver">
 		<beans:property name="webViewResolver" ref="webViewResolver" />
-		<beans:property name="mobileAndroidWebViewResolver" ref="mobileAndroidWebViewResolver" />
+		<beans:property name="mobileAndroidWebViewResolver"
+			ref="mobileAndroidWebViewResolver" />
 	</beans:bean>
-	
+
 	<beans:bean id="webViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/web/" />
@@ -51,12 +53,24 @@
 	<beans:bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="org.postgresql.Driver" />
-		<beans:property name="username" value="postgres" />
-		<beans:property name="password" value="admin123" />
-		<beans:property name="url"
-			value="jdbc:postgresql://localhost:5432/maxmaid" />
-		<!-- <beans:property name="username" value="maxmaidn" /> <beans:property 
-			name="password" value="84gC2Bmn6j" /> -->
+		<!-- PG 9.3 -->
+		<!-- <beans:property name="url" value="jdbc:postgresql://localhost:5432/maxmaid" 
+			/> <beans:property name="username" value="postgres" /> <beans:property name="password" 
+			value="admin123" /> -->
+		<!-- PG 8.3 -->
+		<!-- <beans:property name="url" value="jdbc:postgresql://localhost:5433/maxmaidn_test" 
+			/> <beans:property name="username" value="postgres" /> <beans:property name="password" 
+			value="admin123" /> -->
+
+		<!-- PG 8.4 -->
+		 <beans:property name="url" value="jdbc:postgresql://localhost:5434/maxmaidn_test" 
+			/> <beans:property name="username" value="postgres" /> <beans:property name="password" 
+			value="admin123" /> 
+		<!-- Production -->
+		<!-- <beans:property name="url"
+			value="jdbc:postgresql://localhost:5432/maxmaidn_test" />
+		<beans:property name="username" value="maxmaidn" />
+		<beans:property name="password" value="84gC2Bmn6j" /> -->
 	</beans:bean>
 
 	<beans:bean id="propertiesUtil" class="com.innovazions.jbm.common.PropertiesUtil">

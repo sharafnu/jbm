@@ -379,7 +379,7 @@ function appoinmentDetailsGrid() {
 			type : 'string'
 		}, {
 			name : 'hoursSpent',
-			type : 'int'
+			type : 'float'
 		}, {
 			name : 'payableAmount',
 			type : 'int'

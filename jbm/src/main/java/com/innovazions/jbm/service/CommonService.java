@@ -2,6 +2,8 @@ package com.innovazions.jbm.service;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import com.innovazions.jbm.entity.SystemProperty;
 
 public interface CommonService {
@@ -15,4 +17,6 @@ public interface CommonService {
 	void updateSystemProperty(SystemProperty systemProperty);
 
 	void deleteSystemProperty(SystemProperty systemProperty);
+
+	DataSource getDataSource();
 }
