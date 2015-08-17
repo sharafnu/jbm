@@ -10,7 +10,11 @@ import com.innovazions.jbm.view.AreaView;
  * The persistent class for the area database table.
  * 
  */
+<<<<<<< HEAD
 public class Area extends CoreEntity<Area, AreaView> implements Serializable {
+=======
+public class Area extends CoreEntity implements Serializable {
+>>>>>>> refs/remotes/origin/master
 	private static final long serialVersionUID = 1L;
 
 	private Long id;

@@ -1,5 +1,6 @@
 package com.innovazions.jbm.service;
 
+<<<<<<< HEAD
 import java.util.List;
 
 import com.innovazions.jbm.entity.Area;
@@ -12,4 +13,9 @@ public interface AreaService {
 	public List<Area> getAreaList(Area area);
 	
 	public List<City> getAllCities();
+=======
+public interface AreaService {
+
+	
+>>>>>>> refs/remotes/origin/master
 }

@@ -1,5 +1,6 @@
 package com.innovazions.jbm.controller;
 
+<<<<<<< HEAD
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -373,4 +374,56 @@ public class MasterController extends AbstractController {
 		logger.info("MasterController > timeComboList");
 		return JBMUIHelper.timeComboList();
 	}
+=======
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+/**
+ * Handles requests for the application home page.
+ */
+@Controller
+public class MasterController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(MasterController.class);
+	
+	/**
+	 * Simply selects the home view to render by returning its name.
+	 */
+	@RequestMapping(value = "/areaList", method = RequestMethod.GET)
+	public String areaList(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		
+		model.addAttribute("serverTime", formattedDate );
+		
+		return "areaList";
+	}
+	
+	@RequestMapping(value = "/staffDetails", method = RequestMethod.GET)
+	public String staffList(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		
+		model.addAttribute("serverTime", formattedDate );
+		
+		return "staffDetails";
+	}
+	
+>>>>>>> refs/remotes/origin/master
 }

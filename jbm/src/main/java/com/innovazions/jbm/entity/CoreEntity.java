@@ -1,6 +1,7 @@
 package com.innovazions.jbm.entity;
 
 import java.util.Date;
+<<<<<<< HEAD
 import java.util.List;
 
 public abstract class CoreEntity<Entity, View> {
@@ -11,6 +12,13 @@ public abstract class CoreEntity<Entity, View> {
 	
 	private Date lastModifiedDate;
 
+=======
+
+public class CoreEntity {
+
+	private Date lastModifiedDate;
+	
+>>>>>>> refs/remotes/origin/master
 	private String lastModifiedUser;
 
 	public Date getLastModifiedDate() {

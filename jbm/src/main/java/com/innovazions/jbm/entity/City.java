@@ -10,7 +10,11 @@ import com.innovazions.jbm.view.CityView;
  * The persistent class for the city database table.
  * 
  */
+<<<<<<< HEAD
 public class City extends CoreEntity<City, CityView> implements Serializable {
+=======
+public class City extends CoreEntity implements Serializable {
+>>>>>>> refs/remotes/origin/master
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
