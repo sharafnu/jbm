@@ -105,7 +105,7 @@
 				type : 'string'
 			}, {
 				name : 'hoursSpent',
-				type : 'int'
+				type : 'float'
 			}, {
 				name : 'startTime',
 				type : 'string'
@@ -193,7 +193,7 @@
 										width : 90								
 									},
 									{
-										text : 'Payment Status',
+										text : 'Pay. Status',
 										datafield : 'paymentStatus',
 										width : 90								
 									}, 
@@ -203,7 +203,13 @@
 										width : 90,
 										cellsformat: 'F2',
 										cellsalign: 'right'
+									},
+									{
+										text : 'Hours',
+										datafield : 'hoursSpent',
+										width : 60
 									}
+									
 									]
 						});
 	}

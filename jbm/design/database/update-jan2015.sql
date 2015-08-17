@@ -44,3 +44,10 @@ ALTER table appointment alter column hours_spent type numeric;
 
 INSERT INTO system_property(prop_group, prop_key, prop_value, description) values 
 ('APPOINTMENT_SETTINGS', 'ENABLE_APPOINTMENT_UPDATE_SMS', 'No', 'Flag to enable/disable SMS sending option while editing an appointment. If set as Yes, appoinment update page will have the send sms option enabled.');
+
+--Changes for new provider
+UPDATE system_property SET prop_value='user={1}&pass={2}&senderid=4799&message={3}&mobile={4}&lang=0&dlr=1' WHERE prop_key='PROP_SMS_HTTP_DATA_STR_TEMPLATE';
+UPDATE system_property SET prop_value='http://synapse.vectramind.com/push.aspx' WHERE prop_key='PROP_SMS_HTTP_URL';
+INSERT INTO system_property(prop_group, prop_key, prop_value, description) values 
+('SMS_CONTENT', 'PROP_SMS_HTTP_PARAMETER_METHOD', 'URL_APPEND', 'SMS Parameter append method.');
+

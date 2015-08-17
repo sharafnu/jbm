@@ -45,7 +45,7 @@
                     <li>Reports
                         <ul>
                             <!-- <li><a href="areaList.html">Area List</a></li> -->
-                            <li><a href="dailyAppointmentsReport.html">Daily Appointments</a></li>
+                            <li><a href="dailyAppointmentsReportList.html">Daily Appointments</a></li>
                             <li><a href="staffWiseAppointmentsReport.html">Staff Appointments</a></li>
                             <li><a href="monthlyAppointmentReportList.html">Monthly Report</a></li>
                             

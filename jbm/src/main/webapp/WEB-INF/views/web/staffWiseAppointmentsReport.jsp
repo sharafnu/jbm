@@ -34,6 +34,7 @@
 		
 		$("#downloadReportButton").click(function() {
 			if(validSelection()) {
+				
 				$('#reportForm').attr('action', 'staffWiseAppointmentsReport.html');
 				$('#reportForm').submit();
 			}			

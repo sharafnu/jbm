@@ -29,8 +29,10 @@ public class SMSNotificationServiceHTTPImpl implements SMSNotificationService,
 	private static String smsHttpPassword;
 	private static String smsHttpEncoding;
 	private static String smsHttpDataStringTemplate;
-
+	private static String smsHttpParameterMethod;
+	
 	public static final String DATE_TIME_FORMAT_DD_MM_YYYY_HH_MM_AM_PM = "dd/MM/yyyy HH:mm a";
+	
 
 	// SMS Templates
 	private static String smsTemplateAddAppointment;
@@ -47,7 +49,9 @@ public class SMSNotificationServiceHTTPImpl implements SMSNotificationService,
 		smsHttpEncoding = PropertiesUtil.getProperty(PROP_SMS_HTTP_ENCODING);
 		smsHttpDataStringTemplate = PropertiesUtil
 				.getProperty(PROP_SMS_HTTP_DATA_STR_TEMPLATE);
-
+		smsHttpParameterMethod = PropertiesUtil
+		.getProperty(PROP_SMS_HTTP_PARAMETER_METHOD);
+		
 		smsTemplateAddAppointment = PropertiesUtil
 				.getProperty(PROP_SMS_APPOINTMENT_CREATE_CONTENT);
 		
@@ -184,15 +188,24 @@ public class SMSNotificationServiceHTTPImpl implements SMSNotificationService,
 		OutputStreamWriter wr = null;
 		BufferedReader rd = null;
 		URLConnection conn = null;
+		String tempSMSURL = "";
 		try {
 			// Send data
-			URL url = new URL(smsHttpUrl);
+			if(smsHttpParameterMethod.equals(JBMConstants.SMS_HTTP_PARAMETER_METHOD_URL_APPEND)) {
+				tempSMSURL = smsHttpUrl + "?"+getDataString(messageContent, destinationAddress);
+			} else {
+				tempSMSURL = smsHttpUrl;
+			}
+			URL url = new URL(tempSMSURL);
 
 			conn = url.openConnection();
 			conn.setDoOutput(true);
-			wr = new OutputStreamWriter(conn.getOutputStream());
-			wr.write(getDataString(messageContent, destinationAddress));
-			wr.flush();
+			if(smsHttpParameterMethod.equals(JBMConstants.SMS_HTTP_PARAMETER_METHOD_WRITER)) {
+				wr = new OutputStreamWriter(conn.getOutputStream());
+				wr.write(getDataString(messageContent, destinationAddress));
+				wr.flush();
+			}
+			
 
 			// Get the response
 			rd = new BufferedReader(
@@ -207,8 +220,12 @@ public class SMSNotificationServiceHTTPImpl implements SMSNotificationService,
 			e.printStackTrace();
 		} finally {
 			try {
-				wr.close();
-				rd.close();
+				if(wr != null) {
+					wr.close();
+				}
+				if(rd != null) {
+					rd.close();
+				}
 				if (conn != null) {
 					conn = null;
 				}

@@ -34,6 +34,7 @@ public interface JBMConstants {
 	public static final String PROP_SMS_HTTP_PASSWORD = "PROP_SMS_HTTP_PASSWORD";//"anas2003";
 	public static final String PROP_SMS_HTTP_ENCODING = "PROP_SMS_HTTP_ENCODING";//"ISO-8859-1";
 	public static final String PROP_SMS_HTTP_DATA_STR_TEMPLATE = "PROP_SMS_HTTP_DATA_STR_TEMPLATE";//"username={1}&password={2}&message={3}&want_report=1&msisdn={4}";	
+	public static final String PROP_SMS_HTTP_PARAMETER_METHOD = "PROP_SMS_HTTP_PARAMETER_METHOD";
 	
 	// Prefix Properties
 	public static final String PROP_PREFIX_APPOINTMENT_NO = "PROP_PREFIX_APPOINTMENT_NO";
@@ -89,4 +90,9 @@ public interface JBMConstants {
 	
 	public static final String OPTION_YES = "Yes";
 	public static final String OPTION_NO = "No";
+	
+	//SMS HTTP Parameter append methods
+	public static final String SMS_HTTP_PARAMETER_METHOD_WRITER = "DATA_WRITER";
+	public static final String SMS_HTTP_PARAMETER_METHOD_URL_APPEND = "URL_APPEND";
+	
 }

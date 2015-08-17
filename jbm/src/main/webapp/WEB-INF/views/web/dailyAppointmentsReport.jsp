@@ -6,12 +6,24 @@
 </div>
 
 <script type="text/javascript">
+
+function setupReportFormatComb() {
+	var reportFormatSource = [
+            {value: "xls", label: "Excel"},
+            {value: "pdf", label: "PDF"}
+    ];
+    // Create a jqxComboBox
+    $("#reportFormatCombo").jqxComboBox({ source: reportFormatSource, width: '70px', height: '25px'});
+              
+}
+
 	$(document).ready(
 			function() {
 				document.title = 'Date Wise Appointments Report';
 				setupStatusCombo();
 				setupReportDate();
-
+				setupReportFormatComb();
+				
 				$("#downloadReportButton").jqxButton({
 					theme : theme
 				});
@@ -35,6 +47,13 @@
 				$("#downloadReportButton").click(
 						function() {
 							if (validSelection()) {
+								
+								if ($("#reportFormatCombo").val() == "") {
+									alert("Please select report format");				
+									return;	
+								}
+								$("#reportFormat").val($("#reportFormatCombo").val());
+								
 								$('#reportForm').attr('action',
 										'dailyAppointmentsReport.html');
 								$('#reportForm').submit();
@@ -306,6 +325,9 @@
 					<td><span style="font-size: 13px; font-family: Verdana;">Appointment
 							Status</span>
 						<div style="margin-top: 5px;" id='statusComboBox'></div></td>
+						<td><span style="font-size: 13px; font-family: Verdana;">Format</span>
+						<div style="margin-top: 5px;" id='reportFormatCombo'></div></td>
+						
 				</tr>
 			</table>
 			<table width="100%" class="searchFiltersTable">
@@ -315,11 +337,10 @@
 						<form id="reportForm" action="" method="post">
 							<input type="hidden" name="startDate" id="startDate" value='<c:out value="${startDate}"/>' /> 
 							<input type="hidden" name="endDate" id="endDate" value='<c:out value="${endDate}"/>' />
-							<input type="hidden" name="appointmentStatus"
-								id="appointmentStatus"
-								value='<c:out value="${selectedAppointmentStatus}"/>' /> <input
-								id="searchButton" type="button" value="Search" /> <input
-								id="downloadReportButton" type="button" value="Download Report" />
+							<input type="hidden" name="appointmentStatus" id="appointmentStatus" value='<c:out value="${selectedAppointmentStatus}"/>' />
+							<input type="hidden" name="reportFormat" id="reportFormat" value='<c:out value="${reportFormat}"/>' /> 
+							<input id="searchButton" type="button" value="Search" /> 
+							<input id="downloadReportButton" type="button" value="Download Report" />
 							<input id="resetButton" type="button" value="Reset" />
 						</form>
 					</td>
